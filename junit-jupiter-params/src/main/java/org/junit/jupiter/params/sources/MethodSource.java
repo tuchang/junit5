@@ -22,7 +22,6 @@ import org.junit.jupiter.params.ArgumentsSource;
 @Target({ ElementType.ANNOTATION_TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Repeatable(MethodSources.class)
 @ArgumentsSource(MethodArgumentsProvider.class)
 public @interface MethodSource {
 

@@ -22,12 +22,15 @@ import org.junit.jupiter.params.ArgumentsSource;
 @Target({ ElementType.ANNOTATION_TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Repeatable(FileSources.class)
 @ArgumentsSource(FileArgumentsProvider.class)
 public @interface FileSource {
 
-	String value();
+	String path();
 
 	String encoding() default "UTF-8";
+
+	String lineSeparator() default "\n";
+
+	char delimiter() default ',';
 
 }
