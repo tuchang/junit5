@@ -63,7 +63,7 @@ class ParameterizedTestExtension implements TestTemplateInvocationContextProvide
 				.map(ReflectionUtils::newInstance)
 				.peek(provider -> initialize(templateMethod, provider))
 				.flatMap(provider -> toArgumentsStream(provider, context))
-				.map(Arguments::getArguments)
+				.map(Arguments::get)
 				.map(arguments -> toTestTemplateInvocationContext(formatter, arguments));
 		// @formatter:on
 	}
