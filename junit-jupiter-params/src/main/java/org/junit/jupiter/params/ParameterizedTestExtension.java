@@ -52,6 +52,7 @@ class ParameterizedTestExtension implements TestTemplateInvocationContextProvide
 
 	@Override
 	public Stream<TestTemplateInvocationContext> provide(ContainerExtensionContext context) {
+		// TODO #14 Close providers
 		Method templateMethod = Preconditions.notNull(context.getTestMethod().orElse(null),
 			"test method must not be null");
 		ParameterizedTestNameFormatter formatter = createNameFormatter(templateMethod);
@@ -61,7 +62,7 @@ class ParameterizedTestExtension implements TestTemplateInvocationContextProvide
 				.map(ArgumentsSource::value)
 				.map(ReflectionUtils::newInstance)
 				.peek(provider -> initialize(templateMethod, provider))
-				.flatMap(ParameterizedTestExtension::toArgumentsStream)
+				.flatMap(provider -> toArgumentsStream(provider, context))
 				.map(Arguments::getArguments)
 				.map(arguments -> toTestTemplateInvocationContext(formatter, arguments));
 		// @formatter:on
@@ -90,12 +91,16 @@ class ParameterizedTestExtension implements TestTemplateInvocationContextProvide
 	}
 
 	private <A extends Annotation> void callInitialize(AnnotationInitialized<A> provider, A annotation) {
-		provider.initialize(annotation);
+		try {
+			provider.initialize(annotation);
+		} catch (Exception ex) {
+			throw new JUnitException("Failed to initialize provider: " + provider, ex);
+		}
 	}
 
-	private static Stream<? extends Arguments> toArgumentsStream(ArgumentsProvider provider) {
+	private static Stream<? extends Arguments> toArgumentsStream(ArgumentsProvider provider, ContainerExtensionContext context) {
 		try {
-			return StreamSupport.stream(Spliterators.spliteratorUnknownSize(provider.arguments(), Spliterator.ORDERED),
+			return StreamSupport.stream(Spliterators.spliteratorUnknownSize(provider.arguments(context), Spliterator.ORDERED),
 				false);
 		}
 		catch (Exception e) {
