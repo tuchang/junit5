@@ -13,8 +13,7 @@ package org.junit.jupiter.params;
 import static java.util.stream.Collectors.joining;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 class ParameterizedTestNameFormatter {
 
@@ -27,13 +26,11 @@ class ParameterizedTestNameFormatter {
 	String format(int invocationIndex, Object... arguments) {
 		String result = namePattern.replace("{index}", String.valueOf(invocationIndex));
 		if (result.contains("{arguments}")) {
-			AtomicInteger counter = new AtomicInteger(0);
 			// @formatter:off
-			String replacement = Arrays.stream(arguments)
-			    .mapToInt(arg -> counter.getAndIncrement())
-			    .mapToObj(index -> "{" + index + "}")
-			    .collect(joining(", "));
-            // @formatter:on
+			String replacement = IntStream.range(0, arguments.length)
+					.mapToObj(index -> "{" + index + "}")
+					.collect(joining(", "));
+			// @formatter:on
 			result = result.replace("{arguments}", replacement);
 		}
 		return MessageFormat.format(result, arguments);
