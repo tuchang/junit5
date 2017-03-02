@@ -28,7 +28,6 @@ import org.junit.platform.commons.JUnitException;
 import org.junit.platform.commons.util.PreconditionViolationException;
 import org.junit.platform.commons.util.ReflectionUtils;
 
-@SuppressWarnings("try")
 class MethodArgumentsProvider implements ArgumentsProvider, AnnotationInitialized<MethodSource> {
 
 	private String methodName;
