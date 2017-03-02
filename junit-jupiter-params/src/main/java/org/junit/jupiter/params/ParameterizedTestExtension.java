@@ -93,15 +93,17 @@ class ParameterizedTestExtension implements TestTemplateInvocationContextProvide
 	private <A extends Annotation> void callInitialize(AnnotationInitialized<A> provider, A annotation) {
 		try {
 			provider.initialize(annotation);
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			throw new JUnitException("Failed to initialize provider: " + provider, ex);
 		}
 	}
 
-	private static Stream<? extends Arguments> toArgumentsStream(ArgumentsProvider provider, ContainerExtensionContext context) {
+	private static Stream<? extends Arguments> toArgumentsStream(ArgumentsProvider provider,
+			ContainerExtensionContext context) {
 		try {
-			return StreamSupport.stream(Spliterators.spliteratorUnknownSize(provider.arguments(context), Spliterator.ORDERED),
-				false);
+			return StreamSupport.stream(
+				Spliterators.spliteratorUnknownSize(provider.arguments(context), Spliterator.ORDERED), false);
 		}
 		catch (Exception e) {
 			// TODO #14 Test

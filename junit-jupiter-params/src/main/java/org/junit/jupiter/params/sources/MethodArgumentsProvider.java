@@ -10,8 +10,6 @@
 
 package org.junit.jupiter.params.sources;
 
-import static java.util.Collections.emptyIterator;
-
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.stream.Stream;
@@ -39,9 +37,9 @@ class MethodArgumentsProvider implements ArgumentsProvider, AnnotationInitialize
 	@Override
 	public Iterator<Arguments> arguments(ContainerExtensionContext context) {
 		Class<?> testClass = context.getTestClass() //
-			.orElseThrow(() -> new JUnitException("Cannot invoke method without test class: " + methodName));
+				.orElseThrow(() -> new JUnitException("Cannot invoke method without test class: " + methodName));
 		Method method = ReflectionUtils.findMethod(testClass, methodName) //
-			.orElseThrow(() -> new JUnitException("Could not find method: " + methodName));
+				.orElseThrow(() -> new JUnitException("Could not find method: " + methodName));
 		source = ReflectionUtils.invokeMethod(method, null);
 		if (source instanceof Iterator) {
 			return decorate((Iterator<?>) source);
@@ -61,7 +59,8 @@ class MethodArgumentsProvider implements ArgumentsProvider, AnnotationInitialize
 		if (source instanceof AutoCloseable) {
 			try {
 				((AutoCloseable) source).close();
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				ExceptionUtils.throwAsUncheckedException(e);
 			}
 		}
@@ -69,21 +68,21 @@ class MethodArgumentsProvider implements ArgumentsProvider, AnnotationInitialize
 
 	private Iterator<Arguments> decorate(Iterator<?> iterator) {
 		return new Iterator<Arguments>() {
-            @Override
-            public boolean hasNext() {
-                return iterator.hasNext();
-            }
+			@Override
+			public boolean hasNext() {
+				return iterator.hasNext();
+			}
 
-            @Override
-            public Arguments next() {
-                Object nextItem = iterator.next();
-                if (nextItem instanceof Arguments) {
-                    return (Arguments) nextItem;
-                }
-                // TODO #14 make sure Object[] works, too
-                return ObjectArrayArguments.create(nextItem);
-            }
-        };
+			@Override
+			public Arguments next() {
+				Object nextItem = iterator.next();
+				if (nextItem instanceof Arguments) {
+					return (Arguments) nextItem;
+				}
+				// TODO #14 make sure Object[] works, too
+				return ObjectArrayArguments.create(nextItem);
+			}
+		};
 	}
 
 }

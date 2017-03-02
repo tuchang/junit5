@@ -20,14 +20,10 @@ junitPlatform {
 	logManager 'org.apache.logging.log4j.jul.LogManager'
 }
 
-configurations {
-	shadowed
-}
-
 dependencies {
 	api(project(':junit-jupiter-api'))
 
-	shadowed('com.univocity:univocity-parsers:2.3.1')
+	shadow('com.univocity:univocity-parsers:2.3.1')
 
 	testImplementation("org.assertj:assertj-core:${assertJVersion}")
 	testImplementation("org.mockito:mockito-core:${mockitoVersion}")
@@ -42,22 +38,23 @@ dependencies {
 	testRuntimeOnly("org.apache.logging.log4j:log4j-jul:${log4jVersion}")
 }
 
-sourceSets.main.compileClasspath += configurations.shadowed
+sourceSets.main.compileClasspath += configurations.shadow
+sourceSets.test.runtimeClasspath += configurations.shadow
 
 eclipse {
 	classpath {
-		plusConfigurations += [ configurations.shadowed ]
+		plusConfigurations += [ configurations.shadow ]
 	}
 }
 
 idea {
 	module {
-		scopes.PROVIDED.plus += [ configurations.shadowed ]
+		scopes.PROVIDED.plus += [ configurations.shadow ]
 	}
 }
 
 javadoc {
-	classpath = project.sourceSets.main.compileClasspath + configurations.shadowed
+	classpath = project.sourceSets.main.compileClasspath + configurations.shadow
 }
 
 jar.enabled = false
@@ -69,7 +66,11 @@ shadowJar {
 		project.generateManifest
 	}
 	classifier = null
-	configurations = [project.configurations.shadowed]
+	configurations = [project.configurations.shadow]
 	exclude 'META-INF/**'
 	relocate 'com.univocity', 'org.junit.jupiter.params.com.univocity'
+}
+
+artifacts {
+	archives shadowJar
 }
