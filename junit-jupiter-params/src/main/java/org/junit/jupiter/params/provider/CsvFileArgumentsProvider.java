@@ -39,11 +39,11 @@ class CsvFileArgumentsProvider implements ArgumentsProvider, AnnotationInitializ
 	private Charset charset;
 	private CsvParserSettings settings;
 
-	public CsvFileArgumentsProvider() {
+	CsvFileArgumentsProvider() {
 		this(Class::getResourceAsStream);
 	}
 
-	public CsvFileArgumentsProvider(BiFunction<Class<?>, String, InputStream> inputStreamProvider) {
+	CsvFileArgumentsProvider(BiFunction<Class<?>, String, InputStream> inputStreamProvider) {
 		this.inputStreamProvider = inputStreamProvider;
 	}
 
