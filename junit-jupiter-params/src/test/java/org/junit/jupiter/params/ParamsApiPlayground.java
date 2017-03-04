@@ -56,7 +56,11 @@ class ParamsApiPlayground {
 	}
 
 	@ParameterizedTest
-	@CsvSource(value = { "foo | 1", "bar | 2" }, delimiter = '|')
+	@CsvSource(value = { //
+			"foo      | 1", //
+			"bar      | 2", //
+			"baz, qux | 3" //
+	}, delimiter = '|')
 	void testWithParametersFromAnnotationWithCustomDelimiter(String parameter, int i) {
 	}
 
