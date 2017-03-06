@@ -13,9 +13,18 @@ package org.junit.platform.commons.util;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singleton;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
@@ -55,6 +64,69 @@ class CollectionUtilsTests {
 			CollectionUtils.getOnlyElement(asList("foo", "bar"));
 		});
 		assertEquals("collection must contain exactly one element: [foo, bar]", exception.getMessage());
+	}
+
+	@Test
+	void toStreamWithExistingStream() {
+		Stream<String> input = Stream.of("foo");
+
+		Stream<?> result = CollectionUtils.toStream(input);
+
+		assertThat(result).isSameAs(input);
+	}
+
+	@SuppressWarnings({ "unchecked", "serial" })
+	@Test
+	void toStreamWithCollection() {
+		AtomicBoolean collectionStreamClosed = new AtomicBoolean(false);
+		Collection<String> input = new ArrayList<String>() {
+			{
+				add("foo");
+				add("bar");
+			}
+
+			@Override
+			public Stream<String> stream() {
+				return super.stream().onClose(() -> collectionStreamClosed.set(true));
+			}
+		};
+
+		try (Stream<String> stream = (Stream<String>) CollectionUtils.toStream(input)) {
+			List<String> result = stream.collect(toList());
+			assertThat(result).containsExactly("foo", "bar");
+		}
+
+		assertThat(collectionStreamClosed.get()).describedAs("collectionStreamClosed").isTrue();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	void toStreamWithIterable() {
+		Iterable<String> input = asList("foo", "bar");
+
+		Stream<String> result = (Stream<String>) CollectionUtils.toStream(input);
+
+		assertThat(result).containsExactly("foo", "bar");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	void toStreamWithIterator() {
+		Iterator<String> input = asList("foo", "bar").iterator();
+
+		Stream<String> result = (Stream<String>) CollectionUtils.toStream(input);
+
+		assertThat(result).containsExactly("foo", "bar");
+	}
+
+	@Test
+	void toStreamWithUnknownObject() {
+		Object unknownObject = "unknown";
+
+		PreconditionViolationException exception = assertThrows(PreconditionViolationException.class,
+			() -> CollectionUtils.toStream(unknownObject));
+
+		assertThat(exception).hasMessage("Cannot convert instance of java.lang.String into a Stream: unknown");
 	}
 
 }

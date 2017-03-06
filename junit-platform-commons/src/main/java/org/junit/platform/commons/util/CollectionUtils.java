@@ -10,9 +10,14 @@
 
 package org.junit.platform.commons.util;
 
+import static java.util.Spliterator.ORDERED;
+import static java.util.Spliterators.spliteratorUnknownSize;
+import static java.util.stream.StreamSupport.stream;
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 import org.junit.platform.commons.meta.API;
 
@@ -51,4 +56,28 @@ public final class CollectionUtils {
 		return collection.iterator().next();
 	}
 
+	/**
+	 * Convert a well-known object into a {@code Stream}.
+	 *
+	 * @param object the object to convert into a stream
+	 * @return the resulting stream
+	 * @throws PreconditionViolationException if the object is neither a Stream,
+	 * a Collection, an Iterable, nor an Iterator
+	 */
+	public static Stream<?> toStream(Object object) {
+		if (object instanceof Stream) {
+			return (Stream<?>) object;
+		}
+		if (object instanceof Collection) {
+			return ((Collection<?>) object).stream();
+		}
+		if (object instanceof Iterable) {
+			return stream(((Iterable<?>) object).spliterator(), false);
+		}
+		if (object instanceof Iterator) {
+			return stream(spliteratorUnknownSize((Iterator<?>) object, ORDERED), false);
+		}
+		throw new PreconditionViolationException(
+			"Cannot convert instance of " + object.getClass().getName() + " into a Stream: " + object);
+	}
 }
