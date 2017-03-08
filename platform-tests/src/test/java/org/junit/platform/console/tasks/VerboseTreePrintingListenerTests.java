@@ -165,14 +165,10 @@ public class VerboseTreePrintingListenerTests {
 			new TestDescriptorStub(UniqueId.root("container", uniqueId), uniqueId) {
 
 				@Override
-				public boolean isContainer() {
-					return true;
-				}
-
-				@Override
 				public boolean isTest() {
 					return false;
 				}
+
 			});
 		testPlan.add(identifier);
 		return identifier;

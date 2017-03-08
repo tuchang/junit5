@@ -721,11 +721,6 @@ class JUnitPlatformRunnerTests {
 		}
 
 		@Override
-		public boolean isContainer() {
-			return true;
-		}
-
-		@Override
 		public boolean isTest() {
 			return false;
 		}
@@ -735,11 +730,6 @@ class JUnitPlatformRunnerTests {
 
 		DemoTestTestDescriptor(UniqueId uniqueId, String displayName) {
 			super(uniqueId, displayName);
-		}
-
-		@Override
-		public boolean isContainer() {
-			return false;
 		}
 
 		@Override

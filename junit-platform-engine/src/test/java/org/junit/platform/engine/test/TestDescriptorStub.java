@@ -27,9 +27,4 @@ public class TestDescriptorStub extends AbstractTestDescriptor {
 		return getChildren().isEmpty();
 	}
 
-	@Override
-	public boolean isContainer() {
-		return !isTest();
-	}
-
 }

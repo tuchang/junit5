@@ -409,13 +409,8 @@ public class HierarchicalTestExecutorTests {
 		}
 
 		@Override
-		public boolean isContainer() {
-			return true;
-		}
-
-		@Override
 		public boolean isLeaf() {
-			return !isContainer();
+			return isTest();
 		}
 
 	}
@@ -438,14 +433,10 @@ public class HierarchicalTestExecutorTests {
 		}
 
 		@Override
-		public boolean isContainer() {
-			return false;
+		public boolean isLeaf() {
+			return isTest();
 		}
 
-		@Override
-		public boolean isLeaf() {
-			return !isContainer();
-		}
 	}
 
 	private static class MyExecutor extends HierarchicalTestExecutor<MyEngineExecutionContext> {

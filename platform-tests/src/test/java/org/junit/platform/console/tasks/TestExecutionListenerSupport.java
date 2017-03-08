@@ -116,9 +116,5 @@ class TestExecutionListenerSupport {
 			return !container;
 		}
 
-		@Override
-		public boolean isContainer() {
-			return container;
-		}
 	}
 }

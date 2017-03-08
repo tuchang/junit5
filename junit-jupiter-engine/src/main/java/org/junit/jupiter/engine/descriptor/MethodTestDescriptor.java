@@ -72,11 +72,6 @@ public class MethodTestDescriptor extends MethodBasedTestDescriptor {
 		return true;
 	}
 
-	@Override
-	public boolean isContainer() {
-		return false;
-	}
-
 	// --- Node ----------------------------------------------------------------
 
 	@Override

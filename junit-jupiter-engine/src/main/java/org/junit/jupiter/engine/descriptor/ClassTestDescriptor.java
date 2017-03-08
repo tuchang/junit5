@@ -107,11 +107,6 @@ public class ClassTestDescriptor extends JupiterTestDescriptor {
 	}
 
 	@Override
-	public final boolean isContainer() {
-		return true;
-	}
-
-	@Override
 	public String getLegacyReportingName() {
 		return testClass.getName();
 	}

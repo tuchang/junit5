@@ -82,11 +82,6 @@ public class VintageTestDescriptor extends AbstractTestDescriptor {
 	}
 
 	@Override
-	public boolean isContainer() {
-		return description.isSuite();
-	}
-
-	@Override
 	public Set<TestTag> getTags() {
 		Set<TestTag> result = new LinkedHashSet<>();
 		getParent().ifPresent(parent -> result.addAll(parent.getTags()));

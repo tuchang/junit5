@@ -81,7 +81,7 @@ public abstract class JupiterTestDescriptor extends AbstractTestDescriptor
 
 	@Override
 	public boolean isLeaf() {
-		return !isContainer();
+		return isTest();
 	}
 
 	protected SkipResult shouldContainerBeSkipped(JupiterEngineExecutionContext context) {

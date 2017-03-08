@@ -37,11 +37,6 @@ class DynamicTestTestDescriptor extends JupiterTestDescriptor {
 	}
 
 	@Override
-	public boolean isContainer() {
-		return false;
-	}
-
-	@Override
 	public JupiterEngineExecutionContext execute(JupiterEngineExecutionContext context,
 			DynamicTestExecutor dynamicTestExecutor) throws Exception {
 		executeAndMaskThrowable(dynamicTest.getExecutable());

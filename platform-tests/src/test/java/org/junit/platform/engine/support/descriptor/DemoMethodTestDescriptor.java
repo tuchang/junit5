@@ -68,9 +68,4 @@ public class DemoMethodTestDescriptor extends AbstractTestDescriptor {
 		return true;
 	}
 
-	@Override
-	public boolean isContainer() {
-		return false;
-	}
-
 }

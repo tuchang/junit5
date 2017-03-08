@@ -106,10 +106,6 @@ class GroupDescriptor extends AbstractTestDescriptor {
 		return false;
 	}
 
-	@Override
-	public boolean isContainer() {
-		return true;
-	}
 }
 
 class LeafDescriptor extends AbstractTestDescriptor {
@@ -123,8 +119,4 @@ class LeafDescriptor extends AbstractTestDescriptor {
 		return true;
 	}
 
-	@Override
-	public boolean isContainer() {
-		return false;
-	}
 }

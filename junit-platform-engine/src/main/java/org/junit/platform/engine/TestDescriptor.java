@@ -150,7 +150,9 @@ public interface TestDescriptor {
 	/**
 	 * Determine if this descriptor describes a container.
 	 */
-	boolean isContainer();
+	default boolean isContainer() {
+		return !isTest();
+	}
 
 	/**
 	 * Determine if this descriptor describes a test.

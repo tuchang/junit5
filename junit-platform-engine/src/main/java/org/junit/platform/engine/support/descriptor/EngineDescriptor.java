@@ -52,15 +52,4 @@ public class EngineDescriptor extends AbstractTestDescriptor {
 		return false;
 	}
 
-	/**
-	 * Always returns {@code true}: a {@link TestEngine} is always a container.
-	 *
-	 * @see org.junit.platform.engine.TestDescriptor#isContainer()
-	 * @see #isTest()
-	 */
-	@Override
-	public final boolean isContainer() {
-		return true;
-	}
-
 }

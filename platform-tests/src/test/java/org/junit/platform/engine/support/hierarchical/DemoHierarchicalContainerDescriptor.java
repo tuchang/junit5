@@ -56,11 +56,6 @@ public class DemoHierarchicalContainerDescriptor extends AbstractTestDescriptor
 		return true;
 	}
 
-	@Override
-	public boolean isContainer() {
-		return true;
-	}
-
 	public void markSkipped(String reason) {
 		this.skipped = true;
 		this.skippedReason = reason;
