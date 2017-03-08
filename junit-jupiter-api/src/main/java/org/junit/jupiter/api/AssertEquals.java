@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionUtils.doublesAreEqual;
@@ -20,11 +19,11 @@ import static org.junit.jupiter.api.AssertionUtils.objectsAreEqual;
 import java.util.function.Supplier;
 
 /**
- * {@code AssertEquals} is a collection of utility methods that support asserting
- * equality on objects and primitives in tests.
- *
- * @since 5.0
- */
+* {@code AssertEquals} is a collection of utility methods that support asserting equality on
+* objects and primitives in tests.
+*
+* @since 5.0
+*/
 class AssertEquals {
 
 	static void assertEquals(byte expected, byte actual) {
@@ -77,7 +76,8 @@ class AssertEquals {
 		assertEquals(expected, actual, delta, () -> message);
 	}
 
-	static void assertEquals(double expected, double actual, double delta, Supplier<String> messageSupplier) {
+	static void assertEquals(
+			double expected, double actual, double delta, Supplier<String> messageSupplier) {
 		if (!doublesAreEqual(expected, actual, delta)) {
 			failNotEqual(expected, actual, nullSafeGet(messageSupplier));
 		}
@@ -105,7 +105,8 @@ class AssertEquals {
 		assertEquals(expected, actual, delta, () -> message);
 	}
 
-	static void assertEquals(float expected, float actual, float delta, Supplier<String> messageSupplier) {
+	static void assertEquals(
+			float expected, float actual, float delta, Supplier<String> messageSupplier) {
 		if (!floatsAreEqual(expected, actual, delta)) {
 			failNotEqual(expected, actual, nullSafeGet(messageSupplier));
 		}
@@ -170,5 +171,4 @@ class AssertEquals {
 	private static void failNotEqual(Object expected, Object actual, String message) {
 		fail(format(expected, actual, message), expected, actual);
 	}
-
 }

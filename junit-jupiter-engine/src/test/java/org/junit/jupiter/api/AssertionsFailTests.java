@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionTestUtils.assertMessageContains;
@@ -16,14 +15,13 @@ import static org.junit.jupiter.api.AssertionTestUtils.expectAssertionFailedErro
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.function.Supplier;
-
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Unit tests for JUnit Jupiter {@link Assertions}.
- *
- * @since 5.0
- */
+* Unit tests for JUnit Jupiter {@link Assertions}.
+*
+* @since 5.0
+*/
 public class AssertionsFailTests {
 
 	@Test
@@ -31,8 +29,7 @@ public class AssertionsFailTests {
 		try {
 			fail("test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "test");
 		}
 	}
@@ -42,8 +39,7 @@ public class AssertionsFailTests {
 		try {
 			fail(() -> "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "test");
 		}
 	}
@@ -53,8 +49,7 @@ public class AssertionsFailTests {
 		try {
 			fail((String) null);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "");
 		}
 	}
@@ -64,8 +59,7 @@ public class AssertionsFailTests {
 		try {
 			fail((Supplier<String>) null);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "");
 		}
 	}
@@ -75,8 +69,7 @@ public class AssertionsFailTests {
 		try {
 			fail("message", new Throwable("cause"));
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "message");
 			Throwable cause = ex.getCause();
 			assertMessageContains(cause, "cause");
@@ -88,8 +81,7 @@ public class AssertionsFailTests {
 		try {
 			fail((String) null, new Throwable("cause"));
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "");
 			Throwable cause = ex.getCause();
 			assertMessageContains(cause, "cause");
@@ -101,8 +93,7 @@ public class AssertionsFailTests {
 		try {
 			fail("message", (Throwable) null);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "message");
 			if (ex.getCause() != null) {
 				throw new AssertionError("Cause should have been null");
@@ -115,12 +106,10 @@ public class AssertionsFailTests {
 		try {
 			fail((String) null, new Throwable("cause"));
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "");
 			Throwable cause = ex.getCause();
 			assertMessageContains(cause, "cause");
 		}
 	}
-
 }

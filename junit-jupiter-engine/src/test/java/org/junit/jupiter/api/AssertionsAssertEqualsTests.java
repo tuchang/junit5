@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionTestUtils.assertExpectedAndActualValues;
@@ -22,10 +21,10 @@ import org.junit.jupiter.api.function.Executable;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Unit tests for JUnit Jupiter {@link Assertions}.
- *
- * @since 5.0
- */
+* Unit tests for JUnit Jupiter {@link Assertions}.
+*
+* @since 5.0
+*/
 public class AssertionsAssertEqualsTests {
 
 	@Test
@@ -42,8 +41,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(expected, actual);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, expected, actual);
 		}
@@ -56,8 +54,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(expected, actual, "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, expected, actual);
@@ -71,8 +68,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(expected, actual, () -> "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, expected, actual);
@@ -93,8 +89,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(expected, actual);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, expected, actual);
 		}
@@ -107,8 +102,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(expected, actual, "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, expected, actual);
@@ -122,8 +116,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(expected, actual, () -> "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, expected, actual);
@@ -140,8 +133,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1, 2);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, 1, 2);
 		}
@@ -152,8 +144,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1, 2, "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, 1, 2);
@@ -165,8 +156,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1, 2, () -> "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, 1, 2);
@@ -183,8 +173,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1L, 2L);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, 1L, 2L);
 		}
@@ -195,8 +184,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1L, 2L, "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, 1L, 2L);
@@ -208,8 +196,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1L, 2L, () -> "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1> but was: <2>");
 			assertExpectedAndActualValues(ex, 1L, 2L);
@@ -226,8 +213,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals('a', 'b');
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: <a> but was: <b>");
 			assertExpectedAndActualValues(ex, 'a', 'b');
 		}
@@ -238,8 +224,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals('a', 'b', "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <a> but was: <b>");
 			assertExpectedAndActualValues(ex, 'a', 'b');
@@ -251,8 +236,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals('a', 'b', () -> "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <a> but was: <b>");
 			assertExpectedAndActualValues(ex, 'a', 'b');
@@ -276,8 +260,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1.0f, 1.1f);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: <1.0> but was: <1.1>");
 			assertExpectedAndActualValues(ex, 1.0f, 1.1f);
 		}
@@ -288,8 +271,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1.0f, 1.1f, "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1.0> but was: <1.1>");
 			assertExpectedAndActualValues(ex, 1.0f, 1.1f);
@@ -301,8 +283,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1.0f, 1.1f, () -> "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1.0> but was: <1.1>");
 			assertExpectedAndActualValues(ex, 1.0f, 1.1f);
@@ -318,31 +299,39 @@ public class AssertionsAssertEqualsTests {
 
 	@Test
 	void assertEqualsFloatWithIllegalDelta() {
-		AssertionFailedError e1 = assertThrows(AssertionFailedError.class, () -> assertEquals(0.1f, 0.2f, -0.9f));
+		AssertionFailedError e1 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(0.1f, 0.2f, -0.9f));
 		assertMessageEndsWith(e1, "positive delta expected but was: <-0.9>");
 
-		AssertionFailedError e2 = assertThrows(AssertionFailedError.class, () -> assertEquals(.0f, .0f, -10.5f));
+		AssertionFailedError e2 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(.0f, .0f, -10.5f));
 		assertMessageEndsWith(e2, "positive delta expected but was: <-10.5>");
 
-		AssertionFailedError e3 = assertThrows(AssertionFailedError.class, () -> assertEquals(4.5f, 4.6f, Float.NaN));
+		AssertionFailedError e3 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(4.5f, 4.6f, Float.NaN));
 		assertMessageEndsWith(e3, "positive delta expected but was: <NaN>");
 	}
 
 	@Test
 	void assertEqualsFloatWithDeltaWithUnequalValues() {
-		AssertionFailedError e1 = assertThrows(AssertionFailedError.class, () -> assertEquals(0.5f, 0.2f, 0.2f));
+		AssertionFailedError e1 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(0.5f, 0.2f, 0.2f));
 		assertMessageEndsWith(e1, "expected: <0.5> but was: <0.2>");
 
-		AssertionFailedError e2 = assertThrows(AssertionFailedError.class, () -> assertEquals(0.1f, 0.2f, 0.000001f));
+		AssertionFailedError e2 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(0.1f, 0.2f, 0.000001f));
 		assertMessageEndsWith(e2, "expected: <0.1> but was: <0.2>");
 
-		AssertionFailedError e3 = assertThrows(AssertionFailedError.class, () -> assertEquals(100.0f, 50.0f, 10.0f));
+		AssertionFailedError e3 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(100.0f, 50.0f, 10.0f));
 		assertMessageEndsWith(e3, "expected: <100.0> but was: <50.0>");
 
-		AssertionFailedError e4 = assertThrows(AssertionFailedError.class, () -> assertEquals(-3.5f, -3.3f, 0.01f));
+		AssertionFailedError e4 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(-3.5f, -3.3f, 0.01f));
 		assertMessageEndsWith(e4, "expected: <-3.5> but was: <-3.3>");
 
-		AssertionFailedError e5 = assertThrows(AssertionFailedError.class, () -> assertEquals(+0.0f, -0.001f, .00001f));
+		AssertionFailedError e5 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(+0.0f, -0.001f, .00001f));
 		assertMessageEndsWith(e5, "expected: <0.0> but was: <-0.001>");
 	}
 
@@ -384,8 +373,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1.0d, 1.1d);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: <1.0> but was: <1.1>");
 			assertExpectedAndActualValues(ex, 1.0d, 1.1d);
 		}
@@ -396,8 +384,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1.0d, 1.1d, "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1.0> but was: <1.1>");
 			assertExpectedAndActualValues(ex, 1.0d, 1.1d);
@@ -409,8 +396,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(1.0d, 1.1d, () -> "message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "message");
 			assertMessageEndsWith(ex, "expected: <1.0> but was: <1.1>");
 			assertExpectedAndActualValues(ex, 1.0d, 1.1d);
@@ -426,35 +412,43 @@ public class AssertionsAssertEqualsTests {
 
 	@Test
 	void assertEqualsDoubleWithIllegalDelta() {
-		AssertionFailedError e1 = assertThrows(AssertionFailedError.class, () -> assertEquals(1.1d, 1.11d, -0.5d));
+		AssertionFailedError e1 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(1.1d, 1.11d, -0.5d));
 		assertMessageEndsWith(e1, "positive delta expected but was: <-0.5>");
 
-		AssertionFailedError e2 = assertThrows(AssertionFailedError.class, () -> assertEquals(.55d, .56d, -10.5d));
+		AssertionFailedError e2 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(.55d, .56d, -10.5d));
 		assertMessageEndsWith(e2, "positive delta expected but was: <-10.5>");
 
-		AssertionFailedError e3 = assertThrows(AssertionFailedError.class, () -> assertEquals(1.1d, 1.1d, Double.NaN));
+		AssertionFailedError e3 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(1.1d, 1.1d, Double.NaN));
 		assertMessageEndsWith(e3, "positive delta expected but was: <NaN>");
 	}
 
 	@Test
 	void assertEqualsDoubleWithDeltaWithUnequalValues() {
-		AssertionFailedError e1 = assertThrows(AssertionFailedError.class, () -> assertEquals(9.9d, 9.7d, 0.1d));
+		AssertionFailedError e1 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(9.9d, 9.7d, 0.1d));
 		assertMessageEndsWith(e1, "expected: <9.9> but was: <9.7>");
 		assertExpectedAndActualValues(e1, 9.9d, 9.7d);
 
-		AssertionFailedError e2 = assertThrows(AssertionFailedError.class, () -> assertEquals(0.1d, 0.05d, 0.001d));
+		AssertionFailedError e2 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(0.1d, 0.05d, 0.001d));
 		assertMessageEndsWith(e2, "expected: <0.1> but was: <0.05>");
 		assertExpectedAndActualValues(e2, 0.1d, 0.05d);
 
-		AssertionFailedError e3 = assertThrows(AssertionFailedError.class, () -> assertEquals(17.11d, 15.11d, 1.1d));
+		AssertionFailedError e3 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(17.11d, 15.11d, 1.1d));
 		assertMessageEndsWith(e3, "expected: <17.11> but was: <15.11>");
 		assertExpectedAndActualValues(e3, 17.11d, 15.11d);
 
-		AssertionFailedError e4 = assertThrows(AssertionFailedError.class, () -> assertEquals(-7.2d, -5.9d, 1.1d));
+		AssertionFailedError e4 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(-7.2d, -5.9d, 1.1d));
 		assertMessageEndsWith(e4, "expected: <-7.2> but was: <-5.9>");
 		assertExpectedAndActualValues(e4, -7.2d, -5.9d);
 
-		AssertionFailedError e5 = assertThrows(AssertionFailedError.class, () -> assertEquals(+0.0d, -0.001d, .00001d));
+		AssertionFailedError e5 =
+				assertThrows(AssertionFailedError.class, () -> assertEquals(+0.0d, -0.001d, .00001d));
 		assertMessageEndsWith(e5, "expected: <0.0> but was: <-0.001>");
 		assertExpectedAndActualValues(e5, +0.0d, -0.001d);
 	}
@@ -502,8 +496,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(null, "foo");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: <null> but was: <foo>");
 			assertExpectedAndActualValues(ex, null, "foo");
 		}
@@ -514,8 +507,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals("foo", null);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: <foo> but was: <null>");
 			assertExpectedAndActualValues(ex, "foo", null);
 		}
@@ -526,8 +518,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals(null, "foo", () -> "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "test");
 			assertMessageEndsWith(ex, "expected: <null> but was: <foo>");
 			assertExpectedAndActualValues(ex, null, "foo");
@@ -539,8 +530,7 @@ public class AssertionsAssertEqualsTests {
 		try {
 			assertEquals("foo", null, () -> "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "test");
 			assertMessageEndsWith(ex, "expected: <foo> but was: <null>");
 			assertExpectedAndActualValues(ex, "foo", null);
@@ -560,5 +550,4 @@ public class AssertionsAssertEqualsTests {
 			throw new NumberFormatException();
 		}
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery.predicates;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,12 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.function.Predicate;
-
 import org.junit.jupiter.api.Test;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class IsInnerClassTests {
 
 	private final Predicate<Class<?>> isInnerClass = new IsInnerClass();
@@ -38,28 +34,24 @@ public class IsInnerClassTests {
 	@Test
 	void privateInnerClassEvaluatesToFalse() {
 		// @formatter:off
-        Class<?> privateInnerClass = Arrays.stream(ClassWithInnerClasses.class.getDeclaredClasses())
-                .filter(aClass -> aClass.getSimpleName().equals("PrivateInnerClass"))
-                .findFirst()
-                .get();
+		Class<?> privateInnerClass =
+				Arrays.stream(ClassWithInnerClasses.class.getDeclaredClasses())
+						.filter(aClass -> aClass.getSimpleName().equals("PrivateInnerClass"))
+						.findFirst()
+						.get();
 		// @formatter:on
 
 		assertFalse(isInnerClass.test(privateInnerClass));
 	}
-
 }
 
 //class name must not end with 'Tests', otherwise it would be picked up by the suite
 class ClassWithInnerClasses {
 
-	class InnerClass {
-	}
+	class InnerClass {}
 
-	static class StaticInnerClass {
-	}
+	static class StaticInnerClass {}
 
 	@SuppressWarnings("unused")
-	private class PrivateInnerClass {
-	}
-
+	private class PrivateInnerClass {}
 }

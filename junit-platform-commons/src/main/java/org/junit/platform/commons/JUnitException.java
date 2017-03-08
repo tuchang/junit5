@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -15,11 +14,10 @@ import static org.junit.platform.commons.meta.API.Usage.Internal;
 import org.junit.platform.commons.meta.API;
 
 /**
- * Base class for all {@link RuntimeException RuntimeExceptions} thrown
- * by JUnit.
- *
- * @since 1.0
- */
+* Base class for all {@link RuntimeException RuntimeExceptions} thrown by JUnit.
+*
+* @since 1.0
+*/
 @API(Internal)
 public class JUnitException extends RuntimeException {
 
@@ -32,5 +30,4 @@ public class JUnitException extends RuntimeException {
 	public JUnitException(String message, Throwable cause) {
 		super(message, cause);
 	}
-
 }

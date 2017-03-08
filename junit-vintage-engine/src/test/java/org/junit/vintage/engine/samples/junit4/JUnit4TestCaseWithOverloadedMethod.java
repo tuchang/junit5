@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static org.junit.Assert.fail;
@@ -17,14 +16,11 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @RunWith(Theories.class)
 public class JUnit4TestCaseWithOverloadedMethod {
 
-	@DataPoint
-	public static int MAGIC_NUMBER = 42;
+	@DataPoint public static int MAGIC_NUMBER = 42;
 
 	@Theory
 	public void theory(int i) {
@@ -35,5 +31,4 @@ public class JUnit4TestCaseWithOverloadedMethod {
 	public void theory(int i, int j) {
 		fail("failing theory with two parameters");
 	}
-
 }

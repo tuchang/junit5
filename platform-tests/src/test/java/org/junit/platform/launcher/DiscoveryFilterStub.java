@@ -7,18 +7,14 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
-
 import org.junit.platform.engine.DiscoveryFilter;
 import org.junit.platform.engine.FilterResult;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class DiscoveryFilterStub<T> extends FilterStub<T> implements DiscoveryFilter<T> {
 
 	public DiscoveryFilterStub(String toString) {
@@ -28,5 +24,4 @@ public class DiscoveryFilterStub<T> extends FilterStub<T> implements DiscoveryFi
 	public DiscoveryFilterStub(Function<T, FilterResult> function, Supplier<String> toString) {
 		super(function, toString);
 	}
-
 }

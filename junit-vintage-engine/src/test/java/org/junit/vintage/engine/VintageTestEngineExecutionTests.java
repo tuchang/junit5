@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine;
 
 import static org.assertj.core.api.Assertions.allOf;
@@ -30,7 +29,6 @@ import static org.junit.runner.Description.createSuiteDescription;
 import static org.junit.runner.Description.createTestDescription;
 
 import java.util.List;
-
 import org.assertj.core.api.Condition;
 import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.Test;
@@ -68,9 +66,7 @@ import org.junit.vintage.engine.samples.junit4.PlainJUnit4TestCaseWithSingleTest
 import org.junit.vintage.engine.samples.junit4.PlainJUnit4TestCaseWithTwoTestMethods;
 import org.opentest4j.MultipleFailuresError;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class VintageTestEngineExecutionTests {
 
 	@Test
@@ -79,14 +75,17 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(test("failingTest"), started()), //
-			event(test("failingTest"),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("this test should fail")))), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(test("failingTest"), started()), //
+				event(
+						test("failingTest"),
+						finishedWithFailure(
+								allOf(isA(AssertionError.class), message("this test should fail")))), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -95,16 +94,19 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(test("failingTest"), started()), //
-			event(test("failingTest"),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("this test should fail")))), //
-			event(test("successfulTest"), started()), //
-			event(test("successfulTest"), finishedSuccessfully()), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(test("failingTest"), started()), //
+				event(
+						test("failingTest"),
+						finishedWithFailure(
+								allOf(isA(AssertionError.class), message("this test should fail")))), //
+				event(test("successfulTest"), started()), //
+				event(test("successfulTest"), finishedSuccessfully()), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -113,22 +115,28 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(test("abortedTest"), started()), //
-			event(test("abortedTest"),
-				abortedWithReason(
-					allOf(isA(AssumptionViolatedException.class), message("this test should be aborted")))), //
-			event(test("failingTest"), started()), //
-			event(test("failingTest"),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("this test should fail")))), //
-			event(test("ignoredTest1_withoutReason"), skippedWithReason("")), //
-			event(test("ignoredTest2_withReason"), skippedWithReason("a custom reason")), //
-			event(test("successfulTest"), started()), //
-			event(test("successfulTest"), finishedSuccessfully()), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(test("abortedTest"), started()), //
+				event(
+						test("abortedTest"),
+						abortedWithReason(
+								allOf(
+										isA(AssumptionViolatedException.class),
+										message("this test should be aborted")))), //
+				event(test("failingTest"), started()), //
+				event(
+						test("failingTest"),
+						finishedWithFailure(
+								allOf(isA(AssertionError.class), message("this test should fail")))), //
+				event(test("ignoredTest1_withoutReason"), skippedWithReason("")), //
+				event(test("ignoredTest2_withReason"), skippedWithReason("a custom reason")), //
+				event(test("successfulTest"), started()), //
+				event(test("successfulTest"), finishedSuccessfully()), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -138,16 +146,19 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(container(nestedClass), started()), //
-			event(test("failingTest"), started()), //
-			event(test("failingTest"),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("this test should fail")))), //
-			event(container(nestedClass), finishedSuccessfully()), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(container(nestedClass), started()), //
+				event(test("failingTest"), started()), //
+				event(
+						test("failingTest"),
+						finishedWithFailure(
+								allOf(isA(AssertionError.class), message("this test should fail")))), //
+				event(container(nestedClass), finishedSuccessfully()), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -157,18 +168,21 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(junit4SuiteClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(junit4SuiteClass), started()), //
-			event(container("TestSuite with 1 tests"), started()), //
-			event(container(testClass), started()), //
-			event(test("test"), started()), //
-			event(test("test"),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("this test should fail")))), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(container("TestSuite with 1 tests"), finishedSuccessfully()), //
-			event(container(junit4SuiteClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(junit4SuiteClass), started()), //
+				event(container("TestSuite with 1 tests"), started()), //
+				event(container(testClass), started()), //
+				event(test("test"), started()), //
+				event(
+						test("test"),
+						finishedWithFailure(
+								allOf(isA(AssertionError.class), message("this test should fail")))), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(container("TestSuite with 1 tests"), finishedSuccessfully()), //
+				event(container(junit4SuiteClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -177,13 +191,16 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(test("initializationError"), started()), //
-			event(test("initializationError"), finishedWithFailure(message("Method nonPublicTest() should be public"))), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(test("initializationError"), started()), //
+				event(
+						test("initializationError"),
+						finishedWithFailure(message("Method nonPublicTest() should be public"))), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -192,12 +209,15 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(container(testClass),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("something went wrong")))), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(
+						container(testClass),
+						finishedWithFailure(
+								allOf(isA(AssertionError.class), message("something went wrong")))), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -207,14 +227,17 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(suiteClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(suiteClass), started()), //
-			event(container(testClass), started()), //
-			event(container(testClass),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("something went wrong")))), //
-			event(container(suiteClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(suiteClass), started()), //
+				event(container(testClass), started()), //
+				event(
+						container(testClass),
+						finishedWithFailure(
+								allOf(isA(AssertionError.class), message("something went wrong")))), //
+				event(container(suiteClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -225,36 +248,43 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(suiteOfSuiteClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(suiteOfSuiteClass), started()), //
-			event(container(suiteClass), started()), //
-			event(container(testClass), started()), //
-			event(container(testClass),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("something went wrong")))), //
-			event(container(suiteClass), finishedSuccessfully()), //
-			event(container(suiteOfSuiteClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(suiteOfSuiteClass), started()), //
+				event(container(suiteClass), started()), //
+				event(container(testClass), started()), //
+				event(
+						container(testClass),
+						finishedWithFailure(
+								allOf(isA(AssertionError.class), message("something went wrong")))), //
+				event(container(suiteClass), finishedSuccessfully()), //
+				event(container(suiteOfSuiteClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
 	void executesJUnit4SuiteOfSuiteWithJUnit4TestCaseWithAssumptionFailureInBeforeClass() {
-		Class<?> suiteOfSuiteClass = JUnit4SuiteOfSuiteWithJUnit4TestCaseWithAssumptionFailureInBeforeClass.class;
+		Class<?> suiteOfSuiteClass =
+				JUnit4SuiteOfSuiteWithJUnit4TestCaseWithAssumptionFailureInBeforeClass.class;
 		Class<?> suiteClass = JUnit4SuiteWithJUnit4TestCaseWithAssumptionFailureInBeforeClass.class;
 		Class<?> testClass = JUnit4TestCaseWithAssumptionFailureInBeforeClass.class;
 
 		List<ExecutionEvent> executionEvents = execute(suiteOfSuiteClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(suiteOfSuiteClass), started()), //
-			event(container(suiteClass), started()), //
-			event(container(testClass), started()), //
-			event(container(testClass),
-				abortedWithReason(allOf(isA(AssumptionViolatedException.class), message("assumption violated")))), //
-			event(container(suiteClass), finishedSuccessfully()), //
-			event(container(suiteOfSuiteClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(suiteOfSuiteClass), started()), //
+				event(container(suiteClass), started()), //
+				event(container(testClass), started()), //
+				event(
+						container(testClass),
+						abortedWithReason(
+								allOf(isA(AssumptionViolatedException.class), message("assumption violated")))), //
+				event(container(suiteClass), finishedSuccessfully()), //
+				event(container(suiteOfSuiteClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -263,17 +293,21 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(test("failingTest"), started()), //
-			event(test("failingTest"),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("expected to fail")))), //
-			event(test("succeedingTest"), started()), //
-			event(test("succeedingTest"), finishedSuccessfully()), //
-			event(container(testClass),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("error in @AfterClass")))), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(test("failingTest"), started()), //
+				event(
+						test("failingTest"),
+						finishedWithFailure(allOf(isA(AssertionError.class), message("expected to fail")))), //
+				event(test("succeedingTest"), started()), //
+				event(test("succeedingTest"), finishedSuccessfully()), //
+				event(
+						container(testClass),
+						finishedWithFailure(
+								allOf(isA(AssertionError.class), message("error in @AfterClass")))), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -282,15 +316,24 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(test("theory(" + JUnit4TestCaseWithOverloadedMethod.class.getName() + ")[0]"), started()), //
-			event(test("theory(" + JUnit4TestCaseWithOverloadedMethod.class.getName() + ")[0]"), finishedWithFailure()), //
-			event(test("theory(" + JUnit4TestCaseWithOverloadedMethod.class.getName() + ")[1]"), started()), //
-			event(test("theory(" + JUnit4TestCaseWithOverloadedMethod.class.getName() + ")[1]"), finishedWithFailure()), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(
+						test("theory(" + JUnit4TestCaseWithOverloadedMethod.class.getName() + ")[0]"),
+						started()), //
+				event(
+						test("theory(" + JUnit4TestCaseWithOverloadedMethod.class.getName() + ")[0]"),
+						finishedWithFailure()), //
+				event(
+						test("theory(" + JUnit4TestCaseWithOverloadedMethod.class.getName() + ")[1]"),
+						started()), //
+				event(
+						test("theory(" + JUnit4TestCaseWithOverloadedMethod.class.getName() + ")[1]"),
+						finishedWithFailure()), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -299,10 +342,11 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(test(testClass.getName()), skippedWithReason("complete class is ignored")), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(test(testClass.getName()), skippedWithReason("complete class is ignored")), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -312,14 +356,15 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(suiteClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(suiteClass), started()), //
-			event(container(testClass), started()), //
-			event(test("ignoredTest"), skippedWithReason("ignored test")), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(container(suiteClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(suiteClass), started()), //
+				event(container(testClass), started()), //
+				event(test("ignoredTest"), skippedWithReason("ignored test")), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(container(suiteClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -330,14 +375,15 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(suiteOfSuiteClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(suiteOfSuiteClass), started()), //
-			event(container(suiteClass), started()), //
-			event(test(testClass.getName()), skippedWithReason("complete class is ignored")), //
-			event(container(suiteClass), finishedSuccessfully()), //
-			event(container(suiteOfSuiteClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(suiteOfSuiteClass), started()), //
+				event(container(suiteClass), started()), //
+				event(test(testClass.getName()), skippedWithReason("complete class is ignored")), //
+				event(container(suiteClass), finishedSuccessfully()), //
+				event(container(suiteOfSuiteClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -346,20 +392,23 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(container("[foo]"), started()), //
-			event(test("test[foo]"), started()), //
-			event(test("test[foo]"), finishedSuccessfully()), //
-			event(container("[foo]"), finishedSuccessfully()), //
-			event(container("[bar]"), started()), //
-			event(test("test[bar]"), started()), //
-			event(test("test[bar]"),
-				finishedWithFailure(allOf(isA(AssertionError.class), message("expected:<[foo]> but was:<[bar]>")))), //
-			event(container("[bar]"), finishedSuccessfully()), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(container("[foo]"), started()), //
+				event(test("test[foo]"), started()), //
+				event(test("test[foo]"), finishedSuccessfully()), //
+				event(container("[foo]"), finishedSuccessfully()), //
+				event(container("[bar]"), started()), //
+				event(test("test[bar]"), started()), //
+				event(
+						test("test[bar]"),
+						finishedWithFailure(
+								allOf(isA(AssertionError.class), message("expected:<[foo]> but was:<[bar]>")))), //
+				event(container("[bar]"), finishedSuccessfully()), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -368,11 +417,12 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(test(testClass.getName()), started()), //
-			event(test(testClass.getName()), finishedWithFailure()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(test(testClass.getName()), started()), //
+				event(test(testClass.getName()), finishedWithFailure()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -381,11 +431,12 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(container(testClass), finishedWithFailure()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(container(testClass), finishedWithFailure()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	public static class MisbehavingSuiteRunner extends Runner {
@@ -407,24 +458,22 @@ class VintageTestEngineExecutionTests {
 		public void run(RunNotifier notifier) {
 			notifier.fireTestStarted(createTestDescription(testClass, "doesNotExist"));
 		}
-
 	}
 
 	@Test
 	void ignoreEventsForUnknownDescriptionsByMisbehavingSuiteRunner() {
 		@RunWith(MisbehavingSuiteRunner.class)
-		class TestClass {
-
-		}
+		class TestClass {}
 		Class<?> testClass = TestClass.class;
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	public static class MisbehavingChildlessRunner extends Runner {
@@ -444,24 +493,22 @@ class VintageTestEngineExecutionTests {
 		public void run(RunNotifier notifier) {
 			notifier.fireTestStarted(createTestDescription(testClass, "doesNotExist"));
 		}
-
 	}
 
 	@Test
 	void ignoreEventsForUnknownDescriptionsByMisbehavingChildlessRunner() {
 		@RunWith(MisbehavingChildlessRunner.class)
-		class TestClass {
-
-		}
+		class TestClass {}
 		Class<?> testClass = TestClass.class;
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(uniqueIdSubstring(testClass.getName()), started()), //
-			event(uniqueIdSubstring(testClass.getName()), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(uniqueIdSubstring(testClass.getName()), started()), //
+				event(uniqueIdSubstring(testClass.getName()), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
@@ -470,13 +517,14 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(uniqueIdSubstring(testClass.getName()), started()), //
-			event(uniqueIdSubstring(testClass.getName()), finishedWithFailure()), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(uniqueIdSubstring(testClass.getName()), started()), //
+				event(uniqueIdSubstring(testClass.getName()), finishedWithFailure()), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	private static List<ExecutionEvent> execute(Class<?> testClass) {
@@ -491,15 +539,20 @@ class VintageTestEngineExecutionTests {
 
 		List<ExecutionEvent> executionEvents = execute(testClass);
 
-		assertRecordedExecutionEventsContainsExactly(executionEvents, //
-			event(engine(), started()), //
-			event(container(testClass), started()), //
-			event(test("example"), started()), //
-			event(test("example"),
-				finishedWithFailure(allOf(isA(MultipleFailuresError.class), //
-					new Condition<>(throwable -> ((MultipleFailuresError) throwable).getFailures().size() == 3,
-						"Must contain multiple errors (3)")))), //
-			event(container(testClass), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				executionEvents, //
+				event(engine(), started()), //
+				event(container(testClass), started()), //
+				event(test("example"), started()), //
+				event(
+						test("example"),
+						finishedWithFailure(
+								allOf(
+										isA(MultipleFailuresError.class), //
+										new Condition<>(
+												throwable -> ((MultipleFailuresError) throwable).getFailures().size() == 3,
+												"Must contain multiple errors (3)")))), //
+				event(container(testClass), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 }

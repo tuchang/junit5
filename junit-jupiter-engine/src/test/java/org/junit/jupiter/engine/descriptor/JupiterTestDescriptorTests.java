@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +21,6 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
@@ -32,11 +30,11 @@ import org.junit.platform.engine.TestTag;
 import org.junit.platform.engine.UniqueId;
 
 /**
- * Unit tests for {@link ClassTestDescriptor}, {@link NestedClassTestDescriptor},
- * and {@link MethodTestDescriptor}.
- *
- * @since 5.0
- */
+* Unit tests for {@link ClassTestDescriptor}, {@link NestedClassTestDescriptor}, and {@link
+* MethodTestDescriptor}.
+*
+* @since 5.0
+*/
 public class JupiterTestDescriptorTests {
 
 	private static final UniqueId uniqueId = UniqueId.root("enigma", "foo");
@@ -54,15 +52,18 @@ public class JupiterTestDescriptorTests {
 
 	@Test
 	public void constructFromMethodWithAnnotations() throws Exception {
-		JupiterTestDescriptor classDescriptor = new ClassTestDescriptor(uniqueId, ASampleTestCase.class);
+		JupiterTestDescriptor classDescriptor =
+				new ClassTestDescriptor(uniqueId, ASampleTestCase.class);
 		Method testMethod = ASampleTestCase.class.getDeclaredMethod("foo");
-		MethodTestDescriptor methodDescriptor = new MethodTestDescriptor(uniqueId, ASampleTestCase.class, testMethod);
+		MethodTestDescriptor methodDescriptor =
+				new MethodTestDescriptor(uniqueId, ASampleTestCase.class, testMethod);
 		classDescriptor.addChild(methodDescriptor);
 
 		assertEquals(testMethod, methodDescriptor.getTestMethod());
 		assertEquals("custom test name", methodDescriptor.getDisplayName(), "display name:");
 
-		List<String> tags = methodDescriptor.getTags().stream().map(TestTag::getName).collect(Collectors.toList());
+		List<String> tags =
+				methodDescriptor.getTags().stream().map(TestTag::getName).collect(Collectors.toList());
 		assertEquals(4, methodDescriptor.getTags().size());
 		assertTrue(tags.contains("methodTag1"));
 		assertTrue(tags.contains("methodTag2"));
@@ -77,13 +78,15 @@ public class JupiterTestDescriptorTests {
 		ClassTestDescriptor descriptor = new ClassTestDescriptor(uniqueId, ASampleTestCase.class);
 
 		assertEquals(ASampleTestCase.class, descriptor.getTestClass());
-		assertThat(descriptor.getTags()).containsExactly(TestTag.create("classTag1"), TestTag.create("classTag2"));
+		assertThat(descriptor.getTags())
+				.containsExactly(TestTag.create("classTag1"), TestTag.create("classTag2"));
 	}
 
 	@Test
 	public void constructFromMethodWithCustomTestAnnotation() throws Exception {
 		Method testMethod = ASampleTestCase.class.getDeclaredMethod("customTestAnnotation");
-		MethodTestDescriptor descriptor = new MethodTestDescriptor(uniqueId, ASampleTestCase.class, testMethod);
+		MethodTestDescriptor descriptor =
+				new MethodTestDescriptor(uniqueId, ASampleTestCase.class, testMethod);
 
 		assertEquals(testMethod, descriptor.getTestMethod());
 		assertEquals("custom name", descriptor.getDisplayName(), "display name:");
@@ -92,8 +95,10 @@ public class JupiterTestDescriptorTests {
 
 	@Test
 	public void constructFromMethodWithParameters() throws Exception {
-		Method testMethod = ASampleTestCase.class.getDeclaredMethod("test", String.class, BigDecimal.class);
-		MethodTestDescriptor descriptor = new MethodTestDescriptor(uniqueId, ASampleTestCase.class, testMethod);
+		Method testMethod =
+				ASampleTestCase.class.getDeclaredMethod("test", String.class, BigDecimal.class);
+		MethodTestDescriptor descriptor =
+				new MethodTestDescriptor(uniqueId, ASampleTestCase.class, testMethod);
 
 		assertEquals(testMethod, descriptor.getTestMethod());
 		assertEquals("test(String, BigDecimal)", descriptor.getDisplayName(), "display name:");
@@ -108,7 +113,8 @@ public class JupiterTestDescriptorTests {
 		assertEquals(NestedTestCase.class.getSimpleName(), descriptor.getDisplayName());
 
 		descriptor = new ClassTestDescriptor(uniqueId, StaticTestCase.class);
-		String staticDisplayName = getClass().getSimpleName() + "$" + StaticTestCase.class.getSimpleName();
+		String staticDisplayName =
+				getClass().getSimpleName() + "$" + StaticTestCase.class.getSimpleName();
 		assertEquals(staticDisplayName, descriptor.getDisplayName());
 
 		descriptor = new ClassTestDescriptor(uniqueId, StaticTestCaseLevel2.class);
@@ -122,23 +128,18 @@ public class JupiterTestDescriptorTests {
 	@SuppressWarnings("unused")
 	private static class ASampleTestCase {
 
-		void test() {
-		}
+		void test() {}
 
-		void test(String txt, BigDecimal sum) {
-		}
+		void test(String txt, BigDecimal sum) {}
 
 		@Test
 		@DisplayName("custom test name")
 		@Tag("methodTag1")
 		@Tag("methodTag2")
-		void foo() {
-		}
+		void foo() {}
 
 		@CustomTestAnnotation
-		void customTestAnnotation() {
-		}
-
+		void customTestAnnotation() {}
 	}
 
 	@Test
@@ -146,17 +147,13 @@ public class JupiterTestDescriptorTests {
 	@Tag("custom tag")
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
-	@interface CustomTestAnnotation {
-	}
+	@interface CustomTestAnnotation {}
 
 	@Nested
-	class NestedTestCase {
-	}
+	class NestedTestCase {}
 
 	static class StaticTestCase {
 
-		static class StaticTestCaseLevel2 {
-		}
+		static class StaticTestCaseLevel2 {}
 	}
-
 }

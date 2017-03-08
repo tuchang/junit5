@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionUtils.buildPrefix;
@@ -22,18 +21,17 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
-
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 import org.junit.platform.commons.util.ExceptionUtils;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * {@code AssertTimeout} is a collection of utility methods that support asserting
- * the execution of the code under test did not take longer than the timeout duration.
- *
- * @since 5.0
- */
+* {@code AssertTimeout} is a collection of utility methods that support asserting the execution of
+* the code under test did not take longer than the timeout duration.
+*
+* @since 5.0
+*/
 class AssertTimeout {
 
 	static void assertTimeout(Duration timeout, Executable executable) {
@@ -44,11 +42,15 @@ class AssertTimeout {
 		assertTimeout(timeout, executable, () -> message);
 	}
 
-	static void assertTimeout(Duration timeout, Executable executable, Supplier<String> messageSupplier) {
-		assertTimeout(timeout, () -> {
-			executable.execute();
-			return null;
-		}, messageSupplier);
+	static void assertTimeout(
+			Duration timeout, Executable executable, Supplier<String> messageSupplier) {
+		assertTimeout(
+				timeout,
+				() -> {
+					executable.execute();
+					return null;
+				},
+				messageSupplier);
 	}
 
 	static <T> T assertTimeout(Duration timeout, ThrowingSupplier<T> supplier) {
@@ -59,21 +61,26 @@ class AssertTimeout {
 		return assertTimeout(timeout, supplier, () -> message);
 	}
 
-	static <T> T assertTimeout(Duration timeout, ThrowingSupplier<T> supplier, Supplier<String> messageSupplier) {
+	static <T> T assertTimeout(
+			Duration timeout, ThrowingSupplier<T> supplier, Supplier<String> messageSupplier) {
 		long timeoutInMillis = timeout.toMillis();
 		long start = System.currentTimeMillis();
 		T result = null;
 		try {
 			result = supplier.get();
-		}
-		catch (Throwable ex) {
+		} catch (Throwable ex) {
 			ExceptionUtils.throwAsUncheckedException(ex);
 		}
 
 		long timeElapsed = System.currentTimeMillis() - start;
 		if (timeElapsed > timeoutInMillis) {
-			fail(buildPrefix(nullSafeGet(messageSupplier)) + "execution exceeded timeout of " + timeoutInMillis
-					+ " ms by " + (timeElapsed - timeoutInMillis) + " ms");
+			fail(
+					buildPrefix(nullSafeGet(messageSupplier))
+							+ "execution exceeded timeout of "
+							+ timeoutInMillis
+							+ " ms by "
+							+ (timeElapsed - timeoutInMillis)
+							+ " ms");
 		}
 		return result;
 	}
@@ -86,53 +93,57 @@ class AssertTimeout {
 		assertTimeoutPreemptively(timeout, executable, () -> message);
 	}
 
-	static void assertTimeoutPreemptively(Duration timeout, Executable executable, Supplier<String> messageSupplier) {
-		assertTimeoutPreemptively(timeout, () -> {
-			executable.execute();
-			return null;
-		}, messageSupplier);
+	static void assertTimeoutPreemptively(
+			Duration timeout, Executable executable, Supplier<String> messageSupplier) {
+		assertTimeoutPreemptively(
+				timeout,
+				() -> {
+					executable.execute();
+					return null;
+				},
+				messageSupplier);
 	}
 
 	static <T> T assertTimeoutPreemptively(Duration timeout, ThrowingSupplier<T> supplier) {
 		return assertTimeoutPreemptively(timeout, supplier, () -> null);
 	}
 
-	static <T> T assertTimeoutPreemptively(Duration timeout, ThrowingSupplier<T> supplier, String message) {
+	static <T> T assertTimeoutPreemptively(
+			Duration timeout, ThrowingSupplier<T> supplier, String message) {
 		return assertTimeoutPreemptively(timeout, supplier, () -> message);
 	}
 
-	static <T> T assertTimeoutPreemptively(Duration timeout, ThrowingSupplier<T> supplier,
-			Supplier<String> messageSupplier) {
+	static <T> T assertTimeoutPreemptively(
+			Duration timeout, ThrowingSupplier<T> supplier, Supplier<String> messageSupplier) {
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 		try {
-			Future<T> future = executorService.submit(() -> {
-				try {
-					return supplier.get();
-				}
-				catch (Throwable throwable) {
-					throw ExceptionUtils.throwAsUncheckedException(throwable);
-				}
-			});
+			Future<T> future =
+					executorService.submit(
+							() -> {
+								try {
+									return supplier.get();
+								} catch (Throwable throwable) {
+									throw ExceptionUtils.throwAsUncheckedException(throwable);
+								}
+							});
 
 			long timeoutInMillis = timeout.toMillis();
 			try {
 				return future.get(timeoutInMillis, TimeUnit.MILLISECONDS);
-			}
-			catch (TimeoutException ex) {
+			} catch (TimeoutException ex) {
 				throw new AssertionFailedError(
-					buildPrefix(nullSafeGet(messageSupplier)) + "execution timed out after " + timeoutInMillis + " ms");
-			}
-			catch (ExecutionException ex) {
+						buildPrefix(nullSafeGet(messageSupplier))
+								+ "execution timed out after "
+								+ timeoutInMillis
+								+ " ms");
+			} catch (ExecutionException ex) {
 				throw ExceptionUtils.throwAsUncheckedException(ex.getCause());
-			}
-			catch (Throwable ex) {
+			} catch (Throwable ex) {
 				throw ExceptionUtils.throwAsUncheckedException(ex);
 			}
-		}
-		finally {
+		} finally {
 			executorService.shutdownNow();
 		}
 	}
-
 }

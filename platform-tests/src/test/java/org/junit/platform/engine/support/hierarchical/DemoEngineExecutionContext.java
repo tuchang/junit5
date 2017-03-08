@@ -7,11 +7,7 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.hierarchical;
 
-/**
- * @since 1.0
- */
-class DemoEngineExecutionContext implements EngineExecutionContext {
-}
+/** @since 1.0 */
+class DemoEngineExecutionContext implements EngineExecutionContext {}

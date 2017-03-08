@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.runner;
 
 import static java.util.Arrays.stream;
@@ -30,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.engine.DiscoverySelector;
@@ -50,40 +48,37 @@ import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 
 /**
- * JUnit 4 based {@link Runner} which runs tests on the JUnit Platform in a
- * JUnit 4 environment.
- *
- * <p>Annotating a class with {@code @RunWith(JUnitPlatform.class)} allows it
- * to be run with IDEs and build systems that support JUnit 4 but do not yet
- * support the JUnit Platform directly.
- *
- * <p>Consult the various annotations in this package for configuration options.
- *
- * <p>If you do not use any configuration annotations from this package, you
- * can simply use this runner on a test class whose programming model is
- * supported on the JUnit Platform &mdash; for example, a JUnit Jupiter test class.
- * Note, however, that any test class run with this runner must be {@code public}
- * in order to be picked up by IDEs and build tools.
- *
- * <p>When used on a class that serves as a test suite and the
- * {@link IncludeClassNamePatterns @IncludeClassNamePatterns} annotation is not
- * present, the default include pattern
- * {@value org.junit.platform.engine.discovery.ClassNameFilter#STANDARD_INCLUDE_PATTERN}
- * will be used in order to avoid loading classes unnecessarily (see {@link
- * org.junit.platform.engine.discovery.ClassNameFilter#STANDARD_INCLUDE_PATTERN
- * ClassNameFilter#STANDARD_INCLUDE_PATTERN}).
- *
- * @since 1.0
- * @see SelectPackages
- * @see SelectClasses
- * @see IncludeClassNamePatterns
- * @see ExcludeClassNamePatterns
- * @see IncludeTags
- * @see ExcludeTags
- * @see IncludeEngines
- * @see ExcludeEngines
- * @see UseTechnicalNames
- */
+* JUnit 4 based {@link Runner} which runs tests on the JUnit Platform in a JUnit 4 environment.
+*
+* <p>Annotating a class with {@code @RunWith(JUnitPlatform.class)} allows it to be run with IDEs
+* and build systems that support JUnit 4 but do not yet support the JUnit Platform directly.
+*
+* <p>Consult the various annotations in this package for configuration options.
+*
+* <p>If you do not use any configuration annotations from this package, you can simply use this
+* runner on a test class whose programming model is supported on the JUnit Platform &mdash; for
+* example, a JUnit Jupiter test class. Note, however, that any test class run with this runner must
+* be {@code public} in order to be picked up by IDEs and build tools.
+*
+* <p>When used on a class that serves as a test suite and the {@link
+* IncludeClassNamePatterns @IncludeClassNamePatterns} annotation is not present, the default
+* include pattern {@value
+* org.junit.platform.engine.discovery.ClassNameFilter#STANDARD_INCLUDE_PATTERN} will be used in
+* order to avoid loading classes unnecessarily (see {@link
+* org.junit.platform.engine.discovery.ClassNameFilter#STANDARD_INCLUDE_PATTERN
+* ClassNameFilter#STANDARD_INCLUDE_PATTERN}).
+*
+* @since 1.0
+* @see SelectPackages
+* @see SelectClasses
+* @see IncludeClassNamePatterns
+* @see ExcludeClassNamePatterns
+* @see IncludeTags
+* @see ExcludeTags
+* @see IncludeEngines
+* @see ExcludeEngines
+* @see UseTechnicalNames
+*/
 @API(Maintained)
 public class JUnitPlatform extends Runner implements Filterable {
 
@@ -140,7 +135,8 @@ public class JUnitPlatform extends Runner implements Filterable {
 		return requestBuilder.build();
 	}
 
-	private void addFiltersFromAnnotations(LauncherDiscoveryRequestBuilder requestBuilder, boolean isSuite) {
+	private void addFiltersFromAnnotations(
+			LauncherDiscoveryRequestBuilder requestBuilder, boolean isSuite) {
 		addIncludeClassNamePatternFilter(requestBuilder, isSuite);
 		addExcludeClassNamePatternFilter(requestBuilder);
 
@@ -163,11 +159,13 @@ public class JUnitPlatform extends Runner implements Filterable {
 		return selectors;
 	}
 
-	private <T> List<DiscoverySelector> transform(T[] sourceElements, Function<T, DiscoverySelector> transformer) {
+	private <T> List<DiscoverySelector> transform(
+			T[] sourceElements, Function<T, DiscoverySelector> transformer) {
 		return stream(sourceElements).map(transformer).collect(toList());
 	}
 
-	private void addIncludeClassNamePatternFilter(LauncherDiscoveryRequestBuilder requestBuilder, boolean isSuite) {
+	private void addIncludeClassNamePatternFilter(
+			LauncherDiscoveryRequestBuilder requestBuilder, boolean isSuite) {
 		String[] patterns = getIncludeClassNamePatterns(isSuite);
 		if (patterns.length > 0) {
 			requestBuilder.filters(includeClassNamePatterns(patterns));
@@ -232,11 +230,13 @@ public class JUnitPlatform extends Runner implements Filterable {
 	}
 
 	private String[] getIncludedPackages() {
-		return getValueFromAnnotation(IncludePackages.class, IncludePackages::value, EMPTY_STRING_ARRAY);
+		return getValueFromAnnotation(
+				IncludePackages.class, IncludePackages::value, EMPTY_STRING_ARRAY);
 	}
 
 	private String[] getExcludedPackages() {
-		return getValueFromAnnotation(ExcludePackages.class, ExcludePackages::value, EMPTY_STRING_ARRAY);
+		return getValueFromAnnotation(
+				ExcludePackages.class, ExcludePackages::value, EMPTY_STRING_ARRAY);
 	}
 
 	private String[] getIncludedTags() {
@@ -256,21 +256,25 @@ public class JUnitPlatform extends Runner implements Filterable {
 	}
 
 	private String[] getIncludeClassNamePatterns(boolean isSuite) {
-		String[] patterns = getValueFromAnnotation(IncludeClassNamePatterns.class, IncludeClassNamePatterns::value,
-			new String[0]);
+		String[] patterns =
+				getValueFromAnnotation(
+						IncludeClassNamePatterns.class, IncludeClassNamePatterns::value, new String[0]);
 		if (patterns.length == 0 && isSuite) {
-			return new String[] { STANDARD_INCLUDE_PATTERN };
+			return new String[] {STANDARD_INCLUDE_PATTERN};
 		}
-		Preconditions.containsNoNullElements(patterns, "IncludeClassNamePatterns must not contain null elements");
+		Preconditions.containsNoNullElements(
+				patterns, "IncludeClassNamePatterns must not contain null elements");
 		trim(patterns);
 		return patterns;
 	}
 
 	private String[] getExcludeClassNamePatterns() {
-		String[] patterns = getValueFromAnnotation(ExcludeClassNamePatterns.class, ExcludeClassNamePatterns::value,
-			new String[0]);
+		String[] patterns =
+				getValueFromAnnotation(
+						ExcludeClassNamePatterns.class, ExcludeClassNamePatterns::value, new String[0]);
 
-		Preconditions.containsNoNullElements(patterns, "ExcludeClassNamePatterns must not contain null elements");
+		Preconditions.containsNoNullElements(
+				patterns, "ExcludeClassNamePatterns must not contain null elements");
 		trim(patterns);
 		return patterns;
 	}
@@ -281,8 +285,8 @@ public class JUnitPlatform extends Runner implements Filterable {
 		}
 	}
 
-	private <A extends Annotation, V> V getValueFromAnnotation(Class<A> annotationClass, Function<A, V> extractor,
-			V defaultValue) {
+	private <A extends Annotation, V> V getValueFromAnnotation(
+			Class<A> annotationClass, Function<A, V> extractor, V defaultValue) {
 		A annotation = this.testClass.getAnnotation(annotationClass);
 		return (annotation != null ? extractor.apply(annotation) : defaultValue);
 	}
@@ -297,14 +301,16 @@ public class JUnitPlatform extends Runner implements Filterable {
 		this.testTree = generateTestTree();
 	}
 
-	private LauncherDiscoveryRequest createDiscoveryRequestForUniqueIds(Set<TestIdentifier> testIdentifiers) {
+	private LauncherDiscoveryRequest createDiscoveryRequestForUniqueIds(
+			Set<TestIdentifier> testIdentifiers) {
 		// @formatter:off
-		List<DiscoverySelector> selectors = testIdentifiers.stream()
-				.map(TestIdentifier::getUniqueId)
-				.map(DiscoverySelectors::selectUniqueId)
-				.collect(toList());
+		List<DiscoverySelector> selectors =
+				testIdentifiers
+						.stream()
+						.map(TestIdentifier::getUniqueId)
+						.map(DiscoverySelectors::selectUniqueId)
+						.collect(toList());
 		// @formatter:on
 		return request().selectors(selectors).build();
 	}
-
 }

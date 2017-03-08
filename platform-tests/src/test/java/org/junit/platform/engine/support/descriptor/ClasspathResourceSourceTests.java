@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.descriptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,10 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.PreconditionViolationException;
 
 /**
- * Unit tests for {@link ClasspathResourceSource}.
- *
- * @since 1.0
- */
+* Unit tests for {@link ClasspathResourceSource}.
+*
+* @since 1.0
+*/
 class ClasspathResourceSourceTests extends AbstractTestSourceTests {
 
 	private static final String FOO_RESOURCE = "test/foo.xml";
@@ -60,12 +59,15 @@ class ClasspathResourceSourceTests extends AbstractTestSourceTests {
 
 	@Test
 	void equalsAndHashCode() {
-		assertEqualsAndHashCode(new ClasspathResourceSource(FOO_RESOURCE), new ClasspathResourceSource(FOO_RESOURCE),
-			new ClasspathResourceSource(BAR_RESOURCE));
+		assertEqualsAndHashCode(
+				new ClasspathResourceSource(FOO_RESOURCE),
+				new ClasspathResourceSource(FOO_RESOURCE),
+				new ClasspathResourceSource(BAR_RESOURCE));
 
 		FilePosition position = new FilePosition(42, 23);
-		assertEqualsAndHashCode(new ClasspathResourceSource(FOO_RESOURCE, position),
-			new ClasspathResourceSource(FOO_RESOURCE, position), new ClasspathResourceSource(BAR_RESOURCE, position));
+		assertEqualsAndHashCode(
+				new ClasspathResourceSource(FOO_RESOURCE, position),
+				new ClasspathResourceSource(FOO_RESOURCE, position),
+				new ClasspathResourceSource(BAR_RESOURCE, position));
 	}
-
 }

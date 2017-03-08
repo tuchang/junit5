@@ -7,24 +7,16 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 public class Categories {
 
-	public interface Plain {
-	}
+	public interface Plain {}
 
-	public interface Failing {
-	}
+	public interface Failing {}
 
-	public interface Skipped {
-	}
+	public interface Skipped {}
 
-	public interface SkippedWithReason extends Skipped {
-	}
-
+	public interface SkippedWithReason extends Skipped {}
 }

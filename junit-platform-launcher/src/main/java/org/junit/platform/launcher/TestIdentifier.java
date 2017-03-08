@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher;
 
 import static java.util.Collections.unmodifiableSet;
@@ -19,7 +18,6 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.commons.util.ToStringBuilder;
@@ -28,12 +26,12 @@ import org.junit.platform.engine.TestSource;
 import org.junit.platform.engine.TestTag;
 
 /**
- * Immutable data transfer object that represents a test or container which is
- * usually part of a {@link TestPlan}.
- *
- * @since 1.0
- * @see TestPlan
- */
+* Immutable data transfer object that represents a test or container which is usually part of a
+* {@link TestPlan}.
+*
+* @since 1.0
+* @see TestPlan
+*/
 @API(Experimental)
 public final class TestIdentifier implements Serializable {
 
@@ -48,9 +46,7 @@ public final class TestIdentifier implements Serializable {
 	private final boolean container;
 	private final String legacyReportingName;
 
-	/**
-	 * Factory for creating a new {@link TestIdentifier} from a {@link TestDescriptor}.
-	 */
+	/** Factory for creating a new {@link TestIdentifier} from a {@link TestDescriptor}. */
 	@API(Internal)
 	public static TestIdentifier from(TestDescriptor testDescriptor) {
 		Preconditions.notNull(testDescriptor, "TestDescriptor must not be null");
@@ -60,14 +56,24 @@ public final class TestIdentifier implements Serializable {
 		Set<TestTag> tags = testDescriptor.getTags();
 		boolean test = testDescriptor.isTest();
 		boolean container = !test || !testDescriptor.getChildren().isEmpty();
-		Optional<String> parentId = testDescriptor.getParent().map(
-			parentDescriptor -> parentDescriptor.getUniqueId().toString());
+		Optional<String> parentId =
+				testDescriptor
+						.getParent()
+						.map(parentDescriptor -> parentDescriptor.getUniqueId().toString());
 		String legacyReportingName = testDescriptor.getLegacyReportingName();
-		return new TestIdentifier(uniqueId, displayName, source, tags, test, container, parentId, legacyReportingName);
+		return new TestIdentifier(
+				uniqueId, displayName, source, tags, test, container, parentId, legacyReportingName);
 	}
 
-	TestIdentifier(String uniqueId, String displayName, Optional<TestSource> source, Set<TestTag> tags, boolean test,
-			boolean container, Optional<String> parentId, String legacyReportingName) {
+	TestIdentifier(
+			String uniqueId,
+			String displayName,
+			Optional<TestSource> source,
+			Set<TestTag> tags,
+			boolean test,
+			boolean container,
+			Optional<String> parentId,
+			String legacyReportingName) {
 		this.uniqueId = uniqueId;
 		this.parentId = parentId.orElse(null);
 		this.displayName = displayName;
@@ -79,79 +85,71 @@ public final class TestIdentifier implements Serializable {
 	}
 
 	/**
-	 * Get the unique ID of the represented test or container.
-	 *
-	 * <p>Uniqueness must be guaranteed across an entire
-	 * {@linkplain TestPlan test plan}, regardless of how many engines are used
-	 * behind the scenes.
-	 *
-	 * @return the unique ID for this identifier; never {@code null}
-	 */
+	* Get the unique ID of the represented test or container.
+	*
+	* <p>Uniqueness must be guaranteed across an entire {@linkplain TestPlan test plan}, regardless
+	* of how many engines are used behind the scenes.
+	*
+	* @return the unique ID for this identifier; never {@code null}
+	*/
 	public String getUniqueId() {
 		return this.uniqueId;
 	}
 
 	/**
-	 * Get the unique ID of this identifier's parent, if available.
-	 *
-	 * <p>An identifier without a parent is called a <em>root</em>.
-	 *
-	 * @return a container for the unique ID for this identifier's parent;
-	 * never {@code null} though potentially <em>empty</em>
-	 */
+	* Get the unique ID of this identifier's parent, if available.
+	*
+	* <p>An identifier without a parent is called a <em>root</em>.
+	*
+	* @return a container for the unique ID for this identifier's parent; never {@code null} though
+	*     potentially <em>empty</em>
+	*/
 	public Optional<String> getParentId() {
 		return Optional.ofNullable(this.parentId);
 	}
 
 	/**
-	 * Get the display name of the represented test or container.
-	 *
-	 * <p>A <em>display name</em> is a human-readable name for a test or
-	 * container that is typically used for test reporting in IDEs and build
-	 * tools. Display names may contain spaces, special characters, and emoji,
-	 * and the format may be customized by {@link org.junit.platform.engine.TestEngine
-	 * TestEngines} or potentially by end users as well. Consequently, display
-	 * names should never be parsed; rather, they should be used for display
-	 * purposes only.
-	 *
-	 * @return the display name for this identifier; never {@code null} or blank
-	 * @see #getSource()
-	 * @see org.junit.platform.engine.TestDescriptor#getDisplayName()
-	 */
+	* Get the display name of the represented test or container.
+	*
+	* <p>A <em>display name</em> is a human-readable name for a test or container that is typically
+	* used for test reporting in IDEs and build tools. Display names may contain spaces, special
+	* characters, and emoji, and the format may be customized by {@link
+	* org.junit.platform.engine.TestEngine TestEngines} or potentially by end users as well.
+	* Consequently, display names should never be parsed; rather, they should be used for display
+	* purposes only.
+	*
+	* @return the display name for this identifier; never {@code null} or blank
+	* @see #getSource()
+	* @see org.junit.platform.engine.TestDescriptor#getDisplayName()
+	*/
 	public String getDisplayName() {
 		return this.displayName;
 	}
 
-	/**
-	 * Determine if this identifier represents a test.
-	 */
+	/** Determine if this identifier represents a test. */
 	public boolean isTest() {
 		return this.test;
 	}
 
-	/**
-	 * Determine if this identifier represents a container.
-	 */
+	/** Determine if this identifier represents a container. */
 	public boolean isContainer() {
 		return this.container;
 	}
 
 	/**
-	 * Get the {@linkplain TestSource source} of the represented test
-	 * or container, if available.
-	 *
-	 * @see TestSource
-	 */
+	* Get the {@linkplain TestSource source} of the represented test or container, if available.
+	*
+	* @see TestSource
+	*/
 	public Optional<TestSource> getSource() {
 		return Optional.ofNullable(this.source);
 	}
 
 	/**
-	 * Get the set of {@linkplain TestTag tags} associated with the represented
-	 * test or container.
-	 *
-	 * @see TestTag
-	 */
+	* Get the set of {@linkplain TestTag tags} associated with the represented test or container.
+	*
+	* @see TestTag
+	*/
 	public Set<TestTag> getTags() {
 		return this.tags;
 	}
@@ -189,5 +187,4 @@ public final class TestIdentifier implements Serializable {
 				.toString();
 		// @formatter:on
 	}
-
 }

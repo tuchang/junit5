@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api.extension;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -16,12 +15,12 @@ import org.junit.platform.commons.JUnitException;
 import org.junit.platform.commons.meta.API;
 
 /**
- * Thrown if an error is encountered in the configuration or execution of a
- * {@link ParameterResolver}.
- *
- * @since 5.0
- * @see ParameterResolver
- */
+* Thrown if an error is encountered in the configuration or execution of a {@link
+* ParameterResolver}.
+*
+* @since 5.0
+* @see ParameterResolver
+*/
 @API(Experimental)
 public class ParameterResolutionException extends JUnitException {
 
@@ -34,5 +33,4 @@ public class ParameterResolutionException extends JUnitException {
 	public ParameterResolutionException(String message, Throwable cause) {
 		super(message, cause);
 	}
-
 }

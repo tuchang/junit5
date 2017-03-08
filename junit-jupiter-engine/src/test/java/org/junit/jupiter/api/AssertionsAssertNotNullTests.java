@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionTestUtils.assertMessageEndsWith;
@@ -19,10 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Unit tests for JUnit Jupiter {@link Assertions}.
- *
- * @since 5.0
- */
+* Unit tests for JUnit Jupiter {@link Assertions}.
+*
+* @since 5.0
+*/
 public class AssertionsAssertNotNullTests {
 
 	@Test
@@ -35,8 +34,7 @@ public class AssertionsAssertNotNullTests {
 		try {
 			assertNotNull(null);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: not <null>");
 		}
 	}
@@ -46,11 +44,9 @@ public class AssertionsAssertNotNullTests {
 		try {
 			assertNotNull(null, () -> "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "test");
 			assertMessageEndsWith(ex, "expected: not <null>");
 		}
 	}
-
 }

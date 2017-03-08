@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import static java.util.Collections.emptyList;
@@ -23,16 +22,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
-
 import org.junit.platform.commons.util.ExceptionUtils;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.reporting.ReportEntry;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class XmlReportData {
 
 	private static final int MILLIS_PER_SECOND = 1000;
@@ -72,14 +68,14 @@ class XmlReportData {
 		if (result.getStatus() == ABORTED) {
 			String reason = result.getThrowable().map(ExceptionUtils::readStackTrace).orElse("");
 			skippedTests.put(testIdentifier, reason);
-		}
-		else {
+		} else {
 			finishedTests.put(testIdentifier, result);
 		}
 	}
 
 	void addReportEntry(TestIdentifier testIdentifier, ReportEntry entry) {
-		List<ReportEntry> entries = reportEntries.computeIfAbsent(testIdentifier, key -> new ArrayList<>());
+		List<ReportEntry> entries =
+				reportEntries.computeIfAbsent(testIdentifier, key -> new ArrayList<>());
 		entries.add(entry);
 	}
 
@@ -94,13 +90,16 @@ class XmlReportData {
 	}
 
 	String getSkipReason(TestIdentifier testIdentifier) {
-		return findSkippedAncestor(testIdentifier).map(skippedTestIdentifier -> {
-			String reason = skippedTests.get(skippedTestIdentifier);
-			if (!testIdentifier.equals(skippedTestIdentifier)) {
-				reason = "parent was skipped: " + reason;
-			}
-			return reason;
-		}).orElse(null);
+		return findSkippedAncestor(testIdentifier)
+				.map(
+						skippedTestIdentifier -> {
+							String reason = skippedTests.get(skippedTestIdentifier);
+							if (!testIdentifier.equals(skippedTestIdentifier)) {
+								reason = "parent was skipped: " + reason;
+							}
+							return reason;
+						})
+				.orElse(null);
 	}
 
 	Optional<TestExecutionResult> getResult(TestIdentifier testIdentifier) {
@@ -126,8 +125,8 @@ class XmlReportData {
 		return findAncestor(Optional.of(testIdentifier), skippedTests::containsKey);
 	}
 
-	private Optional<TestIdentifier> findAncestor(Optional<TestIdentifier> testIdentifier,
-			Predicate<TestIdentifier> predicate) {
+	private Optional<TestIdentifier> findAncestor(
+			Optional<TestIdentifier> testIdentifier, Predicate<TestIdentifier> predicate) {
 		Optional<TestIdentifier> current = testIdentifier;
 		while (current.isPresent()) {
 			if (predicate.test(current.get())) {
@@ -141,5 +140,4 @@ class XmlReportData {
 	static boolean isFailure(Optional<Throwable> throwable) {
 		return throwable.isPresent() && throwable.get() instanceof AssertionError;
 	}
-
 }

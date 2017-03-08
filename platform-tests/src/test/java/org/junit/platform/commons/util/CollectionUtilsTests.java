@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static java.util.Arrays.asList;
@@ -20,25 +19,31 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link CollectionUtils}.
- *
- * @since 1.0
- */
+* Unit tests for {@link CollectionUtils}.
+*
+* @since 1.0
+*/
 class CollectionUtilsTests {
 
 	@Test
 	void getOnlyElementWithNullCollection() {
-		PreconditionViolationException exception = assertThrows(PreconditionViolationException.class, () -> {
-			CollectionUtils.getOnlyElement(null);
-		});
+		PreconditionViolationException exception =
+				assertThrows(
+						PreconditionViolationException.class,
+						() -> {
+							CollectionUtils.getOnlyElement(null);
+						});
 		assertEquals("collection must not be null", exception.getMessage());
 	}
 
 	@Test
 	void getOnlyElementWithEmptyCollection() {
-		PreconditionViolationException exception = assertThrows(PreconditionViolationException.class, () -> {
-			CollectionUtils.getOnlyElement(emptySet());
-		});
+		PreconditionViolationException exception =
+				assertThrows(
+						PreconditionViolationException.class,
+						() -> {
+							CollectionUtils.getOnlyElement(emptySet());
+						});
 		assertEquals("collection must contain exactly one element: []", exception.getMessage());
 	}
 
@@ -51,10 +56,12 @@ class CollectionUtilsTests {
 
 	@Test
 	void getOnlyElementWithMultiElementCollection() {
-		PreconditionViolationException exception = assertThrows(PreconditionViolationException.class, () -> {
-			CollectionUtils.getOnlyElement(asList("foo", "bar"));
-		});
+		PreconditionViolationException exception =
+				assertThrows(
+						PreconditionViolationException.class,
+						() -> {
+							CollectionUtils.getOnlyElement(asList("foo", "bar"));
+						});
 		assertEquals("collection must contain exactly one element: [foo, bar]", exception.getMessage());
 	}
-
 }

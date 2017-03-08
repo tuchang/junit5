@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,11 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**
- * Basic assertions regarding {@link org.junit.platform.engine.TestEngine}
- * functionality in JUnit Vintage.
- *
- * @since 4.12
- */
+* Basic assertions regarding {@link org.junit.platform.engine.TestEngine} functionality in JUnit
+* Vintage.
+*
+* @since 4.12
+*/
 class VintageTestEngineBasicTests {
 
 	private final VintageTestEngine vintage = new VintageTestEngine();
@@ -43,5 +42,4 @@ class VintageTestEngineBasicTests {
 	void version() {
 		assertEquals("DEVELOPMENT", vintage.getVersion().get());
 	}
-
 }

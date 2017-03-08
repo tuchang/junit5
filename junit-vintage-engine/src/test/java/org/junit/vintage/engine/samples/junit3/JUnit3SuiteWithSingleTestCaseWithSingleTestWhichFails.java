@@ -7,15 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit3;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 public class JUnit3SuiteWithSingleTestCaseWithSingleTestWhichFails extends TestCase {
 
 	public static junit.framework.Test suite() {
@@ -23,5 +20,4 @@ public class JUnit3SuiteWithSingleTestCaseWithSingleTestWhichFails extends TestC
 		suite.addTestSuite(PlainJUnit3TestCaseWithSingleTestWhichFails.class);
 		return suite;
 	}
-
 }

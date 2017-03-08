@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -16,11 +15,11 @@ import org.junit.platform.commons.JUnitException;
 import org.junit.platform.commons.meta.API;
 
 /**
- * Thrown if a <em>precondition</em> is violated.
- *
- * @since 1.0
- * @see Preconditions
- */
+* Thrown if a <em>precondition</em> is violated.
+*
+* @since 1.0
+* @see Preconditions
+*/
 @API(Internal)
 public class PreconditionViolationException extends JUnitException {
 
@@ -33,5 +32,4 @@ public class PreconditionViolationException extends JUnitException {
 	public PreconditionViolationException(String message, Throwable cause) {
 		super(message, cause);
 	}
-
 }

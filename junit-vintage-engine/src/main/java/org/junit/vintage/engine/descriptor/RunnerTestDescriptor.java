@@ -7,22 +7,18 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.descriptor;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 
 import java.util.Optional;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.support.descriptor.ClassSource;
 import org.junit.runner.Request;
 import org.junit.runner.Runner;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @API(Internal)
 public class RunnerTestDescriptor extends VintageTestDescriptor {
 
@@ -30,8 +26,13 @@ public class RunnerTestDescriptor extends VintageTestDescriptor {
 	private final Class<?> testClass;
 
 	public RunnerTestDescriptor(TestDescriptor parent, Class<?> testClass, Runner runner) {
-		super(parent, SEGMENT_TYPE_RUNNER, testClass.getName(), runner.getDescription(), testClass.getName(),
-			Optional.of(new ClassSource(testClass)));
+		super(
+				parent,
+				SEGMENT_TYPE_RUNNER,
+				testClass.getName(),
+				runner.getDescription(),
+				testClass.getName(),
+				Optional.of(new ClassSource(testClass)));
 		this.testClass = testClass;
 		this.runner = runner;
 	}
@@ -47,5 +48,4 @@ public class RunnerTestDescriptor extends VintageTestDescriptor {
 	public Request toRequest() {
 		return new RunnerRequest(this.runner);
 	}
-
 }

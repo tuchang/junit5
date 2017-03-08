@@ -7,13 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.options;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
-
 import joptsimple.ValueConversionException;
 import joptsimple.ValueConverter;
 
@@ -23,8 +21,7 @@ class URIConverter implements ValueConverter<URI> {
 	public URI convert(String value) {
 		try {
 			return new URI(value);
-		}
-		catch (URISyntaxException e) {
+		} catch (URISyntaxException e) {
 			String message = MessageFormat.format("Value [{0}] is not a valid URI", value);
 			throw new ValueConversionException(message, e);
 		}
@@ -39,5 +36,4 @@ class URIConverter implements ValueConverter<URI> {
 	public String valuePattern() {
 		return null;
 	}
-
 }

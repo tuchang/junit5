@@ -7,24 +7,21 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.descriptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.lang.reflect.Method;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.platform.commons.util.PreconditionViolationException;
 
 /**
- * Unit tests for {@link PackageSource}, {@link ClassSource}, and
- * {@link MethodSource}.
- *
- * @since 1.0
- */
+* Unit tests for {@link PackageSource}, {@link ClassSource}, and {@link MethodSource}.
+*
+* @since 1.0
+*/
 class GenericSourceTests extends AbstractTestSourceTests {
 
 	@Test
@@ -112,31 +109,31 @@ class GenericSourceTests extends AbstractTestSourceTests {
 	void equalsAndHashCodeForPackageSource() {
 		Package pkg1 = getClass().getPackage();
 		Package pkg2 = String.class.getPackage();
-		assertEqualsAndHashCode(new PackageSource(pkg1), new PackageSource(pkg1), new PackageSource(pkg2));
+		assertEqualsAndHashCode(
+				new PackageSource(pkg1), new PackageSource(pkg1), new PackageSource(pkg2));
 	}
 
 	@Test
 	void equalsAndHashCodeForClassSource() {
 		Class<?> class1 = String.class;
 		Class<?> class2 = Number.class;
-		assertEqualsAndHashCode(new ClassSource(class1), new ClassSource(class1), new ClassSource(class2));
+		assertEqualsAndHashCode(
+				new ClassSource(class1), new ClassSource(class1), new ClassSource(class2));
 	}
 
 	@Test
 	void equalsAndHashCodeForMethodSource(TestInfo testInfo) throws Exception {
 		Method method1 = getMethod("method1");
 		Method method2 = getMethod("method2");
-		assertEqualsAndHashCode(new MethodSource(method1), new MethodSource(method1), new MethodSource(method2));
+		assertEqualsAndHashCode(
+				new MethodSource(method1), new MethodSource(method1), new MethodSource(method2));
 	}
 
 	private Method getMethod(String name) throws Exception {
 		return getClass().getDeclaredMethod(name, String.class);
 	}
 
-	void method1(String text) {
-	}
+	void method1(String text) {}
 
-	void method2(String text) {
-	}
-
+	void method2(String text) {}
 }

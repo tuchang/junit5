@@ -7,14 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import org.junit.platform.engine.DiscoverySelector;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 abstract class DiscoverySelectorResolver<T extends DiscoverySelector> {
 
 	protected static final IsPotentialJUnit4TestClass classTester = new IsPotentialJUnit4TestClass();
@@ -30,5 +27,4 @@ abstract class DiscoverySelectorResolver<T extends DiscoverySelector> {
 	}
 
 	abstract void resolve(T selector, TestClassCollector collector);
-
 }

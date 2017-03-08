@@ -7,13 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.Set;
-
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -21,11 +19,10 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.util.ToStringBuilder;
 
 /**
- * {@link ParameterResolver} that resolves the {@link TestInfo} for
- * the currently executing test.
- *
- * @since 5.0
- */
+* {@link ParameterResolver} that resolves the {@link TestInfo} for the currently executing test.
+*
+* @since 5.0
+*/
 class TestInfoParameterResolver implements ParameterResolver {
 
 	@Override
@@ -76,14 +73,12 @@ class TestInfoParameterResolver implements ParameterResolver {
 		public String toString() {
 			// @formatter:off
 			return new ToStringBuilder(this)
-				.append("displayName", this.displayName)
-				.append("tags", this.tags)
-				.append("testClass", this.testClass)
-				.append("testMethod", this.testMethod)
-				.toString();
+					.append("displayName", this.displayName)
+					.append("tags", this.tags)
+					.append("testClass", this.testClass)
+					.append("testMethod", this.testMethod)
+					.toString();
 			// @formatter:on
 		}
-
 	}
-
 }

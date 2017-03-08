@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +22,6 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -33,10 +31,10 @@ import org.junit.jupiter.engine.extension.ExtensionRegistry;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 /**
- * Unit tests for {@link ExecutableInvoker}.
- *
- * @since 5.0
- */
+* Unit tests for {@link ExecutableInvoker}.
+*
+* @since 5.0
+*/
 // @FullLogging(ExecutableInvoker.class)
 class ExecutableInvokerTests {
 
@@ -46,24 +44,28 @@ class ExecutableInvokerTests {
 	private Method method;
 
 	private final ExtensionContext extensionContext = mock(ExtensionContext.class);
-	private ExtensionRegistry extensionRegistry = ExtensionRegistry.createRegistryWithDefaultExtensions();
+	private ExtensionRegistry extensionRegistry =
+			ExtensionRegistry.createRegistryWithDefaultExtensions();
 
 	@Test
 	void constructorInjection() throws Exception {
 		register(new StringParameterResolver(), new NumberParameterResolver());
 
 		Class<ConstructorInjectionTestCase> outerClass = ConstructorInjectionTestCase.class;
-		Constructor<ConstructorInjectionTestCase> constructor = ReflectionUtils.getDeclaredConstructor(outerClass);
-		ConstructorInjectionTestCase outer = newInvoker().invoke(constructor, extensionContext, extensionRegistry);
+		Constructor<ConstructorInjectionTestCase> constructor =
+				ReflectionUtils.getDeclaredConstructor(outerClass);
+		ConstructorInjectionTestCase outer =
+				newInvoker().invoke(constructor, extensionContext, extensionRegistry);
 
 		assertNotNull(outer);
 		assertEquals(ENIGMA, outer.str);
 
-		Class<ConstructorInjectionTestCase.NestedTestCase> innerClass = ConstructorInjectionTestCase.NestedTestCase.class;
-		Constructor<ConstructorInjectionTestCase.NestedTestCase> innerConstructor = ReflectionUtils.getDeclaredConstructor(
-			innerClass);
-		ConstructorInjectionTestCase.NestedTestCase inner = newInvoker().invoke(innerConstructor, outer,
-			extensionContext, extensionRegistry);
+		Class<ConstructorInjectionTestCase.NestedTestCase> innerClass =
+				ConstructorInjectionTestCase.NestedTestCase.class;
+		Constructor<ConstructorInjectionTestCase.NestedTestCase> innerConstructor =
+				ReflectionUtils.getDeclaredConstructor(innerClass);
+		ConstructorInjectionTestCase.NestedTestCase inner =
+				newInvoker().invoke(innerConstructor, outer, extensionContext, extensionRegistry);
 
 		assertNotNull(inner);
 		assertEquals(42, inner.num);
@@ -92,16 +94,18 @@ class ExecutableInvokerTests {
 	@Test
 	void resolveMultipleArguments() {
 		testMethodWith("multipleParameters", String.class, Integer.class, Double.class);
-		register(ConfigurableParameterResolver.supportsAndResolvesTo(parameterContext -> {
-			switch (parameterContext.getIndex()) {
-				case 0:
-					return "0";
-				case 1:
-					return 1;
-				default:
-					return 2.0;
-			}
-		}));
+		register(
+				ConfigurableParameterResolver.supportsAndResolvesTo(
+						parameterContext -> {
+							switch (parameterContext.getIndex()) {
+								case 0:
+									return "0";
+								case 1:
+									return 1;
+								default:
+									return 2.0;
+							}
+						}));
 
 		invokeMethod();
 
@@ -160,7 +164,8 @@ class ExecutableInvokerTests {
 		testMethodWithASinglePrimitiveIntParameter();
 		thereIsAParameterResolverThatResolvesTheParameterTo(null);
 
-		ParameterResolutionException caught = assertThrows(ParameterResolutionException.class, this::invokeMethod);
+		ParameterResolutionException caught =
+				assertThrows(ParameterResolutionException.class, this::invokeMethod);
 
 		// @formatter:off
 		assertThat(caught.getMessage())
@@ -173,7 +178,8 @@ class ExecutableInvokerTests {
 	void reportIfThereIsNoParameterResolverThatSupportsTheParameter() {
 		testMethodWithASingleStringParameter();
 
-		ParameterResolutionException caught = assertThrows(ParameterResolutionException.class, this::invokeMethod);
+		ParameterResolutionException caught =
+				assertThrows(ParameterResolutionException.class, this::invokeMethod);
 
 		assertThat(caught.getMessage()).contains("parameter [java.lang.String");
 	}
@@ -184,12 +190,16 @@ class ExecutableInvokerTests {
 		thereIsAParameterResolverThatResolvesTheParameterTo("one");
 		thereIsAParameterResolverThatResolvesTheParameterTo("two");
 
-		ParameterResolutionException caught = assertThrows(ParameterResolutionException.class, this::invokeMethod);
+		ParameterResolutionException caught =
+				assertThrows(ParameterResolutionException.class, this::invokeMethod);
 
 		// @formatter:off
 		assertThat(caught.getMessage())
 				.contains("parameter [java.lang.String")
-				.contains(ConfigurableParameterResolver.class.getName() + ", " + ConfigurableParameterResolver.class.getName());
+				.contains(
+						ConfigurableParameterResolver.class.getName()
+								+ ", "
+								+ ConfigurableParameterResolver.class.getName());
 		// @formatter:on
 	}
 
@@ -198,7 +208,8 @@ class ExecutableInvokerTests {
 		testMethodWithASingleStringParameter();
 		thereIsAParameterResolverThatResolvesTheParameterTo(BigDecimal.ONE);
 
-		ParameterResolutionException caught = assertThrows(ParameterResolutionException.class, this::invokeMethod);
+		ParameterResolutionException caught =
+				assertThrows(ParameterResolutionException.class, this::invokeMethod);
 
 		// @formatter:off
 		assertThat(caught.getMessage())
@@ -213,7 +224,8 @@ class ExecutableInvokerTests {
 		IllegalArgumentException cause = anyExceptionButParameterResolutionException();
 		throwDuringParameterResolution(cause);
 
-		ParameterResolutionException caught = assertThrows(ParameterResolutionException.class, this::invokeMethod);
+		ParameterResolutionException caught =
+				assertThrows(ParameterResolutionException.class, this::invokeMethod);
 
 		assertSame(cause, caught.getCause(), () -> "cause should be present");
 		assertThat(caught.getMessage()).startsWith("Failed to resolve parameter [java.lang.String");
@@ -225,7 +237,8 @@ class ExecutableInvokerTests {
 		ParameterResolutionException cause = new ParameterResolutionException("custom message");
 		throwDuringParameterResolution(cause);
 
-		ParameterResolutionException caught = assertThrows(ParameterResolutionException.class, this::invokeMethod);
+		ParameterResolutionException caught =
+				assertThrows(ParameterResolutionException.class, this::invokeMethod);
 
 		assertSame(cause, caught);
 	}
@@ -263,7 +276,8 @@ class ExecutableInvokerTests {
 	}
 
 	private void testMethodWith(String methodName, Class<?>... parameterTypes) {
-		this.method = ReflectionUtils.findMethod(this.instance.getClass(), methodName, parameterTypes).get();
+		this.method =
+				ReflectionUtils.findMethod(this.instance.getClass(), methodName, parameterTypes).get();
 	}
 
 	private void register(ParameterResolver... resolvers) {
@@ -314,11 +328,13 @@ class ExecutableInvokerTests {
 	static class ConfigurableParameterResolver implements ParameterResolver {
 
 		static ParameterResolver onAnyCallThrow(RuntimeException runtimeException) {
-			return new ConfigurableParameterResolver(parameterContext -> {
-				throw runtimeException;
-			}, parameterContext -> {
-				throw runtimeException;
-			});
+			return new ConfigurableParameterResolver(
+					parameterContext -> {
+						throw runtimeException;
+					},
+					parameterContext -> {
+						throw runtimeException;
+					});
 		}
 
 		static ParameterResolver supportsAndResolvesTo(Function<ParameterContext, Object> resolve) {
@@ -326,16 +342,18 @@ class ExecutableInvokerTests {
 		}
 
 		static ParameterResolver withoutSupport() {
-			return new ConfigurableParameterResolver(parameterContext -> false, parameter -> {
-				throw new UnsupportedOperationException();
-			});
+			return new ConfigurableParameterResolver(
+					parameterContext -> false,
+					parameter -> {
+						throw new UnsupportedOperationException();
+					});
 		}
 
 		private final Predicate<ParameterContext> supports;
 		private final Function<ParameterContext, Object> resolve;
 
-		private ConfigurableParameterResolver(Predicate<ParameterContext> supports,
-				Function<ParameterContext, Object> resolve) {
+		private ConfigurableParameterResolver(
+				Predicate<ParameterContext> supports, Function<ParameterContext, Object> resolve) {
 			this.supports = supports;
 			this.resolve = resolve;
 		}
@@ -407,5 +425,4 @@ class ExecutableInvokerTests {
 			}
 		}
 	}
-
 }

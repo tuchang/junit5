@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 //tag::user_guide[]
@@ -23,6 +22,5 @@ class HamcrestAssertionDemo {
 	void assertWithHamcrestMatcher() {
 		assertThat(2 + 1, is(equalTo(3)));
 	}
-
 }
 //end::user_guide[]

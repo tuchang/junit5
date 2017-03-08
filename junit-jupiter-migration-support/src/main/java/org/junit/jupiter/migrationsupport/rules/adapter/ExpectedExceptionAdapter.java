@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules.adapter;
 
 import static java.lang.Boolean.TRUE;
@@ -17,9 +16,7 @@ import org.junit.jupiter.migrationsupport.rules.member.TestRuleAnnotatedMember;
 import org.junit.platform.commons.meta.API;
 import org.junit.rules.ExpectedException;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Internal)
 public class ExpectedExceptionAdapter extends AbstractTestRuleAdapter {
 
@@ -29,7 +26,7 @@ public class ExpectedExceptionAdapter extends AbstractTestRuleAdapter {
 
 	@Override
 	public void handleTestExecutionException(Throwable cause) throws Throwable {
-		executeMethod("handleException", new Class<?>[] { Throwable.class }, cause);
+		executeMethod("handleException", new Class<?>[] {Throwable.class}, cause);
 	}
 
 	@Override

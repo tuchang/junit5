@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // tag::user_guide[]
@@ -21,6 +20,5 @@ class FirstJUnit5Tests {
 	void myFirstTest() {
 		assertEquals(2, 1 + 1);
 	}
-
 }
 // end::user_guide[]

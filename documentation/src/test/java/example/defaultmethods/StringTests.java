@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example.defaultmethods;
 
 // tag::user_guide[]
@@ -27,6 +26,5 @@ class StringTests implements ComparableContract<String>, EqualsContract<String> 
 	public String createNotEqualValue() {
 		return "baz";
 	}
-
 }
 // end::user_guide[]

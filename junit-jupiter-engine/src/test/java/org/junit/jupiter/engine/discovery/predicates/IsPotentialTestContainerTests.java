@@ -7,19 +7,15 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery.predicates;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.function.Predicate;
-
 import org.junit.jupiter.api.Test;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class IsPotentialTestContainerTests {
 
 	private final Predicate<Class<?>> isPotentialTestContainer = new IsPotentialTestContainer();
@@ -32,8 +28,7 @@ public class IsPotentialTestContainerTests {
 	@Test
 	void localClassEvaluatesToFalse() {
 
-		class LocalClass {
-		}
+		class LocalClass {}
 
 		assertFalse(isPotentialTestContainer.test(LocalClass.class));
 	}
@@ -41,12 +36,13 @@ public class IsPotentialTestContainerTests {
 	@Test
 	void anonymousClassEvaluatesToFalse() {
 
-		Object object = new Object() {
-			@Override
-			public String toString() {
-				return "";
-			}
-		};
+		Object object =
+				new Object() {
+					@Override
+					public String toString() {
+						return "";
+					}
+				};
 
 		assertFalse(isPotentialTestContainer.test(object.getClass()));
 	}
@@ -56,10 +52,7 @@ public class IsPotentialTestContainerTests {
 		assertTrue(isPotentialTestContainer.test(StaticClass.class));
 	}
 
-	static class StaticClass {
-	}
-
+	static class StaticClass {}
 }
 
-abstract class AbstractClass {
-}
+abstract class AbstractClass {}

@@ -7,17 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules.member;
 
 import java.lang.reflect.Field;
-
 import org.junit.platform.commons.util.ExceptionUtils;
 import org.junit.rules.TestRule;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 class TestRuleAnnotatedField extends AbstractTestRuleAnnotatedMember {
 
 	TestRuleAnnotatedField(Object testInstance, Field field) {
@@ -30,10 +26,8 @@ class TestRuleAnnotatedField extends AbstractTestRuleAnnotatedMember {
 				field.setAccessible(true);
 			}
 			return (TestRule) field.get(testInstance);
-		}
-		catch (IllegalAccessException exception) {
+		} catch (IllegalAccessException exception) {
 			throw ExceptionUtils.throwAsUncheckedException(exception);
 		}
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static java.util.stream.Collectors.toCollection;
@@ -24,13 +23,12 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class TestClassCollector {
 
 	private final Set<Class<?>> completeTestClasses = new LinkedHashSet<>();
-	private final Map<Class<?>, List<RunnerTestDescriptorAwareFilter>> filteredTestClasses = new LinkedHashMap<>();
+	private final Map<Class<?>, List<RunnerTestDescriptorAwareFilter>> filteredTestClasses =
+			new LinkedHashMap<>();
 
 	void addCompletely(Class<?> testClass) {
 		completeTestClasses.add(testClass);
@@ -53,12 +51,12 @@ class TestClassCollector {
 
 	private Stream<TestClassRequest> filteredRequests(Predicate<? super Class<?>> predicate) {
 		// @formatter:off
-		return filteredTestClasses.entrySet()
+		return filteredTestClasses
+				.entrySet()
 				.stream()
 				.filter(where(Entry::getKey, testClass -> !completeTestClasses.contains(testClass)))
 				.filter(where(Entry::getKey, predicate))
 				.map(entry -> new TestClassRequest(entry.getKey(), entry.getValue()));
 		// @formatter:on
 	}
-
 }

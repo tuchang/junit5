@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,15 +15,14 @@ import static org.junit.platform.commons.util.ExceptionUtils.readStackTrace;
 import static org.junit.platform.commons.util.ExceptionUtils.throwAsUncheckedException;
 
 import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.JUnitException;
 
 /**
- * Unit tests for {@link ExceptionUtils}.
- *
- * @since 1.0
- */
+* Unit tests for {@link ExceptionUtils}.
+*
+* @since 1.0
+*/
 class ExceptionUtilsTests {
 
 	@Test
@@ -39,7 +37,8 @@ class ExceptionUtilsTests {
 
 	@Test
 	void throwAsUncheckedExceptionWithUncheckedException() {
-		assertThrows(RuntimeException.class, () -> throwAsUncheckedException(new NumberFormatException()));
+		assertThrows(
+				RuntimeException.class, () -> throwAsUncheckedException(new NumberFormatException()));
 	}
 
 	@Test
@@ -51,14 +50,12 @@ class ExceptionUtilsTests {
 	void readStackTraceForLocalJUnitException() {
 		try {
 			throw new JUnitException("expected");
-		}
-		catch (JUnitException e) {
+		} catch (JUnitException e) {
 			// @formatter:off
 			assertThat(readStackTrace(e))
-				.startsWith(JUnitException.class.getName() + ": expected")
-				.contains("at " + ExceptionUtilsTests.class.getName());
+					.startsWith(JUnitException.class.getName() + ": expected")
+					.contains("at " + ExceptionUtilsTests.class.getName());
 			// @formatter:on
 		}
 	}
-
 }

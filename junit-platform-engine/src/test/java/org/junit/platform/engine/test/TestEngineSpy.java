@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.test;
 
 import org.junit.platform.engine.EngineDiscoveryRequest;
@@ -16,9 +15,7 @@ import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.TestEngine;
 import org.junit.platform.engine.UniqueId;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class TestEngineSpy implements TestEngine {
 
 	private static final String ID = TestEngineSpy.class.getSimpleName();
@@ -39,7 +36,8 @@ public class TestEngineSpy implements TestEngine {
 
 		UniqueId engineUniqueId = UniqueId.forEngine(ID);
 		TestDescriptorStub engineDescriptor = new TestDescriptorStub(engineUniqueId, ID);
-		TestDescriptorStub testDescriptor = new TestDescriptorStub(engineUniqueId.append("test", "test"), "test");
+		TestDescriptorStub testDescriptor =
+				new TestDescriptorStub(engineUniqueId.append("test", "test"), "test");
 		engineDescriptor.addChild(testDescriptor);
 		return engineDescriptor;
 	}

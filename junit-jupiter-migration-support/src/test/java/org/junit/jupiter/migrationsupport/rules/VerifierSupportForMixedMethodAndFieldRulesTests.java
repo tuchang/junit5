@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.junit.jupiter.migrationsupport.rules.FailAfterAllHelper.fail;
@@ -25,21 +24,23 @@ public class VerifierSupportForMixedMethodAndFieldRulesTests {
 	private static boolean afterOfRule2WasExecuted = false;
 
 	@Rule
-	public Verifier verifier1 = new Verifier() {
+	public Verifier verifier1 =
+			new Verifier() {
 
-		@Override
-		protected void verify() throws Throwable {
-			afterOfRule1WasExecuted = true;
-		}
-	};
+				@Override
+				protected void verify() throws Throwable {
+					afterOfRule1WasExecuted = true;
+				}
+			};
 
-	private Verifier verifier2 = new Verifier() {
+	private Verifier verifier2 =
+			new Verifier() {
 
-		@Override
-		protected void verify() throws Throwable {
-			afterOfRule2WasExecuted = true;
-		}
-	};
+				@Override
+				protected void verify() throws Throwable {
+					afterOfRule2WasExecuted = true;
+				}
+			};
 
 	@Rule
 	public Verifier getVerifier2() {
@@ -53,10 +54,7 @@ public class VerifierSupportForMixedMethodAndFieldRulesTests {
 
 	@AfterAll
 	static void afterMethodsOfBothRulesWereExecuted() {
-		if (!afterOfRule1WasExecuted)
-			fail();
-		if (!afterOfRule2WasExecuted)
-			fail();
+		if (!afterOfRule1WasExecuted) fail();
+		if (!afterOfRule2WasExecuted) fail();
 	}
-
 }

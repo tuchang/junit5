@@ -7,12 +7,10 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import java.lang.reflect.Method;
 import java.util.Set;
-
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.commons.util.StringUtils;
 import org.junit.platform.engine.TestDescriptor;
@@ -20,20 +18,24 @@ import org.junit.platform.engine.TestTag;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.MethodSource;
 
-/**
- * Base class for {@link TestDescriptor TestDescriptors} based on Java methods.
- */
+/** Base class for {@link TestDescriptor TestDescriptors} based on Java methods. */
 abstract class MethodBasedTestDescriptor extends JupiterTestDescriptor {
 
 	private final Class<?> testClass;
 	private final Method testMethod;
 
 	MethodBasedTestDescriptor(UniqueId uniqueId, Class<?> testClass, Method testMethod) {
-		this(uniqueId, determineDisplayName(Preconditions.notNull(testMethod, "Method must not be null"),
-			MethodBasedTestDescriptor::generateDefaultDisplayName), testClass, testMethod);
+		this(
+				uniqueId,
+				determineDisplayName(
+						Preconditions.notNull(testMethod, "Method must not be null"),
+						MethodBasedTestDescriptor::generateDefaultDisplayName),
+				testClass,
+				testMethod);
 	}
 
-	MethodBasedTestDescriptor(UniqueId uniqueId, String displayName, Class<?> testClass, Method testMethod) {
+	MethodBasedTestDescriptor(
+			UniqueId uniqueId, String displayName, Class<?> testClass, Method testMethod) {
 		super(uniqueId, displayName);
 
 		this.testClass = Preconditions.notNull(testClass, "Class must not be null");
@@ -63,8 +65,9 @@ abstract class MethodBasedTestDescriptor extends JupiterTestDescriptor {
 	}
 
 	private static String generateDefaultDisplayName(Method testMethod) {
-		return String.format("%s(%s)", testMethod.getName(),
-			StringUtils.nullSafeToString(Class::getSimpleName, testMethod.getParameterTypes()));
+		return String.format(
+				"%s(%s)",
+				testMethod.getName(),
+				StringUtils.nullSafeToString(Class::getSimpleName, testMethod.getParameterTypes()));
 	}
-
 }

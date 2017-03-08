@@ -7,14 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import static java.util.Collections.unmodifiableList;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
-
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.engine.ConfigurationParameters;
 import org.junit.platform.engine.DiscoveryFilter;
@@ -25,11 +23,11 @@ import org.junit.platform.launcher.LauncherDiscoveryRequest;
 import org.junit.platform.launcher.PostDiscoveryFilter;
 
 /**
- * {@code DefaultDiscoveryRequest} is the default implementation of the
- * {@link EngineDiscoveryRequest} and {@link LauncherDiscoveryRequest} APIs.
- *
- * @since 1.0
- */
+* {@code DefaultDiscoveryRequest} is the default implementation of the {@link
+* EngineDiscoveryRequest} and {@link LauncherDiscoveryRequest} APIs.
+*
+* @since 1.0
+*/
 final class DefaultDiscoveryRequest implements LauncherDiscoveryRequest {
 
 	// Selectors provided to the engines to be used for discovering tests
@@ -47,8 +45,11 @@ final class DefaultDiscoveryRequest implements LauncherDiscoveryRequest {
 	// Configuration parameters can be used to provide custom configuration to engines, e.g. for extensions
 	private final LauncherConfigurationParameters configurationParameters;
 
-	DefaultDiscoveryRequest(List<DiscoverySelector> selectors, List<EngineFilter> engineFilters,
-			List<DiscoveryFilter<?>> discoveryFilters, List<PostDiscoveryFilter> postDiscoveryFilters,
+	DefaultDiscoveryRequest(
+			List<DiscoverySelector> selectors,
+			List<EngineFilter> engineFilters,
+			List<DiscoveryFilter<?>> discoveryFilters,
+			List<PostDiscoveryFilter> postDiscoveryFilters,
 			LauncherConfigurationParameters configurationParameters) {
 		this.selectors = selectors;
 		this.engineFilters = engineFilters;
@@ -60,7 +61,11 @@ final class DefaultDiscoveryRequest implements LauncherDiscoveryRequest {
 	@Override
 	public <T extends DiscoverySelector> List<T> getSelectorsByType(Class<T> selectorType) {
 		Preconditions.notNull(selectorType, "selectorType must not be null");
-		return this.selectors.stream().filter(selectorType::isInstance).map(selectorType::cast).collect(toList());
+		return this.selectors
+				.stream()
+				.filter(selectorType::isInstance)
+				.map(selectorType::cast)
+				.collect(toList());
 	}
 
 	@Override
@@ -71,7 +76,11 @@ final class DefaultDiscoveryRequest implements LauncherDiscoveryRequest {
 	@Override
 	public <T extends DiscoveryFilter<?>> List<T> getDiscoveryFiltersByType(Class<T> filterType) {
 		Preconditions.notNull(filterType, "filterType must not be null");
-		return this.discoveryFilters.stream().filter(filterType::isInstance).map(filterType::cast).collect(toList());
+		return this.discoveryFilters
+				.stream()
+				.filter(filterType::isInstance)
+				.map(filterType::cast)
+				.collect(toList());
 	}
 
 	@Override
@@ -83,5 +92,4 @@ final class DefaultDiscoveryRequest implements LauncherDiscoveryRequest {
 	public ConfigurationParameters getConfigurationParameters() {
 		return this.configurationParameters;
 	}
-
 }

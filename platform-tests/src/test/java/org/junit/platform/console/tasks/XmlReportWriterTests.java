@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import static java.util.Collections.singleton;
@@ -19,7 +18,6 @@ import static org.junit.platform.engine.TestExecutionResult.successful;
 
 import java.io.StringWriter;
 import java.time.Clock;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.reporting.ReportEntry;
@@ -28,15 +26,14 @@ import org.junit.platform.engine.test.TestDescriptorStub;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class XmlReportWriterTests {
 
 	@Test
 	void writesTestsuiteElementsWithoutTestcaseElementsWithoutAnyTests() throws Exception {
-		TestPlan testPlan = TestPlan.from(
-			singleton(new EngineDescriptor(UniqueId.forEngine("emptyEngine"), "Empty Engine")));
+		TestPlan testPlan =
+				TestPlan.from(
+						singleton(new EngineDescriptor(UniqueId.forEngine("emptyEngine"), "Empty Engine")));
 		XmlReportData reportData = new XmlReportData(testPlan, Clock.systemDefaultZone());
 
 		StringWriter out = new StringWriter();
@@ -45,24 +42,24 @@ class XmlReportWriterTests {
 		String content = ensureValidAccordingToJenkinsSchema(out.toString());
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite name=\"Empty Engine\" tests=\"0\"",
-				"</testsuite>")
-			.doesNotContain("<testcase");
+				.containsSequence("<testsuite name=\"Empty Engine\" tests=\"0\"", "</testsuite>")
+				.doesNotContain("<testcase");
 		//@formatter:on
 	}
 
 	@Test
 	void writesReportEntry() throws Exception {
-		EngineDescriptor engineDescriptor = new EngineDescriptor(UniqueId.forEngine("engine"), "Engine");
-		TestDescriptorStub testDescriptor = new TestDescriptorStub(UniqueId.root("test", "successfulTest"),
-			"successfulTest");
+		EngineDescriptor engineDescriptor =
+				new EngineDescriptor(UniqueId.forEngine("engine"), "Engine");
+		TestDescriptorStub testDescriptor =
+				new TestDescriptorStub(UniqueId.root("test", "successfulTest"), "successfulTest");
 
 		engineDescriptor.addChild(testDescriptor);
 		TestPlan testPlan = TestPlan.from(singleton(engineDescriptor));
 		XmlReportData reportData = new XmlReportData(testPlan, Clock.systemDefaultZone());
 
-		reportData.addReportEntry(TestIdentifier.from(testDescriptor), ReportEntry.from("myKey", "myValue"));
+		reportData.addReportEntry(
+				TestIdentifier.from(testDescriptor), ReportEntry.from("myKey", "myValue"));
 		reportData.markFinished(testPlan.getTestIdentifier("[test:successfulTest]"), successful());
 
 		StringWriter out = new StringWriter();
@@ -72,18 +69,17 @@ class XmlReportWriterTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<system-out>",
-				"Report Entry #1 (timestamp: ",
-				"- myKey: myValue",
-				"</system-out>");
+				.containsSequence(
+						"<system-out>", "Report Entry #1 (timestamp: ", "- myKey: myValue", "</system-out>");
 		//@formatter:on
 	}
 
 	@Test
 	void writesEmptySkippedElementForSkippedTestWithoutReason() throws Exception {
-		EngineDescriptor engineDescriptor = new EngineDescriptor(UniqueId.forEngine("engine"), "Engine");
-		engineDescriptor.addChild(new TestDescriptorStub(UniqueId.root("test", "skippedTest"), "skippedTest"));
+		EngineDescriptor engineDescriptor =
+				new EngineDescriptor(UniqueId.forEngine("engine"), "Engine");
+		engineDescriptor.addChild(
+				new TestDescriptorStub(UniqueId.root("test", "skippedTest"), "skippedTest"));
 
 		TestPlan testPlan = TestPlan.from(singleton(engineDescriptor));
 		XmlReportData reportData = new XmlReportData(testPlan, Clock.systemDefaultZone());
@@ -95,32 +91,32 @@ class XmlReportWriterTests {
 		String content = ensureValidAccordingToJenkinsSchema(out.toString());
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testcase name=\"skippedTest\"",
-				"<skipped/>",
-				"</testcase>");
+				.containsSequence("<testcase name=\"skippedTest\"", "<skipped/>", "</testcase>");
 		//@formatter:on
 	}
 
 	@Test
 	void writesEmptyErrorElementForFailedTestWithoutCause() throws Exception {
 		UniqueId uniqueId = UniqueId.forEngine("myEngineId");
-		EngineDescriptor engineDescriptor = new EngineDescriptor(uniqueId, "Fancy Engine") {
-			@Override
-			public String getLegacyReportingName() {
-				return "myEngine";
-			}
-		};
-		engineDescriptor.addChild(new TestDescriptorStub(uniqueId.append("test", "failedTest"), "some fancy name") {
-			@Override
-			public String getLegacyReportingName() {
-				return "failedTest";
-			}
-		});
+		EngineDescriptor engineDescriptor =
+				new EngineDescriptor(uniqueId, "Fancy Engine") {
+					@Override
+					public String getLegacyReportingName() {
+						return "myEngine";
+					}
+				};
+		engineDescriptor.addChild(
+				new TestDescriptorStub(uniqueId.append("test", "failedTest"), "some fancy name") {
+					@Override
+					public String getLegacyReportingName() {
+						return "failedTest";
+					}
+				});
 
 		TestPlan testPlan = TestPlan.from(singleton(engineDescriptor));
 		XmlReportData reportData = new XmlReportData(testPlan, Clock.systemDefaultZone());
-		reportData.markFinished(testPlan.getTestIdentifier("[engine:myEngineId]/[test:failedTest]"), failed(null));
+		reportData.markFinished(
+				testPlan.getTestIdentifier("[engine:myEngineId]/[test:failedTest]"), failed(null));
 
 		StringWriter out = new StringWriter();
 		new XmlReportWriter(reportData).writeXmlReport(getOnlyElement(testPlan.getRoots()), out);
@@ -128,21 +124,22 @@ class XmlReportWriterTests {
 		String content = ensureValidAccordingToJenkinsSchema(out.toString());
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testcase name=\"failedTest\" classname=\"myEngine\"",
-				"<error/>",
-				"</testcase>");
+				.containsSequence(
+						"<testcase name=\"failedTest\" classname=\"myEngine\"", "<error/>", "</testcase>");
 		//@formatter:on
 	}
 
 	@Test
 	void omitsMessageAttributeForFailedTestWithThrowableWithoutMessage() throws Exception {
-		EngineDescriptor engineDescriptor = new EngineDescriptor(UniqueId.forEngine("engine"), "Engine");
-		engineDescriptor.addChild(new TestDescriptorStub(UniqueId.root("test", "failedTest"), "failedTest"));
+		EngineDescriptor engineDescriptor =
+				new EngineDescriptor(UniqueId.forEngine("engine"), "Engine");
+		engineDescriptor.addChild(
+				new TestDescriptorStub(UniqueId.root("test", "failedTest"), "failedTest"));
 
 		TestPlan testPlan = TestPlan.from(singleton(engineDescriptor));
 		XmlReportData reportData = new XmlReportData(testPlan, Clock.systemDefaultZone());
-		reportData.markFinished(testPlan.getTestIdentifier("[test:failedTest]"), failed(new NullPointerException()));
+		reportData.markFinished(
+				testPlan.getTestIdentifier("[test:failedTest]"), failed(new NullPointerException()));
 
 		StringWriter out = new StringWriter();
 		new XmlReportWriter(reportData).writeXmlReport(getOnlyElement(testPlan.getRoots()), out);
@@ -150,11 +147,10 @@ class XmlReportWriterTests {
 		String content = ensureValidAccordingToJenkinsSchema(out.toString());
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testcase name=\"failedTest\"",
-				"<error type=\"java.lang.NullPointerException\">",
-				"</testcase>");
+				.containsSequence(
+						"<testcase name=\"failedTest\"",
+						"<error type=\"java.lang.NullPointerException\">",
+						"</testcase>");
 		//@formatter:on
 	}
-
 }

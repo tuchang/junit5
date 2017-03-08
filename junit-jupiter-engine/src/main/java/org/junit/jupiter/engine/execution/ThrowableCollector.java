@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -18,102 +17,94 @@ import org.junit.platform.commons.util.ExceptionUtils;
 import org.junit.platform.commons.util.Preconditions;
 
 /**
- * Simple component that can be used to collect one or more instances of
- * {@link Throwable}.
- *
- * @since 5.0
- */
+* Simple component that can be used to collect one or more instances of {@link Throwable}.
+*
+* @since 5.0
+*/
 @API(Internal)
 public class ThrowableCollector {
 
 	private Throwable throwable;
 
 	/**
-	 * Execute the supplied {@link Executable} and collect any {@link Throwable}
-	 * thrown during the execution.
-	 *
-	 * @param executable the {@code Executable} to execute
-	 * @see #assertEmpty()
-	 */
+	* Execute the supplied {@link Executable} and collect any {@link Throwable} thrown during the
+	* execution.
+	*
+	* @param executable the {@code Executable} to execute
+	* @see #assertEmpty()
+	*/
 	public void execute(Executable executable) {
 		try {
 			executable.execute();
-		}
-		catch (Throwable t) {
+		} catch (Throwable t) {
 			add(t);
 		}
 	}
 
 	/**
-	 * Add the supplied {@link Throwable} to this {@code ThrowableCollector}.
-	 *
-	 * @param t the {@code Throwable} to add
-	 * @see #execute(Executable)
-	 * @see #assertEmpty()
-	 */
+	* Add the supplied {@link Throwable} to this {@code ThrowableCollector}.
+	*
+	* @param t the {@code Throwable} to add
+	* @see #execute(Executable)
+	* @see #assertEmpty()
+	*/
 	private void add(Throwable t) {
 		Preconditions.notNull(t, "Throwable must not be null");
 
 		if (this.throwable == null) {
 			this.throwable = t;
-		}
-		else {
+		} else {
 			this.throwable.addSuppressed(t);
 		}
 	}
 
 	/**
-	 * Get the first {@link Throwable} collected by this
-	 * {@code ThrowableCollector}.
-	 *
-	 * <p>If this collector is not empty, the first collected {@code Throwable}
-	 * will be returned with any additional throwables
-	 * {@linkplain Throwable#addSuppressed(Throwable) suppressed} in the
-	 * first {@code Throwable}.
-	 *
-	 * @return the first collected {@code Throwable} or {@code null} if this
-	 * {@code ThrowableCollector} is empty
-	 * @see #isEmpty()
-	 * @see #assertEmpty()
-	 */
+	* Get the first {@link Throwable} collected by this {@code ThrowableCollector}.
+	*
+	* <p>If this collector is not empty, the first collected {@code Throwable} will be returned with
+	* any additional throwables {@linkplain Throwable#addSuppressed(Throwable) suppressed} in the
+	* first {@code Throwable}.
+	*
+	* @return the first collected {@code Throwable} or {@code null} if this {@code
+	*     ThrowableCollector} is empty
+	* @see #isEmpty()
+	* @see #assertEmpty()
+	*/
 	public Throwable getThrowable() {
 		return this.throwable;
 	}
 
 	/**
-	 * Determine if this {@code ThrowableCollector} is <em>empty</em> (i.e.,
-	 * has not collected any {@code Throwables}).
-	 */
+	* Determine if this {@code ThrowableCollector} is <em>empty</em> (i.e., has not collected any
+	* {@code Throwables}).
+	*/
 	public boolean isEmpty() {
 		return (this.throwable == null);
 	}
 
 	/**
-	 * Determine if this {@code ThrowableCollector} is <em>not empty</em> (i.e.,
-	 * has collected at least one {@code Throwable}).
-	 */
+	* Determine if this {@code ThrowableCollector} is <em>not empty</em> (i.e., has collected at
+	* least one {@code Throwable}).
+	*/
 	public boolean isNotEmpty() {
 		return (this.throwable != null);
 	}
 
 	/**
-	 * Assert that this {@code ThrowableCollector} is <em>empty</em> (i.e.,
-	 * has not collected any {@code Throwables}).
-	 *
-	 * <p>If this collector is not empty, the first collected {@code Throwable}
-	 * will be thrown with any additional throwables
-	 * {@linkplain Throwable#addSuppressed(Throwable) suppressed} in the
-	 * first {@code Throwable}. Note, however, that the {@code Throwable}
-	 * will not be wrapped. Rather, it will be
-	 * {@linkplain ExceptionUtils#throwAsUncheckedException masked}
-	 * as an unchecked exception.
-	 *
-	 * @see ExceptionUtils#throwAsUncheckedException(Throwable)
-	 */
+	* Assert that this {@code ThrowableCollector} is <em>empty</em> (i.e., has not collected any
+	* {@code Throwables}).
+	*
+	* <p>If this collector is not empty, the first collected {@code Throwable} will be thrown with
+	* any additional throwables {@linkplain Throwable#addSuppressed(Throwable) suppressed} in the
+	* first {@code Throwable}. Note, however, that the {@code Throwable} will not be wrapped. Rather,
+	* it will be {@linkplain ExceptionUtils#throwAsUncheckedException masked} as an unchecked
+	* exception.
+	*
+	* @see ExceptionUtils#throwAsUncheckedException(Throwable)
+	*/
 	public void assertEmpty() {
 		if (!isEmpty()) {
 			ExceptionUtils.throwAsUncheckedException(this.throwable);
 		}
 	}
-
 }

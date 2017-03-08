@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.bridge;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -15,9 +14,7 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 class NumberResolver implements ParameterResolver {
 
 	@Override
@@ -34,10 +31,8 @@ class NumberResolver implements ParameterResolver {
 		Class<?> type = parameterContext.getParameter().getType();
 		try {
 			return type.getMethod("valueOf", String.class).invoke(null, "123");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new AssertionError("Could not resolve number type: " + type, e);
 		}
 	}
-
 }

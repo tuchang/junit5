@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -35,13 +33,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 /**
- * Microtests for implementors of {@linkplain ExtensionContext}:
- * {@linkplain ClassBasedContainerExtensionContext} and
- * {@linkplain MethodBasedTestExtensionContext}
- *
- * @since 5.0
- * @see ExtensionValuesStoreTests
- */
+* Microtests for implementors of {@linkplain ExtensionContext}: {@linkplain
+* ClassBasedContainerExtensionContext} and {@linkplain MethodBasedTestExtensionContext}
+*
+* @since 5.0
+* @see ExtensionValuesStoreTests
+*/
 public class ExtensionContextTests {
 
 	@Test
@@ -49,16 +46,19 @@ public class ExtensionContextTests {
 		ClassTestDescriptor nestedClassDescriptor = nestedClassDescriptor();
 		ClassTestDescriptor outerClassDescriptor = outerClassDescriptor(nestedClassDescriptor);
 
-		ClassBasedContainerExtensionContext outerExtensionContext = new ClassBasedContainerExtensionContext(null, null,
-			outerClassDescriptor);
-		Assertions.assertAll("outerContext", //
-			() -> assertEquals(OuterClass.class, outerExtensionContext.getTestClass().get()), //
-			() -> assertEquals(outerClassDescriptor.getDisplayName(), outerExtensionContext.getDisplayName()), //
-			() -> assertEquals(Optional.empty(), outerExtensionContext.getParent()) //
-		);
+		ClassBasedContainerExtensionContext outerExtensionContext =
+				new ClassBasedContainerExtensionContext(null, null, outerClassDescriptor);
+		Assertions.assertAll(
+				"outerContext", //
+				() -> assertEquals(OuterClass.class, outerExtensionContext.getTestClass().get()), //
+				() ->
+						assertEquals(
+								outerClassDescriptor.getDisplayName(), outerExtensionContext.getDisplayName()), //
+				() -> assertEquals(Optional.empty(), outerExtensionContext.getParent()) //
+				);
 
-		ClassBasedContainerExtensionContext nestedExtensionContext = new ClassBasedContainerExtensionContext(
-			outerExtensionContext, null, nestedClassDescriptor);
+		ClassBasedContainerExtensionContext nestedExtensionContext =
+				new ClassBasedContainerExtensionContext(outerExtensionContext, null, nestedClassDescriptor);
 		Assertions.assertSame(outerExtensionContext, nestedExtensionContext.getParent().get());
 	}
 
@@ -69,26 +69,42 @@ public class ExtensionContextTests {
 		MethodTestDescriptor methodTestDescriptor = methodDescriptor();
 		outerClassDescriptor.addChild(methodTestDescriptor);
 
-		ClassBasedContainerExtensionContext outerExtensionContext = new ClassBasedContainerExtensionContext(null, null,
-			outerClassDescriptor);
+		ClassBasedContainerExtensionContext outerExtensionContext =
+				new ClassBasedContainerExtensionContext(null, null, outerClassDescriptor);
 
-		Assertions.assertAll("tags in outer class", //
-			() -> assertEquals(1, outerExtensionContext.getTags().size()), //
-			() -> assertTrue(outerExtensionContext.getTags().contains("outer-tag")));
+		Assertions.assertAll(
+				"tags in outer class", //
+				() -> assertEquals(1, outerExtensionContext.getTags().size()), //
+				() -> assertTrue(outerExtensionContext.getTags().contains("outer-tag")));
 
-		ClassBasedContainerExtensionContext nestedExtensionContext = new ClassBasedContainerExtensionContext(
-			outerExtensionContext, null, nestedClassDescriptor);
-		Assertions.assertAll("tags in nested class", //
-			() -> assertEquals(2, nestedExtensionContext.getTags().size()), //
-			() -> assertTrue(nestedExtensionContext.getTags().contains("outer-tag"), "outer-tag missing"), //
-			() -> assertTrue(nestedExtensionContext.getTags().contains("nested-tag"), "nested-tag missing"));
+		ClassBasedContainerExtensionContext nestedExtensionContext =
+				new ClassBasedContainerExtensionContext(outerExtensionContext, null, nestedClassDescriptor);
+		Assertions.assertAll(
+				"tags in nested class", //
+				() -> assertEquals(2, nestedExtensionContext.getTags().size()), //
+				() ->
+						assertTrue(
+								nestedExtensionContext.getTags().contains("outer-tag"), "outer-tag missing"), //
+				() ->
+						assertTrue(
+								nestedExtensionContext.getTags().contains("nested-tag"), "nested-tag missing"));
 
-		MethodBasedTestExtensionContext testExtensionContext = new MethodBasedTestExtensionContext(
-			outerExtensionContext, null, methodTestDescriptor, new OuterClass(), new ThrowableCollector());
-		Assertions.assertAll("tags in method", //
-			() -> assertEquals(2, testExtensionContext.getTags().size()), //
-			() -> assertTrue(testExtensionContext.getTags().contains("outer-tag"), "outer-tag missing"), //
-			() -> assertTrue(testExtensionContext.getTags().contains("method-tag"), "method-tag missing"));
+		MethodBasedTestExtensionContext testExtensionContext =
+				new MethodBasedTestExtensionContext(
+						outerExtensionContext,
+						null,
+						methodTestDescriptor,
+						new OuterClass(),
+						new ThrowableCollector());
+		Assertions.assertAll(
+				"tags in method", //
+				() -> assertEquals(2, testExtensionContext.getTags().size()), //
+				() ->
+						assertTrue(
+								testExtensionContext.getTags().contains("outer-tag"), "outer-tag missing"), //
+				() ->
+						assertTrue(
+								testExtensionContext.getTags().contains("method-tag"), "method-tag missing"));
 	}
 
 	@Test
@@ -96,24 +112,32 @@ public class ExtensionContextTests {
 		MethodTestDescriptor methodTestDescriptor = methodDescriptor();
 		ClassTestDescriptor classTestDescriptor = outerClassDescriptor(methodTestDescriptor);
 
-		ClassBasedContainerExtensionContext classExtensionContext = new ClassBasedContainerExtensionContext(null, null,
-			classTestDescriptor);
-		MethodBasedTestExtensionContext testExtensionContext = new MethodBasedTestExtensionContext(
-			classExtensionContext, null, methodTestDescriptor, new OuterClass(), new ThrowableCollector());
-		Assertions.assertAll("methodContext", //
-			() -> assertEquals(OuterClass.class, testExtensionContext.getTestClass().get()), //
-			() -> assertEquals(methodTestDescriptor.getDisplayName(), testExtensionContext.getDisplayName()), //
-			() -> assertEquals(classExtensionContext, testExtensionContext.getParent().get()), //
-			() -> assertEquals(OuterClass.class, testExtensionContext.getTestInstance().getClass()) //
-		);
+		ClassBasedContainerExtensionContext classExtensionContext =
+				new ClassBasedContainerExtensionContext(null, null, classTestDescriptor);
+		MethodBasedTestExtensionContext testExtensionContext =
+				new MethodBasedTestExtensionContext(
+						classExtensionContext,
+						null,
+						methodTestDescriptor,
+						new OuterClass(),
+						new ThrowableCollector());
+		Assertions.assertAll(
+				"methodContext", //
+				() -> assertEquals(OuterClass.class, testExtensionContext.getTestClass().get()), //
+				() ->
+						assertEquals(
+								methodTestDescriptor.getDisplayName(), testExtensionContext.getDisplayName()), //
+				() -> assertEquals(classExtensionContext, testExtensionContext.getParent().get()), //
+				() -> assertEquals(OuterClass.class, testExtensionContext.getTestInstance().getClass()) //
+				);
 	}
 
 	@Test
 	public void reportEntriesArePublishedToExecutionContext() {
 		ClassTestDescriptor classTestDescriptor = outerClassDescriptor(null);
 		EngineExecutionListener engineExecutionListener = Mockito.spy(EngineExecutionListener.class);
-		ExtensionContext extensionContext = new ClassBasedContainerExtensionContext(null, engineExecutionListener,
-			classTestDescriptor);
+		ExtensionContext extensionContext =
+				new ClassBasedContainerExtensionContext(null, engineExecutionListener, classTestDescriptor);
 
 		Map<String, String> map1 = Collections.singletonMap("key", "value");
 		Map<String, String> map2 = Collections.singletonMap("other key", "other value");
@@ -122,8 +146,8 @@ public class ExtensionContextTests {
 		extensionContext.publishReportEntry(map2);
 
 		ArgumentCaptor<ReportEntry> entryCaptor = ArgumentCaptor.forClass(ReportEntry.class);
-		Mockito.verify(engineExecutionListener, Mockito.times(2)).reportingEntryPublished(
-			Mockito.eq(classTestDescriptor), entryCaptor.capture());
+		Mockito.verify(engineExecutionListener, Mockito.times(2))
+				.reportingEntryPublished(Mockito.eq(classTestDescriptor), entryCaptor.capture());
 
 		ReportEntry reportEntry1 = entryCaptor.getAllValues().get(0);
 		ReportEntry reportEntry2 = entryCaptor.getAllValues().get(1);
@@ -136,9 +160,11 @@ public class ExtensionContextTests {
 	public void usingStore() {
 		MethodTestDescriptor methodTestDescriptor = methodDescriptor();
 		ClassTestDescriptor classTestDescriptor = outerClassDescriptor(methodTestDescriptor);
-		ExtensionContext parentContext = new ClassBasedContainerExtensionContext(null, null, classTestDescriptor);
-		MethodBasedTestExtensionContext childContext = new MethodBasedTestExtensionContext(parentContext, null,
-			methodTestDescriptor, new OuterClass(), new ThrowableCollector());
+		ExtensionContext parentContext =
+				new ClassBasedContainerExtensionContext(null, null, classTestDescriptor);
+		MethodBasedTestExtensionContext childContext =
+				new MethodBasedTestExtensionContext(
+						parentContext, null, methodTestDescriptor, new OuterClass(), new ThrowableCollector());
 
 		ExtensionContext.Store childStore = childContext.getStore();
 		ExtensionContext.Store parentStore = parentContext.getStore();
@@ -170,24 +196,24 @@ public class ExtensionContextTests {
 	}
 
 	private ClassTestDescriptor nestedClassDescriptor() {
-		return new NestedClassTestDescriptor(UniqueId.root("nested-class", "NestedClass"),
-			OuterClass.NestedClass.class);
+		return new NestedClassTestDescriptor(
+				UniqueId.root("nested-class", "NestedClass"), OuterClass.NestedClass.class);
 	}
 
 	private ClassTestDescriptor outerClassDescriptor(TestDescriptor child) {
-		ClassTestDescriptor classTestDescriptor = new ClassTestDescriptor(UniqueId.root("class", "OuterClass"),
-			OuterClass.class);
-		if (child != null)
-			classTestDescriptor.addChild(child);
+		ClassTestDescriptor classTestDescriptor =
+				new ClassTestDescriptor(UniqueId.root("class", "OuterClass"), OuterClass.class);
+		if (child != null) classTestDescriptor.addChild(child);
 		return classTestDescriptor;
 	}
 
 	private MethodTestDescriptor methodDescriptor() {
 		try {
-			return new MethodTestDescriptor(UniqueId.root("method", "aMethod"), OuterClass.class,
-				OuterClass.class.getDeclaredMethod("aMethod"));
-		}
-		catch (NoSuchMethodException e) {
+			return new MethodTestDescriptor(
+					UniqueId.root("method", "aMethod"),
+					OuterClass.class,
+					OuterClass.class.getDeclaredMethod("aMethod"));
+		} catch (NoSuchMethodException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -196,12 +222,9 @@ public class ExtensionContextTests {
 	static class OuterClass {
 
 		@Tag("nested-tag")
-		class NestedClass {
-		}
+		class NestedClass {}
 
 		@Tag("method-tag")
-		void aMethod() {
-		}
+		void aMethod() {}
 	}
-
 }

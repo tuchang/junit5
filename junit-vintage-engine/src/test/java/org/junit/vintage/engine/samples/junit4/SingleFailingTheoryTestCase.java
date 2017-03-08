@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import org.junit.Assert;
@@ -15,9 +14,7 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @RunWith(Theories.class)
 public class SingleFailingTheoryTestCase {
 
@@ -25,5 +22,4 @@ public class SingleFailingTheoryTestCase {
 	public void theory() {
 		Assert.fail("this theory should fail");
 	}
-
 }

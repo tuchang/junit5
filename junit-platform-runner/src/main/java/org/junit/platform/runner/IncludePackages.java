@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.runner;
 
 import static org.junit.platform.commons.meta.API.Usage.Maintained;
@@ -18,17 +17,16 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.junit.platform.commons.meta.API;
 
 /**
- * {@code @IncludePackages} specifies the {@linkplain #value packages} to be
- * included when running a test suite via {@code @RunWith(JUnitPlatform.class)}.
- *
- * @since 1.0
- * @see JUnitPlatform
- * @see ExcludePackages
- */
+* {@code @IncludePackages} specifies the {@linkplain #value packages} to be included when running a
+* test suite via {@code @RunWith(JUnitPlatform.class)}.
+*
+* @since 1.0
+* @see JUnitPlatform
+* @see ExcludePackages
+*/
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Inherited
@@ -36,9 +34,6 @@ import org.junit.platform.commons.meta.API;
 @API(Maintained)
 public @interface IncludePackages {
 
-	/**
-	 * One or more tags to include.
-	 */
+	/** One or more tags to include. */
 	String[] value();
-
 }

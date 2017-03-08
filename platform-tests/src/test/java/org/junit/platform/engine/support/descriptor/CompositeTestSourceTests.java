@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.descriptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,16 +17,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.PreconditionViolationException;
 import org.junit.platform.engine.TestSource;
 
 /**
- * Unit tests for {@link CompositeTestSource}.
- *
- * @since 1.0
- */
+* Unit tests for {@link CompositeTestSource}.
+*
+* @since 1.0
+*/
 class CompositeTestSourceTests extends AbstractTestSourceTests {
 
 	@Test
@@ -37,7 +35,9 @@ class CompositeTestSourceTests extends AbstractTestSourceTests {
 
 	@Test
 	void createCompositeTestSourceFromEmptyList() {
-		assertThrows(PreconditionViolationException.class, () -> new CompositeTestSource(Collections.emptyList()));
+		assertThrows(
+				PreconditionViolationException.class,
+				() -> new CompositeTestSource(Collections.emptyList()));
 	}
 
 	@Test
@@ -55,15 +55,18 @@ class CompositeTestSourceTests extends AbstractTestSourceTests {
 		assertThat(compositeTestSource.getSources().size()).isEqualTo(2);
 
 		// Ensure the returned sources list is immutable.
-		assertThrows(UnsupportedOperationException.class, () -> compositeTestSource.getSources().add(fileSource));
+		assertThrows(
+				UnsupportedOperationException.class,
+				() -> compositeTestSource.getSources().add(fileSource));
 	}
 
 	@Test
 	void equalsAndHashCode() {
 		List<TestSource> sources1 = Arrays.asList(new ClassSource(Number.class));
 		List<TestSource> sources2 = Arrays.asList(new ClassSource(String.class));
-		assertEqualsAndHashCode(new CompositeTestSource(sources1), new CompositeTestSource(sources1),
-			new CompositeTestSource(sources2));
+		assertEqualsAndHashCode(
+				new CompositeTestSource(sources1),
+				new CompositeTestSource(sources1),
+				new CompositeTestSource(sources2));
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // tag::user_guide[]
@@ -20,8 +19,6 @@ class TaggingDemo {
 
 	@Test
 	@Tag("taxes")
-	void testingTaxCalculation() {
-	}
-
+	void testingTaxCalculation() {}
 }
 // end::user_guide[]

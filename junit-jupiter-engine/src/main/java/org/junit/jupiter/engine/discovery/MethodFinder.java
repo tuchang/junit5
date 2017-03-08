@@ -7,20 +7,16 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.commons.util.ReflectionUtils;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 class MethodFinder {
 
 	// Pattern: methodName(comma-separated list of parameter type names)
@@ -29,12 +25,14 @@ class MethodFinder {
 	Optional<Method> findMethod(String methodSpecPart, Class<?> clazz) {
 		Matcher matcher = METHOD_PATTERN.matcher(methodSpecPart);
 
-		Preconditions.condition(matcher.matches(),
-			() -> String.format("Method [%s] does not match pattern [%s]", methodSpecPart, METHOD_PATTERN));
+		Preconditions.condition(
+				matcher.matches(),
+				() ->
+						String.format(
+								"Method [%s] does not match pattern [%s]", methodSpecPart, METHOD_PATTERN));
 
 		String methodName = matcher.group(1);
 		String parameterTypeNames = matcher.group(2);
 		return ReflectionUtils.findMethod(clazz, methodName, parameterTypeNames);
 	}
-
 }

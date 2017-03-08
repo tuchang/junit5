@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example.defaultmethods;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,6 +38,5 @@ public interface ComparableContract<T extends Comparable<T>> extends Testable<T>
 		T smallerValue = createSmallerValue();
 		assertTrue(smallerValue.compareTo(value) < 0);
 	}
-
 }
 // end::user_guide[]

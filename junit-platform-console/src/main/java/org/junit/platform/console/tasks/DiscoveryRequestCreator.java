@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import static org.junit.platform.engine.discovery.ClassNameFilter.excludeClassNamePatterns;
@@ -26,7 +25,6 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.commons.util.ReflectionUtils;
 import org.junit.platform.console.options.CommandLineOptions;
@@ -36,9 +34,7 @@ import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class DiscoveryRequestCreator {
 
 	LauncherDiscoveryRequest toDiscoveryRequest(CommandLineOptions options) {
@@ -50,8 +46,9 @@ class DiscoveryRequestCreator {
 
 	private List<? extends DiscoverySelector> createDiscoverySelectors(CommandLineOptions options) {
 		if (options.isScanClasspath()) {
-			Preconditions.condition(!options.hasExplicitSelectors(),
-				"Scanning the classpath and using explicit selectors at the same time is not supported");
+			Preconditions.condition(
+					!options.hasExplicitSelectors(),
+					"Scanning the classpath and using explicit selectors at the same time is not supported");
 			return createClasspathRootSelectors(options);
 		}
 		return createExplicitDiscoverySelectors(options);
@@ -75,22 +72,43 @@ class DiscoveryRequestCreator {
 		List<DiscoverySelector> selectors = new LinkedList<>();
 		options.getSelectedUris().stream().map(DiscoverySelectors::selectUri).forEach(selectors::add);
 		options.getSelectedFiles().stream().map(DiscoverySelectors::selectFile).forEach(selectors::add);
-		options.getSelectedDirectories().stream().map(DiscoverySelectors::selectDirectory).forEach(selectors::add);
-		options.getSelectedPackages().stream().map(DiscoverySelectors::selectPackage).forEach(selectors::add);
-		options.getSelectedClasses().stream().map(DiscoverySelectors::selectClass).forEach(selectors::add);
-		options.getSelectedMethods().stream().map(DiscoverySelectors::selectMethod).forEach(selectors::add);
-		options.getSelectedClasspathResources().stream().map(DiscoverySelectors::selectClasspathResource).forEach(
-			selectors::add);
+		options
+				.getSelectedDirectories()
+				.stream()
+				.map(DiscoverySelectors::selectDirectory)
+				.forEach(selectors::add);
+		options
+				.getSelectedPackages()
+				.stream()
+				.map(DiscoverySelectors::selectPackage)
+				.forEach(selectors::add);
+		options
+				.getSelectedClasses()
+				.stream()
+				.map(DiscoverySelectors::selectClass)
+				.forEach(selectors::add);
+		options
+				.getSelectedMethods()
+				.stream()
+				.map(DiscoverySelectors::selectMethod)
+				.forEach(selectors::add);
+		options
+				.getSelectedClasspathResources()
+				.stream()
+				.map(DiscoverySelectors::selectClasspathResource)
+				.forEach(selectors::add);
 		Preconditions.notEmpty(selectors, "No arguments were supplied to the ConsoleLauncher");
 		return selectors;
 	}
 
-	private void addFilters(LauncherDiscoveryRequestBuilder requestBuilder, CommandLineOptions options) {
-		requestBuilder.filters(includeClassNamePatterns(options.getIncludedClassNamePatterns().toArray(new String[0])));
+	private void addFilters(
+			LauncherDiscoveryRequestBuilder requestBuilder, CommandLineOptions options) {
+		requestBuilder.filters(
+				includeClassNamePatterns(options.getIncludedClassNamePatterns().toArray(new String[0])));
 
 		if (!options.getExcludedClassNamePatterns().isEmpty()) {
 			requestBuilder.filters(
-				excludeClassNamePatterns(options.getExcludedClassNamePatterns().toArray(new String[0])));
+					excludeClassNamePatterns(options.getExcludedClassNamePatterns().toArray(new String[0])));
 		}
 
 		if (!options.getIncludedPackages().isEmpty()) {
@@ -117,5 +135,4 @@ class DiscoveryRequestCreator {
 			requestBuilder.filters(excludeEngines(options.getExcludedEngines()));
 		}
 	}
-
 }

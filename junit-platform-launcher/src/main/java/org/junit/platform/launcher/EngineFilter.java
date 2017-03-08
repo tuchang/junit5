@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher;
 
 import static java.util.stream.Collectors.toList;
@@ -16,7 +15,6 @@ import static org.junit.platform.engine.FilterResult.includedIf;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.engine.Filter;
@@ -24,79 +22,73 @@ import org.junit.platform.engine.FilterResult;
 import org.junit.platform.engine.TestEngine;
 
 /**
- * An {@code EngineFilter} is applied to all {@link TestEngine TestEngines}
- * before they are used.
- *
- * <p><strong>Warning</strong>: be cautious when registering multiple competing
- * {@link #includeEngines include} {@code EngineFilters} or multiple competing
- * {@link #excludeEngines exclude} {@code EngineFilters} for the same discovery
- * request since doing so will likely lead to undesirable results (i.e., zero
- * engines being active).
- *
- * @since 1.0
- * @see #includeEngines(String...)
- * @see #excludeEngines(String...)
- * @see LauncherDiscoveryRequest
- */
+* An {@code EngineFilter} is applied to all {@link TestEngine TestEngines} before they are used.
+*
+* <p><strong>Warning</strong>: be cautious when registering multiple competing {@link
+* #includeEngines include} {@code EngineFilters} or multiple competing {@link #excludeEngines
+* exclude} {@code EngineFilters} for the same discovery request since doing so will likely lead to
+* undesirable results (i.e., zero engines being active).
+*
+* @since 1.0
+* @see #includeEngines(String...)
+* @see #excludeEngines(String...)
+* @see LauncherDiscoveryRequest
+*/
 @API(Experimental)
 public class EngineFilter implements Filter<TestEngine> {
 
 	/**
-	 * Create a new <em>include</em> {@code EngineFilter} based on the
-	 * supplied engine IDs.
-	 *
-	 * <p>Only {@code TestEngines} with matching engine IDs will be
-	 * <em>included</em> within the test discovery and execution.
-	 *
-	 * @param engineIds the list of engine IDs to match against; never {@code null}
-	 * or empty; individual IDs must also not be null or blank
-	 * @see #includeEngines(String...)
-	 */
+	* Create a new <em>include</em> {@code EngineFilter} based on the supplied engine IDs.
+	*
+	* <p>Only {@code TestEngines} with matching engine IDs will be <em>included</em> within the test
+	* discovery and execution.
+	*
+	* @param engineIds the list of engine IDs to match against; never {@code null} or empty;
+	*     individual IDs must also not be null or blank
+	* @see #includeEngines(String...)
+	*/
 	public static EngineFilter includeEngines(String... engineIds) {
 		return includeEngines(Arrays.asList(engineIds));
 	}
 
 	/**
-	 * Create a new <em>include</em> {@code EngineFilter} based on the
-	 * supplied engine IDs.
-	 *
-	 * <p>Only {@code TestEngines} with matching engine IDs will be
-	 * <em>included</em> within the test discovery and execution.
-	 *
-	 * @param engineIds the list of engine IDs to match against; never {@code null}
-	 * or empty; individual IDs must also not be null or blank
-	 * @see #includeEngines(String...)
-	 */
+	* Create a new <em>include</em> {@code EngineFilter} based on the supplied engine IDs.
+	*
+	* <p>Only {@code TestEngines} with matching engine IDs will be <em>included</em> within the test
+	* discovery and execution.
+	*
+	* @param engineIds the list of engine IDs to match against; never {@code null} or empty;
+	*     individual IDs must also not be null or blank
+	* @see #includeEngines(String...)
+	*/
 	public static EngineFilter includeEngines(List<String> engineIds) {
 		return new EngineFilter(engineIds, Type.INCLUDE);
 	}
 
 	/**
-	 * Create a new <em>exclude</em> {@code EngineFilter} based on the
-	 * supplied engine IDs.
-	 *
-	 * <p>{@code TestEngines} with matching engine IDs will be
-	 * <em>excluded</em> from test discovery and execution.
-	 *
-	 * @param engineIds the list of engine IDs to match against; never {@code null}
-	 * or empty; individual IDs must also not be null or blank
-	 * @see #excludeEngines(List)
-	 */
+	* Create a new <em>exclude</em> {@code EngineFilter} based on the supplied engine IDs.
+	*
+	* <p>{@code TestEngines} with matching engine IDs will be <em>excluded</em> from test discovery
+	* and execution.
+	*
+	* @param engineIds the list of engine IDs to match against; never {@code null} or empty;
+	*     individual IDs must also not be null or blank
+	* @see #excludeEngines(List)
+	*/
 	public static EngineFilter excludeEngines(String... engineIds) {
 		return excludeEngines(Arrays.asList(engineIds));
 	}
 
 	/**
-	 * Create a new <em>exclude</em> {@code EngineFilter} based on the
-	 * supplied engine IDs.
-	 *
-	 * <p>{@code TestEngines} with matching engine IDs will be
-	 * <em>excluded</em> from test discovery and execution.
-	 *
-	 * @param engineIds the list of engine IDs to match against; never {@code null}
-	 * or empty; individual IDs must also not be null or blank
-	 * @see #includeEngines(String...)
-	 */
+	* Create a new <em>exclude</em> {@code EngineFilter} based on the supplied engine IDs.
+	*
+	* <p>{@code TestEngines} with matching engine IDs will be <em>excluded</em> from test discovery
+	* and execution.
+	*
+	* @param engineIds the list of engine IDs to match against; never {@code null} or empty;
+	*     individual IDs must also not be null or blank
+	* @see #includeEngines(String...)
+	*/
 	public static EngineFilter excludeEngines(List<String> engineIds) {
 		return new EngineFilter(engineIds, Type.EXCLUDE);
 	}
@@ -116,28 +108,36 @@ public class EngineFilter implements Filter<TestEngine> {
 		Preconditions.notBlank(engineId, "TestEngine ID must not be null or blank");
 
 		if (this.type == Type.INCLUDE) {
-			return includedIf(this.engineIds.stream().anyMatch(engineId::equals), //
-				() -> String.format("Engine ID [%s] is in included list [%s]", engineId, this.engineIds), //
-				() -> String.format("Engine ID [%s] is not in included list [%s]", engineId, this.engineIds));
-		}
-		else {
-			return includedIf(this.engineIds.stream().noneMatch(engineId::equals), //
-				() -> String.format("Engine ID [%s] is not in excluded list [%s]", engineId, this.engineIds), //
-				() -> String.format("Engine ID [%s] is in excluded list [%s]", engineId, this.engineIds));
+			return includedIf(
+					this.engineIds.stream().anyMatch(engineId::equals), //
+					() ->
+							String.format("Engine ID [%s] is in included list [%s]", engineId, this.engineIds), //
+					() ->
+							String.format(
+									"Engine ID [%s] is not in included list [%s]", engineId, this.engineIds));
+		} else {
+			return includedIf(
+					this.engineIds.stream().noneMatch(engineId::equals), //
+					() ->
+							String.format(
+									"Engine ID [%s] is not in excluded list [%s]", engineId, this.engineIds), //
+					() -> String.format("Engine ID [%s] is in excluded list [%s]", engineId, this.engineIds));
 		}
 	}
 
 	@Override
 	public String toString() {
-		return String.format("%s that %s engines with IDs %s", getClass().getSimpleName(), this.type.verb,
-			this.engineIds);
+		return String.format(
+				"%s that %s engines with IDs %s",
+				getClass().getSimpleName(), this.type.verb, this.engineIds);
 	}
 
 	private static List<String> validateAndTrim(List<String> engineIds) {
 		Preconditions.notEmpty(engineIds, "engine ID list must not be null or empty");
 
 		// @formatter:off
-		return engineIds.stream()
+		return engineIds
+				.stream()
 				.distinct()
 				.peek(id -> Preconditions.notBlank(id, "engine ID must not be null or blank"))
 				.map(String::trim)
@@ -146,7 +146,6 @@ public class EngineFilter implements Filter<TestEngine> {
 	}
 
 	private enum Type {
-
 		INCLUDE("includes"),
 
 		EXCLUDE("excludes");
@@ -156,7 +155,5 @@ public class EngineFilter implements Filter<TestEngine> {
 		private Type(String verb) {
 			this.verb = verb;
 		}
-
 	}
-
 }

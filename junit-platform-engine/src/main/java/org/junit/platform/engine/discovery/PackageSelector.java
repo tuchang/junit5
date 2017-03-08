@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.discovery;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -17,13 +16,13 @@ import org.junit.platform.commons.util.ToStringBuilder;
 import org.junit.platform.engine.DiscoverySelector;
 
 /**
- * A {@link DiscoverySelector} that selects a package name so that
- * {@link org.junit.platform.engine.TestEngine TestEngines} can discover
- * tests or containers based on packages.
- *
- * @since 1.0
- * @see org.junit.platform.engine.support.descriptor.PackageSource
- */
+* A {@link DiscoverySelector} that selects a package name so that {@link
+* org.junit.platform.engine.TestEngine TestEngines} can discover tests or containers based on
+* packages.
+*
+* @since 1.0
+* @see org.junit.platform.engine.support.descriptor.PackageSource
+*/
 @API(Experimental)
 public class PackageSelector implements DiscoverySelector {
 
@@ -33,9 +32,7 @@ public class PackageSelector implements DiscoverySelector {
 		this.packageName = packageName;
 	}
 
-	/**
-	 * Get the selected package name.
-	 */
+	/** Get the selected package name. */
 	public String getPackageName() {
 		return this.packageName;
 	}
@@ -44,5 +41,4 @@ public class PackageSelector implements DiscoverySelector {
 	public String toString() {
 		return new ToStringBuilder(this).append("packageName", this.packageName).toString();
 	}
-
 }

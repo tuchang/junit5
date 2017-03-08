@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.junit.platform.surefire.provider;
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.apache.maven.surefire.providerapi.AbstractProvider;
 import org.apache.maven.surefire.providerapi.ProviderParameters;
 import org.apache.maven.surefire.report.ReporterException;
@@ -43,9 +41,7 @@ import org.junit.platform.launcher.LauncherDiscoveryRequest;
 import org.junit.platform.launcher.TagFilter;
 import org.junit.platform.launcher.core.LauncherFactory;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class JUnitPlatformProvider extends AbstractProvider {
 
 	// Parameter names processed to determine which @Tags should be executed.
@@ -54,9 +50,17 @@ public class JUnitPlatformProvider extends AbstractProvider {
 	static final String INCLUDE_GROUPS = "groups";
 	static final String INCLUDE_TAGS = "includeTags";
 
-	static final String EXCEPTION_MESSAGE_BOTH_NOT_ALLOWED = "The " + INCLUDE_GROUPS + " and " + INCLUDE_TAGS
-			+ " parameters (or the " + EXCLUDE_GROUPS + " and " + EXCLUDE_TAGS + " parameters) are synonyms - "
-			+ "only one of each is allowed (though neither is required).";
+	static final String EXCEPTION_MESSAGE_BOTH_NOT_ALLOWED =
+			"The "
+					+ INCLUDE_GROUPS
+					+ " and "
+					+ INCLUDE_TAGS
+					+ " parameters (or the "
+					+ EXCLUDE_GROUPS
+					+ " and "
+					+ EXCLUDE_TAGS
+					+ " parameters) are synonyms - "
+					+ "only one of each is allowed (though neither is required).";
 
 	private final ProviderParameters parameters;
 	private final Launcher launcher;
@@ -83,21 +87,22 @@ public class JUnitPlatformProvider extends AbstractProvider {
 			throws TestSetFailedException, ReporterException, InvocationTargetException {
 		if (forkTestSet instanceof TestsToRun) {
 			return invokeAllTests((TestsToRun) forkTestSet);
-		}
-		else if (forkTestSet instanceof Class) {
+		} else if (forkTestSet instanceof Class) {
 			return invokeAllTests(TestsToRun.fromClass((Class<?>) forkTestSet));
-		}
-		else if (forkTestSet == null) {
+		} else if (forkTestSet == null) {
 			return invokeAllTests(scanClasspath());
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("Unexpected value of forkTestSet: " + forkTestSet);
 		}
 	}
 
 	private TestsToRun scanClasspath() {
-		TestsToRun scannedClasses = parameters.getScanResult().applyFilter(
-			new TestPlanScannerFilter(launcher, includeAndExcludeFilters), parameters.getTestClassLoader());
+		TestsToRun scannedClasses =
+				parameters
+						.getScanResult()
+						.applyFilter(
+								new TestPlanScannerFilter(launcher, includeAndExcludeFilters),
+								parameters.getTestClassLoader());
 		return parameters.getRunOrderCalculator().orderTestClasses(scannedClasses);
 	}
 
@@ -111,8 +116,7 @@ public class JUnitPlatformProvider extends AbstractProvider {
 			for (Class<?> testClass : testsToRun) {
 				invokeSingleClass(testClass, runListener);
 			}
-		}
-		finally {
+		} finally {
 			runResult = reporterFactory.close();
 		}
 		return runResult;
@@ -122,8 +126,8 @@ public class JUnitPlatformProvider extends AbstractProvider {
 		SimpleReportEntry classEntry = new SimpleReportEntry(getClass().getName(), testClass.getName());
 		runListener.testSetStarting(classEntry);
 
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(selectClass(testClass)).filters(
-			includeAndExcludeFilters).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request().selectors(selectClass(testClass)).filters(includeAndExcludeFilters).build();
 		launcher.execute(discoveryRequest);
 
 		runListener.testSetCompleted(classEntry);
@@ -132,12 +136,12 @@ public class JUnitPlatformProvider extends AbstractProvider {
 	private Filter<?>[] getIncludeAndExcludeFilters() {
 		List<Filter<?>> filters = new ArrayList<>();
 
-		Optional<List<String>> includes = getGroupsOrTags(getPropertiesList(INCLUDE_GROUPS),
-			getPropertiesList(INCLUDE_TAGS));
+		Optional<List<String>> includes =
+				getGroupsOrTags(getPropertiesList(INCLUDE_GROUPS), getPropertiesList(INCLUDE_TAGS));
 		includes.map(TagFilter::includeTags).ifPresent(filters::add);
 
-		Optional<List<String>> excludes = getGroupsOrTags(getPropertiesList(EXCLUDE_GROUPS),
-			getPropertiesList(EXCLUDE_TAGS));
+		Optional<List<String>> excludes =
+				getGroupsOrTags(getPropertiesList(EXCLUDE_GROUPS), getPropertiesList(EXCLUDE_TAGS));
 		excludes.map(TagFilter::excludeTags).ifPresent(filters::add);
 
 		return filters.toArray(new Filter<?>[filters.size()]);
@@ -152,19 +156,19 @@ public class JUnitPlatformProvider extends AbstractProvider {
 		return Optional.ofNullable(compoundProperties);
 	}
 
-	private Optional<List<String>> getGroupsOrTags(Optional<List<String>> groups, Optional<List<String>> tags) {
+	private Optional<List<String>> getGroupsOrTags(
+			Optional<List<String>> groups, Optional<List<String>> tags) {
 		Optional<List<String>> elements = Optional.empty();
 
-		Preconditions.condition(!groups.isPresent() || !tags.isPresent(), EXCEPTION_MESSAGE_BOTH_NOT_ALLOWED);
+		Preconditions.condition(
+				!groups.isPresent() || !tags.isPresent(), EXCEPTION_MESSAGE_BOTH_NOT_ALLOWED);
 
 		if (groups.isPresent()) {
 			elements = groups;
-		}
-		else if (tags.isPresent()) {
+		} else if (tags.isPresent()) {
 			elements = tags;
 		}
 
 		return elements;
 	}
-
 }

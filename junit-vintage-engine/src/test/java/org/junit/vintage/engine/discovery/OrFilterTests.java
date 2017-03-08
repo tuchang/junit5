@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static java.util.Arrays.asList;
@@ -27,16 +26,17 @@ import org.junit.platform.commons.util.PreconditionViolationException;
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class OrFilterTests {
 
 	@Test
 	void exceptionWithoutAnyFilters() {
-		PreconditionViolationException actual = assertThrows(PreconditionViolationException.class, () -> {
-			new OrFilter(emptyList());
-		});
+		PreconditionViolationException actual =
+				assertThrows(
+						PreconditionViolationException.class,
+						() -> {
+							new OrFilter(emptyList());
+						});
 		assertEquals("filters must not be empty", actual.getMessage());
 	}
 
@@ -48,7 +48,8 @@ class OrFilterTests {
 
 		assertEquals("foo", orFilter.describe());
 
-		Description description = Description.createTestDescription(getClass(), "evaluatesSingleFilter");
+		Description description =
+				Description.createTestDescription(getClass(), "evaluatesSingleFilter");
 		assertTrue(orFilter.shouldRun(description));
 
 		verify(filter).shouldRun(same(description));
@@ -63,7 +64,8 @@ class OrFilterTests {
 
 		assertEquals("foo OR bar", orFilter.describe());
 
-		Description description = Description.createTestDescription(getClass(), "evaluatesMultipleFilters");
+		Description description =
+				Description.createTestDescription(getClass(), "evaluatesMultipleFilters");
 		assertTrue(orFilter.shouldRun(description));
 
 		verify(filter1).shouldRun(same(description));
@@ -76,5 +78,4 @@ class OrFilterTests {
 		when(filter.shouldRun(any())).thenReturn(result);
 		return filter;
 	}
-
 }

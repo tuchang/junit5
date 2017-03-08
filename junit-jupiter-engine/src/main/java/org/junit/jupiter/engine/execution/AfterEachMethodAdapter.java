@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -19,15 +18,15 @@ import org.junit.jupiter.engine.extension.ExtensionRegistry;
 import org.junit.platform.commons.meta.API;
 
 /**
- * Functional interface for registering an {@link AfterEach @AfterEach} method
- * as a pseudo-extension.
- *
- * @since 5.0
- */
+* Functional interface for registering an {@link AfterEach @AfterEach} method as a
+* pseudo-extension.
+*
+* @since 5.0
+*/
 @FunctionalInterface
 @API(Internal)
 public interface AfterEachMethodAdapter extends Extension {
 
-	void invokeAfterEachMethod(TestExtensionContext context, ExtensionRegistry registry) throws Throwable;
-
+	void invokeAfterEachMethod(TestExtensionContext context, ExtensionRegistry registry)
+			throws Throwable;
 }

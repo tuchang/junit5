@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -23,11 +22,11 @@ import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 /**
- * Integration tests that verify support for selecting and executing default
- * methods from interfaces in conjunction with the {@link JupiterTestEngine}.
- *
- * @since 5.0
- */
+* Integration tests that verify support for selecting and executing default methods from interfaces
+* in conjunction with the {@link JupiterTestEngine}.
+*
+* @since 5.0
+*/
 public class DefaultMethodTests extends AbstractJupiterTestEngineTests {
 
 	private static boolean beforeAllInvoked = false;
@@ -45,8 +44,7 @@ public class DefaultMethodTests extends AbstractJupiterTestEngineTests {
 				() -> assertEquals(1, eventRecorder.getTestSuccessfulCount(), "# tests succeeded"),
 				() -> assertEquals(0, eventRecorder.getTestFailedCount(), "# tests failed"),
 				() -> assertTrue(beforeAllInvoked, "@BeforeAll invoked from interface"),
-				() -> assertTrue(afterAllInvoked, "@AfterAll invoked from interface")
-		);
+				() -> assertTrue(afterAllInvoked, "@AfterAll invoked from interface"));
 		// @formatter:on
 	}
 
@@ -58,17 +56,13 @@ public class DefaultMethodTests extends AbstractJupiterTestEngineTests {
 		}
 
 		@Test
-		default void test() {
-		}
+		default void test() {}
 
 		@AfterAll
 		static void afterAll() {
 			afterAllInvoked = true;
 		}
-
 	}
 
-	static class TestCaseWithDefaultMethod implements TestInterface {
-	}
-
+	static class TestCaseWithDefaultMethod implements TestInterface {}
 }

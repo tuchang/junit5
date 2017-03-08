@@ -7,17 +7,16 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example.timing;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
- * Tests that demonstrate the example {@link TimingExtension}.
- *
- * @since 5.0
- */
+* Tests that demonstrate the example {@link TimingExtension}.
+*
+* @since 5.0
+*/
 // tag::user_guide[]
 @ExtendWith(TimingExtension.class)
 class TimingExtensionTests {
@@ -31,6 +30,5 @@ class TimingExtensionTests {
 	void sleep50ms() throws Exception {
 		Thread.sleep(50);
 	}
-
 }
 // end::user_guide[]

@@ -7,26 +7,24 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.descriptor;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
 
 import java.util.Objects;
 import java.util.Optional;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.commons.util.ToStringBuilder;
 import org.junit.platform.engine.TestSource;
 
 /**
- * <em>Classpath resource</em> based {@link org.junit.platform.engine.TestSource}
- * with an optional {@linkplain FilePosition position}.
- *
- * @since 1.0
- * @see org.junit.platform.engine.discovery.ClasspathResourceSelector
- */
+* <em>Classpath resource</em> based {@link org.junit.platform.engine.TestSource} with an optional
+* {@linkplain FilePosition position}.
+*
+* @since 1.0
+* @see org.junit.platform.engine.discovery.ClasspathResourceSelector
+*/
 @API(Experimental)
 public class ClasspathResourceSource implements TestSource {
 
@@ -36,63 +34,60 @@ public class ClasspathResourceSource implements TestSource {
 	private final FilePosition filePosition;
 
 	/**
-	 * Create a new {@code ClasspathResourceSource} using the supplied classpath
-	 * resource name.
-	 *
-	 * <p>The name of a <em>classpath resource</em> must follow the semantics
-	 * for resource paths as defined in {@link ClassLoader#getResource(String)}.
-	 *
-	 * <p>If the supplied classpath resource name is prefixed with a slash
-	 * ({@code /}), the slash will be removed.
-	 *
-	 * @param classpathResourceName the name of the classpath resource; never
-	 * {@code null} or blank
-	 * @see ClassLoader#getResource(String)
-	 * @see ClassLoader#getResourceAsStream(String)
-	 * @see ClassLoader#getResources(String)
-	 */
+	* Create a new {@code ClasspathResourceSource} using the supplied classpath resource name.
+	*
+	* <p>The name of a <em>classpath resource</em> must follow the semantics for resource paths as
+	* defined in {@link ClassLoader#getResource(String)}.
+	*
+	* <p>If the supplied classpath resource name is prefixed with a slash ({@code /}), the slash will
+	* be removed.
+	*
+	* @param classpathResourceName the name of the classpath resource; never {@code null} or blank
+	* @see ClassLoader#getResource(String)
+	* @see ClassLoader#getResourceAsStream(String)
+	* @see ClassLoader#getResources(String)
+	*/
 	public ClasspathResourceSource(String classpathResourceName) {
 		this(classpathResourceName, null);
 	}
 
 	/**
-	 * Create a new {@code ClasspathResourceSource} using the supplied classpath
-	 * resource name and {@link FilePosition}.
-	 *
-	 * <p>The name of a <em>classpath resource</em> must follow the semantics
-	 * for resource paths as defined in {@link ClassLoader#getResource(String)}.
-	 *
-	 * <p>If the supplied classpath resource name is prefixed with a slash
-	 * ({@code /}), the slash will be removed.
-	 *
-	 * @param classpathResourceName the name of the classpath resource; never
-	 * {@code null} or blank
-	 * @param filePosition the position in the classpath resource; may be {@code null}
-	 */
+	* Create a new {@code ClasspathResourceSource} using the supplied classpath resource name and
+	* {@link FilePosition}.
+	*
+	* <p>The name of a <em>classpath resource</em> must follow the semantics for resource paths as
+	* defined in {@link ClassLoader#getResource(String)}.
+	*
+	* <p>If the supplied classpath resource name is prefixed with a slash ({@code /}), the slash will
+	* be removed.
+	*
+	* @param classpathResourceName the name of the classpath resource; never {@code null} or blank
+	* @param filePosition the position in the classpath resource; may be {@code null}
+	*/
 	public ClasspathResourceSource(String classpathResourceName, FilePosition filePosition) {
-		Preconditions.notBlank(classpathResourceName, "Classpath resource name must not be null or blank");
+		Preconditions.notBlank(
+				classpathResourceName, "Classpath resource name must not be null or blank");
 		boolean startsWithSlash = classpathResourceName.startsWith("/");
-		this.classpathResourceName = (startsWithSlash ? classpathResourceName.substring(1) : classpathResourceName);
+		this.classpathResourceName =
+				(startsWithSlash ? classpathResourceName.substring(1) : classpathResourceName);
 		this.filePosition = filePosition;
 	}
 
 	/**
-	 * Get the name of the source <em>classpath resource</em>.
-	 *
-	 * <p>The name of a <em>classpath resource</em> follows the semantics for
-	 * resource paths as defined in {@link ClassLoader#getResource(String)}.
-	 *
-	 * @see ClassLoader#getResource(String)
-	 * @see ClassLoader#getResourceAsStream(String)
-	 * @see ClassLoader#getResources(String)
-	 */
+	* Get the name of the source <em>classpath resource</em>.
+	*
+	* <p>The name of a <em>classpath resource</em> follows the semantics for resource paths as
+	* defined in {@link ClassLoader#getResource(String)}.
+	*
+	* @see ClassLoader#getResource(String)
+	* @see ClassLoader#getResourceAsStream(String)
+	* @see ClassLoader#getResources(String)
+	*/
 	public String getClasspathResourceName() {
 		return this.classpathResourceName;
 	}
 
-	/**
-	 * Get the {@link FilePosition}, if available.
-	 */
+	/** Get the {@link FilePosition}, if available. */
 	public final Optional<FilePosition> getPosition() {
 		return Optional.ofNullable(this.filePosition);
 	}
@@ -124,5 +119,4 @@ public class ClasspathResourceSource implements TestSource {
 				.toString();
 		// @formatter:on
 	}
-
 }

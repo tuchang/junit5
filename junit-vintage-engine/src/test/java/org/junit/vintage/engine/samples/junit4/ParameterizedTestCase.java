@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static java.util.Arrays.asList;
@@ -19,9 +18,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @RunWith(Parameterized.class)
 public class ParameterizedTestCase {
 
@@ -30,12 +27,10 @@ public class ParameterizedTestCase {
 		return asList("foo", "bar");
 	}
 
-	@Parameter
-	public String value;
+	@Parameter public String value;
 
 	@Test
 	public void test() {
 		assertEquals("foo", value);
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api.extension;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -17,11 +16,11 @@ import org.junit.platform.commons.JUnitException;
 import org.junit.platform.commons.meta.API;
 
 /**
- * Thrown if an error is encountered regarding the use of an
- * {@link ExtensionContext} or {@link Store}.
- *
- * @since 5.0
- */
+* Thrown if an error is encountered regarding the use of an {@link ExtensionContext} or {@link
+* Store}.
+*
+* @since 5.0
+*/
 @API(Experimental)
 public class ExtensionContextException extends JUnitException {
 
@@ -30,5 +29,4 @@ public class ExtensionContextException extends JUnitException {
 	public ExtensionContextException(String message) {
 		super(message);
 	}
-
 }

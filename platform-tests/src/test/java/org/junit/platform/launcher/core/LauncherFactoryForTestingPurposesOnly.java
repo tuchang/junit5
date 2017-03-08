@@ -7,20 +7,16 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import static java.util.Arrays.asList;
 
 import org.junit.platform.engine.TestEngine;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class LauncherFactoryForTestingPurposesOnly {
 
 	public static DefaultLauncher createLauncher(TestEngine... engines) {
 		return new DefaultLauncher(asList(engines));
 	}
-
 }

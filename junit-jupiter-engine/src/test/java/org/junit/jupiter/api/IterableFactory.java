@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import java.util.Arrays;
@@ -24,5 +23,4 @@ final class IterableFactory {
 	static Set<Object> setOf(Object... objects) {
 		return new LinkedHashSet<>(listOf(objects));
 	}
-
 }

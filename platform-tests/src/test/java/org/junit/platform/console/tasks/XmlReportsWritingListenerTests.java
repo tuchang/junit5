@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -38,7 +37,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestReporter;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,41 +54,36 @@ import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 import org.opentest4j.AssertionFailedError;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 @ExtendWith(TempDirectory.class)
 class XmlReportsWritingListenerTests {
 
 	@Test
 	void writesFileForSingleSucceedingTest(@Root Path tempDirectory) throws Exception {
 		DemoHierarchicalTestEngine engine = new DemoHierarchicalTestEngine("dummy");
-		engine.addTest("succeedingTest", "display<-->Name 😎", () -> {
-		});
+		engine.addTest("succeedingTest", "display<-->Name 😎", () -> {});
 
 		executeTests(engine, tempDirectory);
 
 		String content = readValidXmlFile(tempDirectory.resolve("TEST-dummy.xml"));
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite name=\"dummy\" tests=\"1\" skipped=\"0\" failures=\"0\" errors=\"0\"",
-
-					"<testcase name=\"display&lt;--&gt;Name 😎\" classname=\"dummy\"",
+				.containsSequence(
+						"<testsuite name=\"dummy\" tests=\"1\" skipped=\"0\" failures=\"0\" errors=\"0\"",
+						"<testcase name=\"display&lt;--&gt;Name 😎\" classname=\"dummy\"",
 						"<system-out>",
-							"unique-id: [engine:dummy]/[test:succeedingTest]",
-							"display-name: display<-->Name 😎",
+						"unique-id: [engine:dummy]/[test:succeedingTest]",
+						"display-name: display<-->Name 😎",
 						"</system-out>",
-					"</testcase>",
-
-					"<system-out>",
+						"</testcase>",
+						"<system-out>",
 						"unique-id: [engine:dummy]",
 						"display-name: dummy",
-					"</system-out>",
-				"</testsuite>")
-			.doesNotContain("<skipped")
-			.doesNotContain("<failure")
-			.doesNotContain("<error");
+						"</system-out>",
+						"</testsuite>")
+				.doesNotContain("<skipped")
+				.doesNotContain("<failure")
+				.doesNotContain("<error");
 		//@formatter:on
 	}
 
@@ -105,26 +98,30 @@ class XmlReportsWritingListenerTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite name=\"dummy\" tests=\"1\" skipped=\"0\" failures=\"1\" errors=\"0\"",
-				"<testcase name=\"failingTest\"",
-				"<failure message=\"expected to &lt;b&gt;fail&lt;/b&gt;\" type=\"" + AssertionFailedError.class.getName() + "\">",
-				"AssertionFailedError: expected to <b>fail</b>",
-				"\tat",
-				"</failure>",
-				"</testcase>",
-				"</testsuite>")
-			.doesNotContain("<skipped")
-			.doesNotContain("<error");
+				.containsSequence(
+						"<testsuite name=\"dummy\" tests=\"1\" skipped=\"0\" failures=\"1\" errors=\"0\"",
+						"<testcase name=\"failingTest\"",
+						"<failure message=\"expected to &lt;b&gt;fail&lt;/b&gt;\" type=\""
+								+ AssertionFailedError.class.getName()
+								+ "\">",
+						"AssertionFailedError: expected to <b>fail</b>",
+						"\tat",
+						"</failure>",
+						"</testcase>",
+						"</testsuite>")
+				.doesNotContain("<skipped")
+				.doesNotContain("<error");
 		//@formatter:on
 	}
 
 	@Test
 	void writesFileForSingleErroneousTest(@Root Path tempDirectory) throws Exception {
 		DemoHierarchicalTestEngine engine = new DemoHierarchicalTestEngine("dummy");
-		engine.addTest("failingTest", () -> {
-			throw new RuntimeException("error occurred");
-		});
+		engine.addTest(
+				"failingTest",
+				() -> {
+					throw new RuntimeException("error occurred");
+				});
 
 		executeTests(engine, tempDirectory);
 
@@ -132,24 +129,25 @@ class XmlReportsWritingListenerTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite name=\"dummy\" tests=\"1\" skipped=\"0\" failures=\"0\" errors=\"1\"",
-				"<testcase name=\"failingTest\"",
-				"<error message=\"error occurred\" type=\"java.lang.RuntimeException\">",
-				"RuntimeException: error occurred",
-				"\tat ",
-				"</error>",
-				"</testcase>",
-				"</testsuite>")
-			.doesNotContain("<skipped")
-			.doesNotContain("<failure");
+				.containsSequence(
+						"<testsuite name=\"dummy\" tests=\"1\" skipped=\"0\" failures=\"0\" errors=\"1\"",
+						"<testcase name=\"failingTest\"",
+						"<error message=\"error occurred\" type=\"java.lang.RuntimeException\">",
+						"RuntimeException: error occurred",
+						"\tat ",
+						"</error>",
+						"</testcase>",
+						"</testsuite>")
+				.doesNotContain("<skipped")
+				.doesNotContain("<failure");
 		//@formatter:on
 	}
 
 	@Test
 	void writesFileForSingleSkippedTest(@Root Path tempDirectory) throws Exception {
 		DemoHierarchicalTestEngine engine = new DemoHierarchicalTestEngine("dummy");
-		DemoHierarchicalTestDescriptor testDescriptor = engine.addTest("skippedTest", () -> fail("never called"));
+		DemoHierarchicalTestDescriptor testDescriptor =
+				engine.addTest("skippedTest", () -> fail("never called"));
 		testDescriptor.markSkipped("should be skipped");
 
 		executeTests(engine, tempDirectory);
@@ -158,16 +156,16 @@ class XmlReportsWritingListenerTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite name=\"dummy\" tests=\"1\" skipped=\"1\" failures=\"0\" errors=\"0\"",
-				"<testcase name=\"skippedTest\"",
-				"<skipped>",
-				"should be skipped",
-				"</skipped>",
-				"</testcase>",
-				"</testsuite>")
-			.doesNotContain("<failure")
-			.doesNotContain("<error");
+				.containsSequence(
+						"<testsuite name=\"dummy\" tests=\"1\" skipped=\"1\" failures=\"0\" errors=\"0\"",
+						"<testcase name=\"skippedTest\"",
+						"<skipped>",
+						"should be skipped",
+						"</skipped>",
+						"</testcase>",
+						"</testsuite>")
+				.doesNotContain("<failure")
+				.doesNotContain("<error");
 		//@formatter:on
 	}
 
@@ -182,28 +180,26 @@ class XmlReportsWritingListenerTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite name=\"dummy\" tests=\"1\" skipped=\"1\" failures=\"0\" errors=\"0\"",
-				"<testcase name=\"abortedTest\"",
-				"<skipped>",
-				"TestAbortedException: ",
-				"deliberately aborted",
-				"at ",
-				"</skipped>",
-				"</testcase>",
-				"</testsuite>")
-			.doesNotContain("<failure")
-			.doesNotContain("<error");
+				.containsSequence(
+						"<testsuite name=\"dummy\" tests=\"1\" skipped=\"1\" failures=\"0\" errors=\"0\"",
+						"<testcase name=\"abortedTest\"",
+						"<skipped>",
+						"TestAbortedException: ",
+						"deliberately aborted",
+						"at ",
+						"</skipped>",
+						"</testcase>",
+						"</testsuite>")
+				.doesNotContain("<failure")
+				.doesNotContain("<error");
 		//@formatter:on
 	}
 
 	@Test
 	void measuresTimesInSeconds(@Root Path tempDirectory) throws Exception {
 		DemoHierarchicalTestEngine engine = new DemoHierarchicalTestEngine("dummy");
-		engine.addTest("firstTest", () -> {
-		});
-		engine.addTest("secondTest", () -> {
-		});
+		engine.addTest("firstTest", () -> {});
+		engine.addTest("secondTest", () -> {});
 
 		executeTests(engine, tempDirectory, new IncrementingClock(0, Duration.ofMillis(333)));
 
@@ -216,18 +212,18 @@ class XmlReportsWritingListenerTests {
 		// firstTest     333 (2)      666 (3)
 		// secondTest    999 (4)    1,332 (5)
 		assertThat(content)
-			.containsSequence(
-				"<testsuite", "time=\"1.665\"",
-				"<testcase name=\"firstTest\" classname=\"dummy\" time=\"0.333\"",
-				"<testcase name=\"secondTest\" classname=\"dummy\" time=\"0.333\"");
+				.containsSequence(
+						"<testsuite",
+						"time=\"1.665\"",
+						"<testcase name=\"firstTest\" classname=\"dummy\" time=\"0.333\"",
+						"<testcase name=\"secondTest\" classname=\"dummy\" time=\"0.333\"");
 		//@formatter:on
 	}
 
 	@Test
 	void testWithImmeasurableTimeIsOutputCorrectly(@Root Path tempDirectory) throws Exception {
 		DemoHierarchicalTestEngine engine = new DemoHierarchicalTestEngine("dummy");
-		engine.addTest("test", () -> {
-		});
+		engine.addTest("test", () -> {});
 
 		executeTests(engine, tempDirectory, Clock.fixed(Instant.EPOCH, ZoneId.systemDefault()));
 
@@ -235,9 +231,7 @@ class XmlReportsWritingListenerTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite",
-				"<testcase name=\"test\" classname=\"dummy\" time=\"0\"");
+				.containsSequence("<testsuite", "<testcase name=\"test\" classname=\"dummy\" time=\"0\"");
 		//@formatter:on
 	}
 
@@ -253,14 +247,14 @@ class XmlReportsWritingListenerTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite name=\"dummy\" tests=\"1\" skipped=\"1\" failures=\"0\" errors=\"0\"",
-				"<testcase name=\"test\"",
-				"<skipped>",
-				"parent was skipped: should be skipped",
-				"</skipped>",
-				"</testcase>",
-				"</testsuite>");
+				.containsSequence(
+						"<testsuite name=\"dummy\" tests=\"1\" skipped=\"1\" failures=\"0\" errors=\"0\"",
+						"<testcase name=\"test\"",
+						"<skipped>",
+						"parent was skipped: should be skipped",
+						"</skipped>",
+						"</testcase>",
+						"</testsuite>");
 		//@formatter:on
 	}
 
@@ -276,23 +270,24 @@ class XmlReportsWritingListenerTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite name=\"dummy\" tests=\"1\" skipped=\"0\" failures=\"1\" errors=\"0\"",
-				"<testcase name=\"test\"",
-				"<failure message=\"failure before all tests\" type=\"" + AssertionFailedError.class.getName() + "\">",
-				"AssertionFailedError: failure before all tests",
-				"\tat",
-				"</failure>",
-				"</testcase>",
-				"</testsuite>");
+				.containsSequence(
+						"<testsuite name=\"dummy\" tests=\"1\" skipped=\"0\" failures=\"1\" errors=\"0\"",
+						"<testcase name=\"test\"",
+						"<failure message=\"failure before all tests\" type=\""
+								+ AssertionFailedError.class.getName()
+								+ "\">",
+						"AssertionFailedError: failure before all tests",
+						"\tat",
+						"</failure>",
+						"</testcase>",
+						"</testsuite>");
 		//@formatter:on
 	}
 
 	@Test
 	void writesSystemProperties(@Root Path tempDirectory) throws Exception {
 		DemoHierarchicalTestEngine engine = new DemoHierarchicalTestEngine("dummy");
-		engine.addTest("test", () -> {
-		});
+		engine.addTest("test", () -> {});
 
 		executeTests(engine, tempDirectory);
 
@@ -300,22 +295,21 @@ class XmlReportsWritingListenerTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite",
-				"<properties>",
-				"<property name=\"file.separator\" value=\"" + File.separator + "\"/>",
-				"<property name=\"path.separator\" value=\"" + File.pathSeparator + "\"/>",
-				"</properties>",
-				"<testcase",
-				"</testsuite>");
+				.containsSequence(
+						"<testsuite",
+						"<properties>",
+						"<property name=\"file.separator\" value=\"" + File.separator + "\"/>",
+						"<property name=\"path.separator\" value=\"" + File.pathSeparator + "\"/>",
+						"</properties>",
+						"<testcase",
+						"</testsuite>");
 		//@formatter:on
 	}
 
 	@Test
 	void writesHostNameAndTimestamp(@Root Path tempDirectory) throws Exception {
 		DemoHierarchicalTestEngine engine = new DemoHierarchicalTestEngine("dummy");
-		engine.addTest("test", () -> {
-		});
+		engine.addTest("test", () -> {});
 
 		LocalDateTime now = LocalDateTime.parse("2016-01-28T14:02:59.123");
 		ZoneId zone = ZoneId.systemDefault();
@@ -326,12 +320,12 @@ class XmlReportsWritingListenerTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite",
-				"hostname=\"" + InetAddress.getLocalHost().getHostName() + "\"",
-				"timestamp=\"2016-01-28T14:02:59\"",
-				"<testcase",
-				"</testsuite>");
+				.containsSequence(
+						"<testsuite",
+						"hostname=\"" + InetAddress.getLocalHost().getHostName() + "\"",
+						"timestamp=\"2016-01-28T14:02:59\"",
+						"<testcase",
+						"</testsuite>");
 		//@formatter:on
 	}
 
@@ -341,23 +335,27 @@ class XmlReportsWritingListenerTests {
 		Files.write(reportsDir, singleton("content"));
 
 		StringWriter out = new StringWriter();
-		XmlReportsWritingListener listener = new XmlReportsWritingListener(reportsDir, new PrintWriter(out));
+		XmlReportsWritingListener listener =
+				new XmlReportsWritingListener(reportsDir, new PrintWriter(out));
 
 		listener.testPlanExecutionStarted(TestPlan.from(emptySet()));
 
-		assertThat(out.toString()).containsSequence("Could not create reports directory", "FileAlreadyExistsException",
-			"at ");
+		assertThat(out.toString())
+				.containsSequence(
+						"Could not create reports directory", "FileAlreadyExistsException", "at ");
 	}
 
 	@Test
 	void printsExceptionWhenReportCouldNotBeWritten(@Root Path tempDirectory) throws Exception {
-		EngineDescriptor engineDescriptor = new EngineDescriptor(UniqueId.forEngine("engine"), "Engine");
+		EngineDescriptor engineDescriptor =
+				new EngineDescriptor(UniqueId.forEngine("engine"), "Engine");
 
 		Path xmlFile = tempDirectory.resolve("TEST-engine.xml");
 		Files.createDirectories(xmlFile);
 
 		StringWriter out = new StringWriter();
-		XmlReportsWritingListener listener = new XmlReportsWritingListener(tempDirectory, new PrintWriter(out));
+		XmlReportsWritingListener listener =
+				new XmlReportsWritingListener(tempDirectory, new PrintWriter(out));
 
 		listener.testPlanExecutionStarted(TestPlan.from(singleton(engineDescriptor)));
 		listener.executionFinished(TestIdentifier.from(engineDescriptor), successful());
@@ -366,13 +364,16 @@ class XmlReportsWritingListenerTests {
 	}
 
 	@Test
-	void writesReportEntriesToSystemOutElement(@Root Path tempDirectory, TestReporter testReporter) throws Exception {
-		EngineDescriptor engineDescriptor = new EngineDescriptor(UniqueId.forEngine("engine"), "Engine");
+	void writesReportEntriesToSystemOutElement(@Root Path tempDirectory, TestReporter testReporter)
+			throws Exception {
+		EngineDescriptor engineDescriptor =
+				new EngineDescriptor(UniqueId.forEngine("engine"), "Engine");
 		engineDescriptor.addChild(new TestDescriptorStub(UniqueId.root("child", "test"), "test"));
 		TestPlan testPlan = TestPlan.from(singleton(engineDescriptor));
 
 		StringWriter out = new StringWriter();
-		XmlReportsWritingListener listener = new XmlReportsWritingListener(tempDirectory, new PrintWriter(out));
+		XmlReportsWritingListener listener =
+				new XmlReportsWritingListener(tempDirectory, new PrintWriter(out));
 
 		listener.testPlanExecutionStarted(testPlan);
 		TestIdentifier testIdentifier = testPlan.getTestIdentifier("[child:test]");
@@ -390,18 +391,18 @@ class XmlReportsWritingListenerTests {
 
 		//@formatter:off
 		assertThat(content)
-			.containsSequence(
-				"<testsuite",
-				"<testcase",
-				"<system-out>",
-				"Report Entry #1 (timestamp: " + Year.now(),
-				"- foo: bar\n",
-				"Report Entry #2 (timestamp: " + Year.now(),
-				"- bar: baz\n",
-				"- qux: foo\n",
-				"</system-out>",
-				"</testcase>",
-				"</testsuite>");
+				.containsSequence(
+						"<testsuite",
+						"<testcase",
+						"<system-out>",
+						"Report Entry #1 (timestamp: " + Year.now(),
+						"- foo: bar\n",
+						"Report Entry #2 (timestamp: " + Year.now(),
+						"- bar: baz\n",
+						"- qux: foo\n",
+						"</system-out>",
+						"</testcase>",
+						"</testsuite>");
 		//@formatter:on
 	}
 
@@ -411,10 +412,12 @@ class XmlReportsWritingListenerTests {
 
 	private void executeTests(TestEngine engine, Path tempDirectory, Clock clock) {
 		PrintWriter out = new PrintWriter(new StringWriter());
-		XmlReportsWritingListener reportListener = new XmlReportsWritingListener(tempDirectory.toString(), out, clock);
+		XmlReportsWritingListener reportListener =
+				new XmlReportsWritingListener(tempDirectory.toString(), out, clock);
 		Launcher launcher = createLauncher(engine);
 		launcher.registerTestExecutionListeners(reportListener);
-		launcher.execute(request().selectors(selectUniqueId(UniqueId.forEngine(engine.getId()))).build());
+		launcher.execute(
+				request().selectors(selectUniqueId(UniqueId.forEngine(engine.getId()))).build());
 	}
 
 	private String readValidXmlFile(Path xmlFile) throws Exception {
@@ -422,5 +425,4 @@ class XmlReportsWritingListenerTests {
 		String content = new String(Files.readAllBytes(xmlFile), UTF_8);
 		return ensureValidAccordingToJenkinsSchema(content);
 	}
-
 }

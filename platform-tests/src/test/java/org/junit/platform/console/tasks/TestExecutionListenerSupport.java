@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import java.io.ByteArrayOutputStream;
@@ -20,7 +19,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
-
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
@@ -28,9 +26,7 @@ import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class TestExecutionListenerSupport {
 
 	private final Charset charset = StandardCharsets.UTF_8;
@@ -97,8 +93,7 @@ class TestExecutionListenerSupport {
 
 		try {
 			return Arrays.asList(stream.toString(charset.name()).split("\\R"));
-		}
-		catch (UnsupportedEncodingException e) {
+		} catch (UnsupportedEncodingException e) {
 			throw new AssertionError(charset.name() + " is an unsupported encoding?!", e);
 		}
 	}

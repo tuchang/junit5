@@ -7,12 +7,10 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // tag::user_guide[]
 import java.util.HashMap;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestReporter;
 
@@ -31,6 +29,5 @@ class TestReporterDemo {
 
 		testReporter.publishEntry(values);
 	}
-
 }
 // end::user_guide[]

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.runner;
 
 import static org.junit.platform.engine.TestExecutionResult.Status.ABORTED;
@@ -22,9 +21,7 @@ import org.junit.runner.Description;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class JUnitPlatformRunnerListener implements TestExecutionListener {
 
 	private final JUnitPlatformTestTree testTree;
@@ -45,8 +42,7 @@ class JUnitPlatformRunnerListener implements TestExecutionListener {
 	public void executionSkipped(TestIdentifier testIdentifier, String reason) {
 		if (testIdentifier.isTest()) {
 			fireTestIgnored(testIdentifier);
-		}
-		else {
+		} else {
 			testTree.getTestsInSubtree(testIdentifier).forEach(this::fireTestIgnored);
 		}
 	}
@@ -65,13 +61,13 @@ class JUnitPlatformRunnerListener implements TestExecutionListener {
 	}
 
 	@Override
-	public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
+	public void executionFinished(
+			TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
 		Description description = findJUnit4Description(testIdentifier);
 		Status status = testExecutionResult.getStatus();
 		if (status == ABORTED) {
 			this.notifier.fireTestAssumptionFailed(toFailure(testExecutionResult, description));
-		}
-		else if (status == FAILED) {
+		} else if (status == FAILED) {
 			this.notifier.fireTestFailure(toFailure(testExecutionResult, description));
 		}
 		if (description.isTest()) {
@@ -91,5 +87,4 @@ class JUnitPlatformRunnerListener implements TestExecutionListener {
 	private Description findJUnit4Description(TestIdentifier testIdentifier) {
 		return this.testTree.getDescription(testIdentifier);
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.hierarchical;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,20 +16,16 @@ import static org.junit.platform.engine.TestExecutionResult.Status.FAILED;
 import static org.junit.platform.engine.TestExecutionResult.Status.SUCCESSFUL;
 
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.TestExecutionResult;
 import org.opentest4j.TestAbortedException;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class SingleTestExecutorTests {
 
 	@Test
 	public void executeSafelySuccessful() {
-		TestExecutionResult result = new SingleTestExecutor().executeSafely(() -> {
-		});
+		TestExecutionResult result = new SingleTestExecutor().executeSafely(() -> {});
 
 		assertEquals(SUCCESSFUL, result.getStatus());
 		assertEquals(Optional.empty(), result.getThrowable());
@@ -40,9 +35,12 @@ public class SingleTestExecutorTests {
 	public void executeSafelyAborted() {
 		TestAbortedException testAbortedException = new TestAbortedException("assumption violated");
 
-		TestExecutionResult result = new SingleTestExecutor().executeSafely(() -> {
-			throw testAbortedException;
-		});
+		TestExecutionResult result =
+				new SingleTestExecutor()
+						.executeSafely(
+								() -> {
+									throw testAbortedException;
+								});
 
 		assertEquals(ABORTED, result.getStatus());
 		assertSame(testAbortedException, result.getThrowable().get());
@@ -52,9 +50,12 @@ public class SingleTestExecutorTests {
 	public void executeSafelyFailed() {
 		AssertionError assertionError = new AssertionError("assumption violated");
 
-		TestExecutionResult result = new SingleTestExecutor().executeSafely(() -> {
-			throw assertionError;
-		});
+		TestExecutionResult result =
+				new SingleTestExecutor()
+						.executeSafely(
+								() -> {
+									throw assertionError;
+								});
 
 		assertEquals(FAILED, result.getStatus());
 		assertSame(assertionError, result.getThrowable().get());

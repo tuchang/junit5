@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example.testinterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 //tag::user_guide[]
-class TestInterfaceDemo implements TestLifecycleLogger, TimeExecutionLogger, TestInterfaceDynamicTestsDemo {
+class TestInterfaceDemo
+		implements TestLifecycleLogger, TimeExecutionLogger, TestInterfaceDynamicTestsDemo {
 
 	@Test
 	void isEqualValue() {
 		assertEquals(1, 1, "is always equal");
 	}
-
 }
 //end::user_guide[]

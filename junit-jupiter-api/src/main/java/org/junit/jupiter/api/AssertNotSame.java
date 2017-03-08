@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionUtils.buildPrefix;
@@ -17,11 +16,11 @@ import static org.junit.jupiter.api.AssertionUtils.nullSafeGet;
 import java.util.function.Supplier;
 
 /**
- * {@code AssertNotSame} is a collection of utility methods that support asserting
- * two objects are not the same.
- *
- * @since 5.0
- */
+* {@code AssertNotSame} is a collection of utility methods that support asserting two objects are
+* not the same.
+*
+* @since 5.0
+*/
 class AssertNotSame {
 
 	static void assertNotSame(Object unexpected, Object actual) {
@@ -41,5 +40,4 @@ class AssertNotSame {
 	private static void failSame(Object actual, String message) {
 		fail(buildPrefix(message) + "expected: not same but was: <" + actual + ">");
 	}
-
 }

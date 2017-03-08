@@ -7,16 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.bridge;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 // modifier "public" is necessary for creating bridge methods by the compiler
 public class ChildWithBridgeMethods extends PackagePrivateParent {
 
@@ -34,5 +31,4 @@ public class ChildWithBridgeMethods extends PackagePrivateParent {
 	public void anotherAfterEach() {
 		BridgeMethodTests.sequence.add("child.anotherAfterEach()");
 	}
-
 }

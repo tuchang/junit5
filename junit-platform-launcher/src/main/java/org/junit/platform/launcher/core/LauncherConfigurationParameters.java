@@ -7,19 +7,15 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import java.util.Map;
 import java.util.Optional;
-
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.commons.util.ToStringBuilder;
 import org.junit.platform.engine.ConfigurationParameters;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class LauncherConfigurationParameters implements ConfigurationParameters {
 
 	private final Map<String, String> configurationParameters;
@@ -36,8 +32,7 @@ class LauncherConfigurationParameters implements ConfigurationParameters {
 		if (value == null) {
 			try {
 				value = System.getProperty(key);
-			}
-			catch (Exception ex) {
+			} catch (Exception ex) {
 				/* ignore */
 			}
 		}
@@ -55,5 +50,4 @@ class LauncherConfigurationParameters implements ConfigurationParameters {
 		this.configurationParameters.forEach(builder::append);
 		return builder.toString();
 	}
-
 }

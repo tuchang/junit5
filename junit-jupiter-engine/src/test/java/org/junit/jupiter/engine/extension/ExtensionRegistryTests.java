@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import static java.util.Arrays.asList;
@@ -21,16 +20,13 @@ import static org.junit.jupiter.engine.extension.ExtensionRegistry.createRegistr
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ContainerExecutionCondition;
 import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestExecutionCondition;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class ExtensionRegistryTests {
 
 	private final ExtensionRegistry registry = createRegistryWithDefaultExtensions();
@@ -100,12 +96,14 @@ public class ExtensionRegistryTests {
 		parent.registerExtension(MyExtension.class);
 		assertEquals(1, countExtensions(parent, MyExtensionApi.class));
 
-		ExtensionRegistry child = createRegistryFrom(parent, asList(MyExtension.class, YourExtension.class));
+		ExtensionRegistry child =
+				createRegistryFrom(parent, asList(MyExtension.class, YourExtension.class));
 		assertExtensionRegistered(child, MyExtension.class);
 		assertExtensionRegistered(child, YourExtension.class);
 		assertEquals(2, countExtensions(child, MyExtensionApi.class));
 
-		ExtensionRegistry grandChild = createRegistryFrom(child, asList(MyExtension.class, YourExtension.class));
+		ExtensionRegistry grandChild =
+				createRegistryFrom(child, asList(MyExtension.class, YourExtension.class));
 		assertExtensionRegistered(grandChild, MyExtension.class);
 		assertExtensionRegistered(grandChild, YourExtension.class);
 		assertEquals(2, countExtensions(grandChild, MyExtensionApi.class));
@@ -117,21 +115,27 @@ public class ExtensionRegistryTests {
 
 		AtomicBoolean hasRun = new AtomicBoolean(false);
 
-		registry.getExtensions(MyExtensionApi.class).forEach(extension -> {
-			assertEquals(MyExtension.class.getName(), extension.getClass().getName());
-			hasRun.set(true);
-		});
+		registry
+				.getExtensions(MyExtensionApi.class)
+				.forEach(
+						extension -> {
+							assertEquals(MyExtension.class.getName(), extension.getClass().getName());
+							hasRun.set(true);
+						});
 
 		assertTrue(hasRun.get());
 	}
 
-	private long countExtensions(ExtensionRegistry registry, Class<? extends Extension> extensionType) {
+	private long countExtensions(
+			ExtensionRegistry registry, Class<? extends Extension> extensionType) {
 		return registry.stream(extensionType).count();
 	}
 
-	private void assertExtensionRegistered(ExtensionRegistry registry, Class<? extends Extension> extensionType) {
-		assertFalse(registry.getExtensions(extensionType).isEmpty(),
-			() -> extensionType.getSimpleName() + " should be present");
+	private void assertExtensionRegistered(
+			ExtensionRegistry registry, Class<? extends Extension> extensionType) {
+		assertFalse(
+				registry.getExtensions(extensionType).isEmpty(),
+				() -> extensionType.getSimpleName() + " should be present");
 	}
 
 	// -------------------------------------------------------------------------
@@ -149,26 +153,21 @@ public class ExtensionRegistryTests {
 	static class MyExtension implements MyExtensionApi {
 
 		@Override
-		public void doNothing(String test) {
-		}
+		public void doNothing(String test) {}
 	}
 
 	static class YourExtension implements MyExtensionApi {
 
 		@Override
-		public void doNothing(String test) {
-		}
+		public void doNothing(String test) {}
 	}
 
 	static class MultipleExtension implements MyExtensionApi, AnotherExtensionApi {
 
 		@Override
-		public void doNothing(String test) {
-		}
+		public void doNothing(String test) {}
 
 		@Override
-		public void doMore() {
-		}
+		public void doMore() {}
 	}
-
 }

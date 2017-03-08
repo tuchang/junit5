@@ -7,15 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.descriptor;
 
 import org.junit.runner.Request;
 import org.junit.runner.Runner;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class RunnerRequest extends Request {
 
 	private final Runner runner;

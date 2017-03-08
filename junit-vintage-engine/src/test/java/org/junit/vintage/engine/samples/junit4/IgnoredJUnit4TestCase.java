@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static org.junit.Assert.fail;
@@ -15,9 +14,7 @@ import static org.junit.Assert.fail;
 import org.junit.Ignore;
 import org.junit.Test;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @Ignore("complete class is ignored")
 public class IgnoredJUnit4TestCase {
 
@@ -25,5 +22,4 @@ public class IgnoredJUnit4TestCase {
 	public void test() {
 		fail("this test is not even discovered");
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionTestUtils.assertMessageContains;
@@ -19,10 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Unit tests for JUnit Jupiter {@link Assertions}.
- *
- * @since 5.0
- */
+* Unit tests for JUnit Jupiter {@link Assertions}.
+*
+* @since 5.0
+*/
 public class AssertionsAssertNotSameTests {
 
 	@Test
@@ -45,8 +44,7 @@ public class AssertionsAssertNotSameTests {
 		try {
 			assertNotSame(null, null);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "expected: not same but was: <null>");
 		}
 	}
@@ -57,8 +55,7 @@ public class AssertionsAssertNotSameTests {
 			Object foo = new Object();
 			assertNotSame(foo, foo, "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "test");
 			assertMessageContains(ex, "expected: not same but was: <java.lang.Object@");
 		}
@@ -70,11 +67,9 @@ public class AssertionsAssertNotSameTests {
 			Object foo = new Object();
 			assertNotSame(foo, foo, () -> "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "test");
 			assertMessageContains(ex, "expected: not same but was: <java.lang.Object@");
 		}
 	}
-
 }

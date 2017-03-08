@@ -7,23 +7,21 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static java.util.stream.Collectors.joining;
 
 import java.util.Deque;
 import java.util.function.Supplier;
-
 import org.junit.platform.commons.util.StringUtils;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * {@code AssertionUtils} is a collection of utility methods that are common to
- * all assertion implementations.
- *
- * @since 5.0
- */
+* {@code AssertionUtils} is a collection of utility methods that are common to all assertion
+* implementations.
+*
+* @since 5.0
+*/
 class AssertionUtils {
 
 	///CLOVER:OFF
@@ -64,8 +62,7 @@ class AssertionUtils {
 		try {
 			String canonicalName = clazz.getCanonicalName();
 			return (canonicalName != null ? canonicalName : clazz.getName());
-		}
-		catch (Throwable t) {
+		} catch (Throwable t) {
 			return clazz.getName();
 		}
 	}
@@ -78,10 +75,10 @@ class AssertionUtils {
 		String expectedString = toString(expected);
 		String actualString = toString(actual);
 		if (expectedString.equals(actualString)) {
-			return String.format("expected: %s but was: %s", formatClassAndValue(expected, expectedString),
-				formatClassAndValue(actual, actualString));
-		}
-		else {
+			return String.format(
+					"expected: %s but was: %s",
+					formatClassAndValue(expected, expectedString), formatClassAndValue(actual, actualString));
+		} else {
 			return String.format("expected: <%s> but was: <%s>", expectedString, actualString);
 		}
 	}
@@ -89,7 +86,9 @@ class AssertionUtils {
 	private static String formatClassAndValue(Object value, String valueString) {
 		String classAndHash = getClassName(value) + toHash(value);
 		// if it's a class, there's no need to repeat the class name contained in the valueString.
-		return (value instanceof Class ? "<" + classAndHash + ">" : classAndHash + "<" + valueString + ">");
+		return (value instanceof Class
+				? "<" + classAndHash + ">"
+				: classAndHash + "<" + valueString + ">");
 	}
 
 	private static String toString(Object obj) {
@@ -101,7 +100,8 @@ class AssertionUtils {
 	}
 
 	private static String getClassName(Object obj) {
-		return (obj == null ? "null"
+		return (obj == null
+				? "null"
 				: obj instanceof Class ? getCanonicalName((Class<?>) obj) : obj.getClass().getName());
 	}
 
@@ -146,8 +146,7 @@ class AssertionUtils {
 	static boolean objectsAreEqual(Object obj1, Object obj2) {
 		if (obj1 == null) {
 			return (obj2 == null);
-		}
-		else {
+		} else {
 			return obj1.equals(obj2);
 		}
 	}
@@ -155,5 +154,4 @@ class AssertionUtils {
 	private static void failIllegalDelta(String delta) {
 		fail("positive delta expected but was: <" + delta + ">");
 	}
-
 }

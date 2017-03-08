@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -21,7 +20,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.IntFunction;
 import java.util.logging.Logger;
-
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
@@ -31,9 +29,7 @@ import org.junit.runners.model.RunnerBuilder;
 import org.junit.vintage.engine.descriptor.RunnerTestDescriptor;
 import org.junit.vintage.engine.descriptor.VintageTestDescriptor;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class TestClassRequestResolver {
 
 	private final TestDescriptor engineDescriptor;
@@ -59,38 +55,46 @@ class TestClassRequestResolver {
 		}
 	}
 
-	private void addRunnerTestDescriptor(TestClassRequest request, Class<?> testClass, Runner runner) {
-		RunnerTestDescriptor runnerTestDescriptor = determineRunnerTestDescriptor(testClass, runner,
-			request.getFilters());
+	private void addRunnerTestDescriptor(
+			TestClassRequest request, Class<?> testClass, Runner runner) {
+		RunnerTestDescriptor runnerTestDescriptor =
+				determineRunnerTestDescriptor(testClass, runner, request.getFilters());
 		engineDescriptor.addChild(runnerTestDescriptor);
 	}
 
-	private RunnerTestDescriptor determineRunnerTestDescriptor(Class<?> testClass, Runner runner,
-			List<RunnerTestDescriptorAwareFilter> filters) {
-		RunnerTestDescriptor runnerTestDescriptor = createCompleteRunnerTestDescriptor(testClass, runner);
+	private RunnerTestDescriptor determineRunnerTestDescriptor(
+			Class<?> testClass, Runner runner, List<RunnerTestDescriptorAwareFilter> filters) {
+		RunnerTestDescriptor runnerTestDescriptor =
+				createCompleteRunnerTestDescriptor(testClass, runner);
 		if (!filters.isEmpty()) {
 			if (runner instanceof Filterable) {
 				Filter filter = createOrFilter(filters, runnerTestDescriptor);
 				Runner filteredRunner = runnerTestDescriptor.toRequest().filterWith(filter).getRunner();
 				runnerTestDescriptor = createCompleteRunnerTestDescriptor(testClass, filteredRunner);
-			}
-			else {
-				logger.warning(() -> "Runner " + runner.getClass().getName() //
-						+ " (used on " + testClass.getName() + ") does not support filtering" //
-						+ " and will therefore be run completely.");
+			} else {
+				logger.warning(
+						() ->
+								"Runner "
+										+ runner.getClass().getName() //
+										+ " (used on "
+										+ testClass.getName()
+										+ ") does not support filtering" //
+										+ " and will therefore be run completely.");
 			}
 		}
 		return runnerTestDescriptor;
 	}
 
-	private Filter createOrFilter(List<RunnerTestDescriptorAwareFilter> filters,
-			RunnerTestDescriptor runnerTestDescriptor) {
+	private Filter createOrFilter(
+			List<RunnerTestDescriptorAwareFilter> filters, RunnerTestDescriptor runnerTestDescriptor) {
 		filters.forEach(filter -> filter.initialize(runnerTestDescriptor));
 		return new OrFilter(filters);
 	}
 
-	private RunnerTestDescriptor createCompleteRunnerTestDescriptor(Class<?> testClass, Runner runner) {
-		RunnerTestDescriptor runnerTestDescriptor = new RunnerTestDescriptor(engineDescriptor, testClass, runner);
+	private RunnerTestDescriptor createCompleteRunnerTestDescriptor(
+			Class<?> testClass, Runner runner) {
+		RunnerTestDescriptor runnerTestDescriptor =
+				new RunnerTestDescriptor(engineDescriptor, testClass, runner);
 		addChildrenRecursively(runnerTestDescriptor);
 		return runnerTestDescriptor;
 	}
@@ -98,25 +102,33 @@ class TestClassRequestResolver {
 	private void addChildrenRecursively(VintageTestDescriptor parent) {
 		List<Description> children = parent.getDescription().getChildren();
 		// Use LinkedHashMap to preserve order, ArrayList for fast access by index
-		Map<String, List<Description>> childrenByUniqueId = children.stream().collect(
-			groupingBy(uniqueIdReader.andThen(uniqueIdStringifier), LinkedHashMap::new, toCollection(ArrayList::new)));
+		Map<String, List<Description>> childrenByUniqueId =
+				children
+						.stream()
+						.collect(
+								groupingBy(
+										uniqueIdReader.andThen(uniqueIdStringifier),
+										LinkedHashMap::new,
+										toCollection(ArrayList::new)));
 		for (Entry<String, List<Description>> entry : childrenByUniqueId.entrySet()) {
 			String uniqueId = entry.getKey();
 			List<Description> childrenWithSameUniqueId = entry.getValue();
-			IntFunction<String> uniqueIdGenerator = determineUniqueIdGenerator(uniqueId, childrenWithSameUniqueId);
+			IntFunction<String> uniqueIdGenerator =
+					determineUniqueIdGenerator(uniqueId, childrenWithSameUniqueId);
 			for (int index = 0; index < childrenWithSameUniqueId.size(); index++) {
 				String reallyUniqueId = uniqueIdGenerator.apply(index);
 				Description description = childrenWithSameUniqueId.get(index);
-				VintageTestDescriptor child = new VintageTestDescriptor(parent, VintageTestDescriptor.SEGMENT_TYPE_TEST,
-					reallyUniqueId, description);
+				VintageTestDescriptor child =
+						new VintageTestDescriptor(
+								parent, VintageTestDescriptor.SEGMENT_TYPE_TEST, reallyUniqueId, description);
 				parent.addChild(child);
 				addChildrenRecursively(child);
 			}
 		}
 	}
 
-	private IntFunction<String> determineUniqueIdGenerator(String uniqueId,
-			List<Description> childrenWithSameUniqueId) {
+	private IntFunction<String> determineUniqueIdGenerator(
+			String uniqueId, List<Description> childrenWithSameUniqueId) {
 		if (childrenWithSameUniqueId.size() == 1) {
 			return index -> uniqueId;
 		}

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static java.util.Collections.emptyMap;
@@ -29,8 +28,7 @@ final class CloseablePath implements Closeable {
 	private static final String JAR_FILE_EXTENSION = ".jar";
 	private static final String JAR_URI_SEPARATOR = "!";
 
-	private static final Closeable NULL_CLOSEABLE = () -> {
-	};
+	private static final Closeable NULL_CLOSEABLE = () -> {};
 
 	private final Path path;
 	private final Closeable delegate;
@@ -43,14 +41,15 @@ final class CloseablePath implements Closeable {
 			return createForJarFileSystem(new URI(jarUri), fileSystem -> fileSystem.getPath(jarEntry));
 		}
 		if (uri.getScheme().equals(FILE_URI_SCHEME) && uri.getPath().endsWith(JAR_FILE_EXTENSION)) {
-			return createForJarFileSystem(new URI(JAR_URI_SCHEME, uri.toString(), null),
-				fileSystem -> fileSystem.getRootDirectories().iterator().next());
+			return createForJarFileSystem(
+					new URI(JAR_URI_SCHEME, uri.toString(), null),
+					fileSystem -> fileSystem.getRootDirectories().iterator().next());
 		}
 		return new CloseablePath(Paths.get(uri), NULL_CLOSEABLE);
 	}
 
-	private static CloseablePath createForJarFileSystem(URI jarUri, Function<FileSystem, Path> pathProvider)
-			throws IOException {
+	private static CloseablePath createForJarFileSystem(
+			URI jarUri, Function<FileSystem, Path> pathProvider) throws IOException {
 		FileSystem fileSystem = FileSystems.newFileSystem(jarUri, emptyMap());
 		Path path = pathProvider.apply(fileSystem);
 		return new CloseablePath(path, fileSystem);

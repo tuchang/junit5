@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import static java.util.stream.Collectors.toList;
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.Extension;
 import org.junit.platform.commons.meta.API;
@@ -30,30 +28,31 @@ import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 /**
- * An {@code ExtensionRegistry} holds all registered extensions (i.e.
- * instances of {@link Extension}) for a given
- * {@link org.junit.platform.engine.support.hierarchical.Node}.
- *
- * <p>A registry has a reference to its parent registry, and all lookups are
- * performed first in the current registry itself and then recursively in its
- * ancestors.
- *
- * @since 5.0
- */
+* An {@code ExtensionRegistry} holds all registered extensions (i.e. instances of {@link
+* Extension}) for a given {@link org.junit.platform.engine.support.hierarchical.Node}.
+*
+* <p>A registry has a reference to its parent registry, and all lookups are performed first in the
+* current registry itself and then recursively in its ancestors.
+*
+* @since 5.0
+*/
 @API(Internal)
 public class ExtensionRegistry {
 
 	private static final Logger LOG = Logger.getLogger(ExtensionRegistry.class.getName());
 
-	private static final List<Extension> DEFAULT_EXTENSIONS = Collections.unmodifiableList(
-		Arrays.asList(new DisabledCondition(), new TestInfoParameterResolver(), new TestReporterParameterResolver()));
+	private static final List<Extension> DEFAULT_EXTENSIONS =
+			Collections.unmodifiableList(
+					Arrays.asList(
+							new DisabledCondition(),
+							new TestInfoParameterResolver(),
+							new TestReporterParameterResolver()));
 
 	/**
-	 * Factory for creating and populating a new root registry with the default
-	 * extensions.
-	 *
-	 * @return a new {@code ExtensionRegistry}
-	 */
+	* Factory for creating and populating a new root registry with the default extensions.
+	*
+	* @return a new {@code ExtensionRegistry}
+	*/
 	public static ExtensionRegistry createRegistryWithDefaultExtensions() {
 		ExtensionRegistry extensionRegistry = new ExtensionRegistry(null);
 		DEFAULT_EXTENSIONS.forEach(extensionRegistry::registerDefaultExtension);
@@ -61,16 +60,15 @@ public class ExtensionRegistry {
 	}
 
 	/**
-	 * Factory for creating and populating a new registry from a list of
-	 * extension types and a parent registry.
-	 *
-	 * @param parentRegistry the parent registry
-	 * @param extensionTypes the types of extensions to be registered in
-	 * the new registry
-	 * @return a new {@code ExtensionRegistry}
-	 */
-	public static ExtensionRegistry createRegistryFrom(ExtensionRegistry parentRegistry,
-			List<Class<? extends Extension>> extensionTypes) {
+	* Factory for creating and populating a new registry from a list of extension types and a parent
+	* registry.
+	*
+	* @param parentRegistry the parent registry
+	* @param extensionTypes the types of extensions to be registered in the new registry
+	* @return a new {@code ExtensionRegistry}
+	*/
+	public static ExtensionRegistry createRegistryFrom(
+			ExtensionRegistry parentRegistry, List<Class<? extends Extension>> extensionTypes) {
 
 		Preconditions.notNull(parentRegistry, "parentRegistry must not be null");
 
@@ -90,59 +88,58 @@ public class ExtensionRegistry {
 	}
 
 	/**
-	 * Stream all {@code Extensions} of the specified type that are present
-	 * in this registry or one of its ancestors.
-	 *
-	 * @param extensionType the type of {@link Extension} to stream
-	 * @see #getReversedExtensions(Class)
-	 * @see #getExtensions(Class)
-	 */
+	* Stream all {@code Extensions} of the specified type that are present in this registry or one of
+	* its ancestors.
+	*
+	* @param extensionType the type of {@link Extension} to stream
+	* @see #getReversedExtensions(Class)
+	* @see #getExtensions(Class)
+	*/
 	public <E extends Extension> Stream<E> stream(Class<E> extensionType) {
 		if (this.parent == null) {
 			return streamLocal(extensionType);
-		}
-		else {
+		} else {
 			return concat(this.parent.stream(extensionType), streamLocal(extensionType));
 		}
 	}
 
 	/**
-	 * Stream all {@code Extensions} of the specified type that are present
-	 * in this registry.
-	 *
-	 * <p>Extensions in ancestors are ignored.
-	 *
-	 * @param extensionType the type of {@link Extension} to stream
-	 * @see #getReversedExtensions(Class)
-	 */
+	* Stream all {@code Extensions} of the specified type that are present in this registry.
+	*
+	* <p>Extensions in ancestors are ignored.
+	*
+	* @param extensionType the type of {@link Extension} to stream
+	* @see #getReversedExtensions(Class)
+	*/
 	private <E extends Extension> Stream<E> streamLocal(Class<E> extensionType) {
 		// @formatter:off
-		return this.registeredExtensions.stream()
+		return this.registeredExtensions
+				.stream()
 				.filter(extensionType::isInstance)
 				.map(extensionType::cast);
 		// @formatter:on
 	}
 
 	/**
-	 * Get all {@code Extensions} of the specified type that are present
-	 * in this registry or one of its ancestors.
-	 *
-	 * @param extensionType the type of {@link Extension} to get
-	 * @see #getReversedExtensions(Class)
-	 * @see #stream(Class)
-	 */
+	* Get all {@code Extensions} of the specified type that are present in this registry or one of
+	* its ancestors.
+	*
+	* @param extensionType the type of {@link Extension} to get
+	* @see #getReversedExtensions(Class)
+	* @see #stream(Class)
+	*/
 	public <E extends Extension> List<E> getExtensions(Class<E> extensionType) {
 		return stream(extensionType).collect(toList());
 	}
 
 	/**
-	 * Get all {@code Extensions} of the specified type that are present
-	 * in this registry or one of its ancestors, in reverse order.
-	 *
-	 * @param extensionType the type of {@link Extension} to get
-	 * @see #getExtensions(Class)
-	 * @see #stream(Class)
-	 */
+	* Get all {@code Extensions} of the specified type that are present in this registry or one of
+	* its ancestors, in reverse order.
+	*
+	* @param extensionType the type of {@link Extension} to get
+	* @see #getExtensions(Class)
+	* @see #stream(Class)
+	*/
 	public <E extends Extension> List<E> getReversedExtensions(Class<E> extensionType) {
 		List<E> extensions = getExtensions(extensionType);
 		Collections.reverse(extensions);
@@ -150,23 +147,22 @@ public class ExtensionRegistry {
 	}
 
 	/**
-	 * Determine if the supplied type is already registered in this registry or in a
-	 * parent registry.
-	 */
+	* Determine if the supplied type is already registered in this registry or in a parent registry.
+	*/
 	private boolean isAlreadyRegistered(Class<? extends Extension> extensionType) {
 		return (this.registeredExtensionTypes.contains(extensionType)
 				|| (this.parent != null && this.parent.isAlreadyRegistered(extensionType)));
 	}
 
 	/**
-	 * Instantiate an extension of the given type using its default constructor
-	 * and register it in this registry.
-	 *
-	 * <p>A new {@link Extension} will not be registered if an extension of the
-	 * given type already exists in this registry or a parent registry.
-	 *
-	 * @param extensionType the type of extension to register
-	 */
+	* Instantiate an extension of the given type using its default constructor and register it in
+	* this registry.
+	*
+	* <p>A new {@link Extension} will not be registered if an extension of the given type already
+	* exists in this registry or a parent registry.
+	*
+	* @param extensionType the type of extension to register
+	*/
 	void registerExtension(Class<? extends Extension> extensionType) {
 		if (!isAlreadyRegistered(extensionType)) {
 			registerExtension(ReflectionUtils.newInstance(extensionType));
@@ -184,23 +180,23 @@ public class ExtensionRegistry {
 	}
 
 	/**
-	 * Register the supplied {@link Extension} in this registry, without checking
-	 * if an extension of that type already exists in this registry.
-	 *
-	 * <h4>Semantics for Source</h4>
-	 * <p>If an extension is registered declaratively via {@link ExtendWith @ExtendWith},
-	 * the {@code source} and the {@code extension} should be the same object. However,
-	 * if an extension is registered programmatically &mdash; for example, as a lambda
-	 * expression or method reference &mdash; the {@code source} object should be the
-	 * underlying {@link java.lang.reflect.Method} that implements the extension
-	 * API, or similar.
-	 *
-	 * @param extension the extension to register
-	 * @param source the source of the extension
-	 */
+	* Register the supplied {@link Extension} in this registry, without checking if an extension of
+	* that type already exists in this registry.
+	*
+	* <h4>Semantics for Source</h4>
+	*
+	* <p>If an extension is registered declaratively via {@link ExtendWith @ExtendWith}, the {@code
+	* source} and the {@code extension} should be the same object. However, if an extension is
+	* registered programmatically &mdash; for example, as a lambda expression or method reference
+	* &mdash; the {@code source} object should be the underlying {@link java.lang.reflect.Method}
+	* that implements the extension API, or similar.
+	*
+	* @param extension the extension to register
+	* @param source the source of the extension
+	*/
 	public void registerExtension(Extension extension, Object source) {
-		LOG.finer(() -> String.format("Registering extension [%s] from source [%s].", extension, source));
+		LOG.finer(
+				() -> String.format("Registering extension [%s] from source [%s].", extension, source));
 		this.registeredExtensions.add(extension);
 	}
-
 }

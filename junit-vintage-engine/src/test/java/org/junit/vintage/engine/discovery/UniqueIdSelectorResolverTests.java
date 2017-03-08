@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,16 +19,13 @@ import static org.junit.vintage.engine.descriptor.VintageTestDescriptor.ENGINE_I
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.discovery.UniqueIdSelector;
 import org.junit.vintage.engine.RecordCollectingLogger;
 import org.junit.vintage.engine.VintageUniqueIdBuilder;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class UniqueIdSelectorResolverTests {
 
 	private RecordCollectingLogger logger = new RecordCollectingLogger();
@@ -43,7 +39,8 @@ class UniqueIdSelectorResolverTests {
 		new UniqueIdSelectorResolver(logger).resolve(selector, collector);
 
 		assertNoRequests();
-		assertLoggedWarning("Unresolvable Unique ID (" + uniqueId + "): Unknown class foo.bar.UnknownClass");
+		assertLoggedWarning(
+				"Unresolvable Unique ID (" + uniqueId + "): Unknown class foo.bar.UnknownClass");
 	}
 
 	@Test
@@ -54,7 +51,8 @@ class UniqueIdSelectorResolverTests {
 		new UniqueIdSelectorResolver(logger).resolve(selector, collector);
 
 		assertNoRequests();
-		assertLoggedWarning("Unresolvable Unique ID (" + engineId() + "): Cannot resolve the engine's unique ID");
+		assertLoggedWarning(
+				"Unresolvable Unique ID (" + engineId() + "): Cannot resolve the engine's unique ID");
 	}
 
 	@Test
@@ -76,8 +74,10 @@ class UniqueIdSelectorResolverTests {
 		new UniqueIdSelectorResolver(logger).resolve(selector, collector);
 
 		assertNoRequests();
-		assertLoggedWarning("Unresolvable Unique ID (" + uniqueId
-				+ "): Unique ID segment after engine segment must be of type \"runner\"");
+		assertLoggedWarning(
+				"Unresolvable Unique ID ("
+						+ uniqueId
+						+ "): Unique ID segment after engine segment must be of type \"runner\"");
 	}
 
 	private void assertLoggedWarning(String expectedMessage) {
@@ -91,5 +91,4 @@ class UniqueIdSelectorResolverTests {
 		Set<TestClassRequest> requests = collector.toRequests(c -> true);
 		assertThat(requests).isEmpty();
 	}
-
 }

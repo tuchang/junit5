@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static org.junit.Assert.fail;
@@ -16,9 +15,7 @@ import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @RunWith(Enclosed.class)
 public class EnclosedJUnit4TestCase {
 
@@ -29,5 +26,4 @@ public class EnclosedJUnit4TestCase {
 			fail("this test should fail");
 		}
 	}
-
 }

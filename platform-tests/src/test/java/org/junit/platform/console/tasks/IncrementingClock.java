@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import java.time.Clock;
@@ -15,9 +14,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 final class IncrementingClock extends Clock {
 
 	private final Duration duration;

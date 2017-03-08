@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -16,9 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.test.TestDescriptorStub;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class TestDescriptorTests {
 
 	@Test

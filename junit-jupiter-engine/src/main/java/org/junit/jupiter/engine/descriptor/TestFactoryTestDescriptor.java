@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static java.util.Spliterator.ORDERED;
@@ -20,7 +19,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.extension.TestExtensionContext;
 import org.junit.jupiter.engine.execution.ExecutableInvoker;
@@ -31,11 +29,10 @@ import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 
 /**
- * {@link TestDescriptor} for {@link org.junit.jupiter.api.TestFactory @TestFactory}
- * methods.
- *
- * @since 5.0
- */
+* {@link TestDescriptor} for {@link org.junit.jupiter.api.TestFactory @TestFactory} methods.
+*
+* @since 5.0
+*/
 @API(Internal)
 public class TestFactoryTestDescriptor extends MethodTestDescriptor {
 
@@ -72,30 +69,37 @@ public class TestFactoryTestDescriptor extends MethodTestDescriptor {
 	}
 
 	@Override
-	protected void invokeTestMethod(JupiterEngineExecutionContext context, DynamicTestExecutor dynamicTestExecutor) {
-		TestExtensionContext testExtensionContext = (TestExtensionContext) context.getExtensionContext();
+	protected void invokeTestMethod(
+			JupiterEngineExecutionContext context, DynamicTestExecutor dynamicTestExecutor) {
+		TestExtensionContext testExtensionContext =
+				(TestExtensionContext) context.getExtensionContext();
 
-		context.getThrowableCollector().execute(() -> {
-			Method method = testExtensionContext.getTestMethod().get();
-			Object instance = testExtensionContext.getTestInstance();
-			Object testFactoryMethodResult = executableInvoker.invoke(method, instance, testExtensionContext,
-				context.getExtensionRegistry());
+		context
+				.getThrowableCollector()
+				.execute(
+						() -> {
+							Method method = testExtensionContext.getTestMethod().get();
+							Object instance = testExtensionContext.getTestInstance();
+							Object testFactoryMethodResult =
+									executableInvoker.invoke(
+											method, instance, testExtensionContext, context.getExtensionRegistry());
 
-			try (Stream<DynamicTest> dynamicTestStream = toDynamicTestStream(testExtensionContext,
-				testFactoryMethodResult)) {
-				AtomicInteger index = new AtomicInteger();
-				dynamicTestStream.forEach(
-					dynamicTest -> registerAndExecute(dynamicTest, index.incrementAndGet(), dynamicTestExecutor));
-			}
-			catch (ClassCastException ex) {
-				throw invalidReturnTypeException(testExtensionContext);
-			}
-		});
+							try (Stream<DynamicTest> dynamicTestStream =
+									toDynamicTestStream(testExtensionContext, testFactoryMethodResult)) {
+								AtomicInteger index = new AtomicInteger();
+								dynamicTestStream.forEach(
+										dynamicTest ->
+												registerAndExecute(
+														dynamicTest, index.incrementAndGet(), dynamicTestExecutor));
+							} catch (ClassCastException ex) {
+								throw invalidReturnTypeException(testExtensionContext);
+							}
+						});
 	}
 
 	@SuppressWarnings("unchecked")
-	private Stream<DynamicTest> toDynamicTestStream(TestExtensionContext testExtensionContext,
-			Object testFactoryMethodResult) {
+	private Stream<DynamicTest> toDynamicTestStream(
+			TestExtensionContext testExtensionContext, Object testFactoryMethodResult) {
 
 		if (testFactoryMethodResult instanceof Stream) {
 			return (Stream<DynamicTest>) testFactoryMethodResult;
@@ -117,17 +121,20 @@ public class TestFactoryTestDescriptor extends MethodTestDescriptor {
 		throw invalidReturnTypeException(testExtensionContext);
 	}
 
-	private void registerAndExecute(DynamicTest dynamicTest, int index, DynamicTestExecutor dynamicTestExecutor) {
+	private void registerAndExecute(
+			DynamicTest dynamicTest, int index, DynamicTestExecutor dynamicTestExecutor) {
 		UniqueId uniqueId = getUniqueId().append(DYNAMIC_TEST_SEGMENT_TYPE, "#" + index);
-		TestDescriptor descriptor = new DynamicTestTestDescriptor(uniqueId, dynamicTest, getSource().get());
+		TestDescriptor descriptor =
+				new DynamicTestTestDescriptor(uniqueId, dynamicTest, getSource().get());
 		addChild(descriptor);
 		dynamicTestExecutor.execute(descriptor);
 	}
 
 	private JUnitException invalidReturnTypeException(TestExtensionContext testExtensionContext) {
 		return new JUnitException(
-			String.format("@TestFactory method [%s] must return a Stream, Collection, Iterable, or Iterator of %s.",
-				testExtensionContext.getTestMethod().get().toGenericString(), DynamicTest.class.getName()));
+				String.format(
+						"@TestFactory method [%s] must return a Stream, Collection, Iterable, or Iterator of %s.",
+						testExtensionContext.getTestMethod().get().toGenericString(),
+						DynamicTest.class.getName()));
 	}
-
 }

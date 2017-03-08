@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,30 +28,32 @@ public class ExternalResourceSupportForMultipleFieldRulesTests {
 	private static boolean afterOfRule2WasExecuted = false;
 
 	@Rule
-	public ExternalResource resource1 = new ExternalResource() {
-		@Override
-		protected void before() throws Throwable {
-			beforeOfRule1WasExecuted = true;
-		}
+	public ExternalResource resource1 =
+			new ExternalResource() {
+				@Override
+				protected void before() throws Throwable {
+					beforeOfRule1WasExecuted = true;
+				}
 
-		@Override
-		protected void after() {
-			afterOfRule1WasExecuted = true;
-		}
-	};
+				@Override
+				protected void after() {
+					afterOfRule1WasExecuted = true;
+				}
+			};
 
 	@Rule
-	public ExternalResource resource2 = new ExternalResource() {
-		@Override
-		protected void before() throws Throwable {
-			beforeOfRule2WasExecuted = true;
-		}
+	public ExternalResource resource2 =
+			new ExternalResource() {
+				@Override
+				protected void before() throws Throwable {
+					beforeOfRule2WasExecuted = true;
+				}
 
-		@Override
-		protected void after() {
-			afterOfRule2WasExecuted = true;
-		}
-	};
+				@Override
+				protected void after() {
+					afterOfRule2WasExecuted = true;
+				}
+			};
 
 	@Test
 	void beforeMethodsOfBothRulesWereExecuted() {
@@ -62,10 +63,7 @@ public class ExternalResourceSupportForMultipleFieldRulesTests {
 
 	@AfterAll
 	static void afterMethodsOfBothRulesWereExecuted() {
-		if (!afterOfRule1WasExecuted)
-			fail();
-		if (!afterOfRule2WasExecuted)
-			fail();
+		if (!afterOfRule1WasExecuted) fail();
+		if (!afterOfRule2WasExecuted) fail();
 	}
-
 }

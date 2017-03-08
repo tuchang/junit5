@@ -7,16 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static java.util.Collections.emptyList;
 
 import java.util.List;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class TestClassRequest {
 
 	private final Class<?> testClass;
@@ -38,5 +35,4 @@ class TestClassRequest {
 	List<RunnerTestDescriptorAwareFilter> getFilters() {
 		return filters;
 	}
-
 }

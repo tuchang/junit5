@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.descriptor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,17 +16,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 
 /**
- * Unit tests for {@link AbstractTestDescriptor} and {@link EngineDescriptor}.
- *
- * @since 1.0
- */
+* Unit tests for {@link AbstractTestDescriptor} and {@link EngineDescriptor}.
+*
+* @since 1.0
+*/
 public class AbstractTestDescriptorTests {
 
 	EngineDescriptor engineDescriptor;
@@ -60,10 +58,11 @@ public class AbstractTestDescriptorTests {
 
 	@Test
 	public void pruneLeaf() {
-		TestDescriptor.Visitor visitor = descriptor -> {
-			if (descriptor.getUniqueId().equals(UniqueId.root("leaf", "leaf1-1")))
-				descriptor.removeFromHierarchy();
-		};
+		TestDescriptor.Visitor visitor =
+				descriptor -> {
+					if (descriptor.getUniqueId().equals(UniqueId.root("leaf", "leaf1-1")))
+						descriptor.removeFromHierarchy();
+				};
 		engineDescriptor.accept(visitor);
 
 		List<UniqueId> visited = new ArrayList<>();
@@ -77,11 +76,12 @@ public class AbstractTestDescriptorTests {
 	@Test
 	public void pruneGroup() {
 		final AtomicInteger countVisited = new AtomicInteger();
-		TestDescriptor.Visitor visitor = descriptor -> {
-			if (descriptor.getUniqueId().equals(UniqueId.root("group", "group1")))
-				descriptor.removeFromHierarchy();
-			countVisited.incrementAndGet();
-		};
+		TestDescriptor.Visitor visitor =
+				descriptor -> {
+					if (descriptor.getUniqueId().equals(UniqueId.root("group", "group1")))
+						descriptor.removeFromHierarchy();
+					countVisited.incrementAndGet();
+				};
 		engineDescriptor.accept(visitor);
 
 		assertEquals(4, countVisited.get(), "Children of pruned element are not visited");
@@ -92,7 +92,6 @@ public class AbstractTestDescriptorTests {
 		assertEquals(3, visited.size());
 		assertFalse(visited.contains(UniqueId.root("group", "group1")));
 	}
-
 }
 
 class GroupDescriptor extends AbstractTestDescriptor {

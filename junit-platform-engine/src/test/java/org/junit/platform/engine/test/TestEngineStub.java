@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.test;
 
 import org.junit.platform.engine.EngineDiscoveryRequest;
@@ -16,9 +15,7 @@ import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.TestEngine;
 import org.junit.platform.engine.UniqueId;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class TestEngineStub implements TestEngine {
 
 	private final String id;
@@ -42,7 +39,5 @@ public class TestEngineStub implements TestEngine {
 	}
 
 	@Override
-	public void execute(ExecutionRequest request) {
-	}
-
+	public void execute(ExecutionRequest request) {}
 }

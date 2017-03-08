@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery;
 
 import static java.lang.String.format;
@@ -26,7 +25,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
 import org.junit.jupiter.engine.descriptor.ClassTestDescriptor;
 import org.junit.jupiter.engine.discovery.predicates.IsInnerClass;
 import org.junit.platform.commons.meta.API;
@@ -34,9 +32,7 @@ import org.junit.platform.commons.util.ReflectionUtils;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Experimental)
 class JavaElementsResolver {
 
@@ -72,10 +68,10 @@ class JavaElementsResolver {
 
 	private Set<TestDescriptor> resolveContainerWithParents(Class<?> testClass) {
 		if (isInnerClass.test(testClass)) {
-			Set<TestDescriptor> potentialParents = resolveContainerWithParents(testClass.getDeclaringClass());
+			Set<TestDescriptor> potentialParents =
+					resolveContainerWithParents(testClass.getDeclaringClass());
 			return resolveForAllParents(testClass, potentialParents);
-		}
-		else {
+		} else {
 			return resolveForAllParents(testClass, Collections.singleton(engineDescriptor));
 		}
 	}
@@ -89,9 +85,7 @@ class JavaElementsResolver {
 		}
 	}
 
-	/**
-	 * Return true if all segments of unique ID could be resolved
-	 */
+	/** Return true if all segments of unique ID could be resolved */
 	private boolean resolveUniqueId(TestDescriptor parent, List<UniqueId.Segment> remainingSegments) {
 		if (remainingSegments.isEmpty()) {
 			resolveChildren(parent);
@@ -101,33 +95,37 @@ class JavaElementsResolver {
 		UniqueId.Segment head = remainingSegments.remove(0);
 		for (ElementResolver resolver : resolvers) {
 			Optional<TestDescriptor> resolvedDescriptor = resolver.resolveUniqueId(head, parent);
-			if (!resolvedDescriptor.isPresent())
-				continue;
+			if (!resolvedDescriptor.isPresent()) continue;
 
-			Optional<TestDescriptor> foundTestDescriptor = findTestDescriptorByUniqueId(
-				resolvedDescriptor.get().getUniqueId());
-			TestDescriptor descriptor = foundTestDescriptor.orElseGet(() -> {
-				TestDescriptor newDescriptor = resolvedDescriptor.get();
-				parent.addChild(newDescriptor);
-				return newDescriptor;
-			});
+			Optional<TestDescriptor> foundTestDescriptor =
+					findTestDescriptorByUniqueId(resolvedDescriptor.get().getUniqueId());
+			TestDescriptor descriptor =
+					foundTestDescriptor.orElseGet(
+							() -> {
+								TestDescriptor newDescriptor = resolvedDescriptor.get();
+								parent.addChild(newDescriptor);
+								return newDescriptor;
+							});
 			return resolveUniqueId(descriptor, remainingSegments);
 		}
 		return false;
 	}
 
-	private Set<TestDescriptor> resolveContainerWithChildren(Class<?> containerClass,
-			Set<TestDescriptor> potentialParents) {
-		Set<TestDescriptor> resolvedDescriptors = resolveForAllParents(containerClass, potentialParents);
+	private Set<TestDescriptor> resolveContainerWithChildren(
+			Class<?> containerClass, Set<TestDescriptor> potentialParents) {
+		Set<TestDescriptor> resolvedDescriptors =
+				resolveForAllParents(containerClass, potentialParents);
 		resolvedDescriptors.forEach(this::resolveChildren);
 		return resolvedDescriptors;
 	}
 
-	private Set<TestDescriptor> resolveForAllParents(AnnotatedElement element, Set<TestDescriptor> potentialParents) {
+	private Set<TestDescriptor> resolveForAllParents(
+			AnnotatedElement element, Set<TestDescriptor> potentialParents) {
 		Set<TestDescriptor> resolvedDescriptors = new HashSet<>();
-		potentialParents.forEach(parent -> {
-			resolvedDescriptors.addAll(resolve(element, parent));
-		});
+		potentialParents.forEach(
+				parent -> {
+					resolvedDescriptors.addAll(resolve(element, parent));
+				});
 		return resolvedDescriptors;
 	}
 
@@ -142,40 +140,45 @@ class JavaElementsResolver {
 	private void resolveContainedNestedClasses(TestDescriptor containerDescriptor, Class<?> clazz) {
 		List<Class<?>> nestedClassesCandidates = findNestedClasses(clazz, isInnerClass);
 		nestedClassesCandidates.forEach(
-			nestedClass -> resolveContainerWithChildren(nestedClass, Collections.singleton(containerDescriptor)));
+				nestedClass ->
+						resolveContainerWithChildren(nestedClass, Collections.singleton(containerDescriptor)));
 	}
 
 	private void resolveContainedMethods(TestDescriptor containerDescriptor, Class<?> testClass) {
-		List<Method> testMethodCandidates = findMethods(testClass, method -> !ReflectionUtils.isPrivate(method),
-			ReflectionUtils.MethodSortOrder.HierarchyDown);
+		List<Method> testMethodCandidates =
+				findMethods(
+						testClass,
+						method -> !ReflectionUtils.isPrivate(method),
+						ReflectionUtils.MethodSortOrder.HierarchyDown);
 		testMethodCandidates.forEach(method -> resolve(method, containerDescriptor));
 	}
 
 	private Set<TestDescriptor> resolve(AnnotatedElement element, TestDescriptor parent) {
-		return this.resolvers.stream() //
+		return this.resolvers
+				.stream() //
 				.map(resolver -> tryToResolveWithResolver(element, parent, resolver)) //
 				.filter(testDescriptors -> !testDescriptors.isEmpty()) //
 				.flatMap(Collection::stream) //
 				.collect(Collectors.toSet());
 	}
 
-	private Set<TestDescriptor> tryToResolveWithResolver(AnnotatedElement element, TestDescriptor parent,
-			ElementResolver resolver) {
+	private Set<TestDescriptor> tryToResolveWithResolver(
+			AnnotatedElement element, TestDescriptor parent, ElementResolver resolver) {
 
 		Set<TestDescriptor> resolvedDescriptors = resolver.resolveElement(element, parent);
 		Set<TestDescriptor> result = new LinkedHashSet<>();
 
-		resolvedDescriptors.forEach(testDescriptor -> {
-			Optional<TestDescriptor> existingTestDescriptor = findTestDescriptorByUniqueId(
-				testDescriptor.getUniqueId());
-			if (existingTestDescriptor.isPresent()) {
-				result.add(existingTestDescriptor.get());
-			}
-			else {
-				parent.addChild(testDescriptor);
-				result.add(testDescriptor);
-			}
-		});
+		resolvedDescriptors.forEach(
+				testDescriptor -> {
+					Optional<TestDescriptor> existingTestDescriptor =
+							findTestDescriptorByUniqueId(testDescriptor.getUniqueId());
+					if (existingTestDescriptor.isPresent()) {
+						result.add(existingTestDescriptor.get());
+					} else {
+						parent.addChild(testDescriptor);
+						result.add(testDescriptor);
+					}
+				});
 
 		return result;
 	}
@@ -184,5 +187,4 @@ class JavaElementsResolver {
 	private Optional<TestDescriptor> findTestDescriptorByUniqueId(UniqueId uniqueId) {
 		return (Optional<TestDescriptor>) this.engineDescriptor.findByUniqueId(uniqueId);
 	}
-
 }

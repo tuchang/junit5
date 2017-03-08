@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.test.event;
 
 import static java.util.function.Predicate.isEqual;
@@ -20,25 +19,29 @@ import static org.junit.platform.engine.test.event.ExecutionEvent.Type.STARTED;
 
 import java.util.Optional;
 import java.util.function.Predicate;
-
 import org.junit.platform.commons.util.ToStringBuilder;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.reporting.ReportEntry;
 
 /**
- * Represents an event collected by {@link ExecutionEventRecorder}.
- *
- * @since 1.0
- * @see ExecutionEventConditions
- */
+* Represents an event collected by {@link ExecutionEventRecorder}.
+*
+* @since 1.0
+* @see ExecutionEventConditions
+*/
 public class ExecutionEvent {
 
 	public enum Type {
-		DYNAMIC_TEST_REGISTERED, SKIPPED, STARTED, FINISHED, REPORTING_ENTRY_PUBLISHED
+		DYNAMIC_TEST_REGISTERED,
+		SKIPPED,
+		STARTED,
+		FINISHED,
+		REPORTING_ENTRY_PUBLISHED
 	}
 
-	public static ExecutionEvent reportingEntryPublished(TestDescriptor testDescriptor, ReportEntry entry) {
+	public static ExecutionEvent reportingEntryPublished(
+			TestDescriptor testDescriptor, ReportEntry entry) {
 		return new ExecutionEvent(REPORTING_ENTRY_PUBLISHED, testDescriptor, entry);
 	}
 
@@ -54,7 +57,8 @@ public class ExecutionEvent {
 		return new ExecutionEvent(STARTED, testDescriptor, null);
 	}
 
-	public static ExecutionEvent executionFinished(TestDescriptor testDescriptor, TestExecutionResult result) {
+	public static ExecutionEvent executionFinished(
+			TestDescriptor testDescriptor, TestExecutionResult result) {
 		return new ExecutionEvent(FINISHED, testDescriptor, result);
 	}
 
@@ -62,11 +66,13 @@ public class ExecutionEvent {
 		return where(ExecutionEvent::getType, isEqual(type));
 	}
 
-	public static Predicate<ExecutionEvent> byTestDescriptor(Predicate<? super TestDescriptor> predicate) {
+	public static Predicate<ExecutionEvent> byTestDescriptor(
+			Predicate<? super TestDescriptor> predicate) {
 		return where(ExecutionEvent::getTestDescriptor, predicate);
 	}
 
-	public static <T> Predicate<ExecutionEvent> byPayload(Class<T> payloadClass, Predicate<? super T> predicate) {
+	public static <T> Predicate<ExecutionEvent> byPayload(
+			Class<T> payloadClass, Predicate<? super T> predicate) {
 		return event -> event.getPayload(payloadClass).filter(predicate).isPresent();
 	}
 
@@ -102,5 +108,4 @@ public class ExecutionEvent {
 				.toString();
 		// @formatter:on
 	}
-
 }

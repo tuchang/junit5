@@ -7,16 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 public class PlainOldJavaClassWithoutAnyTest {
 
 	public void doSomething() {
 		// no-op
 	}
-
 }

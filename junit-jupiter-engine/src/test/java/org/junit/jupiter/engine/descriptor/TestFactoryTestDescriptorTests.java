@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,7 +16,6 @@ import static org.mockito.Mockito.when;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -40,12 +38,17 @@ class TestFactoryTestDescriptorTests {
 		testExtensionContext = mock(TestExtensionContext.class);
 		isClosed = false;
 
-		context = new JupiterEngineExecutionContext(null, null).extend().withThrowableCollector(
-			new ThrowableCollector()).withExtensionContext(testExtensionContext).build();
+		context =
+				new JupiterEngineExecutionContext(null, null)
+						.extend()
+						.withThrowableCollector(new ThrowableCollector())
+						.withExtensionContext(testExtensionContext)
+						.build();
 
 		Method testMethod = CustomStreamTestCase.class.getDeclaredMethod("customStream");
-		descriptor = new TestFactoryTestDescriptor(UniqueId.forEngine("engine"), CustomStreamTestCase.class,
-			testMethod);
+		descriptor =
+				new TestFactoryTestDescriptor(
+						UniqueId.forEngine("engine"), CustomStreamTestCase.class, testMethod);
 		when(testExtensionContext.getTestMethod()).thenReturn(Optional.of(testMethod));
 	}
 

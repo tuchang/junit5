@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.reporting;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -16,19 +15,18 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.commons.util.ToStringBuilder;
 
 /**
- * {@code ReportEntry} encapsulates a time-stamped map of {@code String}-based
- * key-value pairs to be published to the reporting infrastructure.
- *
- * @since 1.0
- * @see #from(Map)
- * @see #from(String, String)
- */
+* {@code ReportEntry} encapsulates a time-stamped map of {@code String}-based key-value pairs to be
+* published to the reporting infrastructure.
+*
+* @since 1.0
+* @see #from(Map)
+* @see #from(String, String)
+*/
 @API(Experimental)
 public final class ReportEntry {
 
@@ -36,12 +34,11 @@ public final class ReportEntry {
 	private final Map<String, String> keyValuePairs = new LinkedHashMap<>();
 
 	/**
-	 * Factory for creating a new {@code ReportEntry} from a map of key-value pairs.
-	 *
-	 * @param keyValuePairs the map of key-value pairs to be published; never
-	 * {@code null}; keys and values within entries in the map also must not be
-	 * {@code null} or blank
-	 */
+	* Factory for creating a new {@code ReportEntry} from a map of key-value pairs.
+	*
+	* @param keyValuePairs the map of key-value pairs to be published; never {@code null}; keys and
+	*     values within entries in the map also must not be {@code null} or blank
+	*/
 	public static ReportEntry from(Map<String, String> keyValuePairs) {
 		Preconditions.notNull(keyValuePairs, "keyValuePairs must not be null");
 
@@ -51,12 +48,11 @@ public final class ReportEntry {
 	}
 
 	/**
-	 * Factory for creating a new {@code ReportEntry} from a key-value pair.
-	 *
-	 * @param key the key under which the value should published; never
-	 * {@code null} or blank
-	 * @param value the value to publish; never {@code null} or blank
-	 */
+	* Factory for creating a new {@code ReportEntry} from a key-value pair.
+	*
+	* @param key the key under which the value should published; never {@code null} or blank
+	* @param value the value to publish; never {@code null} or blank
+	*/
 	public static ReportEntry from(String key, String value) {
 		ReportEntry reportEntry = new ReportEntry();
 		reportEntry.add(key, value);
@@ -70,21 +66,21 @@ public final class ReportEntry {
 	}
 
 	/**
-	 * Get an unmodifiable copy of the map of key-value pairs to be published.
-	 *
-	 * @return a copy of the map of key-value pairs; never {@code null}
-	 */
+	* Get an unmodifiable copy of the map of key-value pairs to be published.
+	*
+	* @return a copy of the map of key-value pairs; never {@code null}
+	*/
 	public final Map<String, String> getKeyValuePairs() {
 		return Collections.unmodifiableMap(this.keyValuePairs);
 	}
 
 	/**
-	 * Get the timestamp for when this {@code ReportEntry} was created.
-	 *
-	 * <p>Can be used, for example, to order entries.
-	 *
-	 * @return when this entry was created; never {@code null}
-	 */
+	* Get the timestamp for when this {@code ReportEntry} was created.
+	*
+	* <p>Can be used, for example, to order entries.
+	*
+	* @return when this entry was created; never {@code null}
+	*/
 	public final LocalDateTime getTimestamp() {
 		return this.timestamp;
 	}
@@ -96,5 +92,4 @@ public final class ReportEntry {
 		this.keyValuePairs.forEach(builder::append);
 		return builder.toString();
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotatedMethods;
@@ -15,7 +14,6 @@ import static org.junit.platform.commons.util.AnnotationUtils.findAnnotatedMetho
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,10 +23,10 @@ import org.junit.platform.commons.util.ReflectionUtils;
 import org.junit.platform.commons.util.ReflectionUtils.MethodSortOrder;
 
 /**
- * Collection of utilities for working with test lifecycle methods.
- *
- * @since 5.0
- */
+* Collection of utilities for working with test lifecycle methods.
+*
+* @since 5.0
+*/
 final class LifecycleMethodUtils {
 
 	///CLOVER:OFF
@@ -38,41 +36,48 @@ final class LifecycleMethodUtils {
 	///CLOVER:ON
 
 	static List<Method> findBeforeAllMethods(Class<?> testClass) {
-		List<Method> methods = findAnnotatedMethods(testClass, BeforeAll.class, MethodSortOrder.HierarchyDown);
+		List<Method> methods =
+				findAnnotatedMethods(testClass, BeforeAll.class, MethodSortOrder.HierarchyDown);
 		methods.forEach(method -> assertStatic(BeforeAll.class, method));
 		return methods;
 	}
 
 	static List<Method> findAfterAllMethods(Class<?> testClass) {
-		List<Method> methods = findAnnotatedMethods(testClass, AfterAll.class, MethodSortOrder.HierarchyUp);
+		List<Method> methods =
+				findAnnotatedMethods(testClass, AfterAll.class, MethodSortOrder.HierarchyUp);
 		methods.forEach(method -> assertStatic(AfterAll.class, method));
 		return methods;
 	}
 
 	static List<Method> findBeforeEachMethods(Class<?> testClass) {
-		List<Method> methods = findAnnotatedMethods(testClass, BeforeEach.class, MethodSortOrder.HierarchyDown);
+		List<Method> methods =
+				findAnnotatedMethods(testClass, BeforeEach.class, MethodSortOrder.HierarchyDown);
 		methods.forEach(method -> assertNonStatic(BeforeEach.class, method));
 		return methods;
 	}
 
 	static List<Method> findAfterEachMethods(Class<?> testClass) {
-		List<Method> methods = findAnnotatedMethods(testClass, AfterEach.class, MethodSortOrder.HierarchyUp);
+		List<Method> methods =
+				findAnnotatedMethods(testClass, AfterEach.class, MethodSortOrder.HierarchyUp);
 		methods.forEach(method -> assertNonStatic(AfterEach.class, method));
 		return methods;
 	}
 
 	private static void assertStatic(Class<? extends Annotation> annotationType, Method method) {
 		if (!ReflectionUtils.isStatic(method)) {
-			throw new JUnitException(String.format("@%s method '%s' must be static.", annotationType.getSimpleName(),
-				method.toGenericString()));
+			throw new JUnitException(
+					String.format(
+							"@%s method '%s' must be static.",
+							annotationType.getSimpleName(), method.toGenericString()));
 		}
 	}
 
 	private static void assertNonStatic(Class<? extends Annotation> annotationType, Method method) {
 		if (ReflectionUtils.isStatic(method)) {
-			throw new JUnitException(String.format("@%s method '%s' must not be static.",
-				annotationType.getSimpleName(), method.toGenericString()));
+			throw new JUnitException(
+					String.format(
+							"@%s method '%s' must not be static.",
+							annotationType.getSimpleName(), method.toGenericString()));
 		}
 	}
-
 }

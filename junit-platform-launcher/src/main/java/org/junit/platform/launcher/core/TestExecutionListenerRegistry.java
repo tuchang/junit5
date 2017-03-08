@@ -7,23 +7,19 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
-
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.reporting.ReportEntry;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class TestExecutionListenerRegistry {
 
 	private final List<TestExecutionListener> testExecutionListeners = new LinkedList<>();
@@ -62,8 +58,10 @@ class TestExecutionListenerRegistry {
 		}
 
 		@Override
-		public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
-			notifyTestExecutionListeners(listener -> listener.executionFinished(testIdentifier, testExecutionResult));
+		public void executionFinished(
+				TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
+			notifyTestExecutionListeners(
+					listener -> listener.executionFinished(testIdentifier, testExecutionResult));
 		}
 
 		@Override
@@ -78,9 +76,8 @@ class TestExecutionListenerRegistry {
 
 		@Override
 		public void reportingEntryPublished(TestIdentifier testIdentifier, ReportEntry entry) {
-			notifyTestExecutionListeners(listener -> listener.reportingEntryPublished(testIdentifier, entry));
+			notifyTestExecutionListeners(
+					listener -> listener.reportingEntryPublished(testIdentifier, entry));
 		}
-
 	}
-
 }

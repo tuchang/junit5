@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static java.util.stream.Collectors.toCollection;
@@ -16,7 +15,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.engine.execution.ExtensionValuesStore;
 import org.junit.jupiter.engine.execution.NamespaceAwareStore;
@@ -26,9 +24,7 @@ import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.TestTag;
 import org.junit.platform.engine.reporting.ReportEntry;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 abstract class AbstractExtensionContext<T extends TestDescriptor> implements ExtensionContext {
 
 	private final ExtensionContext parent;
@@ -36,8 +32,8 @@ abstract class AbstractExtensionContext<T extends TestDescriptor> implements Ext
 	private final T testDescriptor;
 	private final ExtensionValuesStore valuesStore;
 
-	AbstractExtensionContext(ExtensionContext parent, EngineExecutionListener engineExecutionListener,
-			T testDescriptor) {
+	AbstractExtensionContext(
+			ExtensionContext parent, EngineExecutionListener engineExecutionListener, T testDescriptor) {
 		this.parent = parent;
 		this.engineExecutionListener = engineExecutionListener;
 		this.testDescriptor = testDescriptor;
@@ -84,7 +80,10 @@ abstract class AbstractExtensionContext<T extends TestDescriptor> implements Ext
 
 	@Override
 	public Set<String> getTags() {
-		return testDescriptor.getTags().stream().map(TestTag::getName).collect(toCollection(LinkedHashSet::new));
+		return testDescriptor
+				.getTags()
+				.stream()
+				.map(TestTag::getName)
+				.collect(toCollection(LinkedHashSet::new));
 	}
-
 }

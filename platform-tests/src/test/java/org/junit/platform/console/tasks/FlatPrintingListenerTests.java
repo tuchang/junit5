@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -18,16 +17,13 @@ import static org.junit.platform.engine.TestExecutionResult.failed;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.reporting.ReportEntry;
 import org.junit.platform.engine.test.TestDescriptorStub;
 import org.junit.platform.launcher.TestIdentifier;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class FlatPrintingListenerTests {
 
 	private static final String EOL = System.lineSeparator();
@@ -39,34 +35,43 @@ public class FlatPrintingListenerTests {
 		String[] lines = lines(stringWriter);
 
 		assertEquals(3, lines.length);
-		assertAll("lines in the output", //
-			() -> assertEquals("Skipped:     demo-test ([engine:demo-engine])", lines[0]), //
-			() -> assertEquals(INDENTATION + "=> Reason: Test", lines[1]), //
-			() -> assertEquals(INDENTATION + "disabled", lines[2]));
+		assertAll(
+				"lines in the output", //
+				() -> assertEquals("Skipped:     demo-test ([engine:demo-engine])", lines[0]), //
+				() -> assertEquals(INDENTATION + "=> Reason: Test", lines[1]), //
+				() -> assertEquals(INDENTATION + "disabled", lines[2]));
 	}
 
 	@Test
 	public void reportingEntryPublished() {
 		StringWriter stringWriter = new StringWriter();
-		listener(stringWriter).reportingEntryPublished(newTestIdentifier(), ReportEntry.from("foo", "bar"));
+		listener(stringWriter)
+				.reportingEntryPublished(newTestIdentifier(), ReportEntry.from("foo", "bar"));
 		String[] lines = lines(stringWriter);
 
 		assertEquals(2, lines.length);
-		assertAll("lines in the output", //
-			() -> assertEquals("Reported:    demo-test ([engine:demo-engine])", lines[0]), //
-			() -> assertTrue(lines[1].startsWith(INDENTATION + "=> Reported values: ReportEntry [timestamp =")), //
-			() -> assertTrue(lines[1].endsWith(", foo = 'bar']")));
+		assertAll(
+				"lines in the output", //
+				() -> assertEquals("Reported:    demo-test ([engine:demo-engine])", lines[0]), //
+				() ->
+						assertTrue(
+								lines[1].startsWith(
+										INDENTATION + "=> Reported values: ReportEntry [timestamp =")), //
+				() -> assertTrue(lines[1].endsWith(", foo = 'bar']")));
 	}
 
 	@Test
 	public void executionFinishedWithFailure() {
 		StringWriter stringWriter = new StringWriter();
-		listener(stringWriter).executionFinished(newTestIdentifier(), failed(new AssertionError("Boom!")));
+		listener(stringWriter)
+				.executionFinished(newTestIdentifier(), failed(new AssertionError("Boom!")));
 		String[] lines = lines(stringWriter);
 
-		assertAll("lines in the output", //
-			() -> assertEquals("Finished:    demo-test ([engine:demo-engine])", lines[0]), //
-			() -> assertEquals(INDENTATION + "=> Exception: java.lang.AssertionError: Boom!", lines[1]));
+		assertAll(
+				"lines in the output", //
+				() -> assertEquals("Finished:    demo-test ([engine:demo-engine])", lines[0]), //
+				() ->
+						assertEquals(INDENTATION + "=> Exception: java.lang.AssertionError: Boom!", lines[1]));
 	}
 
 	private FlatPrintingListener listener(StringWriter stringWriter) {
@@ -74,12 +79,12 @@ public class FlatPrintingListenerTests {
 	}
 
 	private static TestIdentifier newTestIdentifier() {
-		TestDescriptorStub testDescriptor = new TestDescriptorStub(UniqueId.forEngine("demo-engine"), "demo-test");
+		TestDescriptorStub testDescriptor =
+				new TestDescriptorStub(UniqueId.forEngine("demo-engine"), "demo-test");
 		return TestIdentifier.from(testDescriptor);
 	}
 
 	private String[] lines(StringWriter stringWriter) {
 		return stringWriter.toString().split(EOL);
 	}
-
 }

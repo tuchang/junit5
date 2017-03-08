@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionUtils.buildPrefix;
@@ -24,11 +23,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 /**
- * {@code AssertIterable} is a collection of utility methods that support asserting
- * Iterable equality in tests.
- *
- * @since 5.0
- */
+* {@code AssertIterable} is a collection of utility methods that support asserting Iterable
+* equality in tests.
+*
+* @since 5.0
+*/
 class AssertIterableEquals {
 
 	static void assertIterableEquals(Iterable<?> expected, Iterable<?> actual) {
@@ -39,11 +38,15 @@ class AssertIterableEquals {
 		assertIterableEquals(expected, actual, () -> message);
 	}
 
-	static void assertIterableEquals(Iterable<?> expected, Iterable<?> actual, Supplier<String> messageSupplier) {
+	static void assertIterableEquals(
+			Iterable<?> expected, Iterable<?> actual, Supplier<String> messageSupplier) {
 		assertIterableEquals(expected, actual, new ArrayDeque<>(), messageSupplier);
 	}
 
-	private static void assertIterableEquals(Iterable<?> expected, Iterable<?> actual, Deque<Integer> indexes,
+	private static void assertIterableEquals(
+			Iterable<?> expected,
+			Iterable<?> actual,
+			Deque<Integer> indexes,
 			Supplier<String> messageSupplier) {
 
 		if (expected == actual) {
@@ -72,19 +75,18 @@ class AssertIterableEquals {
 		assertIteratorsAreEmpty(expectedIterator, actualIterator, processed, indexes, messageSupplier);
 	}
 
-	private static void assertIterableElementsEqual(Object expected, Object actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertIterableElementsEqual(
+			Object expected, Object actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 		if (expected instanceof Iterable && actual instanceof Iterable) {
 			assertIterableEquals((Iterable<?>) expected, (Iterable<?>) actual, indexes, messageSupplier);
-		}
-		else if (!Objects.equals(expected, actual)) {
+		} else if (!Objects.equals(expected, actual)) {
 			assertIterablesNotNull(expected, actual, indexes, messageSupplier);
 			failIterablesNotEqual(expected, actual, indexes, messageSupplier);
 		}
 	}
 
-	private static void assertIterablesNotNull(Object expected, Object actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertIterablesNotNull(
+			Object expected, Object actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		if (expected == null) {
 			failExpectedIterableIsNull(indexes, messageSupplier);
@@ -94,16 +96,28 @@ class AssertIterableEquals {
 		}
 	}
 
-	private static void failExpectedIterableIsNull(Deque<Integer> indexes, Supplier<String> messageSupplier) {
-		fail(buildPrefix(nullSafeGet(messageSupplier)) + "expected iterable was <null>" + formatIndexes(indexes));
-	}
-
-	private static void failActualIterableIsNull(Deque<Integer> indexes, Supplier<String> messageSupplier) {
-		fail(buildPrefix(nullSafeGet(messageSupplier)) + "actual iterable was <null>" + formatIndexes(indexes));
-	}
-
-	private static void assertIteratorsAreEmpty(Iterator<?> expected, Iterator<?> actual, int processed,
+	private static void failExpectedIterableIsNull(
 			Deque<Integer> indexes, Supplier<String> messageSupplier) {
+		fail(
+				buildPrefix(nullSafeGet(messageSupplier))
+						+ "expected iterable was <null>"
+						+ formatIndexes(indexes));
+	}
+
+	private static void failActualIterableIsNull(
+			Deque<Integer> indexes, Supplier<String> messageSupplier) {
+		fail(
+				buildPrefix(nullSafeGet(messageSupplier))
+						+ "actual iterable was <null>"
+						+ formatIndexes(indexes));
+	}
+
+	private static void assertIteratorsAreEmpty(
+			Iterator<?> expected,
+			Iterator<?> actual,
+			int processed,
+			Deque<Integer> indexes,
+			Supplier<String> messageSupplier) {
 
 		if (expected.hasNext() || actual.hasNext()) {
 			AtomicInteger expectedCount = new AtomicInteger(processed);
@@ -113,18 +127,24 @@ class AssertIterableEquals {
 			actual.forEachRemaining(e -> actualCount.incrementAndGet());
 
 			String prefix = buildPrefix(nullSafeGet(messageSupplier));
-			String message = "iterable lengths differ" + formatIndexes(indexes) + ", expected: <" + expectedCount.get()
-					+ "> but was: <" + actualCount.get() + ">";
+			String message =
+					"iterable lengths differ"
+							+ formatIndexes(indexes)
+							+ ", expected: <"
+							+ expectedCount.get()
+							+ "> but was: <"
+							+ actualCount.get()
+							+ ">";
 			fail(prefix + message);
 		}
 	}
 
-	private static void failIterablesNotEqual(Object expected, Object actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void failIterablesNotEqual(
+			Object expected, Object actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		String prefix = buildPrefix(nullSafeGet(messageSupplier));
-		String message = "iterable contents differ" + formatIndexes(indexes) + ", " + formatValues(expected, actual);
+		String message =
+				"iterable contents differ" + formatIndexes(indexes) + ", " + formatValues(expected, actual);
 		fail(prefix + message);
 	}
-
 }

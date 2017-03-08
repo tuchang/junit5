@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2015-2017 the original author or authors.
  *
@@ -14,11 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.PackageUtils;
 
 /**
- * Simple test case that is used to verify proper support for classpath scanning
- * within the <em>default</em> package.
- *
- * @since 1.0
- */
+* Simple test case that is used to verify proper support for classpath scanning within the
+* <em>default</em> package.
+*
+* @since 1.0
+*/
 public class DefaultPackageTestCase {
 
 	@Test
@@ -28,7 +27,7 @@ public class DefaultPackageTestCase {
 
 	@Test
 	void getAttributeFromDefaultPackageMemberIsEmpty() {
-		assertFalse(PackageUtils.getAttribute(DefaultPackageTestCase.class, Object::toString).isPresent());
+		assertFalse(
+				PackageUtils.getAttribute(DefaultPackageTestCase.class, Object::toString).isPresent());
 	}
-
 }

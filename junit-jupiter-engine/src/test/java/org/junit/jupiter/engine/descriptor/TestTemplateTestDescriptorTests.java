@@ -7,14 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Set;
-
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestTemplate;
@@ -28,19 +26,23 @@ class TestTemplateTestDescriptorTests {
 	void inheritsTagsFromParent() throws Exception {
 		UniqueId rootUniqueId = UniqueId.root("segment", "template");
 		UniqueId parentUniqueId = rootUniqueId.append("class", "myClass");
-		AbstractTestDescriptor parent = containerTestDescriptorWithTags(parentUniqueId,
-			singleton(TestTag.create("foo")));
+		AbstractTestDescriptor parent =
+				containerTestDescriptorWithTags(parentUniqueId, singleton(TestTag.create("foo")));
 
-		TestTemplateTestDescriptor testDescriptor = new TestTemplateTestDescriptor(
-			parentUniqueId.append("tmp", "testTemplate()"), MyTestCase.class,
-			MyTestCase.class.getDeclaredMethod("testTemplate"));
+		TestTemplateTestDescriptor testDescriptor =
+				new TestTemplateTestDescriptor(
+						parentUniqueId.append("tmp", "testTemplate()"),
+						MyTestCase.class,
+						MyTestCase.class.getDeclaredMethod("testTemplate"));
 		parent.addChild(testDescriptor);
 
-		assertThat(testDescriptor.getTags()).containsExactlyInAnyOrder(TestTag.create("foo"), TestTag.create("bar"),
-			TestTag.create("baz"));
+		assertThat(testDescriptor.getTags())
+				.containsExactlyInAnyOrder(
+						TestTag.create("foo"), TestTag.create("bar"), TestTag.create("baz"));
 	}
 
-	private AbstractTestDescriptor containerTestDescriptorWithTags(UniqueId uniqueId, Set<TestTag> tags) {
+	private AbstractTestDescriptor containerTestDescriptorWithTags(
+			UniqueId uniqueId, Set<TestTag> tags) {
 		return new AbstractTestDescriptor(uniqueId, "testDescriptor with tags") {
 			@Override
 			public boolean isContainer() {
@@ -63,8 +65,6 @@ class TestTemplateTestDescriptorTests {
 		@Tag("bar")
 		@Tag("baz")
 		@TestTemplate
-		void testTemplate() {
-		}
+		void testTemplate() {}
 	}
-
 }

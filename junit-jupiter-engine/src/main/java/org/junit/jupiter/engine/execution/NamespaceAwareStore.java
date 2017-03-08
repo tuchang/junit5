@@ -7,21 +7,17 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 
 import java.util.function.Function;
-
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Internal)
 public class NamespaceAwareStore implements Store {
 
@@ -54,7 +50,8 @@ public class NamespaceAwareStore implements Store {
 	}
 
 	@Override
-	public <K, V> V getOrComputeIfAbsent(K key, Function<K, V> defaultCreator, Class<V> requiredType) {
+	public <K, V> V getOrComputeIfAbsent(
+			K key, Function<K, V> defaultCreator, Class<V> requiredType) {
 		Preconditions.notNull(key, "key must not be null");
 		Preconditions.notNull(defaultCreator, "defaultCreator function must not be null");
 		Preconditions.notNull(requiredType, "requiredType must not be null");
@@ -79,5 +76,4 @@ public class NamespaceAwareStore implements Store {
 		Preconditions.notNull(requiredType, "requiredType must not be null");
 		return this.valuesStore.remove(this.namespace, key, requiredType);
 	}
-
 }

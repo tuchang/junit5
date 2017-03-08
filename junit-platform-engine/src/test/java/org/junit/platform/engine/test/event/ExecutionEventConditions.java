@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.test.event;
 
 import static java.util.function.Predicate.isEqual;
@@ -29,7 +28,6 @@ import static org.junit.platform.engine.test.event.TestExecutionResultConditions
 import static org.junit.platform.engine.test.event.TestExecutionResultConditions.status;
 
 import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.SoftAssertions;
@@ -40,15 +38,15 @@ import org.junit.platform.engine.support.descriptor.EngineDescriptor;
 import org.junit.platform.engine.test.event.ExecutionEvent.Type;
 
 /**
- * Collection of AssertJ conditions for {@link ExecutionEvent}.
- *
- * @since 1.0
- */
+* Collection of AssertJ conditions for {@link ExecutionEvent}.
+*
+* @since 1.0
+*/
 public class ExecutionEventConditions {
 
 	@SafeVarargs
-	public static void assertRecordedExecutionEventsContainsExactly(List<ExecutionEvent> executionEvents,
-			Condition<? super ExecutionEvent>... conditions) {
+	public static void assertRecordedExecutionEventsContainsExactly(
+			List<ExecutionEvent> executionEvents, Condition<? super ExecutionEvent>... conditions) {
 		SoftAssertions softly = new SoftAssertions();
 		assertThat(executionEvents).hasSize(conditions.length);
 		for (int i = 0; i < conditions.length; i++) {
@@ -60,7 +58,7 @@ public class ExecutionEventConditions {
 	@SafeVarargs
 	@SuppressWarnings("varargs")
 	public static Condition<ExecutionEvent> event(Condition<? super ExecutionEvent>... conditions) {
-		return Assertions.<ExecutionEvent> allOf(conditions);
+		return Assertions.<ExecutionEvent>allOf(conditions);
 	}
 
 	public static Condition<ExecutionEvent> engine() {
@@ -97,14 +95,19 @@ public class ExecutionEventConditions {
 
 	public static Condition<ExecutionEvent> uniqueIdSubstring(String uniqueIdSubstring) {
 		return new Condition<>(
-			byTestDescriptor(where(testDescriptor -> testDescriptor.getUniqueId().toString(),
-				uniqueId -> uniqueId.contains(uniqueIdSubstring))),
-			"descriptor with uniqueId substring \"%s\"", uniqueIdSubstring);
+				byTestDescriptor(
+						where(
+								testDescriptor -> testDescriptor.getUniqueId().toString(),
+								uniqueId -> uniqueId.contains(uniqueIdSubstring))),
+				"descriptor with uniqueId substring \"%s\"",
+				uniqueIdSubstring);
 	}
 
 	public static Condition<ExecutionEvent> displayName(String displayName) {
-		return new Condition<>(byTestDescriptor(where(TestDescriptor::getDisplayName, isEqual(displayName))),
-			"descriptor with display name \"%s\"", displayName);
+		return new Condition<>(
+				byTestDescriptor(where(TestDescriptor::getDisplayName, isEqual(displayName))),
+				"descriptor with display name \"%s\"",
+				displayName);
 	}
 
 	public static Condition<ExecutionEvent> skippedWithReason(String expectedReason) {
@@ -115,16 +118,18 @@ public class ExecutionEventConditions {
 		return type(STARTED);
 	}
 
-	public static Condition<ExecutionEvent> abortedWithReason(Condition<? super Throwable> causeCondition) {
+	public static Condition<ExecutionEvent> abortedWithReason(
+			Condition<? super Throwable> causeCondition) {
 		return finishedWithCause(ABORTED, causeCondition);
 	}
 
-	public static Condition<ExecutionEvent> finishedWithFailure(Condition<? super Throwable> causeCondition) {
+	public static Condition<ExecutionEvent> finishedWithFailure(
+			Condition<? super Throwable> causeCondition) {
 		return finishedWithCause(FAILED, causeCondition);
 	}
 
-	private static Condition<ExecutionEvent> finishedWithCause(Status expectedStatus,
-			Condition<? super Throwable> causeCondition) {
+	private static Condition<ExecutionEvent> finishedWithCause(
+			Status expectedStatus, Condition<? super Throwable> causeCondition) {
 		return finished(allOf(status(expectedStatus), cause(causeCondition)));
 	}
 
@@ -145,13 +150,14 @@ public class ExecutionEventConditions {
 	}
 
 	public static Condition<ExecutionEvent> result(Condition<TestExecutionResult> condition) {
-		return new Condition<>(byPayload(TestExecutionResult.class, condition::matches), "event with result where %s",
-			condition);
+		return new Condition<>(
+				byPayload(TestExecutionResult.class, condition::matches),
+				"event with result where %s",
+				condition);
 	}
 
 	public static Condition<ExecutionEvent> reason(String expectedReason) {
-		return new Condition<>(byPayload(String.class, isEqual(expectedReason)), "event with reason '%s'",
-			expectedReason);
+		return new Condition<>(
+				byPayload(String.class, isEqual(expectedReason)), "event with reason '%s'", expectedReason);
 	}
-
 }

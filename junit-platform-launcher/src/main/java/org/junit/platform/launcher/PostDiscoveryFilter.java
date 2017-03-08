@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -18,16 +17,15 @@ import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.TestEngine;
 
 /**
- * A {@code PostDiscoveryFilter} is applied to {@link TestDescriptor TestDescriptors}
- * after test discovery.
- *
- * <p>{@link TestEngine TestEngines} must <strong>not</strong> apply
- * {@code PostDiscoveryFilters} during the test discovery phase.
- *
- * @since 1.0
- * @see LauncherDiscoveryRequest
- * @see TestEngine
- */
+* A {@code PostDiscoveryFilter} is applied to {@link TestDescriptor TestDescriptors} after test
+* discovery.
+*
+* <p>{@link TestEngine TestEngines} must <strong>not</strong> apply {@code PostDiscoveryFilters}
+* during the test discovery phase.
+*
+* @since 1.0
+* @see LauncherDiscoveryRequest
+* @see TestEngine
+*/
 @API(Experimental)
-public interface PostDiscoveryFilter extends Filter<TestDescriptor> {
-}
+public interface PostDiscoveryFilter extends Filter<TestDescriptor> {}

@@ -7,13 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example.defaultmethods;
 
 // tag::user_guide[]
 public interface Testable<T> {
 
 	T createValue();
-
 }
 // end::user_guide[]

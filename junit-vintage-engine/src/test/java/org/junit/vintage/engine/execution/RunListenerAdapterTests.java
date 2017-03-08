@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.execution;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,7 +18,6 @@ import static org.junit.vintage.engine.VintageUniqueIdBuilder.engineId;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.support.descriptor.EngineDescriptor;
@@ -29,9 +27,7 @@ import org.junit.vintage.engine.RecordCollectingLogger;
 import org.junit.vintage.engine.descriptor.RunnerTestDescriptor;
 import org.junit.vintage.engine.samples.junit4.PlainJUnit4TestCaseWithSingleTestWhichFails;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class RunListenerAdapterTests {
 
 	@Test
@@ -39,22 +35,28 @@ class RunListenerAdapterTests {
 		Class<?> testClass = PlainJUnit4TestCaseWithSingleTestWhichFails.class;
 		RecordCollectingLogger logger = new RecordCollectingLogger();
 		EngineDescriptor engineDescriptor = new EngineDescriptor(engineId(), "JUnit 4");
-		RunnerTestDescriptor runnerTestDescriptor = new RunnerTestDescriptor(engineDescriptor, testClass,
-			new BlockJUnit4ClassRunner(testClass));
+		RunnerTestDescriptor runnerTestDescriptor =
+				new RunnerTestDescriptor(
+						engineDescriptor, testClass, new BlockJUnit4ClassRunner(testClass));
 
 		TestRun testRun = new TestRun(runnerTestDescriptor, logger);
 
 		Description unknownDescription = createTestDescription(testClass, "doesNotExist");
-		Optional<? extends TestDescriptor> testDescriptor = testRun.lookupTestDescriptor(unknownDescription);
+		Optional<? extends TestDescriptor> testDescriptor =
+				testRun.lookupTestDescriptor(unknownDescription);
 
 		assertThat(testDescriptor).isEmpty();
 		assertThat(logger.getLogRecords()).hasSize(1);
 		LogRecord logRecord = getOnlyElement(logger.getLogRecords());
 		assertEquals(Level.WARNING, logRecord.getLevel());
-		assertEquals("Runner " + BlockJUnit4ClassRunner.class.getName() + " on class " + testClass.getName()
-				+ " reported event for unknown Description: doesNotExist(" + testClass.getName()
-				+ "). It will be ignored.",
-			logRecord.getMessage());
+		assertEquals(
+				"Runner "
+						+ BlockJUnit4ClassRunner.class.getName()
+						+ " on class "
+						+ testClass.getName()
+						+ " reported event for unknown Description: doesNotExist("
+						+ testClass.getName()
+						+ "). It will be ignored.",
+				logRecord.getMessage());
 	}
-
 }

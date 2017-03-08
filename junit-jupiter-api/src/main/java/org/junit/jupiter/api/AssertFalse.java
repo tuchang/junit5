@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionUtils.fail;
@@ -16,11 +15,11 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 /**
- * {@code AssertFalse} is a collection of utility methods that support asserting
- * {@code false} in tests.
- *
- * @since 5.0
- */
+* {@code AssertFalse} is a collection of utility methods that support asserting {@code false} in
+* tests.
+*
+* @since 5.0
+*/
 class AssertFalse {
 
 	static void assertFalse(boolean condition) {
@@ -48,5 +47,4 @@ class AssertFalse {
 			fail(messageSupplier);
 		}
 	}
-
 }

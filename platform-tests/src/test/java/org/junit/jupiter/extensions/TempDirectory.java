@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.extensions;
 
 import java.io.IOException;
@@ -21,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
@@ -30,16 +28,13 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestExtensionContext;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class TempDirectory implements AfterEachCallback, ParameterResolver {
 
 	@Target(ElementType.PARAMETER)
 	@Retention(RetentionPolicy.RUNTIME)
 	@Documented
-	public @interface Root {
-	}
+	public @interface Root {}
 
 	private static final String KEY = "tempDirectory";
 
@@ -75,39 +70,38 @@ public class TempDirectory implements AfterEachCallback, ParameterResolver {
 			String tempDirName;
 			if (context.getTestMethod().isPresent()) {
 				tempDirName = context.getTestMethod().get().getName();
-			}
-			else if (context.getTestClass().isPresent()) {
+			} else if (context.getTestClass().isPresent()) {
 				tempDirName = context.getTestClass().get().getName();
-			}
-			else {
+			} else {
 				tempDirName = context.getDisplayName();
 			}
 
 			return Files.createTempDirectory(tempDirName);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new ParameterResolutionException("Could not create temp directory", e);
 		}
 	}
 
 	private void delete(Path tempDirectory) throws IOException {
-		Files.walkFileTree(tempDirectory, new SimpleFileVisitor<Path>() {
+		Files.walkFileTree(
+				tempDirectory,
+				new SimpleFileVisitor<Path>() {
 
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-				return deleteAndContinue(file);
-			}
+					@Override
+					public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+							throws IOException {
+						return deleteAndContinue(file);
+					}
 
-			@Override
-			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-				return deleteAndContinue(dir);
-			}
+					@Override
+					public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+						return deleteAndContinue(dir);
+					}
 
-			private FileVisitResult deleteAndContinue(Path path) throws IOException {
-				Files.delete(path);
-				return FileVisitResult.CONTINUE;
-			}
-		});
+					private FileVisitResult deleteAndContinue(Path path) throws IOException {
+						Files.delete(path);
+						return FileVisitResult.CONTINUE;
+					}
+				});
 	}
-
 }

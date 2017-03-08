@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -21,10 +20,10 @@ import org.junit.platform.engine.ConfigurationParameters;
 import org.junit.platform.engine.EngineExecutionListener;
 
 /**
- * Microtests for {@link JupiterEngineExecutionContext}.
- *
- * @since 5.0
- */
+* Microtests for {@link JupiterEngineExecutionContext}.
+*
+* @since 5.0
+*/
 class JupiterEngineExecutionContextTests {
 
 	private JupiterEngineExecutionContext originalContext;
@@ -33,8 +32,9 @@ class JupiterEngineExecutionContextTests {
 	@BeforeEach
 	void initOriginalContext() {
 		engineExecutionListener = mock(EngineExecutionListener.class);
-		originalContext = new JupiterEngineExecutionContext(engineExecutionListener,
-			mock(ConfigurationParameters.class));
+		originalContext =
+				new JupiterEngineExecutionContext(
+						engineExecutionListener, mock(ConfigurationParameters.class));
 	}
 
 	@Test
@@ -46,15 +46,17 @@ class JupiterEngineExecutionContextTests {
 
 	@Test
 	void extendWithAllAttributes() {
-		ClassBasedContainerExtensionContext extensionContext = new ClassBasedContainerExtensionContext(null, null,
-			null);
+		ClassBasedContainerExtensionContext extensionContext =
+				new ClassBasedContainerExtensionContext(null, null, null);
 		ExtensionRegistry extensionRegistry = ExtensionRegistry.createRegistryWithDefaultExtensions();
 		TestInstanceProvider testInstanceProvider = mock(TestInstanceProvider.class);
-		JupiterEngineExecutionContext newContext = originalContext.extend() //
-				.withExtensionContext(extensionContext) //
-				.withExtensionRegistry(extensionRegistry) //
-				.withTestInstanceProvider(testInstanceProvider) //
-				.build();
+		JupiterEngineExecutionContext newContext =
+				originalContext
+						.extend() //
+						.withExtensionContext(extensionContext) //
+						.withExtensionRegistry(extensionRegistry) //
+						.withTestInstanceProvider(testInstanceProvider) //
+						.build();
 
 		assertSame(extensionContext, newContext.getExtensionContext());
 		assertSame(extensionRegistry, newContext.getExtensionRegistry());
@@ -63,21 +65,23 @@ class JupiterEngineExecutionContextTests {
 
 	@Test
 	void canOverrideAttributeWhenContextIsExtended() {
-		ClassBasedContainerExtensionContext extensionContext = new ClassBasedContainerExtensionContext(null, null,
-			null);
+		ClassBasedContainerExtensionContext extensionContext =
+				new ClassBasedContainerExtensionContext(null, null, null);
 		ExtensionRegistry extensionRegistry = ExtensionRegistry.createRegistryWithDefaultExtensions();
 		TestInstanceProvider testInstanceProvider = mock(TestInstanceProvider.class);
-		ClassBasedContainerExtensionContext newExtensionContext = new ClassBasedContainerExtensionContext(
-			extensionContext, null, null);
+		ClassBasedContainerExtensionContext newExtensionContext =
+				new ClassBasedContainerExtensionContext(extensionContext, null, null);
 
-		JupiterEngineExecutionContext newContext = originalContext.extend() //
-				.withExtensionContext(extensionContext) //
-				.withExtensionRegistry(extensionRegistry) //
-				.withTestInstanceProvider(testInstanceProvider) //
-				.build() //
-				.extend() //
-				.withExtensionContext(newExtensionContext) //
-				.build();
+		JupiterEngineExecutionContext newContext =
+				originalContext
+						.extend() //
+						.withExtensionContext(extensionContext) //
+						.withExtensionRegistry(extensionRegistry) //
+						.withTestInstanceProvider(testInstanceProvider) //
+						.build() //
+						.extend() //
+						.withExtensionContext(newExtensionContext) //
+						.build();
 
 		assertSame(newExtensionContext, newContext.getExtensionContext());
 		assertSame(extensionRegistry, newContext.getExtensionRegistry());

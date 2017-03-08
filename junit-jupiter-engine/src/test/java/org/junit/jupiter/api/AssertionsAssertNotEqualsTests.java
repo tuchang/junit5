@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionTestUtils.assertMessageEndsWith;
@@ -19,10 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Unit tests for JUnit Jupiter {@link Assertions}.
- *
- * @since 5.0
- */
+* Unit tests for JUnit Jupiter {@link Assertions}.
+*
+* @since 5.0
+*/
 public class AssertionsAssertNotEqualsTests {
 
 	@Test
@@ -45,8 +44,7 @@ public class AssertionsAssertNotEqualsTests {
 		try {
 			assertNotEquals(new String("foo"), new String("foo"), "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "test");
 			assertMessageEndsWith(ex, "expected: not equal but was: <foo>");
 		}
@@ -57,8 +55,7 @@ public class AssertionsAssertNotEqualsTests {
 		try {
 			assertNotEquals(new String("foo"), new String("foo"), () -> "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "test");
 			assertMessageEndsWith(ex, "expected: not equal but was: <foo>");
 		}
@@ -77,5 +74,4 @@ public class AssertionsAssertNotEqualsTests {
 			throw new NumberFormatException();
 		}
 	}
-
 }

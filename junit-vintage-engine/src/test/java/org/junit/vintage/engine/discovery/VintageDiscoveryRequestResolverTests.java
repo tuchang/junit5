@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,16 +19,13 @@ import static org.junit.vintage.engine.VintageUniqueIdBuilder.engineId;
 
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.EngineDiscoveryRequest;
 import org.junit.platform.engine.discovery.ClassNameFilter;
 import org.junit.platform.engine.support.descriptor.EngineDescriptor;
 import org.junit.vintage.engine.RecordCollectingLogger;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class VintageDiscoveryRequestResolverTests {
 
 	@Test
@@ -37,16 +33,16 @@ class VintageDiscoveryRequestResolverTests {
 		EngineDescriptor engineDescriptor = new EngineDescriptor(engineId(), "JUnit Vintage");
 		RecordCollectingLogger logger = new RecordCollectingLogger();
 
-		ClassNameFilter filter = className -> includedIf(Foo.class.getName().equals(className), () -> "match",
-			() -> "no match");
+		ClassNameFilter filter =
+				className ->
+						includedIf(Foo.class.getName().equals(className), () -> "match", () -> "no match");
 		// @formatter:off
-		EngineDiscoveryRequest request = request()
-				.selectors(selectClass(Foo.class), selectClass(Bar.class))
-				.filters(filter)
-				.build();
+		EngineDiscoveryRequest request =
+				request().selectors(selectClass(Foo.class), selectClass(Bar.class)).filters(filter).build();
 		// @formatter:on
 
-		JUnit4DiscoveryRequestResolver resolver = new JUnit4DiscoveryRequestResolver(engineDescriptor, logger);
+		JUnit4DiscoveryRequestResolver resolver =
+				new JUnit4DiscoveryRequestResolver(engineDescriptor, logger);
 		resolver.resolve(request);
 
 		assertThat(engineDescriptor.getChildren()).hasSize(1);
@@ -54,23 +50,20 @@ class VintageDiscoveryRequestResolverTests {
 		assertThat(logger.getLogRecords()).hasSize(1);
 		LogRecord logRecord = getOnlyElement(logger.getLogRecords());
 		assertEquals(Level.FINE, logRecord.getLevel());
-		assertEquals("Class " + Bar.class.getName() + " was excluded by a class filter: no match",
-			logRecord.getMessage());
+		assertEquals(
+				"Class " + Bar.class.getName() + " was excluded by a class filter: no match",
+				logRecord.getMessage());
 	}
 
 	public static class Foo {
 
 		@org.junit.Test
-		public void test() {
-		}
+		public void test() {}
 	}
 
 	public static class Bar {
 
 		@org.junit.Test
-		public void test() {
-		}
-
+		public void test() {}
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine;
 
 import java.util.LinkedList;
@@ -16,9 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 public class RecordCollectingLogger extends Logger {
 
 	private final List<LogRecord> logRecords = new LinkedList<>();
@@ -36,5 +33,4 @@ public class RecordCollectingLogger extends Logger {
 	public List<LogRecord> getLogRecords() {
 		return logRecords;
 	}
-
 }

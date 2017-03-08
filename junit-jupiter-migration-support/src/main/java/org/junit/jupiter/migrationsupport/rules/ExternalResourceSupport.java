@@ -7,13 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
 
 import java.util.function.Function;
-
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.TestExtensionContext;
@@ -24,33 +22,33 @@ import org.junit.platform.commons.meta.API;
 import org.junit.rules.ExternalResource;
 
 /**
- * This {@code Extension} provides native support for subclasses of
- * the {@link ExternalResource} rule from JUnit 4.
- *
- * <p>{@code @Rule}-annotated fields as well as methods are supported.
- *
- * <p>By using this class-level extension on a test class such
- * {@code ExternalResource} implementations in legacy code bases
- * can be left unchanged including the JUnit 4 rule import statements.
- *
- * <p>However, if you intend to develop a <em>new</em> extension for
- * JUnit 5 please use the new extension model of JUnit Jupiter instead
- * of the rule-based model of JUnit 4.
- *
- * @since 5.0
- * @see org.junit.rules.ExternalResource
- * @see org.junit.rules.TestRule
- * @see org.junit.Rule
- */
+* This {@code Extension} provides native support for subclasses of the {@link ExternalResource}
+* rule from JUnit 4.
+*
+* <p>{@code @Rule}-annotated fields as well as methods are supported.
+*
+* <p>By using this class-level extension on a test class such {@code ExternalResource}
+* implementations in legacy code bases can be left unchanged including the JUnit 4 rule import
+* statements.
+*
+* <p>However, if you intend to develop a <em>new</em> extension for JUnit 5 please use the new
+* extension model of JUnit Jupiter instead of the rule-based model of JUnit 4.
+*
+* @since 5.0
+* @see org.junit.rules.ExternalResource
+* @see org.junit.rules.TestRule
+* @see org.junit.Rule
+*/
 @API(Experimental)
 public class ExternalResourceSupport implements BeforeEachCallback, AfterEachCallback {
 
-	private final Function<TestRuleAnnotatedMember, AbstractTestRuleAdapter> adapterGenerator = ExternalResourceAdapter::new;
+	private final Function<TestRuleAnnotatedMember, AbstractTestRuleAdapter> adapterGenerator =
+			ExternalResourceAdapter::new;
 
-	private final TestRuleFieldSupport fieldSupport = new TestRuleFieldSupport(this.adapterGenerator,
-		ExternalResource.class);
-	private final TestRuleMethodSupport methodSupport = new TestRuleMethodSupport(this.adapterGenerator,
-		ExternalResource.class);
+	private final TestRuleFieldSupport fieldSupport =
+			new TestRuleFieldSupport(this.adapterGenerator, ExternalResource.class);
+	private final TestRuleMethodSupport methodSupport =
+			new TestRuleMethodSupport(this.adapterGenerator, ExternalResource.class);
 
 	@Override
 	public void beforeEach(TestExtensionContext context) throws Exception {
@@ -63,5 +61,4 @@ public class ExternalResourceSupport implements BeforeEachCallback, AfterEachCal
 		this.methodSupport.afterEach(context);
 		this.fieldSupport.afterEach(context);
 	}
-
 }

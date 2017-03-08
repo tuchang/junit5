@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2015-2017 the original author or authors.
  *
@@ -11,16 +10,15 @@
 import org.junit.jupiter.api.Test;
 
 /**
- * Simple test case that is used to verify proper support for classpath scanning
- * within the <em>default</em> package.
- *
- * @since 5.0
- */
+* Simple test case that is used to verify proper support for classpath scanning within the
+* <em>default</em> package.
+*
+* @since 5.0
+*/
 public class DefaultPackageTestCase {
 
 	@Test
 	void test() {
 		// do nothing
 	}
-
 }

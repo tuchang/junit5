@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // @formatter:off
@@ -28,23 +27,23 @@ public class AssumptionsDemo {
 
 	@Test
 	void testOnlyOnDeveloperWorkstation() {
-		assumeTrue("DEV".equals(System.getenv("ENV")),
-			() -> "Aborting test: not on developer workstation");
+		assumeTrue(
+				"DEV".equals(System.getenv("ENV")), () -> "Aborting test: not on developer workstation");
 		// remainder of test
 	}
 
 	@Test
 	void testInAllEnvironments() {
-		assumingThat("CI".equals(System.getenv("ENV")),
-			() -> {
-				// perform these assertions only on the CI server
-				assertEquals(2, 2);
-			});
+		assumingThat(
+				"CI".equals(System.getenv("ENV")),
+				() -> {
+					// perform these assertions only on the CI server
+					assertEquals(2, 2);
+				});
 
 		// perform these assertions in all environments
 		assertEquals("a string", "a string");
 	}
-
 }
 // end::user_guide[]
 // @formatter:on

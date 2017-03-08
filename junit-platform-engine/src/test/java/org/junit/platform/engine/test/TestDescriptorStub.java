@@ -7,15 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.test;
 
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class TestDescriptorStub extends AbstractTestDescriptor {
 
 	public TestDescriptorStub(UniqueId uniqueId, String displayName) {
@@ -31,5 +28,4 @@ public class TestDescriptorStub extends AbstractTestDescriptor {
 	public boolean isContainer() {
 		return !isTest();
 	}
-
 }

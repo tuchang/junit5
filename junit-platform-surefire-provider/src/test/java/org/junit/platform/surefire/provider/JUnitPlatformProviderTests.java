@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.junit.platform.surefire.provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +32,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.maven.surefire.providerapi.ProviderParameters;
 import org.apache.maven.surefire.report.ReportEntry;
 import org.apache.maven.surefire.report.ReporterFactory;
@@ -53,15 +51,16 @@ import org.junit.platform.launcher.listeners.TestExecutionSummary;
 import org.mockito.ArgumentCaptor;
 
 /**
- * Unit tests for {@link JUnitPlatformProvider}.
- *
- * @since 1.0
- */
+* Unit tests for {@link JUnitPlatformProvider}.
+*
+* @since 1.0
+*/
 class JUnitPlatformProviderTests {
 
 	@Test
 	void getSuitesReturnsScannedClasses() throws Exception {
-		ProviderParameters providerParameters = providerParametersMock(TestClass1.class, TestClass2.class);
+		ProviderParameters providerParameters =
+				providerParametersMock(TestClass1.class, TestClass2.class);
 		JUnitPlatformProvider provider = new JUnitPlatformProvider(providerParameters);
 
 		assertThat(provider.getSuites()).containsOnly(TestClass1.class, TestClass2.class);
@@ -107,7 +106,8 @@ class JUnitPlatformProviderTests {
 
 	@Test
 	void allDiscoveredTestsAreInvokedForNullArgument() throws Exception {
-		ProviderParameters providerParameters = providerParametersMock(TestClass1.class, TestClass2.class);
+		ProviderParameters providerParameters =
+				providerParametersMock(TestClass1.class, TestClass2.class);
 		Launcher launcher = LauncherFactory.create();
 		JUnitPlatformProvider provider = new JUnitPlatformProvider(providerParameters, launcher);
 
@@ -190,9 +190,12 @@ class JUnitPlatformProviderTests {
 		ProviderParameters providerParameters = providerParametersMock(TestClass1.class);
 		when(providerParameters.getProviderProperties()).thenReturn(properties);
 
-		Throwable throwable = assertThrows(PreconditionViolationException.class, () -> {
-			new JUnitPlatformProvider(providerParameters);
-		});
+		Throwable throwable =
+				assertThrows(
+						PreconditionViolationException.class,
+						() -> {
+							new JUnitPlatformProvider(providerParameters);
+						});
 
 		assertEquals(JUnitPlatformProvider.EXCEPTION_MESSAGE_BOTH_NOT_ALLOWED, throwable.getMessage());
 	}
@@ -237,17 +240,14 @@ class JUnitPlatformProviderTests {
 	private static class TestClass1 {
 
 		@Test
-		void test1() {
-		}
+		void test1() {}
 
 		@Test
-		void test2() {
-		}
+		void test2() {}
 
 		@Disabled
 		@Test
-		void test3() {
-		}
+		void test3() {}
 
 		@Test
 		void test4() {
@@ -267,8 +267,7 @@ class JUnitPlatformProviderTests {
 	private static class TestClass2 {
 
 		@Test
-		void test1() {
-		}
+		void test1() {}
 
 		@Test
 		void test2() {
@@ -291,10 +290,14 @@ class JUnitPlatformProviderTests {
 	}
 
 	@Test
-	public void usesClassNamesForXmlReport() throws TestSetFailedException, InvocationTargetException {
-		String[] classNames = { "org.junit.platform.surefire.provider.JUnitPlatformProviderTests$Sub1Tests",
-				"org.junit.platform.surefire.provider.JUnitPlatformProviderTests$Sub2Tests" };
-		ProviderParameters providerParameters = providerParametersMock(Sub1Tests.class, Sub2Tests.class);
+	public void usesClassNamesForXmlReport()
+			throws TestSetFailedException, InvocationTargetException {
+		String[] classNames = {
+			"org.junit.platform.surefire.provider.JUnitPlatformProviderTests$Sub1Tests",
+			"org.junit.platform.surefire.provider.JUnitPlatformProviderTests$Sub2Tests"
+		};
+		ProviderParameters providerParameters =
+				providerParametersMock(Sub1Tests.class, Sub2Tests.class);
 
 		JUnitPlatformProvider jUnitPlatformProvider = new JUnitPlatformProvider(providerParameters);
 		TestsToRun testsToRun = newTestsToRun(Sub1Tests.class, Sub2Tests.class);
@@ -302,7 +305,8 @@ class JUnitPlatformProviderTests {
 		jUnitPlatformProvider.invoke(testsToRun);
 		RunListener reporter = providerParameters.getReporterFactory().createReporter();
 
-		ArgumentCaptor<ReportEntry> reportEntryArgumentCaptor = ArgumentCaptor.forClass(ReportEntry.class);
+		ArgumentCaptor<ReportEntry> reportEntryArgumentCaptor =
+				ArgumentCaptor.forClass(ReportEntry.class);
 		verify(reporter, times(2)).testSucceeded(reportEntryArgumentCaptor.capture());
 
 		List<ReportEntry> allValues = reportEntryArgumentCaptor.getAllValues();
@@ -311,13 +315,10 @@ class JUnitPlatformProviderTests {
 
 	public static class AbstractTestClass {
 		@Test
-		void test() {
-		}
+		void test() {}
 	}
 
-	public static class Sub1Tests extends AbstractTestClass {
-	}
+	public static class Sub1Tests extends AbstractTestClass {}
 
-	public static class Sub2Tests extends AbstractTestClass {
-	}
+	public static class Sub2Tests extends AbstractTestClass {}
 }

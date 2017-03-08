@@ -7,14 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-
 import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,8 +24,7 @@ public class ExternalResourceSupportForTemporaryFolderFieldTests {
 
 	private File file;
 
-	@Rule
-	public TemporaryFolder folder = new TemporaryFolder();
+	@Rule public TemporaryFolder folder = new TemporaryFolder();
 
 	@BeforeEach
 	void setup() throws IOException {
@@ -38,5 +35,4 @@ public class ExternalResourceSupportForTemporaryFolderFieldTests {
 	void checkTemporaryFolder() {
 		assertTrue(file.canRead());
 	}
-
 }

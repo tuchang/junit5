@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery.predicates;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,14 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.platform.commons.util.ReflectionUtils;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class IsTestMethodTests {
 
 	private final Predicate<Method> isTestMethod = new IsTestMethod();
@@ -35,7 +31,8 @@ public class IsTestMethodTests {
 
 	@Test
 	void publicTestMethodsWithArgumentEvaluatesToTrue() throws NoSuchMethodException {
-		Method publicTestMethodWithArgument = findMethod("publicTestMethodWithArgument", TestInfo.class);
+		Method publicTestMethodWithArgument =
+				findMethod("publicTestMethodWithArgument", TestInfo.class);
 		assertTrue(isTestMethod.test(publicTestMethodWithArgument));
 	}
 
@@ -76,41 +73,32 @@ public class IsTestMethodTests {
 	private Method findMethodOfAbstractClass(String name) {
 		return ReflectionUtils.findMethod(AbstractClassWithTestMethod.class, name).get();
 	}
-
 }
 
 //class name must not end with 'Tests', otherwise it would be picked up by the suite
 class ClassWithTestMethods {
 
 	@Test
-	public void publicTestMethod() {
-	}
+	public void publicTestMethod() {}
 
 	@Test
-	public void publicTestMethodWithArgument(TestInfo info) {
-	}
+	public void publicTestMethodWithArgument(TestInfo info) {}
 
 	@Test
-	protected void protectedTestMethod() {
-	}
+	protected void protectedTestMethod() {}
 
 	@Test
-	void packageVisibleTestMethod() {
-	}
+	void packageVisibleTestMethod() {}
 
 	@Test
-	private void privateTestMethod() {
-	}
+	private void privateTestMethod() {}
 
 	@Test
-	static void staticTestMethod() {
-	}
-
+	static void staticTestMethod() {}
 }
 
 abstract class AbstractClassWithTestMethod {
 
 	@Test
 	abstract void abstractTestMethod();
-
 }

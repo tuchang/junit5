@@ -7,23 +7,21 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.descriptor;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.ToStringBuilder;
 
 /**
- * Position inside a file represented by {@linkplain #getLine line} and
- * {@linkplain #getColumn column}.
- *
- * @since 1.0
- */
+* Position inside a file represented by {@linkplain #getLine line} and {@linkplain #getColumn
+* column}.
+*
+* @since 1.0
+*/
 @API(Experimental)
 public class FilePosition implements Serializable {
 
@@ -33,27 +31,22 @@ public class FilePosition implements Serializable {
 	private final int column;
 
 	/**
-	 * Create a new {@code FilePosition} using the supplied {@code line} and
-	 * {@code column}.
-	 *
-	 * @param line the line (1-based)
-	 * @param column the column (1-based)
-	 */
+	* Create a new {@code FilePosition} using the supplied {@code line} and {@code column}.
+	*
+	* @param line the line (1-based)
+	* @param column the column (1-based)
+	*/
 	public FilePosition(int line, int column) {
 		this.line = line;
 		this.column = column;
 	}
 
-	/**
-	 * Get the line (1-based) of this position.
-	 */
+	/** Get the line (1-based) of this position. */
 	public int getLine() {
 		return this.line;
 	}
 
-	/**
-	 * Get the column (1-based) of this position.
-	 */
+	/** Get the column (1-based) of this position. */
 	public int getColumn() {
 		return this.column;
 	}
@@ -84,5 +77,4 @@ public class FilePosition implements Serializable {
 				.toString();
 		// @formatter:on
 	}
-
 }

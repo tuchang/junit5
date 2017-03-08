@@ -7,13 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.descriptor;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
 
 import java.util.Objects;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.platform.commons.util.ToStringBuilder;
@@ -21,14 +19,14 @@ import org.junit.platform.engine.TestSource;
 import org.junit.platform.engine.discovery.PackageSelector;
 
 /**
- * Package based {@link org.junit.platform.engine.TestSource}.
- *
- * <p>This class stores the package name because {@link Package} does not
- * implement {@link java.io.Serializable}.
- *
- * @since 1.0
- * @see PackageSelector
- */
+* Package based {@link org.junit.platform.engine.TestSource}.
+*
+* <p>This class stores the package name because {@link Package} does not implement {@link
+* java.io.Serializable}.
+*
+* @since 1.0
+* @see PackageSelector
+*/
 @API(Experimental)
 public class PackageSource implements TestSource {
 
@@ -37,26 +35,25 @@ public class PackageSource implements TestSource {
 	private final String packageName;
 
 	/**
-	 * Create a new {@code PackageSource} using the supplied Java {@link Package}.
-	 *
-	 * @param javaPackage the Java package; must not be {@code null}
-	 */
+	* Create a new {@code PackageSource} using the supplied Java {@link Package}.
+	*
+	* @param javaPackage the Java package; must not be {@code null}
+	*/
 	public PackageSource(Package javaPackage) {
 		this(Preconditions.notNull(javaPackage, "package must not be null").getName());
 	}
 
 	/**
-	 * Create a new {@code PackageSource} using the supplied {@code packageName}.
-	 *
-	 * @param packageName the package name; must not be {@code null} or blank
-	 */
+	* Create a new {@code PackageSource} using the supplied {@code packageName}.
+	*
+	* @param packageName the package name; must not be {@code null} or blank
+	*/
 	public PackageSource(String packageName) {
-		this.packageName = Preconditions.notBlank(packageName, "package name must not be null or blank");
+		this.packageName =
+				Preconditions.notBlank(packageName, "package name must not be null or blank");
 	}
 
-	/**
-	 * Get the package name of this test source.
-	 */
+	/** Get the package name of this test source. */
 	public final String getPackageName() {
 		return this.packageName;
 	}
@@ -82,5 +79,4 @@ public class PackageSource implements TestSource {
 	public String toString() {
 		return new ToStringBuilder(this).append("packageName", this.packageName).toString();
 	}
-
 }

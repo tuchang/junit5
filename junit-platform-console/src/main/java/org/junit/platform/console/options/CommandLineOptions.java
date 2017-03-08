@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.options;
 
 import static java.util.Collections.emptyList;
@@ -22,12 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import org.junit.platform.commons.meta.API;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 @API(Internal)
 public class CommandLineOptions {
 
@@ -150,8 +146,15 @@ public class CommandLineOptions {
 	}
 
 	public boolean hasExplicitSelectors() {
-		return Stream.of(selectedUris, selectedFiles, selectedDirectories, selectedPackages, selectedClasses,
-			selectedMethods, selectedClasspathResources).anyMatch(selectors -> !selectors.isEmpty());
+		return Stream.of(
+						selectedUris,
+						selectedFiles,
+						selectedDirectories,
+						selectedPackages,
+						selectedClasses,
+						selectedMethods,
+						selectedClasspathResources)
+				.anyMatch(selectors -> !selectors.isEmpty());
 	}
 
 	public List<String> getIncludedClassNamePatterns() {
@@ -243,5 +246,4 @@ public class CommandLineOptions {
 	public void setSelectedClasspathEntries(List<Path> selectedClasspathEntries) {
 		this.selectedClasspathEntries = selectedClasspathEntries;
 	}
-
 }

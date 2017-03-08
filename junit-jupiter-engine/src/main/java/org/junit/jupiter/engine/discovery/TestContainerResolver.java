@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -16,7 +15,6 @@ import java.lang.reflect.AnnotatedElement;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
-
 import org.junit.jupiter.engine.descriptor.ClassTestDescriptor;
 import org.junit.jupiter.engine.discovery.predicates.IsPotentialTestContainer;
 import org.junit.platform.commons.meta.API;
@@ -24,24 +22,21 @@ import org.junit.platform.commons.util.ReflectionUtils;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Experimental)
 class TestContainerResolver implements ElementResolver {
 
-	private static final IsPotentialTestContainer isPotentialTestContainer = new IsPotentialTestContainer();
+	private static final IsPotentialTestContainer isPotentialTestContainer =
+			new IsPotentialTestContainer();
 
 	static final String SEGMENT_TYPE = "class";
 
 	@Override
 	public Set<TestDescriptor> resolveElement(AnnotatedElement element, TestDescriptor parent) {
-		if (!(element instanceof Class))
-			return Collections.emptySet();
+		if (!(element instanceof Class)) return Collections.emptySet();
 
 		Class<?> clazz = (Class<?>) element;
-		if (!isPotentialCandidate(clazz))
-			return Collections.emptySet();
+		if (!isPotentialCandidate(clazz)) return Collections.emptySet();
 
 		UniqueId uniqueId = createUniqueId(clazz, parent);
 		return Collections.singleton(resolveClass(clazz, uniqueId));
@@ -50,21 +45,17 @@ class TestContainerResolver implements ElementResolver {
 	@Override
 	public Optional<TestDescriptor> resolveUniqueId(UniqueId.Segment segment, TestDescriptor parent) {
 
-		if (!segment.getType().equals(getSegmentType()))
-			return Optional.empty();
+		if (!segment.getType().equals(getSegmentType())) return Optional.empty();
 
-		if (!requiredParentType().isInstance(parent))
-			return Optional.empty();
+		if (!requiredParentType().isInstance(parent)) return Optional.empty();
 
 		String className = getClassName(parent, segment.getValue());
 
 		Optional<Class<?>> optionalContainerClass = ReflectionUtils.loadClass(className);
-		if (!optionalContainerClass.isPresent())
-			return Optional.empty();
+		if (!optionalContainerClass.isPresent()) return Optional.empty();
 
 		Class<?> containerClass = optionalContainerClass.get();
-		if (!isPotentialCandidate(containerClass))
-			return Optional.empty();
+		if (!isPotentialCandidate(containerClass)) return Optional.empty();
 
 		UniqueId uniqueId = createUniqueId(containerClass, parent);
 		return Optional.of(resolveClass(containerClass, uniqueId));
@@ -97,5 +88,4 @@ class TestContainerResolver implements ElementResolver {
 	protected TestDescriptor resolveClass(Class<?> testClass, UniqueId uniqueId) {
 		return new ClassTestDescriptor(uniqueId, testClass);
 	}
-
 }

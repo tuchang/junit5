@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.options;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -16,19 +15,15 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.LinkedHashSet;
 import java.util.Map;
-
 import joptsimple.BuiltinHelpFormatter;
 import joptsimple.OptionDescriptor;
 import joptsimple.OptionException;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-
 import org.junit.platform.commons.JUnitException;
 import org.junit.platform.commons.meta.API;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 @API(Internal)
 public class JOptSimpleCommandLineOptionsParser implements CommandLineOptionsParser {
 
@@ -39,8 +34,7 @@ public class JOptSimpleCommandLineOptionsParser implements CommandLineOptionsPar
 		try {
 			OptionSet detectedOptions = parser.parse(arguments);
 			return availableOptions.toCommandLineOptions(detectedOptions);
-		}
-		catch (OptionException e) {
+		} catch (OptionException e) {
 			throw new JUnitException("Error parsing command-line arguments", e);
 		}
 	}
@@ -51,8 +45,7 @@ public class JOptSimpleCommandLineOptionsParser implements CommandLineOptionsPar
 		optionParser.formatHelpWith(new OrderPreservingHelpFormatter());
 		try {
 			optionParser.printHelpOn(writer);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new JUnitException("Error printing help", e);
 		}
 	}

@@ -7,16 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution.injection.sample;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class CustomTypeParameterResolver implements ParameterResolver {
 
 	@Override
@@ -28,5 +25,4 @@ public class CustomTypeParameterResolver implements ParameterResolver {
 	public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
 		return new CustomType();
 	}
-
 }

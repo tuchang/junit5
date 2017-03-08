@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine;
 
 import static org.junit.Assert.assertEquals;
@@ -15,9 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class TestTagTests {
 
 	@Test
@@ -32,5 +29,4 @@ class TestTagTests {
 	void toStringPrintsName() {
 		assertEquals("fast", TestTag.create("fast").toString());
 	}
-
 }

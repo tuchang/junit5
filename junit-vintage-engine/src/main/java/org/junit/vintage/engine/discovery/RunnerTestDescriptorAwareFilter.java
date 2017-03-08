@@ -7,16 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
 import org.junit.vintage.engine.descriptor.RunnerTestDescriptor;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 abstract class RunnerTestDescriptorAwareFilter extends Filter {
 
 	abstract void initialize(RunnerTestDescriptor runnerTestDescriptor);
@@ -39,5 +36,4 @@ abstract class RunnerTestDescriptorAwareFilter extends Filter {
 			}
 		};
 	}
-
 }

@@ -7,13 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example.timing;
 
 // tag::user_guide[]
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
-
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
@@ -22,11 +20,11 @@ import org.junit.jupiter.api.extension.TestExtensionContext;
 
 // end::user_guide[]
 /**
- * Simple extension that <em>times</em> the execution of test methods and
- * logs the results at {@code INFO} level.
- *
- * @since 5.0
- */
+* Simple extension that <em>times</em> the execution of test methods and logs the results at {@code
+* INFO} level.
+*
+* @since 5.0
+*/
 // tag::user_guide[]
 public class TimingExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback {
 
@@ -49,6 +47,5 @@ public class TimingExtension implements BeforeTestExecutionCallback, AfterTestEx
 	private Store getStore(TestExtensionContext context) {
 		return context.getStore(Namespace.create(getClass(), context));
 	}
-
 }
 // end::user_guide[]

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,14 +17,11 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.console.options.CommandLineOptions;
 import org.junit.platform.console.options.CommandLineOptionsParser;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class ConsoleLauncherTests {
 
 	private final PrintStream printSink = new PrintStream(new ByteArrayOutputStream());
@@ -38,7 +34,8 @@ class ConsoleLauncherTests {
 		CommandLineOptionsParser commandLineOptionsParser = mock(CommandLineOptionsParser.class);
 		when(commandLineOptionsParser.parse(any())).thenReturn(options);
 
-		ConsoleLauncher consoleLauncher = new ConsoleLauncher(commandLineOptionsParser, printSink, printSink);
+		ConsoleLauncher consoleLauncher =
+				new ConsoleLauncher(commandLineOptionsParser, printSink, printSink);
 		int exitCode = consoleLauncher.execute("--help").getExitCode();
 
 		assertEquals(0, exitCode);
@@ -50,7 +47,8 @@ class ConsoleLauncherTests {
 		CommandLineOptionsParser commandLineOptionsParser = mock(CommandLineOptionsParser.class);
 		when(commandLineOptionsParser.parse(any())).thenReturn(new CommandLineOptions());
 
-		ConsoleLauncher consoleLauncher = new ConsoleLauncher(commandLineOptionsParser, printSink, printSink);
+		ConsoleLauncher consoleLauncher =
+				new ConsoleLauncher(commandLineOptionsParser, printSink, printSink);
 		int exitCode = consoleLauncher.execute("--all").getExitCode();
 
 		assertEquals(-1, exitCode);
@@ -62,11 +60,11 @@ class ConsoleLauncherTests {
 		CommandLineOptionsParser commandLineOptionsParser = mock(CommandLineOptionsParser.class);
 		when(commandLineOptionsParser.parse(any())).thenReturn(new CommandLineOptions());
 
-		ConsoleLauncher consoleLauncher = new ConsoleLauncher(commandLineOptionsParser, printSink, printSink);
+		ConsoleLauncher consoleLauncher =
+				new ConsoleLauncher(commandLineOptionsParser, printSink, printSink);
 		int exitCode = consoleLauncher.execute("--scan-classpath").getExitCode();
 
 		assertEquals(-1, exitCode);
 		verify(commandLineOptionsParser).parse("--scan-classpath");
 	}
-
 }

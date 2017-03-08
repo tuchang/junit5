@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.descriptor;
 
 import static java.util.Collections.emptySet;
@@ -17,7 +16,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
-
 import org.junit.platform.commons.JUnitException;
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
@@ -27,14 +25,14 @@ import org.junit.platform.engine.TestTag;
 import org.junit.platform.engine.UniqueId;
 
 /**
- * Abstract base implementation of {@link TestDescriptor} that may be used by
- * custom {@link org.junit.platform.engine.TestEngine TestEngines}.
- *
- * <p>Subclasses should call {@link #setSource} in their constructor, if
- * possible, and override {@link #getTags}, if appropriate.
- *
- * @since 1.0
- */
+* Abstract base implementation of {@link TestDescriptor} that may be used by custom {@link
+* org.junit.platform.engine.TestEngine TestEngines}.
+*
+* <p>Subclasses should call {@link #setSource} in their constructor, if possible, and override
+* {@link #getTags}, if appropriate.
+*
+* @since 1.0
+*/
 @API(Experimental)
 public abstract class AbstractTestDescriptor implements TestDescriptor {
 
@@ -49,14 +47,13 @@ public abstract class AbstractTestDescriptor implements TestDescriptor {
 	private final Set<TestDescriptor> children = Collections.synchronizedSet(new LinkedHashSet<>(16));
 
 	/**
-	 * Create a new {@code AbstractTestDescriptor} with the supplied
-	 * {@link UniqueId} and display name.
-	 *
-	 * @param uniqueId the unique ID of this {@code TestDescriptor}; never
-	 * {@code null}
-	 * @param displayName the display name for this {@code TestDescriptor};
-	 * never {@code null} or blank
-	 */
+	* Create a new {@code AbstractTestDescriptor} with the supplied {@link UniqueId} and display
+	* name.
+	*
+	* @param uniqueId the unique ID of this {@code TestDescriptor}; never {@code null}
+	* @param displayName the display name for this {@code TestDescriptor}; never {@code null} or
+	*     blank
+	*/
 	protected AbstractTestDescriptor(UniqueId uniqueId, String displayName) {
 		this.uniqueId = Preconditions.notNull(uniqueId, "UniqueId must not be null");
 		this.displayName = Preconditions.notNull(displayName, "displayName must not be null or blank");
@@ -105,7 +102,8 @@ public abstract class AbstractTestDescriptor implements TestDescriptor {
 			return Optional.of(this);
 		}
 		// @formatter:off
-		return this.children.stream()
+		return this.children
+				.stream()
 				.map(child -> child.findByUniqueId(uniqueId))
 				.filter(Optional::isPresent)
 				.findAny()
@@ -160,5 +158,4 @@ public abstract class AbstractTestDescriptor implements TestDescriptor {
 	public String toString() {
 		return getClass().getSimpleName() + ": " + getUniqueId();
 	}
-
 }

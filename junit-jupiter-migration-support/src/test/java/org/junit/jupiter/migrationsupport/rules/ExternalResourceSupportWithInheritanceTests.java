@@ -7,10 +7,7 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 public class ExternalResourceSupportWithInheritanceTests
-		extends ExternalResourceSupportForMixedMethodAndFieldRulesTests {
-
-}
+		extends ExternalResourceSupportForMixedMethodAndFieldRulesTests {}

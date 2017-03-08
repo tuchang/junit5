@@ -7,11 +7,7 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor.subpackage;
 
-/**
- * @since 5.0
- */
-public class ClassWithoutTestCases {
-}
+/** @since 5.0 */
+public class ClassWithoutTestCases {}

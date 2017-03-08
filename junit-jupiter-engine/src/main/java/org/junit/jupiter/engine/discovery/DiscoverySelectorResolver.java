@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -18,7 +17,6 @@ import static org.junit.platform.engine.support.filter.ClasspathScanningSupport.
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
-
 import org.junit.jupiter.engine.discovery.predicates.IsScannableTestClass;
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.engine.EngineDiscoveryRequest;
@@ -30,14 +28,13 @@ import org.junit.platform.engine.discovery.PackageSelector;
 import org.junit.platform.engine.discovery.UniqueIdSelector;
 
 /**
- * A {@code DiscoverySelectorResolver} resolves selectors with the help of the {@code JavaElementResolver} instances.
- * This class is the only public entry point to the discovery package.
- *
- * @since 5.0
- *
- * @see JavaElementsResolver
- *
- */
+* A {@code DiscoverySelectorResolver} resolves selectors with the help of the {@code
+* JavaElementResolver} instances. This class is the only public entry point to the discovery
+* package.
+*
+* @since 5.0
+* @see JavaElementsResolver
+*/
 @API(Experimental)
 public class DiscoverySelectorResolver {
 
@@ -47,23 +44,40 @@ public class DiscoverySelectorResolver {
 		JavaElementsResolver javaElementsResolver = createJavaElementsResolver(engineDescriptor);
 		Predicate<String> classNamePredicate = buildClassNamePredicate(request);
 
-		request.getSelectorsByType(ClasspathRootSelector.class).forEach(selector -> {
-			findAllClassesInClasspathRoot(selector.getClasspathRoot(), isScannableTestClass,
-				classNamePredicate).forEach(javaElementsResolver::resolveClass);
-		});
-		request.getSelectorsByType(PackageSelector.class).forEach(selector -> {
-			findAllClassesInPackage(selector.getPackageName(), isScannableTestClass, classNamePredicate).forEach(
-				javaElementsResolver::resolveClass);
-		});
-		request.getSelectorsByType(ClassSelector.class).forEach(selector -> {
-			javaElementsResolver.resolveClass(selector.getJavaClass());
-		});
-		request.getSelectorsByType(MethodSelector.class).forEach(selector -> {
-			javaElementsResolver.resolveMethod(selector.getJavaClass(), selector.getJavaMethod());
-		});
-		request.getSelectorsByType(UniqueIdSelector.class).forEach(selector -> {
-			javaElementsResolver.resolveUniqueId(selector.getUniqueId());
-		});
+		request
+				.getSelectorsByType(ClasspathRootSelector.class)
+				.forEach(
+						selector -> {
+							findAllClassesInClasspathRoot(
+											selector.getClasspathRoot(), isScannableTestClass, classNamePredicate)
+									.forEach(javaElementsResolver::resolveClass);
+						});
+		request
+				.getSelectorsByType(PackageSelector.class)
+				.forEach(
+						selector -> {
+							findAllClassesInPackage(
+											selector.getPackageName(), isScannableTestClass, classNamePredicate)
+									.forEach(javaElementsResolver::resolveClass);
+						});
+		request
+				.getSelectorsByType(ClassSelector.class)
+				.forEach(
+						selector -> {
+							javaElementsResolver.resolveClass(selector.getJavaClass());
+						});
+		request
+				.getSelectorsByType(MethodSelector.class)
+				.forEach(
+						selector -> {
+							javaElementsResolver.resolveMethod(selector.getJavaClass(), selector.getJavaMethod());
+						});
+		request
+				.getSelectorsByType(UniqueIdSelector.class)
+				.forEach(
+						selector -> {
+							javaElementsResolver.resolveUniqueId(selector.getUniqueId());
+						});
 		pruneTree(engineDescriptor);
 	}
 
@@ -78,12 +92,12 @@ public class DiscoverySelectorResolver {
 	}
 
 	private void pruneTree(TestDescriptor root) {
-		TestDescriptor.Visitor removeChildrenWithoutTests = (descriptor) -> {
-			if (!descriptor.isRoot() && !descriptor.hasTests()) {
-				descriptor.removeFromHierarchy();
-			}
-		};
+		TestDescriptor.Visitor removeChildrenWithoutTests =
+				(descriptor) -> {
+					if (!descriptor.isRoot() && !descriptor.hasTests()) {
+						descriptor.removeFromHierarchy();
+					}
+				};
 		root.accept(removeChildrenWithoutTests);
 	}
-
 }

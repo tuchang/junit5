@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -16,21 +15,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
 import org.junit.platform.commons.meta.API;
 
 /**
- * Simple builder for generating strings in custom implementations of
- * {@link Object#toString toString()}.
- *
- * <h3>DISCLAIMER</h3>
- *
- * <p>These utilities are intended solely for usage within the JUnit framework
- * itself. <strong>Any usage by external parties is not supported.</strong>
- * Use at your own risk!
- *
- * @since 1.0
- */
+* Simple builder for generating strings in custom implementations of {@link Object#toString
+* toString()}.
+*
+* <h3>DISCLAIMER</h3>
+*
+* <p>These utilities are intended solely for usage within the JUnit framework itself. <strong>Any
+* usage by external parties is not supported.</strong> Use at your own risk!
+*
+* @since 1.0
+*/
 @API(Internal)
 public class ToStringBuilder {
 
@@ -99,5 +96,4 @@ public class ToStringBuilder {
 	public String toString() {
 		return this.type.getSimpleName() + " [" + String.join(", ", this.values) + "]";
 	}
-
 }

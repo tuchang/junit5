@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution.injection.sample;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -15,10 +14,10 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
 /**
- * Example {@link ParameterResolver} that resolves primitive integers.
- *
- * @since 5.0
- */
+* Example {@link ParameterResolver} that resolves primitive integers.
+*
+* @since 5.0
+*/
 public class PrimitiveIntegerParameterResolver implements ParameterResolver {
 
 	@Override
@@ -30,5 +29,4 @@ public class PrimitiveIntegerParameterResolver implements ParameterResolver {
 	public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
 		return 42;
 	}
-
 }

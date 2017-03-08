@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static org.junit.Assert.assertEquals;
@@ -17,9 +16,7 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @FixMethodOrder(NAME_ASCENDING)
 public class PlainJUnit4TestCaseWithTwoTestMethods {
 
@@ -32,5 +29,4 @@ public class PlainJUnit4TestCaseWithTwoTestMethods {
 	public void successfulTest() {
 		assertEquals(3, 1 + 2);
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine;
 
 import static java.util.Arrays.asList;
@@ -18,37 +17,33 @@ import static org.junit.platform.engine.CompositeFilter.alwaysIncluded;
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
 
 /**
- * A {@link Filter} can be applied to determine if an object should be
- * <em>included</em> or <em>excluded</em> in a result set.
- *
- * <p>For example, tests may be filtered during or after test discovery
- * based on certain criteria.
- *
- * <p>Clients should not implement this interface directly but rather one of
- * its subinterfaces.
- *
- * @since 1.0
- * @see DiscoveryFilter
- */
+* A {@link Filter} can be applied to determine if an object should be <em>included</em> or
+* <em>excluded</em> in a result set.
+*
+* <p>For example, tests may be filtered during or after test discovery based on certain criteria.
+*
+* <p>Clients should not implement this interface directly but rather one of its subinterfaces.
+*
+* @since 1.0
+* @see DiscoveryFilter
+*/
 @FunctionalInterface
 @API(Internal)
 public interface Filter<T> {
 
 	/**
-	 * Return a filter that will include elements if and only if all of the
-	 * filters in the supplied array of {@link Filter filters} include it.
-	 *
-	 * <p>If the array is empty, the returned filter will include all elements
-	 * it is asked to filter.
-	 *
-	 * @param filters the array of filters to compose; never {@code null}
-	 * @see #composeFilters(Collection)
-	 */
+	* Return a filter that will include elements if and only if all of the filters in the supplied
+	* array of {@link Filter filters} include it.
+	*
+	* <p>If the array is empty, the returned filter will include all elements it is asked to filter.
+	*
+	* @param filters the array of filters to compose; never {@code null}
+	* @see #composeFilters(Collection)
+	*/
 	@SafeVarargs
 	@SuppressWarnings("varargs")
 	static <T> Filter<T> composeFilters(Filter<T>... filters) {
@@ -65,15 +60,15 @@ public interface Filter<T> {
 	}
 
 	/**
-	 * Return a filter that will include elements if and only if all of the
-	 * filters in the supplied collection of {@link Filter filters} include it.
-	 *
-	 * <p>If the collection is empty, the returned filter will include all
-	 * elements it is asked to filter.
-	 *
-	 * @param filters the collection of filters to compose; never {@code null}
-	 * @see #composeFilters(Filter...)
-	 */
+	* Return a filter that will include elements if and only if all of the filters in the supplied
+	* collection of {@link Filter filters} include it.
+	*
+	* <p>If the collection is empty, the returned filter will include all elements it is asked to
+	* filter.
+	*
+	* @param filters the collection of filters to compose; never {@code null}
+	* @see #composeFilters(Filter...)
+	*/
 	static <T> Filter<T> composeFilters(Collection<? extends Filter<T>> filters) {
 		Preconditions.notNull(filters, "Filters must not be null");
 
@@ -87,29 +82,24 @@ public interface Filter<T> {
 	}
 
 	/**
-	 * Return a filter that will include elements if and only if the adapted
-	 * {@code Filter} includes the value converted using the supplied
-	 * {@link Function}.
-	 *
-	 * @param adaptee the filter to be adapted
-	 * @param converter the converter function to apply
-	 */
+	* Return a filter that will include elements if and only if the adapted {@code Filter} includes
+	* the value converted using the supplied {@link Function}.
+	*
+	* @param adaptee the filter to be adapted
+	* @param converter the converter function to apply
+	*/
 	static <T, V> Filter<T> adaptFilter(Filter<V> adaptee, Function<T, V> converter) {
 		return input -> adaptee.apply(converter.apply(input));
 	}
 
-	/**
-	 * Apply this filter to the supplied object.
-	 */
+	/** Apply this filter to the supplied object. */
 	FilterResult apply(T object);
 
 	/**
-	 * Return a {@link Predicate} that returns {@code true} if this filter
-	 * <em>includes</em> the object supplied to the predicate's
-	 * {@link Predicate#test test} method.
-	 */
+	* Return a {@link Predicate} that returns {@code true} if this filter <em>includes</em> the
+	* object supplied to the predicate's {@link Predicate#test test} method.
+	*/
 	default Predicate<T> toPredicate() {
 		return object -> apply(object).included();
 	}
-
 }

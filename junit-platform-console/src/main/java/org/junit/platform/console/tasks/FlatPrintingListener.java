@@ -7,14 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import static org.junit.platform.console.tasks.Color.NONE;
 
 import java.io.PrintWriter;
 import java.util.regex.Pattern;
-
 import org.junit.platform.commons.util.ExceptionUtils;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.reporting.ReportEntry;
@@ -22,9 +20,7 @@ import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class FlatPrintingListener implements TestExecutionListener {
 
 	private static final Pattern LINE_START_PATTERN = Pattern.compile("(?m)^");
@@ -41,8 +37,9 @@ class FlatPrintingListener implements TestExecutionListener {
 
 	@Override
 	public void testPlanExecutionStarted(TestPlan testPlan) {
-		this.out.printf("Test execution started. Number of static tests: %d%n",
-			testPlan.countTestIdentifiers(TestIdentifier::isTest));
+		this.out.printf(
+				"Test execution started. Number of static tests: %d%n",
+				testPlan.countTestIdentifiers(TestIdentifier::isTest));
 	}
 
 	@Override
@@ -67,7 +64,8 @@ class FlatPrintingListener implements TestExecutionListener {
 	}
 
 	@Override
-	public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
+	public void executionFinished(
+			TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
 		Color color = Color.valueOf(testExecutionResult);
 		printlnTestDescriptor(color, "Finished:", testIdentifier);
 		testExecutionResult.getThrowable().ifPresent(t -> printlnException(color, t));
@@ -80,7 +78,12 @@ class FlatPrintingListener implements TestExecutionListener {
 	}
 
 	private void printlnTestDescriptor(Color color, String message, TestIdentifier testIdentifier) {
-		println(color, "%-10s   %s (%s)", message, testIdentifier.getDisplayName(), testIdentifier.getUniqueId());
+		println(
+				color,
+				"%-10s   %s (%s)",
+				message,
+				testIdentifier.getDisplayName(),
+				testIdentifier.getUniqueId());
 	}
 
 	private void printlnException(Color color, Throwable throwable) {
@@ -98,24 +101,21 @@ class FlatPrintingListener implements TestExecutionListener {
 	private void println(Color color, String message) {
 		if (this.disableAnsiColors) {
 			this.out.println(message);
-		}
-		else {
+		} else {
 			// Use string concatenation to avoid ANSI disruption on console
 			this.out.println(color + message + NONE);
 		}
 	}
 
 	/**
-	 * Indent the given message if it is a multi-line string.
-	 *
-	 * <p>{@link #INDENTATION} is used to prefix the start of each new line
-	 * except the first one.
-	 *
-	 * @param message the message to indent
-	 * @return indented message
-	 */
+	* Indent the given message if it is a multi-line string.
+	*
+	* <p>{@link #INDENTATION} is used to prefix the start of each new line except the first one.
+	*
+	* @param message the message to indent
+	* @return indented message
+	*/
 	private static String indented(String message) {
 		return LINE_START_PATTERN.matcher(message).replaceAll(INDENTATION).trim();
 	}
-
 }

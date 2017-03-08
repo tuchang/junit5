@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 class FailAfterAllHelper {
@@ -16,5 +15,4 @@ class FailAfterAllHelper {
 		//hack: use this blacklisted exception to fail the build, all others would be swallowed...
 		throw new OutOfMemoryError("a postcondition was violated");
 	}
-
 }

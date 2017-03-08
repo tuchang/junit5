@@ -7,13 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 
 import java.lang.reflect.Method;
-
 import org.junit.jupiter.api.extension.TestTemplateInvocationContext;
 import org.junit.jupiter.engine.execution.JupiterEngineExecutionContext;
 import org.junit.jupiter.engine.extension.ExtensionRegistry;
@@ -22,11 +20,10 @@ import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 
 /**
- * {@link TestDescriptor} for a {@link org.junit.jupiter.api.TestTemplate @TestTemplate}
- * invocation.
- *
- * @since 5.0
- */
+* {@link TestDescriptor} for a {@link org.junit.jupiter.api.TestTemplate @TestTemplate} invocation.
+*
+* @since 5.0
+*/
 @API(Internal)
 public class TestTemplateInvocationTestDescriptor extends MethodTestDescriptor {
 
@@ -34,8 +31,12 @@ public class TestTemplateInvocationTestDescriptor extends MethodTestDescriptor {
 
 	private TestTemplateInvocationContext invocationContext;
 
-	TestTemplateInvocationTestDescriptor(UniqueId uniqueId, Class<?> testClass, Method templateMethod,
-			TestTemplateInvocationContext invocationContext, int index) {
+	TestTemplateInvocationTestDescriptor(
+			UniqueId uniqueId,
+			Class<?> testClass,
+			Method templateMethod,
+			TestTemplateInvocationContext invocationContext,
+			int index) {
 		super(uniqueId, invocationContext.getDisplayName(index), testClass, templateMethod);
 		this.invocationContext = invocationContext;
 	}
@@ -43,8 +44,9 @@ public class TestTemplateInvocationTestDescriptor extends MethodTestDescriptor {
 	@Override
 	protected ExtensionRegistry populateNewExtensionRegistry(JupiterEngineExecutionContext context) {
 		ExtensionRegistry registry = super.populateNewExtensionRegistry(context);
-		invocationContext.getAdditionalExtensions().forEach(
-			extension -> registry.registerExtension(extension, invocationContext));
+		invocationContext
+				.getAdditionalExtensions()
+				.forEach(extension -> registry.registerExtension(extension, invocationContext));
 		return registry;
 	}
 

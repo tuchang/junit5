@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static java.lang.String.format;
@@ -35,18 +34,18 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
-
 import org.junit.platform.commons.meta.API;
 
 /**
- * <h3>DISCLAIMER</h3>
- *
- * <p>These utilities are intended solely for usage within the JUnit framework
- * itself. <strong>Any usage by external parties is not supported.</strong>
- * Use at your own risk!
- *
- * @since 1.0
- */
+*
+*
+* <h3>DISCLAIMER</h3>
+*
+* <p>These utilities are intended solely for usage within the JUnit framework itself. <strong>Any
+* usage by external parties is not supported.</strong> Use at your own risk!
+*
+* @since 1.0
+*/
 @API(Internal)
 class ClasspathScanner {
 
@@ -64,7 +63,8 @@ class ClasspathScanner {
 
 	private final BiFunction<String, ClassLoader, Optional<Class<?>>> loadClass;
 
-	ClasspathScanner(Supplier<ClassLoader> classLoaderSupplier,
+	ClasspathScanner(
+			Supplier<ClassLoader> classLoaderSupplier,
 			BiFunction<String, ClassLoader, Optional<Class<?>>> loadClass) {
 
 		this.classLoaderSupplier = classLoaderSupplier;
@@ -77,25 +77,24 @@ class ClasspathScanner {
 		try {
 			return packageName.isEmpty() // default package
 					|| getClassLoader().getResources(packagePath(packageName.trim())).hasMoreElements();
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			return false;
 		}
 	}
 
-	List<Class<?>> scanForClassesInPackage(String basePackageName, Predicate<Class<?>> classFilter,
-			Predicate<String> classNameFilter) {
+	List<Class<?>> scanForClassesInPackage(
+			String basePackageName, Predicate<Class<?>> classFilter, Predicate<String> classNameFilter) {
 		assertPackageNameIsPlausible(basePackageName);
 		Preconditions.notNull(classFilter, "classFilter must not be null");
 		Preconditions.notNull(classNameFilter, "classNameFilter must not be null");
 		basePackageName = basePackageName.trim();
 
-		return findClassesForUris(getRootUrisForPackage(basePackageName), basePackageName, classFilter,
-			classNameFilter);
+		return findClassesForUris(
+				getRootUrisForPackage(basePackageName), basePackageName, classFilter, classNameFilter);
 	}
 
-	List<Class<?>> scanForClassesInClasspathRoot(URI root, Predicate<Class<?>> classFilter,
-			Predicate<String> classNameFilter) {
+	List<Class<?>> scanForClassesInClasspathRoot(
+			URI root, Predicate<Class<?>> classFilter, Predicate<String> classNameFilter) {
 		Preconditions.notNull(root, "root must not be null");
 		Preconditions.notNull(classFilter, "classFilter must not be null");
 		Preconditions.notNull(classNameFilter, "classNameFilter must not be null");
@@ -103,14 +102,16 @@ class ClasspathScanner {
 		return findClassesForUri(root, DEFAULT_PACKAGE_NAME, classFilter, classNameFilter);
 	}
 
-	/**
-	 * Recursively scan for classes in all of the supplied source directories.
-	 */
-	private List<Class<?>> findClassesForUris(List<URI> baseUris, String basePackageName,
-			Predicate<Class<?>> classFilter, Predicate<String> classNameFilter) {
+	/** Recursively scan for classes in all of the supplied source directories. */
+	private List<Class<?>> findClassesForUris(
+			List<URI> baseUris,
+			String basePackageName,
+			Predicate<Class<?>> classFilter,
+			Predicate<String> classNameFilter) {
 
 		// @formatter:off
-		return baseUris.stream()
+		return baseUris
+				.stream()
 				.map(baseUri -> findClassesForUri(baseUri, basePackageName, classFilter, classNameFilter))
 				.flatMap(Collection::stream)
 				.distinct()
@@ -118,60 +119,76 @@ class ClasspathScanner {
 		// @formatter:on
 	}
 
-	private List<Class<?>> findClassesForUri(URI baseUri, String basePackageName, Predicate<Class<?>> classFilter,
+	private List<Class<?>> findClassesForUri(
+			URI baseUri,
+			String basePackageName,
+			Predicate<Class<?>> classFilter,
 			Predicate<String> classNameFilter) {
 		try (CloseablePath closeablePath = CloseablePath.create(baseUri)) {
 			Path baseDir = closeablePath.getPath();
 			return findClassesForPath(baseDir, basePackageName, classFilter, classNameFilter);
-		}
-		catch (PreconditionViolationException ex) {
+		} catch (PreconditionViolationException ex) {
 			throw ex;
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			logWarning(ex, () -> "Error scanning files for URI " + baseUri);
 			return emptyList();
 		}
 	}
 
-	private List<Class<?>> findClassesForPath(Path baseDir, String basePackageName, Predicate<Class<?>> classFilter,
+	private List<Class<?>> findClassesForPath(
+			Path baseDir,
+			String basePackageName,
+			Predicate<Class<?>> classFilter,
 			Predicate<String> classNameFilter) {
 		Preconditions.condition(Files.exists(baseDir), () -> "baseDir must exist: " + baseDir);
 		List<Class<?>> classes = new ArrayList<>();
 		try {
-			Files.walkFileTree(baseDir, new ClassFileVisitor(classFile -> processClassFileSafely(baseDir,
-				basePackageName, classFilter, classNameFilter, classFile, classes::add)));
-		}
-		catch (IOException ex) {
+			Files.walkFileTree(
+					baseDir,
+					new ClassFileVisitor(
+							classFile ->
+									processClassFileSafely(
+											baseDir,
+											basePackageName,
+											classFilter,
+											classNameFilter,
+											classFile,
+											classes::add)));
+		} catch (IOException ex) {
 			logWarning(ex, () -> "I/O error scanning files in " + baseDir);
 		}
 		return classes;
 	}
 
-	private void processClassFileSafely(Path baseDir, String basePackageName, Predicate<Class<?>> classFilter,
-			Predicate<String> classNameFilter, Path classFile, Consumer<Class<?>> classConsumer) {
+	private void processClassFileSafely(
+			Path baseDir,
+			String basePackageName,
+			Predicate<Class<?>> classFilter,
+			Predicate<String> classNameFilter,
+			Path classFile,
+			Consumer<Class<?>> classConsumer) {
 		Optional<Class<?>> clazz = Optional.empty();
 		try {
-			String fullyQualifiedClassName = determineFullyQualifiedClassName(baseDir, basePackageName, classFile);
+			String fullyQualifiedClassName =
+					determineFullyQualifiedClassName(baseDir, basePackageName, classFile);
 			if (classNameFilter.test(fullyQualifiedClassName)) {
 				clazz = this.loadClass.apply(fullyQualifiedClassName, getClassLoader());
 				clazz.filter(classFilter).ifPresent(classConsumer);
 			}
-		}
-		catch (InternalError internalError) {
+		} catch (InternalError internalError) {
 			handleInternalError(classFile, clazz, internalError);
-		}
-		catch (Throwable throwable) {
+		} catch (Throwable throwable) {
 			handleThrowable(classFile, throwable);
 		}
 	}
 
-	private String determineFullyQualifiedClassName(Path baseDir, String basePackageName, Path classFile) {
+	private String determineFullyQualifiedClassName(
+			Path baseDir, String basePackageName, Path classFile) {
 		// @formatter:off
 		return Stream.of(
-					basePackageName,
-					determineSubpackageName(baseDir, classFile),
-					determineSimpleClassName(classFile)
-				)
+						basePackageName,
+						determineSubpackageName(baseDir, classFile),
+						determineSimpleClassName(classFile))
 				.filter(value -> !value.isEmpty()) // Handle default package appropriately.
 				.collect(joining(PACKAGE_SEPARATOR_STRING));
 		// @formatter:on
@@ -185,10 +202,12 @@ class ClasspathScanner {
 	private String determineSubpackageName(Path baseDir, Path classFile) {
 		Path relativePath = baseDir.relativize(classFile.getParent());
 		String pathSeparator = baseDir.getFileSystem().getSeparator();
-		String subpackageName = relativePath.toString().replace(pathSeparator, PACKAGE_SEPARATOR_STRING);
+		String subpackageName =
+				relativePath.toString().replace(pathSeparator, PACKAGE_SEPARATOR_STRING);
 		if (subpackageName.endsWith(pathSeparator)) {
 			// Workaround for JDK bug: https://bugs.openjdk.java.net/browse/JDK-8153248
-			subpackageName = subpackageName.substring(0, subpackageName.length() - pathSeparator.length());
+			subpackageName =
+					subpackageName.substring(0, subpackageName.length() - pathSeparator.length());
 		}
 		return subpackageName;
 	}
@@ -196,8 +215,7 @@ class ClasspathScanner {
 	private void handleInternalError(Path classFile, Optional<Class<?>> clazz, InternalError ex) {
 		if (MALFORMED_CLASS_NAME_ERROR_MESSAGE.equals(ex.getMessage())) {
 			logMalformedClassName(classFile, clazz, ex);
-		}
-		else {
+		} else {
 			logGenericFileProcessingException(classFile, ex);
 		}
 	}
@@ -212,24 +230,33 @@ class ClasspathScanner {
 			if (clazz.isPresent()) {
 				// Do not use getSimpleName() or getCanonicalName() here because they will likely
 				// throw another exception due to the underlying error.
-				logWarning(ex,
-					() -> format("The java.lang.Class loaded from path [%s] has a malformed class name [%s].",
-						classFile.toAbsolutePath(), clazz.get().getName()));
+				logWarning(
+						ex,
+						() ->
+								format(
+										"The java.lang.Class loaded from path [%s] has a malformed class name [%s].",
+										classFile.toAbsolutePath(), clazz.get().getName()));
+			} else {
+				logWarning(
+						ex,
+						() ->
+								format(
+										"The java.lang.Class loaded from path [%s] has a malformed class name.",
+										classFile.toAbsolutePath()));
 			}
-			else {
-				logWarning(ex, () -> format("The java.lang.Class loaded from path [%s] has a malformed class name.",
-					classFile.toAbsolutePath()));
-			}
-		}
-		catch (Throwable t) {
+		} catch (Throwable t) {
 			ex.addSuppressed(t);
 			logGenericFileProcessingException(classFile, ex);
 		}
 	}
 
 	private void logGenericFileProcessingException(Path classFile, Throwable throwable) {
-		logWarning(throwable, () -> format("Failed to load java.lang.Class for path [%s] during classpath scanning.",
-			classFile.toAbsolutePath()));
+		logWarning(
+				throwable,
+				() ->
+						format(
+								"Failed to load java.lang.Class for path [%s] during classpath scanning.",
+								classFile.toAbsolutePath()));
 	}
 
 	private ClassLoader getClassLoader() {
@@ -238,8 +265,9 @@ class ClasspathScanner {
 
 	private static void assertPackageNameIsPlausible(String packageName) {
 		Preconditions.notNull(packageName, "package name must not be null");
-		Preconditions.condition(DEFAULT_PACKAGE_NAME.equals(packageName) || StringUtils.isNotBlank(packageName),
-			"package name must not contain only whitespace");
+		Preconditions.condition(
+				DEFAULT_PACKAGE_NAME.equals(packageName) || StringUtils.isNotBlank(packageName),
+				"package name must not contain only whitespace");
 	}
 
 	private static String packagePath(String packageName) {
@@ -255,9 +283,9 @@ class ClasspathScanner {
 				uris.add(resource.toURI());
 			}
 			return uris;
-		}
-		catch (Exception ex) {
-			logWarning(ex, () -> "Error reading URIs from class loader for base package " + basePackageName);
+		} catch (Exception ex) {
+			logWarning(
+					ex, () -> "Error reading URIs from class loader for base package " + basePackageName);
 			return emptyList();
 		}
 	}
@@ -265,5 +293,4 @@ class ClasspathScanner {
 	private static void logWarning(Throwable throwable, Supplier<String> msgSupplier) {
 		LOG.log(Level.WARNING, throwable, msgSupplier);
 	}
-
 }

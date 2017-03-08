@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static java.util.logging.Level.WARNING;
@@ -15,7 +14,6 @@ import static java.util.logging.Level.WARNING;
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
-
 import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 import org.junit.internal.builders.AnnotatedBuilder;
 import org.junit.internal.builders.JUnit4Builder;
@@ -24,17 +22,17 @@ import org.junit.runner.Runner;
 import org.junit.runners.model.RunnerBuilder;
 
 /**
- * Customization of {@link AllDefaultPossibilitiesBuilder} from JUnit 4 to
- * ignore certain classes that would otherwise be reported as errors or cause
- * infinite recursion.
- *
- * @since 4.12
- * @see DefensiveAnnotatedBuilder
- * @see DefensiveJUnit4Builder
- */
+* Customization of {@link AllDefaultPossibilitiesBuilder} from JUnit 4 to ignore certain classes
+* that would otherwise be reported as errors or cause infinite recursion.
+*
+* @since 4.12
+* @see DefensiveAnnotatedBuilder
+* @see DefensiveJUnit4Builder
+*/
 class DefensiveAllDefaultPossibilitiesBuilder extends AllDefaultPossibilitiesBuilder {
 
-	private static final Logger LOG = Logger.getLogger(DefensiveAllDefaultPossibilitiesBuilder.class.getName());
+	private static final Logger LOG =
+			Logger.getLogger(DefensiveAllDefaultPossibilitiesBuilder.class.getName());
 
 	private final AnnotatedBuilder annotatedBuilder;
 	private final DefensiveJUnit4Builder defensiveJUnit4Builder;
@@ -56,9 +54,9 @@ class DefensiveAllDefaultPossibilitiesBuilder extends AllDefaultPossibilitiesBui
 	}
 
 	/**
-	 * Customization of {@link AnnotatedBuilder} that ignores classes annotated
-	 * with {@code @RunWith(JUnitPlatform.class)} to avoid infinite recursion.
-	 */
+	* Customization of {@link AnnotatedBuilder} that ignores classes annotated with
+	* {@code @RunWith(JUnitPlatform.class)} to avoid infinite recursion.
+	*/
 	private static class DefensiveAnnotatedBuilder extends AnnotatedBuilder {
 
 		DefensiveAnnotatedBuilder(RunnerBuilder suiteBuilder) {
@@ -66,10 +64,13 @@ class DefensiveAllDefaultPossibilitiesBuilder extends AllDefaultPossibilitiesBui
 		}
 
 		@Override
-		public Runner buildRunner(Class<? extends Runner> runnerClass, Class<?> testClass) throws Exception {
+		public Runner buildRunner(Class<? extends Runner> runnerClass, Class<?> testClass)
+				throws Exception {
 			// Referenced by name because it might not be available at runtime.
 			if ("org.junit.platform.runner.JUnitPlatform".equals(runnerClass.getName())) {
-				LOG.log(WARNING, () -> "Ignoring test class using JUnitPlatform runner: " + testClass.getName());
+				LOG.log(
+						WARNING,
+						() -> "Ignoring test class using JUnitPlatform runner: " + testClass.getName());
 				return null;
 			}
 			return super.buildRunner(runnerClass, testClass);
@@ -77,9 +78,9 @@ class DefensiveAllDefaultPossibilitiesBuilder extends AllDefaultPossibilitiesBui
 	}
 
 	/**
-	 * Customization of {@link JUnit4Builder} that ignores classes that do not
-	 * contain any test methods in order not to report errors for them.
-	 */
+	* Customization of {@link JUnit4Builder} that ignores classes that do not contain any test
+	* methods in order not to report errors for them.
+	*/
 	private static class DefensiveJUnit4Builder extends JUnit4Builder {
 
 		private static final Predicate<Method> hasTestAnnotation = new IsPotentialJUnit4TestMethod();
@@ -96,5 +97,4 @@ class DefensiveAllDefaultPossibilitiesBuilder extends AllDefaultPossibilitiesBui
 			return !ReflectionUtils.findMethods(testClass, hasTestAnnotation).isEmpty();
 		}
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import static java.util.stream.Collectors.toList;
@@ -17,7 +16,6 @@ import static org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder.r
 
 import java.util.List;
 import java.util.Set;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.ReflectionUtils;
 import org.junit.platform.launcher.Launcher;
@@ -27,9 +25,7 @@ import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 import org.junit.platform.launcher.listener.NoopTestExecutionListener;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class LauncherFactoryTests {
 
 	@Test
@@ -37,35 +33,37 @@ class LauncherFactoryTests {
 		DefaultLauncher launcher = (DefaultLauncher) LauncherFactory.create();
 		TestExecutionListenerRegistry registry = launcher.getTestExecutionListenerRegistry();
 		List<TestExecutionListener> listeners = registry.getTestExecutionListeners();
-		List<TestExecutionListener> one = listeners.stream().filter(
-			listener -> listener instanceof NoopTestExecutionListener).collect(toList());
+		List<TestExecutionListener> one =
+				listeners
+						.stream()
+						.filter(listener -> listener instanceof NoopTestExecutionListener)
+						.collect(toList());
 		assertThat(one).hasSize(1);
 	}
 
 	@Test
 	void create() {
 		Launcher launcher = LauncherFactory.create();
-		LauncherDiscoveryRequest discoveryRequest = this.createLauncherDiscoveryRequestForBothStandardEngineExampleClasses();
+		LauncherDiscoveryRequest discoveryRequest =
+				this.createLauncherDiscoveryRequestForBothStandardEngineExampleClasses();
 
 		TestPlan testPlan = launcher.discover(discoveryRequest);
 		Set<TestIdentifier> roots = testPlan.getRoots();
 		assertThat(roots).hasSize(junitVintageEngineIsPresent() ? 2 : 1);
 
 		// @formatter:off
-		List<String> ids = roots.stream()
-				.map(TestIdentifier::getUniqueId)
-				.collect(toList());
+		List<String> ids = roots.stream().map(TestIdentifier::getUniqueId).collect(toList());
 		// @formatter:on
 
 		if (junitVintageEngineIsPresent()) {
 			assertThat(ids).containsOnly("[engine:junit-vintage]", "[engine:junit-jupiter]");
-		}
-		else {
+		} else {
 			assertThat(ids).containsOnly("[engine:junit-jupiter]");
 		}
 	}
 
-	private LauncherDiscoveryRequest createLauncherDiscoveryRequestForBothStandardEngineExampleClasses() {
+	private LauncherDiscoveryRequest
+			createLauncherDiscoveryRequestForBothStandardEngineExampleClasses() {
 		// @formatter:off
 		return request()
 				.selectors(selectClass(JUnit4Example.class))
@@ -77,21 +75,16 @@ class LauncherFactoryTests {
 	public static class JUnit4Example {
 
 		@org.junit.Test
-		public void testJ4() {
-		}
-
+		public void testJ4() {}
 	}
 
 	static class JUnit5Example {
 
 		@Test
-		void testJ5() {
-		}
-
+		void testJ5() {}
 	}
 
 	private static boolean junitVintageEngineIsPresent() {
 		return ReflectionUtils.loadClass("org.junit.vintage.engine.VintageTestEngine").isPresent();
 	}
-
 }

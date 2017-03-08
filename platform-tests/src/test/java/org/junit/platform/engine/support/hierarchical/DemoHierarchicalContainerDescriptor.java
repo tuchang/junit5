@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.hierarchical;
 
 import static org.junit.platform.engine.support.hierarchical.Node.SkipResult.doNotSkip;
@@ -17,9 +16,7 @@ import org.junit.platform.engine.TestSource;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class DemoHierarchicalContainerDescriptor extends AbstractTestDescriptor
 		implements Node<DemoEngineExecutionContext> {
 
@@ -27,12 +24,13 @@ public class DemoHierarchicalContainerDescriptor extends AbstractTestDescriptor
 	private String skippedReason;
 	private boolean skipped;
 
-	DemoHierarchicalContainerDescriptor(UniqueId uniqueId, String displayName, Runnable executeBlock) {
+	DemoHierarchicalContainerDescriptor(
+			UniqueId uniqueId, String displayName, Runnable executeBlock) {
 		this(uniqueId, displayName, null, executeBlock);
 	}
 
-	public DemoHierarchicalContainerDescriptor(UniqueId uniqueId, String displayName, TestSource source,
-			Runnable beforeBlock) {
+	public DemoHierarchicalContainerDescriptor(
+			UniqueId uniqueId, String displayName, TestSource source, Runnable beforeBlock) {
 		super(uniqueId, displayName);
 
 		if (source != null) {
@@ -78,5 +76,4 @@ public class DemoHierarchicalContainerDescriptor extends AbstractTestDescriptor
 		}
 		return context;
 	}
-
 }

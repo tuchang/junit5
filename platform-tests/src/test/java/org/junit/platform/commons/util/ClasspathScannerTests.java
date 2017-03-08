@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,119 +31,144 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.extensions.TempDirectory;
 import org.junit.jupiter.extensions.TempDirectory.Root;
 
 /**
- * Unit tests for {@link ClasspathScanner}.
- *
- * @since 1.0
- */
+* Unit tests for {@link ClasspathScanner}.
+*
+* @since 1.0
+*/
 class ClasspathScannerTests {
 
 	private final List<Class<?>> loadedClasses = new ArrayList<>();
-	private final BiFunction<String, ClassLoader, Optional<Class<?>>> trackingClassLoader = (name, classLoader) -> {
-		Optional<Class<?>> loadedClass = ReflectionUtils.loadClass(name, classLoader);
-		loadedClass.ifPresent(loadedClasses::add);
-		return loadedClass;
-	};
-	private final ClasspathScanner classpathScanner = new ClasspathScanner(ReflectionUtils::getDefaultClassLoader,
-		trackingClassLoader);
+	private final BiFunction<String, ClassLoader, Optional<Class<?>>> trackingClassLoader =
+			(name, classLoader) -> {
+				Optional<Class<?>> loadedClass = ReflectionUtils.loadClass(name, classLoader);
+				loadedClass.ifPresent(loadedClasses::add);
+				return loadedClass;
+			};
+	private final ClasspathScanner classpathScanner =
+			new ClasspathScanner(ReflectionUtils::getDefaultClassLoader, trackingClassLoader);
 
 	@Test
-	void scanForClassesInClasspathRootWhenMalformedClassnameInternalErrorOccursWithNullDetailedMessage()
-			throws Exception {
+	void
+			scanForClassesInClasspathRootWhenMalformedClassnameInternalErrorOccursWithNullDetailedMessage()
+					throws Exception {
 
-		Predicate<Class<?>> malformedClassNameSimulationFilter = clazz -> {
-			if (clazz.getSimpleName().equals(ClassForMalformedClassNameSimulation.class.getSimpleName())) {
-				throw new InternalError();
-			}
-			return true;
-		};
+		Predicate<Class<?>> malformedClassNameSimulationFilter =
+				clazz -> {
+					if (clazz
+							.getSimpleName()
+							.equals(ClassForMalformedClassNameSimulation.class.getSimpleName())) {
+						throw new InternalError();
+					}
+					return true;
+				};
 
 		assertClassesScannedWhenExceptionIsThrown(malformedClassNameSimulationFilter);
 	}
 
 	@Test
 	void scanForClassesInClasspathRootWhenMalformedClassnameInternalErrorOccurs() throws Exception {
-		Predicate<Class<?>> malformedClassNameSimulationFilter = clazz -> {
-			if (clazz.getSimpleName().equals(ClassForMalformedClassNameSimulation.class.getSimpleName())) {
-				throw new InternalError("Malformed class name");
-			}
-			return true;
-		};
+		Predicate<Class<?>> malformedClassNameSimulationFilter =
+				clazz -> {
+					if (clazz
+							.getSimpleName()
+							.equals(ClassForMalformedClassNameSimulation.class.getSimpleName())) {
+						throw new InternalError("Malformed class name");
+					}
+					return true;
+				};
 
 		assertClassesScannedWhenExceptionIsThrown(malformedClassNameSimulationFilter);
 	}
 
 	@Test
 	void scanForClassesInClasspathRootWhenOtherInternalErrorOccurs() throws Exception {
-		Predicate<Class<?>> otherInternalErrorSimulationFilter = clazz -> {
-			if (clazz.getSimpleName().equals(ClassForOtherInternalErrorSimulation.class.getSimpleName())) {
-				throw new InternalError("other internal error");
-			}
-			return true;
-		};
+		Predicate<Class<?>> otherInternalErrorSimulationFilter =
+				clazz -> {
+					if (clazz
+							.getSimpleName()
+							.equals(ClassForOtherInternalErrorSimulation.class.getSimpleName())) {
+						throw new InternalError("other internal error");
+					}
+					return true;
+				};
 
 		assertClassesScannedWhenExceptionIsThrown(otherInternalErrorSimulationFilter);
 	}
 
 	@Test
 	void scanForClassesInClasspathRootWhenGenericRuntimeExceptionOccurs() throws Exception {
-		Predicate<Class<?>> runtimeExceptionSimulationFilter = clazz -> {
-			if (clazz.getSimpleName().equals(ClassForGenericRuntimeExceptionSimulation.class.getSimpleName())) {
-				throw new RuntimeException("a generic exception");
-			}
-			return true;
-		};
+		Predicate<Class<?>> runtimeExceptionSimulationFilter =
+				clazz -> {
+					if (clazz
+							.getSimpleName()
+							.equals(ClassForGenericRuntimeExceptionSimulation.class.getSimpleName())) {
+						throw new RuntimeException("a generic exception");
+					}
+					return true;
+				};
 
 		assertClassesScannedWhenExceptionIsThrown(runtimeExceptionSimulationFilter);
 	}
 
-	private void assertClassesScannedWhenExceptionIsThrown(Predicate<Class<?>> filter) throws Exception {
-		List<Class<?>> classes = this.classpathScanner.scanForClassesInClasspathRoot(getTestClasspathRoot(), filter,
-			className -> true);
+	private void assertClassesScannedWhenExceptionIsThrown(Predicate<Class<?>> filter)
+			throws Exception {
+		List<Class<?>> classes =
+				this.classpathScanner.scanForClassesInClasspathRoot(
+						getTestClasspathRoot(), filter, className -> true);
 		assertThat(classes.size()).isGreaterThanOrEqualTo(150);
 	}
 
 	@Test
 	void scanForClassesInClasspathRootWhenOutOfMemoryErrorOccurs() throws Exception {
-		Predicate<Class<?>> outOfMemoryErrorSimulationFilter = clazz -> {
-			if (clazz.getSimpleName().equals(ClassForOutOfMemoryErrorSimulation.class.getSimpleName())) {
-				throw new OutOfMemoryError();
-			}
-			return true;
-		};
+		Predicate<Class<?>> outOfMemoryErrorSimulationFilter =
+				clazz -> {
+					if (clazz
+							.getSimpleName()
+							.equals(ClassForOutOfMemoryErrorSimulation.class.getSimpleName())) {
+						throw new OutOfMemoryError();
+					}
+					return true;
+				};
 
-		assertThrows(OutOfMemoryError.class,
-			() -> this.classpathScanner.scanForClassesInClasspathRoot(getTestClasspathRoot(),
-				outOfMemoryErrorSimulationFilter, className -> true));
+		assertThrows(
+				OutOfMemoryError.class,
+				() ->
+						this.classpathScanner.scanForClassesInClasspathRoot(
+								getTestClasspathRoot(), outOfMemoryErrorSimulationFilter, className -> true));
 	}
 
 	@Test
 	void scanForClassesInClasspathRootWithinJarFile() throws Exception {
 		URL jarfile = getClass().getResource("/jartest.jar");
 
-		try (URLClassLoader classLoader = new URLClassLoader(new URL[] { jarfile })) {
-			ClasspathScanner classpathScanner = new ClasspathScanner(() -> classLoader, ReflectionUtils::loadClass);
+		try (URLClassLoader classLoader = new URLClassLoader(new URL[] {jarfile})) {
+			ClasspathScanner classpathScanner =
+					new ClasspathScanner(() -> classLoader, ReflectionUtils::loadClass);
 
-			List<Class<?>> classes = classpathScanner.scanForClassesInClasspathRoot(jarfile.toURI(), clazz -> true,
-				className -> true);
+			List<Class<?>> classes =
+					classpathScanner.scanForClassesInClasspathRoot(
+							jarfile.toURI(), clazz -> true, className -> true);
 			List<String> classNames = classes.stream().map(Class::getName).collect(Collectors.toList());
-			assertThat(classNames).hasSize(3) //
-					.contains("org.junit.platform.jartest.notincluded.NotIncluded",
-						"org.junit.platform.jartest.included.recursive.RecursivelyIncluded",
-						"org.junit.platform.jartest.included.Included");
+			assertThat(classNames)
+					.hasSize(3) //
+					.contains(
+							"org.junit.platform.jartest.notincluded.NotIncluded",
+							"org.junit.platform.jartest.included.recursive.RecursivelyIncluded",
+							"org.junit.platform.jartest.included.Included");
 		}
 	}
 
 	@Test
 	void scanForClassesInPackage() throws Exception {
-		List<Class<?>> classes = classpathScanner.scanForClassesInPackage("org.junit.platform.commons", clazz -> true,
-			className -> true);
+		List<Class<?>> classes =
+				classpathScanner.scanForClassesInPackage(
+						"org.junit.platform.commons", clazz -> true, className -> true);
 		assertThat(classes.size()).isGreaterThanOrEqualTo(20);
 		assertTrue(classes.contains(NestedClassToBeFound.class));
 		assertTrue(classes.contains(MemberClassToBeFound.class));
@@ -154,13 +178,16 @@ class ClasspathScannerTests {
 	void findAllClassesInPackageWithinJarFile() throws Exception {
 		URL jarfile = getClass().getResource("/jartest.jar");
 
-		try (URLClassLoader classLoader = new URLClassLoader(new URL[] { jarfile })) {
-			ClasspathScanner classpathScanner = new ClasspathScanner(() -> classLoader, ReflectionUtils::loadClass);
+		try (URLClassLoader classLoader = new URLClassLoader(new URL[] {jarfile})) {
+			ClasspathScanner classpathScanner =
+					new ClasspathScanner(() -> classLoader, ReflectionUtils::loadClass);
 
-			List<Class<?>> classes = classpathScanner.scanForClassesInPackage("org.junit.platform.jartest.included",
-				clazz -> true, className -> true);
+			List<Class<?>> classes =
+					classpathScanner.scanForClassesInPackage(
+							"org.junit.platform.jartest.included", clazz -> true, className -> true);
 			assertThat(classes).hasSize(2);
-			List<String> classNames = classes.stream().map(Class::getSimpleName).collect(Collectors.toList());
+			List<String> classNames =
+					classes.stream().map(Class::getSimpleName).collect(Collectors.toList());
 			assertTrue(classNames.contains("Included"));
 			assertTrue(classNames.contains("RecursivelyIncluded"));
 		}
@@ -168,53 +195,66 @@ class ClasspathScannerTests {
 
 	@Test
 	void scanForClassesInDefaultPackage() throws Exception {
-		List<Class<?>> classes = classpathScanner.scanForClassesInPackage("", this::inDefaultPackage,
-			className -> true);
+		List<Class<?>> classes =
+				classpathScanner.scanForClassesInPackage("", this::inDefaultPackage, className -> true);
 
-		assertThat(classes.size()).as("number of classes found in default package").isGreaterThanOrEqualTo(1);
+		assertThat(classes.size())
+				.as("number of classes found in default package")
+				.isGreaterThanOrEqualTo(1);
 		assertTrue(classes.stream().allMatch(clazz -> inDefaultPackage(clazz)));
-		assertTrue(classes.stream().anyMatch(clazz -> "DefaultPackageTestCase".equals(clazz.getName())));
+		assertTrue(
+				classes.stream().anyMatch(clazz -> "DefaultPackageTestCase".equals(clazz.getName())));
 	}
 
 	@Test
 	void scanForClassesInPackageWithFilter() throws Exception {
 		Predicate<Class<?>> thisClassOnly = clazz -> clazz == ClasspathScannerTests.class;
-		List<Class<?>> classes = classpathScanner.scanForClassesInPackage("org.junit.platform.commons", thisClassOnly,
-			className -> true);
+		List<Class<?>> classes =
+				classpathScanner.scanForClassesInPackage(
+						"org.junit.platform.commons", thisClassOnly, className -> true);
 		assertSame(ClasspathScannerTests.class, classes.get(0));
 	}
 
 	@Test
 	void scanForClassesInPackageForNullBasePackage() {
-		assertThrows(PreconditionViolationException.class,
-			() -> classpathScanner.scanForClassesInPackage(null, clazz -> true, className -> true));
+		assertThrows(
+				PreconditionViolationException.class,
+				() -> classpathScanner.scanForClassesInPackage(null, clazz -> true, className -> true));
 	}
 
 	@Test
 	void scanForClassesInPackageForWhitespaceBasePackage() {
-		assertThrows(PreconditionViolationException.class,
-			() -> classpathScanner.scanForClassesInPackage("    ", clazz -> true, className -> true));
+		assertThrows(
+				PreconditionViolationException.class,
+				() -> classpathScanner.scanForClassesInPackage("    ", clazz -> true, className -> true));
 	}
 
 	@Test
 	void scanForClassesInPackageForNullClassFilter() {
-		assertThrows(PreconditionViolationException.class,
-			() -> classpathScanner.scanForClassesInPackage("org.junit.platform.commons", null, className -> true));
+		assertThrows(
+				PreconditionViolationException.class,
+				() ->
+						classpathScanner.scanForClassesInPackage(
+								"org.junit.platform.commons", null, className -> true));
 	}
 
 	@Test
 	void scanForClassesInPackageWhenIOExceptionOccurs() {
-		ClasspathScanner scanner = new ClasspathScanner(ThrowingClassLoader::new, ReflectionUtils::loadClass);
-		List<Class<?>> classes = scanner.scanForClassesInPackage("org.junit.platform.commons", clazz -> true,
-			className -> true);
+		ClasspathScanner scanner =
+				new ClasspathScanner(ThrowingClassLoader::new, ReflectionUtils::loadClass);
+		List<Class<?>> classes =
+				scanner.scanForClassesInPackage(
+						"org.junit.platform.commons", clazz -> true, className -> true);
 		assertThat(classes).isEmpty();
 	}
 
 	@Test
-	void scanForClassesInPackageOnlyLoadsClassesThatAreIncludedByTheClassNameFilter() throws Exception {
+	void scanForClassesInPackageOnlyLoadsClassesThatAreIncludedByTheClassNameFilter()
+			throws Exception {
 		Predicate<String> classNameFilter = name -> ClasspathScannerTests.class.getName().equals(name);
 
-		classpathScanner.scanForClassesInPackage("org.junit.platform.commons", clazz -> true, classNameFilter);
+		classpathScanner.scanForClassesInPackage(
+				"org.junit.platform.commons", clazz -> true, classNameFilter);
 
 		assertThat(loadedClasses).containsExactly(ClasspathScannerTests.class);
 	}
@@ -239,7 +279,8 @@ class ClasspathScannerTests {
 
 	@Test
 	void isPackageWhenIOExceptionOccurs() {
-		ClasspathScanner scanner = new ClasspathScanner(ThrowingClassLoader::new, ReflectionUtils::loadClass);
+		ClasspathScanner scanner =
+				new ClasspathScanner(ThrowingClassLoader::new, ReflectionUtils::loadClass);
 		assertFalse(scanner.isPackage("org.junit.platform.commons"));
 	}
 
@@ -247,14 +288,16 @@ class ClasspathScannerTests {
 	void findAllClassesInClasspathRoot() throws Exception {
 		Predicate<Class<?>> thisClassOnly = clazz -> clazz == ClasspathScannerTests.class;
 		URI root = getTestClasspathRoot();
-		List<Class<?>> classes = classpathScanner.scanForClassesInClasspathRoot(root, thisClassOnly, className -> true);
+		List<Class<?>> classes =
+				classpathScanner.scanForClassesInClasspathRoot(root, thisClassOnly, className -> true);
 		assertSame(ClasspathScannerTests.class, classes.get(0));
 	}
 
 	@Test
 	void findAllClassesInDefaultPackageInClasspathRoot() throws Exception {
-		List<Class<?>> classes = classpathScanner.scanForClassesInClasspathRoot(getTestClasspathRoot(),
-			this::inDefaultPackage, className -> true);
+		List<Class<?>> classes =
+				classpathScanner.scanForClassesInClasspathRoot(
+						getTestClasspathRoot(), this::inDefaultPackage, className -> true);
 
 		assertEquals(1, classes.size(), "number of classes found in default package");
 		Class<?> testClass = classes.get(0);
@@ -273,8 +316,9 @@ class ClasspathScannerTests {
 		Path symlink1 = Files.createSymbolicLink(tempDir.resolve("symlink1"), directory);
 		Files.createSymbolicLink(directory.resolve("symlink2"), symlink1);
 
-		List<Class<?>> classes = classpathScanner.scanForClassesInClasspathRoot(symlink1.toUri(), clazz -> true,
-			className -> true);
+		List<Class<?>> classes =
+				classpathScanner.scanForClassesInClasspathRoot(
+						symlink1.toUri(), clazz -> true, className -> true);
 
 		assertThat(classes).isEmpty();
 	}
@@ -288,7 +332,8 @@ class ClasspathScannerTests {
 	@Test
 	void findAllClassesInClasspathRootWithFilter() throws Exception {
 		URI root = getTestClasspathRoot();
-		List<Class<?>> classes = classpathScanner.scanForClassesInClasspathRoot(root, clazz -> true, className -> true);
+		List<Class<?>> classes =
+				classpathScanner.scanForClassesInClasspathRoot(root, clazz -> true, className -> true);
 
 		assertThat(classes.size()).isGreaterThanOrEqualTo(20);
 		assertTrue(classes.contains(ClasspathScannerTests.class));
@@ -296,21 +341,28 @@ class ClasspathScannerTests {
 
 	@Test
 	void findAllClassesInClasspathRootForNullRoot() throws Exception {
-		assertThrows(PreconditionViolationException.class,
-			() -> classpathScanner.scanForClassesInClasspathRoot(null, clazz -> true, className -> true));
+		assertThrows(
+				PreconditionViolationException.class,
+				() ->
+						classpathScanner.scanForClassesInClasspathRoot(null, clazz -> true, className -> true));
 	}
 
 	@Test
 	void findAllClassesInClasspathRootForNonExistingRoot() throws Exception {
-		assertThrows(PreconditionViolationException.class,
-			() -> classpathScanner.scanForClassesInClasspathRoot(Paths.get("does_not_exist").toUri(), clazz -> true,
-				className -> true));
+		assertThrows(
+				PreconditionViolationException.class,
+				() ->
+						classpathScanner.scanForClassesInClasspathRoot(
+								Paths.get("does_not_exist").toUri(), clazz -> true, className -> true));
 	}
 
 	@Test
 	void findAllClassesInClasspathRootForNullClassFilter() throws Exception {
-		assertThrows(PreconditionViolationException.class,
-			() -> classpathScanner.scanForClassesInClasspathRoot(getTestClasspathRoot(), null, className -> true));
+		assertThrows(
+				PreconditionViolationException.class,
+				() ->
+						classpathScanner.scanForClassesInClasspathRoot(
+								getTestClasspathRoot(), null, className -> true));
 	}
 
 	@Test
@@ -329,23 +381,17 @@ class ClasspathScannerTests {
 		return location.toURI();
 	}
 
-	class MemberClassToBeFound {
-	}
+	class MemberClassToBeFound {}
 
-	static class NestedClassToBeFound {
-	}
+	static class NestedClassToBeFound {}
 
-	static class ClassForMalformedClassNameSimulation {
-	}
+	static class ClassForMalformedClassNameSimulation {}
 
-	static class ClassForOtherInternalErrorSimulation {
-	}
+	static class ClassForOtherInternalErrorSimulation {}
 
-	static class ClassForGenericRuntimeExceptionSimulation {
-	}
+	static class ClassForGenericRuntimeExceptionSimulation {}
 
-	static class ClassForOutOfMemoryErrorSimulation {
-	}
+	static class ClassForOutOfMemoryErrorSimulation {}
 
 	private static class ThrowingClassLoader extends ClassLoader {
 
@@ -354,5 +400,4 @@ class ClasspathScannerTests {
 			throw new IOException();
 		}
 	}
-
 }

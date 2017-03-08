@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // tag::user_guide[]
@@ -18,11 +17,9 @@ class DisabledTestsDemo {
 
 	@Disabled
 	@Test
-	void testWillBeSkipped() {
-	}
+	void testWillBeSkipped() {}
 
 	@Test
-	void testWillBeExecuted() {
-	}
+	void testWillBeExecuted() {}
 }
 // end::user_guide[]

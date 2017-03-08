@@ -7,29 +7,23 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor.subpackage;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class ClassWithStaticInnerTestCases {
 
 	public static class ShouldBeDiscovered {
 
 		@Test
-		void test1() {
-		}
+		void test1() {}
 	}
 
 	@SuppressWarnings("unused")
 	private static class ShouldNotBeDiscovered {
 
 		@Test
-		void test2() {
-		}
+		void test2() {}
 	}
-
 }

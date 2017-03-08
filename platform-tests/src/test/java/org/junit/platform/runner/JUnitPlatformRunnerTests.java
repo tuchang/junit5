@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.runner;
 
 import static java.util.Arrays.asList;
@@ -39,7 +38,6 @@ import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Method;
 import java.util.List;
-
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.EngineDiscoveryRequest;
@@ -78,22 +76,23 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 
 /**
- * Tests for the {@link JUnitPlatform} runner.
- *
- * @since 1.0
- */
+* Tests for the {@link JUnitPlatform} runner.
+*
+* @since 1.0
+*/
 class JUnitPlatformRunnerTests {
 
 	@Nested
 	class Discovery {
 
 		@Test
-		void requestsClassSelectorForAnnotatedClassWhenNoAdditionalAnnotationsArePresent() throws Exception {
+		void requestsClassSelectorForAnnotatedClassWhenNoAdditionalAnnotationsArePresent()
+				throws Exception {
 
-			class TestCase {
-			}
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassSelector> selectors = request.getSelectorsByType(ClassSelector.class);
 			assertThat(selectors).hasSize(1);
@@ -104,11 +103,11 @@ class JUnitPlatformRunnerTests {
 		@Test
 		void requestsClassSelectorsWhenSelectClassesAnnotationIsPresent() throws Exception {
 
-			@SelectClasses({ Short.class, Byte.class })
-			class TestCase {
-			}
+			@SelectClasses({Short.class, Byte.class})
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassSelector> selectors = request.getSelectorsByType(ClassSelector.class);
 			assertThat(selectors).hasSize(2);
@@ -119,11 +118,11 @@ class JUnitPlatformRunnerTests {
 		@Test
 		void requestsPackageSelectorsWhenPackagesAnnotationIsPresent() throws Exception {
 
-			@SelectPackages({ "foo", "bar" })
-			class TestCase {
-			}
+			@SelectPackages({"foo", "bar"})
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<PackageSelector> selectors = request.getSelectorsByType(PackageSelector.class);
 			assertThat(selectors).hasSize(2);
@@ -134,11 +133,11 @@ class JUnitPlatformRunnerTests {
 		@Test
 		void addsPackageFiltersToRequestWhenIncludePackageAnnotationIsPresent() throws Exception {
 
-			@IncludePackages({ "includedpackage1", "includedpackage2" })
-			class TestCase {
-			}
+			@IncludePackages({"includedpackage1", "includedpackage2"})
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<PackageNameFilter> filters = request.getDiscoveryFiltersByType(PackageNameFilter.class);
 			assertThat(filters).hasSize(1);
@@ -152,11 +151,11 @@ class JUnitPlatformRunnerTests {
 		@Test
 		void addsPackageFiltersToRequestWhenExcludePackageAnnotationIsPresent() throws Exception {
 
-			@ExcludePackages({ "excludedpackage1", "excludedpackage2" })
-			class TestCase {
-			}
+			@ExcludePackages({"excludedpackage1", "excludedpackage2"})
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<PackageNameFilter> filters = request.getDiscoveryFiltersByType(PackageNameFilter.class);
 			assertThat(filters).hasSize(1);
@@ -170,11 +169,11 @@ class JUnitPlatformRunnerTests {
 		@Test
 		void addsTagFilterToRequestWhenIncludeTagsAnnotationIsPresent() throws Exception {
 
-			@IncludeTags({ "foo", "bar" })
-			class TestCase {
-			}
+			@IncludeTags({"foo", "bar"})
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<PostDiscoveryFilter> filters = request.getPostDiscoveryFilters();
 			assertThat(filters).hasSize(1);
@@ -188,11 +187,11 @@ class JUnitPlatformRunnerTests {
 		@Test
 		void addsTagFilterToRequestWhenExcludeTagsAnnotationIsPresent() throws Exception {
 
-			@ExcludeTags({ "foo", "bar" })
-			class TestCase {
-			}
+			@ExcludeTags({"foo", "bar"})
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<PostDiscoveryFilter> filters = request.getPostDiscoveryFilters();
 			assertThat(filters).hasSize(1);
@@ -204,19 +203,20 @@ class JUnitPlatformRunnerTests {
 		}
 
 		@Test
-		void addsEngineFiltersToRequestWhenIncludeEnginesOrExcludeEnginesAnnotationsArePresent() throws Exception {
+		void addsEngineFiltersToRequestWhenIncludeEnginesOrExcludeEnginesAnnotationsArePresent()
+				throws Exception {
 
-			@IncludeEngines({ "foo", "bar", "baz" })
-			@ExcludeEngines({ "bar", "quux" })
-			class TestCase {
-			}
+			@IncludeEngines({"foo", "bar", "baz"})
+			@ExcludeEngines({"bar", "quux"})
+			class TestCase {}
 
 			TestEngine fooEngine = new TestEngineStub("foo");
 			TestEngine barEngine = new TestEngineStub("bar");
 			TestEngine bazEngine = new TestEngineStub("baz");
 			TestEngine quuxEngine = new TestEngineStub("quux");
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<EngineFilter> filters = request.getEngineFilters();
 			assertThat(filters).hasSize(2);
@@ -239,10 +239,10 @@ class JUnitPlatformRunnerTests {
 				throws Exception {
 
 			@SelectPackages("foo")
-			class TestCase {
-			}
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
 			assertThat(getOnlyElement(filters).toString()).contains(STANDARD_INCLUDE_PATTERN);
@@ -252,10 +252,10 @@ class JUnitPlatformRunnerTests {
 		void addsDefaultClassNameFilterToRequestWhenFilterClassNameAnnotationIsNotPresentOnTestClass()
 				throws Exception {
 
-			class TestCase {
-			}
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
 			assertThat(filters).isEmpty();
@@ -266,50 +266,53 @@ class JUnitPlatformRunnerTests {
 				throws Exception {
 
 			@IncludeClassNamePatterns(".*Foo")
-			class TestCase {
-			}
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
-
-			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
-			assertThat(getOnlyElement(filters).toString()).contains(".*Foo");
-		}
-
-		@Test
-		void addsSingleClassNameFilterToRequestWhenExcludeClassNamePatternsAnnotationIsPresent() throws Exception {
-
-			@ExcludeClassNamePatterns(".*Foo")
-			class TestCase {
-			}
-
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
 			assertThat(getOnlyElement(filters).toString()).contains(".*Foo");
 		}
 
 		@Test
-		void addsMultipleExplicitClassNameFilterToRequestWhenIncludeClassNamePatternsAnnotationIsPresent()
+		void addsSingleClassNameFilterToRequestWhenExcludeClassNamePatternsAnnotationIsPresent()
 				throws Exception {
 
-			@IncludeClassNamePatterns({ ".*Foo", "Bar.*" })
-			class TestCase {
-			}
+			@ExcludeClassNamePatterns(".*Foo")
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+
+			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
+			assertThat(getOnlyElement(filters).toString()).contains(".*Foo");
+		}
+
+		@Test
+		void
+				addsMultipleExplicitClassNameFilterToRequestWhenIncludeClassNamePatternsAnnotationIsPresent()
+						throws Exception {
+
+			@IncludeClassNamePatterns({".*Foo", "Bar.*"})
+			class TestCase {}
+
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
 			assertThat(getOnlyElement(filters).toString()).contains(".*Foo", "Bar.*");
 		}
 
 		@Test
-		void addsMultipleClassNameFilterToRequestWhenExcludeClassNamePatternsAnnotationIsPresent() throws Exception {
+		void addsMultipleClassNameFilterToRequestWhenExcludeClassNamePatternsAnnotationIsPresent()
+				throws Exception {
 
-			@ExcludeClassNamePatterns({ ".*Foo", "Bar.*" })
-			class TestCase {
-			}
+			@ExcludeClassNamePatterns({".*Foo", "Bar.*"})
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
 			assertThat(getOnlyElement(filters).toString()).contains(".*Foo", "Bar.*");
@@ -320,38 +323,40 @@ class JUnitPlatformRunnerTests {
 				throws Exception {
 
 			@IncludeClassNamePatterns
-			class TestCase {
-			}
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
 			assertThat(getOnlyElement(filters).toString()).contains(STANDARD_INCLUDE_PATTERN);
 		}
 
 		@Test
-		void doesNotAddClassNameFilterWhenIncludeClassNamePatternsAnnotationIsPresentWithEmptyArguments()
-				throws Exception {
+		void
+				doesNotAddClassNameFilterWhenIncludeClassNamePatternsAnnotationIsPresentWithEmptyArguments()
+						throws Exception {
 
 			@IncludeClassNamePatterns({})
-			class TestCase {
-			}
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
 			assertThat(filters).isEmpty();
 		}
 
 		@Test
-		void doesNotAddClassNameFilterWhenExcludeClassNamePatternsAnnotationIsPresentWithEmptyArguments()
-				throws Exception {
+		void
+				doesNotAddClassNameFilterWhenExcludeClassNamePatternsAnnotationIsPresentWithEmptyArguments()
+						throws Exception {
 
 			@ExcludeClassNamePatterns({})
-			class TestCase {
-			}
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
 			assertThat(filters).isEmpty();
@@ -360,11 +365,11 @@ class JUnitPlatformRunnerTests {
 		@Test
 		void trimsArgumentsOfIncludeClassNamePatternsAnnotation() throws Exception {
 
-			@IncludeClassNamePatterns({ " foo", "bar " })
-			class TestCase {
-			}
+			@IncludeClassNamePatterns({" foo", "bar "})
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
 			assertThat(getOnlyElement(filters).toString()).contains("'foo'", "'bar'");
@@ -373,11 +378,11 @@ class JUnitPlatformRunnerTests {
 		@Test
 		void trimsArgumentsOfExcludeClassNamePatternsAnnotation() throws Exception {
 
-			@ExcludeClassNamePatterns({ " foo", "bar " })
-			class TestCase {
-			}
+			@ExcludeClassNamePatterns({" foo", "bar "})
+			class TestCase {}
 
-			LauncherDiscoveryRequest request = instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
+			LauncherDiscoveryRequest request =
+					instantiateRunnerAndCaptureGeneratedRequest(TestCase.class);
 
 			List<ClassNameFilter> filters = request.getDiscoveryFiltersByType(ClassNameFilter.class);
 			assertThat(getOnlyElement(filters).toString()).contains("'foo'", "'bar'");
@@ -386,9 +391,11 @@ class JUnitPlatformRunnerTests {
 		@Test
 		void convertsTestIdentifiersIntoDescriptions() throws Exception {
 
-			TestDescriptor container1 = new TestDescriptorStub(UniqueId.root("root", "container1"), "container1");
+			TestDescriptor container1 =
+					new TestDescriptorStub(UniqueId.root("root", "container1"), "container1");
 			container1.addChild(new TestDescriptorStub(UniqueId.root("root", "test1"), "test1"));
-			TestDescriptor container2 = new TestDescriptorStub(UniqueId.root("root", "container2"), "container2");
+			TestDescriptor container2 =
+					new TestDescriptorStub(UniqueId.root("root", "container2"), "container2");
 			container2.addChild(new TestDescriptorStub(UniqueId.root("root", "test2a"), "test2a"));
 			container2.addChild(new TestDescriptorStub(UniqueId.root("root", "test2b"), "test2b"));
 			TestPlan testPlan = TestPlan.from(asList(container1, container2));
@@ -414,7 +421,6 @@ class JUnitPlatformRunnerTests {
 			assertEquals(testDescription("[root:test2a]"), testDescriptions.get(0));
 			assertEquals(testDescription("[root:test2b]"), testDescriptions.get(1));
 		}
-
 	}
 
 	@Nested
@@ -423,26 +429,33 @@ class JUnitPlatformRunnerTests {
 		@Test
 		void appliesFilter() throws Exception {
 
-			TestDescriptor originalParent1 = new TestDescriptorStub(UniqueId.root("root", "parent1"), "parent1");
+			TestDescriptor originalParent1 =
+					new TestDescriptorStub(UniqueId.root("root", "parent1"), "parent1");
 			originalParent1.addChild(new TestDescriptorStub(UniqueId.root("root", "leaf1"), "leaf1"));
-			TestDescriptor originalParent2 = new TestDescriptorStub(UniqueId.root("root", "parent2"), "parent2");
+			TestDescriptor originalParent2 =
+					new TestDescriptorStub(UniqueId.root("root", "parent2"), "parent2");
 			originalParent2.addChild(new TestDescriptorStub(UniqueId.root("root", "leaf2a"), "leaf2a"));
 			originalParent2.addChild(new TestDescriptorStub(UniqueId.root("root", "leaf2b"), "leaf2b"));
 			TestPlan fullTestPlan = TestPlan.from(asList(originalParent1, originalParent2));
 
-			TestDescriptor filteredParent = new TestDescriptorStub(UniqueId.root("root", "parent2"), "parent2");
+			TestDescriptor filteredParent =
+					new TestDescriptorStub(UniqueId.root("root", "parent2"), "parent2");
 			filteredParent.addChild(new TestDescriptorStub(UniqueId.root("root", "leaf2b"), "leaf2b"));
 			TestPlan filteredTestPlan = TestPlan.from(singleton(filteredParent));
 
 			Launcher launcher = mock(Launcher.class);
-			ArgumentCaptor<LauncherDiscoveryRequest> captor = ArgumentCaptor.forClass(LauncherDiscoveryRequest.class);
-			when(launcher.discover(captor.capture())).thenReturn(fullTestPlan).thenReturn(filteredTestPlan);
+			ArgumentCaptor<LauncherDiscoveryRequest> captor =
+					ArgumentCaptor.forClass(LauncherDiscoveryRequest.class);
+			when(launcher.discover(captor.capture()))
+					.thenReturn(fullTestPlan)
+					.thenReturn(filteredTestPlan);
 
 			JUnitPlatform runner = new JUnitPlatform(TestClass.class, launcher);
 			runner.filter(matchMethodDescription(testDescription("[root:leaf2b]")));
 
 			LauncherDiscoveryRequest lastDiscoveryRequest = captor.getValue();
-			List<UniqueIdSelector> uniqueIdSelectors = lastDiscoveryRequest.getSelectorsByType(UniqueIdSelector.class);
+			List<UniqueIdSelector> uniqueIdSelectors =
+					lastDiscoveryRequest.getSelectorsByType(UniqueIdSelector.class);
 			assertEquals("[root:leaf2b]", getOnlyElement(uniqueIdSelectors).getUniqueId().toString());
 
 			Description parentDescription = getOnlyElement(runner.getDescription().getChildren());
@@ -454,17 +467,18 @@ class JUnitPlatformRunnerTests {
 
 		@Test
 		void throwsNoTestsRemainExceptionWhenNoTestIdentifierMatchesFilter() throws Exception {
-			TestPlan testPlan = TestPlan.from(singleton(new TestDescriptorStub(UniqueId.root("root", "test"), "test")));
+			TestPlan testPlan =
+					TestPlan.from(singleton(new TestDescriptorStub(UniqueId.root("root", "test"), "test")));
 
 			Launcher launcher = mock(Launcher.class);
 			when(launcher.discover(any())).thenReturn(testPlan);
 
 			JUnitPlatform runner = new JUnitPlatform(TestClass.class, launcher);
 
-			assertThrows(NoTestsRemainException.class,
-				() -> runner.filter(matchMethodDescription(suiteDescription("[root:doesNotExist]"))));
+			assertThrows(
+					NoTestsRemainException.class,
+					() -> runner.filter(matchMethodDescription(suiteDescription("[root:doesNotExist]"))));
 		}
-
 	}
 
 	@Nested
@@ -474,8 +488,7 @@ class JUnitPlatformRunnerTests {
 		void notifiesRunListenerOfTestExecution() throws Exception {
 			DemoHierarchicalTestEngine engine = new DemoHierarchicalTestEngine("dummy");
 			engine.addTest("failingTest", () -> fail("expected to fail"));
-			engine.addTest("succeedingTest", () -> {
-			});
+			engine.addTest("succeedingTest", () -> {});
 			engine.addTest("abortedTest", () -> assumeFalse(true));
 			engine.addTest("skippedTest", () -> fail("never called")).markSkipped("should be skipped");
 
@@ -489,14 +502,22 @@ class JUnitPlatformRunnerTests {
 
 			inOrder.verify(runListener).testStarted(testDescription("[engine:dummy]/[test:failingTest]"));
 			inOrder.verify(runListener).testFailure(any());
-			inOrder.verify(runListener).testFinished(testDescription("[engine:dummy]/[test:failingTest]"));
+			inOrder
+					.verify(runListener)
+					.testFinished(testDescription("[engine:dummy]/[test:failingTest]"));
 
-			inOrder.verify(runListener).testStarted(testDescription("[engine:dummy]/[test:succeedingTest]"));
-			inOrder.verify(runListener).testFinished(testDescription("[engine:dummy]/[test:succeedingTest]"));
+			inOrder
+					.verify(runListener)
+					.testStarted(testDescription("[engine:dummy]/[test:succeedingTest]"));
+			inOrder
+					.verify(runListener)
+					.testFinished(testDescription("[engine:dummy]/[test:succeedingTest]"));
 
 			inOrder.verify(runListener).testStarted(testDescription("[engine:dummy]/[test:abortedTest]"));
 			inOrder.verify(runListener).testAssumptionFailure(any());
-			inOrder.verify(runListener).testFinished(testDescription("[engine:dummy]/[test:abortedTest]"));
+			inOrder
+					.verify(runListener)
+					.testFinished(testDescription("[engine:dummy]/[test:abortedTest]"));
 
 			inOrder.verify(runListener).testIgnored(testDescription("[engine:dummy]/[test:skippedTest]"));
 
@@ -513,11 +534,19 @@ class JUnitPlatformRunnerTests {
 
 			InOrder inOrder = inOrder(runListener);
 
-			inOrder.verify(runListener).testStarted(testDescription("[engine:dynamic]/[container:1]/[test:1]"));
-			inOrder.verify(runListener).testFinished(testDescription("[engine:dynamic]/[container:1]/[test:1]"));
+			inOrder
+					.verify(runListener)
+					.testStarted(testDescription("[engine:dynamic]/[container:1]/[test:1]"));
+			inOrder
+					.verify(runListener)
+					.testFinished(testDescription("[engine:dynamic]/[container:1]/[test:1]"));
 
-			inOrder.verify(runListener).testStarted(testDescription("[engine:dynamic]/[container:1]/[test:2]"));
-			inOrder.verify(runListener).testFinished(testDescription("[engine:dynamic]/[container:1]/[test:2]"));
+			inOrder
+					.verify(runListener)
+					.testStarted(testDescription("[engine:dynamic]/[container:1]/[test:2]"));
+			inOrder
+					.verify(runListener)
+					.testFinished(testDescription("[engine:dynamic]/[container:1]/[test:2]"));
 
 			inOrder.verifyNoMoreInteractions();
 		}
@@ -526,21 +555,25 @@ class JUnitPlatformRunnerTests {
 		void reportsIgnoredEventsForLeavesWhenContainerIsSkipped() throws Exception {
 			UniqueId uniqueEngineId = UniqueId.forEngine("engine");
 			TestDescriptor engineDescriptor = new EngineDescriptor(uniqueEngineId, "engine");
-			TestDescriptor container = new TestDescriptorStub(UniqueId.root("root", "container"), "container");
+			TestDescriptor container =
+					new TestDescriptorStub(UniqueId.root("root", "container"), "container");
 			container.addChild(new TestDescriptorStub(UniqueId.root("root", "leaf"), "leaf"));
 			engineDescriptor.addChild(container);
 
 			TestEngine engine = mock(TestEngine.class);
 			when(engine.getId()).thenReturn("engine");
 			when(engine.discover(any(), eq(uniqueEngineId))).thenReturn(engineDescriptor);
-			doAnswer(invocation -> {
-				ExecutionRequest request = invocation.getArgument(0);
-				EngineExecutionListener listener = request.getEngineExecutionListener();
-				listener.executionStarted(engineDescriptor);
-				listener.executionSkipped(container, "deliberately skipped container");
-				listener.executionFinished(engineDescriptor, successful());
-				return null;
-			}).when(engine).execute(any());
+			doAnswer(
+							invocation -> {
+								ExecutionRequest request = invocation.getArgument(0);
+								EngineExecutionListener listener = request.getEngineExecutionListener();
+								listener.executionStarted(engineDescriptor);
+								listener.executionSkipped(container, "deliberately skipped container");
+								listener.executionFinished(engineDescriptor, successful());
+								return null;
+							})
+					.when(engine)
+					.execute(any());
 
 			RunListener runListener = mock(RunListener.class);
 
@@ -551,7 +584,6 @@ class JUnitPlatformRunnerTests {
 			verify(runListener).testIgnored(testDescription("[root:leaf]"));
 			verifyNoMoreInteractions(runListener);
 		}
-
 	}
 
 	@Nested
@@ -561,12 +593,15 @@ class JUnitPlatformRunnerTests {
 		void descriptionForJavaMethodAndClassSources() throws Exception {
 			DemoHierarchicalTestEngine engine = new DemoHierarchicalTestEngine("dummy");
 			Method failingTest = getClass().getDeclaredMethod("failingTest");
-			DemoHierarchicalContainerDescriptor containerDescriptor = engine.addContainer("uniqueContainerName",
-				"containerDisplayName", new ClassSource(getClass()));
+			DemoHierarchicalContainerDescriptor containerDescriptor =
+					engine.addContainer(
+							"uniqueContainerName", "containerDisplayName", new ClassSource(getClass()));
 			containerDescriptor.addChild(
-				new DemoHierarchicalTestDescriptor(containerDescriptor.getUniqueId().append("test", "failingTest"),
-					"testDisplayName", new MethodSource(failingTest), () -> {
-					}));
+					new DemoHierarchicalTestDescriptor(
+							containerDescriptor.getUniqueId().append("test", "failingTest"),
+							"testDisplayName",
+							new MethodSource(failingTest),
+							() -> {}));
 
 			JUnitPlatform platformRunner = new JUnitPlatform(TestClass.class, createLauncher(engine));
 
@@ -583,13 +618,27 @@ class JUnitPlatformRunnerTests {
 					() -> assertEquals("dummy", engineDescription.getDisplayName(), "engine display name"),
 					() -> assertEquals("dummy", engineDescription.getClassName(), "engine class name"),
 					() -> assertNull(engineDescription.getMethodName(), "engine method name"),
-					() -> assertEquals("containerDisplayName", containerDescription.getDisplayName(), "container display name"),
-					() -> assertEquals("containerDisplayName", containerDescription.getClassName(), "container class name"),
+					() ->
+							assertEquals(
+									"containerDisplayName",
+									containerDescription.getDisplayName(),
+									"container display name"),
+					() ->
+							assertEquals(
+									"containerDisplayName",
+									containerDescription.getClassName(),
+									"container class name"),
 					() -> assertNull(containerDescription.getMethodName(), "container method name"),
-					() -> assertEquals("testDisplayName(containerDisplayName)", testDescription.getDisplayName(), "test display name"),
-					() -> assertEquals("containerDisplayName", testDescription.getClassName(), "test class name"),
-					() -> assertEquals("testDisplayName", testDescription.getMethodName(), "test method name")
-			);
+					() ->
+							assertEquals(
+									"testDisplayName(containerDisplayName)",
+									testDescription.getDisplayName(),
+									"test display name"),
+					() ->
+							assertEquals(
+									"containerDisplayName", testDescription.getClassName(), "test class name"),
+					() ->
+							assertEquals("testDisplayName", testDescription.getMethodName(), "test method name"));
 			// @formatter:on
 		}
 
@@ -597,14 +646,18 @@ class JUnitPlatformRunnerTests {
 		void descriptionForJavaMethodAndClassSourcesUsingTechnicalNames() throws Exception {
 			DemoHierarchicalTestEngine engine = new DemoHierarchicalTestEngine("dummy");
 			Method failingTest = getClass().getDeclaredMethod("failingTest");
-			DemoHierarchicalContainerDescriptor containerDescriptor = engine.addContainer("uniqueContainerName",
-				"containerDisplayName", new ClassSource(getClass()));
+			DemoHierarchicalContainerDescriptor containerDescriptor =
+					engine.addContainer(
+							"uniqueContainerName", "containerDisplayName", new ClassSource(getClass()));
 			containerDescriptor.addChild(
-				new DemoHierarchicalTestDescriptor(containerDescriptor.getUniqueId().append("test", "failingTest"),
-					"testDisplayName", new MethodSource(failingTest), () -> {
-					}));
+					new DemoHierarchicalTestDescriptor(
+							containerDescriptor.getUniqueId().append("test", "failingTest"),
+							"testDisplayName",
+							new MethodSource(failingTest),
+							() -> {}));
 
-			JUnitPlatform platformRunner = new JUnitPlatform(TestClassWithTechnicalNames.class, createLauncher(engine));
+			JUnitPlatform platformRunner =
+					new JUnitPlatform(TestClassWithTechnicalNames.class, createLauncher(engine));
 
 			List<Description> children = platformRunner.getDescription().getChildren();
 			assertEquals(1, children.size());
@@ -619,20 +672,31 @@ class JUnitPlatformRunnerTests {
 					() -> assertEquals("dummy", engineDescription.getDisplayName(), "engine display name"),
 					() -> assertEquals("dummy", engineDescription.getClassName(), "engine class name"),
 					() -> assertNull(engineDescription.getMethodName(), "engine method name"),
-					() -> assertEquals(getClass().getName(), containerDescription.getDisplayName(), "container display name"),
-					() -> assertEquals(getClass().getName(), containerDescription.getClassName(), "container class name"),
+					() ->
+							assertEquals(
+									getClass().getName(),
+									containerDescription.getDisplayName(),
+									"container display name"),
+					() ->
+							assertEquals(
+									getClass().getName(),
+									containerDescription.getClassName(),
+									"container class name"),
 					() -> assertNull(containerDescription.getMethodName(), "container method name"),
-					() -> assertEquals("failingTest(" + getClass().getName() + ")", testDescription.getDisplayName(), "test display name"),
-					() -> assertEquals(getClass().getName(), testDescription.getClassName(), "test class name"),
-					() -> assertEquals("failingTest", testDescription.getMethodName(), "test method name")
-			);
+					() ->
+							assertEquals(
+									"failingTest(" + getClass().getName() + ")",
+									testDescription.getDisplayName(),
+									"test display name"),
+					() ->
+							assertEquals(getClass().getName(), testDescription.getClassName(), "test class name"),
+					() -> assertEquals("failingTest", testDescription.getMethodName(), "test method name"));
 			// @formatter:on
 		}
 
 		void failingTest() {
 			// not actually invoked
 		}
-
 	}
 
 	// -------------------------------------------------------------------------
@@ -654,7 +718,8 @@ class JUnitPlatformRunnerTests {
 	private LauncherDiscoveryRequest instantiateRunnerAndCaptureGeneratedRequest(Class<?> testClass)
 			throws InitializationError {
 		Launcher launcher = mock(Launcher.class);
-		ArgumentCaptor<LauncherDiscoveryRequest> captor = ArgumentCaptor.forClass(LauncherDiscoveryRequest.class);
+		ArgumentCaptor<LauncherDiscoveryRequest> captor =
+				ArgumentCaptor.forClass(LauncherDiscoveryRequest.class);
 		when(launcher.discover(captor.capture())).thenReturn(TestPlan.from(emptySet()));
 
 		new JUnitPlatform(testClass, launcher);
@@ -662,12 +727,10 @@ class JUnitPlatformRunnerTests {
 		return captor.getValue();
 	}
 
-	private static class TestClass {
-	}
+	private static class TestClass {}
 
 	@UseTechnicalNames
-	private static class TestClassWithTechnicalNames {
-	}
+	private static class TestClassWithTechnicalNames {}
 
 	private static class DynamicTestEngine implements TestEngine {
 
@@ -686,8 +749,9 @@ class JUnitPlatformRunnerTests {
 			EngineExecutionListener engineExecutionListener = request.getEngineExecutionListener();
 			TestDescriptor root = request.getRootTestDescriptor();
 
-			TestDescriptor container = new DemoContainerTestDescriptor(root.getUniqueId().append("container", "1"),
-				"container #1");
+			TestDescriptor container =
+					new DemoContainerTestDescriptor(
+							root.getUniqueId().append("container", "1"), "container #1");
 			root.addChild(container);
 
 			engineExecutionListener.dynamicTestRegistered(container);
@@ -695,15 +759,15 @@ class JUnitPlatformRunnerTests {
 
 			UniqueId containerUid = container.getUniqueId();
 
-			TestDescriptor dynamicTest1 = new DemoTestTestDescriptor(containerUid.append("test", "1"),
-				"dynamic test #1");
+			TestDescriptor dynamicTest1 =
+					new DemoTestTestDescriptor(containerUid.append("test", "1"), "dynamic test #1");
 			container.addChild(dynamicTest1);
 			engineExecutionListener.dynamicTestRegistered(dynamicTest1);
 			engineExecutionListener.executionStarted(dynamicTest1);
 			engineExecutionListener.executionFinished(dynamicTest1, TestExecutionResult.successful());
 
-			TestDescriptor dynamicTest2 = new DemoTestTestDescriptor(containerUid.append("test", "2"),
-				"dynamic test #2");
+			TestDescriptor dynamicTest2 =
+					new DemoTestTestDescriptor(containerUid.append("test", "2"), "dynamic test #2");
 			container.addChild(dynamicTest2);
 			engineExecutionListener.dynamicTestRegistered(dynamicTest2);
 			engineExecutionListener.executionStarted(dynamicTest2);
@@ -711,7 +775,6 @@ class JUnitPlatformRunnerTests {
 
 			engineExecutionListener.executionFinished(container, TestExecutionResult.successful());
 		}
-
 	}
 
 	private static class DemoContainerTestDescriptor extends AbstractTestDescriptor {
@@ -747,5 +810,4 @@ class JUnitPlatformRunnerTests {
 			return true;
 		}
 	}
-
 }

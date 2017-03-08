@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -19,7 +18,6 @@ import static org.junit.platform.engine.discovery.DiscoverySelectors.selectUniqu
 import static org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder.request;
 
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.platform.engine.test.event.ExecutionEvent;
@@ -28,11 +26,11 @@ import org.junit.platform.launcher.LauncherDiscoveryRequest;
 import org.junit.platform.launcher.TestIdentifier;
 
 /**
- * Integration tests for support of overloaded test methods in conjunction with
- * the {@link JupiterTestEngine}.
- *
- * @since 5.0
- */
+* Integration tests for support of overloaded test methods in conjunction with the {@link
+* JupiterTestEngine}.
+*
+* @since 5.0
+*/
 public class OverloadedTestMethodTests extends AbstractJupiterTestEngineTests {
 
 	@Test
@@ -47,8 +45,18 @@ public class OverloadedTestMethodTests extends AbstractJupiterTestEngineTests {
 				() -> assertEquals(0, eventRecorder1.getTestFailedCount(), "# tests failed"));
 		// @formatter:on
 
-		Optional<ExecutionEvent> first = eventRecorder1.getSuccessfulTestFinishedEvents().stream().filter(
-			event -> event.getTestDescriptor().getUniqueId().toString().contains(TestInfo.class.getName())).findFirst();
+		Optional<ExecutionEvent> first =
+				eventRecorder1
+						.getSuccessfulTestFinishedEvents()
+						.stream()
+						.filter(
+								event ->
+										event
+												.getTestDescriptor()
+												.getUniqueId()
+												.toString()
+												.contains(TestInfo.class.getName()))
+						.findFirst();
 		assertTrue(first.isPresent());
 		TestIdentifier testIdentifier = TestIdentifier.from(first.get().getTestDescriptor());
 		String uniqueId = testIdentifier.getUniqueId();
@@ -63,13 +71,24 @@ public class OverloadedTestMethodTests extends AbstractJupiterTestEngineTests {
 				() -> assertEquals(0, eventRecorder2.getTestFailedCount(), "# tests failed"));
 		// @formatter:on
 
-		first = eventRecorder2.getSuccessfulTestFinishedEvents().stream().filter(
-			event -> event.getTestDescriptor().getUniqueId().toString().contains(TestInfo.class.getName())).findFirst();
+		first =
+				eventRecorder2
+						.getSuccessfulTestFinishedEvents()
+						.stream()
+						.filter(
+								event ->
+										event
+												.getTestDescriptor()
+												.getUniqueId()
+												.toString()
+												.contains(TestInfo.class.getName()))
+						.findFirst();
 		assertTrue(first.isPresent());
 	}
 
 	@Test
-	void executeTestCaseWithOverloadedMethodsWithSingleMethodThatAcceptsArgumentsSelectedByFullyQualifedMethodName() {
+	void
+			executeTestCaseWithOverloadedMethodsWithSingleMethodThatAcceptsArgumentsSelectedByFullyQualifedMethodName() {
 		String fqmn = TestCase.class.getName() + "#test(" + TestInfo.class.getName() + ")";
 		LauncherDiscoveryRequest request = request().selectors(selectMethod(fqmn)).build();
 		ExecutionEventRecorder eventRecorder = executeTests(request);
@@ -81,21 +100,27 @@ public class OverloadedTestMethodTests extends AbstractJupiterTestEngineTests {
 				() -> assertEquals(0, eventRecorder.getTestFailedCount(), "# tests failed"));
 		// @formatter:on
 
-		Optional<ExecutionEvent> first = eventRecorder.getSuccessfulTestFinishedEvents().stream().filter(
-			event -> event.getTestDescriptor().getUniqueId().toString().contains(TestInfo.class.getName())).findFirst();
+		Optional<ExecutionEvent> first =
+				eventRecorder
+						.getSuccessfulTestFinishedEvents()
+						.stream()
+						.filter(
+								event ->
+										event
+												.getTestDescriptor()
+												.getUniqueId()
+												.toString()
+												.contains(TestInfo.class.getName()))
+						.findFirst();
 		assertTrue(first.isPresent());
 	}
 
 	private static class TestCase {
 
 		@Test
-		void test() {
-		}
+		void test() {}
 
 		@Test
-		void test(TestInfo testInfo) {
-		}
-
+		void test(TestInfo testInfo) {}
 	}
-
 }

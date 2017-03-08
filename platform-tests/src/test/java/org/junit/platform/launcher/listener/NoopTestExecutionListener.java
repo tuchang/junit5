@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.listener;
 
 import org.junit.platform.launcher.TestExecutionListener;

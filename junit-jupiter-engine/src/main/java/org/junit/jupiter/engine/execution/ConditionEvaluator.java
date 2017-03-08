@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static java.lang.String.format;
@@ -20,7 +19,6 @@ import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
 import org.junit.jupiter.api.extension.ContainerExecutionCondition;
 import org.junit.jupiter.api.extension.ContainerExtensionContext;
@@ -35,71 +33,89 @@ import org.junit.platform.commons.util.StringUtils;
 import org.junit.platform.engine.ConfigurationParameters;
 
 /**
- * {@code ConditionEvaluator} evaluates {@link ContainerExecutionCondition}
- * and {@link TestExecutionCondition} extensions.
- *
- * @since 5.0
- * @see ContainerExecutionCondition
- * @see TestExecutionCondition
- */
+* {@code ConditionEvaluator} evaluates {@link ContainerExecutionCondition} and {@link
+* TestExecutionCondition} extensions.
+*
+* @since 5.0
+* @see ContainerExecutionCondition
+* @see TestExecutionCondition
+*/
 @API(Internal)
 public class ConditionEvaluator {
 
 	private static final Logger LOG = Logger.getLogger(ConditionEvaluator.class.getName());
 
-	private static final ConditionEvaluationResult ENABLED = ConditionEvaluationResult.enabled(
-		"No 'disabled' conditions encountered");
+	private static final ConditionEvaluationResult ENABLED =
+			ConditionEvaluationResult.enabled("No 'disabled' conditions encountered");
 
 	private static final Predicate<Object> alwaysActivated = condition -> true;
 
 	private static final Predicate<Object> alwaysDeactivated = condition -> false;
 
 	/**
-	 * Evaluate all {@link ContainerExecutionCondition}
-	 * extensions registered for the supplied {@link ContainerExtensionContext}.
-	 *
-	 * @param context the current {@code ContainerExtensionContext}
-	 * @return the first <em>disabled</em> {@code ConditionEvaluationResult},
-	 * or a default <em>enabled</em> {@code ConditionEvaluationResult} if no
-	 * disabled conditions are encountered
-	 */
-	public ConditionEvaluationResult evaluateForContainer(ExtensionRegistry extensionRegistry,
-			ConfigurationParameters configurationParameters, ContainerExtensionContext context) {
+	* Evaluate all {@link ContainerExecutionCondition} extensions registered for the supplied {@link
+	* ContainerExtensionContext}.
+	*
+	* @param context the current {@code ContainerExtensionContext}
+	* @return the first <em>disabled</em> {@code ConditionEvaluationResult}, or a default
+	*     <em>enabled</em> {@code ConditionEvaluationResult} if no disabled conditions are
+	*     encountered
+	*/
+	public ConditionEvaluationResult evaluateForContainer(
+			ExtensionRegistry extensionRegistry,
+			ConfigurationParameters configurationParameters,
+			ContainerExtensionContext context) {
 
-		BiFunction<Object, Object, ConditionEvaluationResult> evaluateAdaptor = (condition,
-				ctx) -> evaluate((ContainerExecutionCondition) condition, (ContainerExtensionContext) ctx);
+		BiFunction<Object, Object, ConditionEvaluationResult> evaluateAdaptor =
+				(condition, ctx) ->
+						evaluate((ContainerExecutionCondition) condition, (ContainerExtensionContext) ctx);
 
-		return evaluate(ContainerExecutionCondition.class, evaluateAdaptor, extensionRegistry, configurationParameters,
-			context);
+		return evaluate(
+				ContainerExecutionCondition.class,
+				evaluateAdaptor,
+				extensionRegistry,
+				configurationParameters,
+				context);
 	}
 
 	/**
-	 * Evaluate all {@link TestExecutionCondition}
-	 * extensions registered for the supplied {@link TestExtensionContext}.
-	 *
-	 * @param context the current {@code TestExtensionContext}
-	 * @return the first <em>disabled</em> {@code ConditionEvaluationResult},
-	 * or a default <em>enabled</em> {@code ConditionEvaluationResult} if no
-	 * disabled conditions are encountered
-	 */
-	public ConditionEvaluationResult evaluateForTest(ExtensionRegistry extensionRegistry,
-			ConfigurationParameters configurationParameters, TestExtensionContext context) {
+	* Evaluate all {@link TestExecutionCondition} extensions registered for the supplied {@link
+	* TestExtensionContext}.
+	*
+	* @param context the current {@code TestExtensionContext}
+	* @return the first <em>disabled</em> {@code ConditionEvaluationResult}, or a default
+	*     <em>enabled</em> {@code ConditionEvaluationResult} if no disabled conditions are
+	*     encountered
+	*/
+	public ConditionEvaluationResult evaluateForTest(
+			ExtensionRegistry extensionRegistry,
+			ConfigurationParameters configurationParameters,
+			TestExtensionContext context) {
 
-		BiFunction<Object, Object, ConditionEvaluationResult> evaluateAdaptor = (condition,
-				ctx) -> evaluate((TestExecutionCondition) condition, (TestExtensionContext) ctx);
+		BiFunction<Object, Object, ConditionEvaluationResult> evaluateAdaptor =
+				(condition, ctx) ->
+						evaluate((TestExecutionCondition) condition, (TestExtensionContext) ctx);
 
-		return evaluate(TestExecutionCondition.class, evaluateAdaptor, extensionRegistry, configurationParameters,
-			context);
+		return evaluate(
+				TestExecutionCondition.class,
+				evaluateAdaptor,
+				extensionRegistry,
+				configurationParameters,
+				context);
 	}
 
-	private ConditionEvaluationResult evaluate(Class<? extends Extension> extensionType,
-			BiFunction<Object, Object, ConditionEvaluationResult> evaluateAdaptor, ExtensionRegistry extensionRegistry,
-			ConfigurationParameters configurationParameters, ExtensionContext context) {
+	private ConditionEvaluationResult evaluate(
+			Class<? extends Extension> extensionType,
+			BiFunction<Object, Object, ConditionEvaluationResult> evaluateAdaptor,
+			ExtensionRegistry extensionRegistry,
+			ConfigurationParameters configurationParameters,
+			ExtensionContext context) {
 
 		Predicate<Object> isActivated = conditionIsActivated(configurationParameters);
 
 		// @formatter:off
-		return extensionRegistry.stream(extensionType)
+		return extensionRegistry
+				.stream(extensionType)
 				.filter(isActivated)
 				.map(condition -> evaluateAdaptor.apply(condition, context))
 				.filter(ConditionEvaluationResult::isDisabled)
@@ -108,38 +124,40 @@ public class ConditionEvaluator {
 		// @formatter:on
 	}
 
-	private ConditionEvaluationResult evaluate(ContainerExecutionCondition condition,
-			ContainerExtensionContext context) {
+	private ConditionEvaluationResult evaluate(
+			ContainerExecutionCondition condition, ContainerExtensionContext context) {
 
 		try {
 			ConditionEvaluationResult result = condition.evaluate(context);
 			logResult(condition.getClass(), result);
 			return result;
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			throw evaluationException(condition.getClass(), ex);
 		}
 	}
 
-	private ConditionEvaluationResult evaluate(TestExecutionCondition condition, TestExtensionContext context) {
+	private ConditionEvaluationResult evaluate(
+			TestExecutionCondition condition, TestExtensionContext context) {
 		try {
 			ConditionEvaluationResult result = condition.evaluate(context);
 			logResult(condition.getClass(), result);
 			return result;
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			throw evaluationException(condition.getClass(), ex);
 		}
 	}
 
 	private void logResult(Class<?> conditionType, ConditionEvaluationResult result) {
-		LOG.finer(() -> format("Evaluation of condition [%s] resulted in: %s", conditionType.getName(), result));
+		LOG.finer(
+				() ->
+						format(
+								"Evaluation of condition [%s] resulted in: %s", conditionType.getName(), result));
 	}
 
 	private ConditionEvaluationException evaluationException(Class<?> conditionType, Exception ex) {
 		String cause = StringUtils.isNotBlank(ex.getMessage()) ? ": " + ex.getMessage() : "";
 		return new ConditionEvaluationException(
-			format("Failed to evaluate condition [%s]%s", conditionType.getName(), cause), ex);
+				format("Failed to evaluate condition [%s]%s", conditionType.getName(), cause), ex);
 	}
 
 	private Predicate<Object> conditionIsActivated(ConfigurationParameters configurationParameters) {
@@ -156,7 +174,8 @@ public class ConditionEvaluator {
 
 	private String getDeactivatePatternString(ConfigurationParameters configurationParameters) {
 		// @formatter:off
-		return configurationParameters.get(DEACTIVATE_CONDITIONS_PATTERN_PROPERTY_NAME)
+		return configurationParameters
+				.get(DEACTIVATE_CONDITIONS_PATTERN_PROPERTY_NAME)
 				.filter(StringUtils::isNotBlank)
 				.map(String::trim)
 				.orElse(null);
@@ -164,9 +183,9 @@ public class ConditionEvaluator {
 	}
 
 	/**
-	 * See {@link Constants#DEACTIVATE_CONDITIONS_PATTERN_PROPERTY_NAME} for
-	 * details on the pattern matching syntax.
-	 */
+	* See {@link Constants#DEACTIVATE_CONDITIONS_PATTERN_PROPERTY_NAME} for details on the pattern
+	* matching syntax.
+	*/
 	private String convertToRegEx(String pattern) {
 		pattern = Matcher.quoteReplacement(pattern);
 
@@ -179,5 +198,4 @@ public class ConditionEvaluator {
 
 		return pattern;
 	}
-
 }

@@ -7,23 +7,18 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import java.io.StringReader;
 import java.net.URL;
-
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-
 import org.opentest4j.AssertionFailedError;
 import org.xml.sax.SAXException;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class XmlReportAssertions {
 
 	private static Validator schemaValidator;
@@ -32,8 +27,7 @@ class XmlReportAssertions {
 		try {
 			getSchemaValidator().validate(new StreamSource(new StringReader(content)));
 			return content;
-		}
-		catch (SAXException e) {
+		} catch (SAXException e) {
 			throw new AssertionFailedError("Invalid XML document: " + content, e);
 		}
 	}
@@ -46,5 +40,4 @@ class XmlReportAssertions {
 		}
 		return schemaValidator;
 	}
-
 }

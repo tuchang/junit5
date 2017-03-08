@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.function.Function;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,11 +22,11 @@ import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContextException;
 
 /**
- * Microtests for {@link ExtensionValuesStore}.
- *
- * @since 5.0
- * @see ExtensionContextTests
- */
+* Microtests for {@link ExtensionValuesStore}.
+*
+* @since 5.0
+* @see ExtensionContextTests
+*/
 public class ExtensionValuesStoreTests {
 
 	private final Object key = "key";
@@ -80,7 +78,8 @@ public class ExtensionValuesStoreTests {
 		void valueIsNotComputedIfPresentLocally() {
 			store.put(namespace, key, value);
 
-			assertEquals(value, store.getOrComputeIfAbsent(namespace, key, innerKey -> "a different value"));
+			assertEquals(
+					value, store.getOrComputeIfAbsent(namespace, key, innerKey -> "a different value"));
 			assertEquals(value, store.get(namespace, key));
 		}
 
@@ -106,8 +105,9 @@ public class ExtensionValuesStoreTests {
 			assertEquals(value, store.remove(namespace, key));
 
 			assertNull(store.get(namespace, key));
-			assertEquals("a different value",
-				store.getOrComputeIfAbsent(namespace, key, innerKey -> "a different value"));
+			assertEquals(
+					"a different value",
+					store.getOrComputeIfAbsent(namespace, key, innerKey -> "a different value"));
 		}
 
 		@Test
@@ -158,10 +158,12 @@ public class ExtensionValuesStoreTests {
 			String value = "enigma";
 			store.put(namespace, key, value);
 
-			Exception exception = assertThrows(ExtensionContextException.class,
-				() -> store.get(namespace, key, Number.class));
-			assertEquals("Object stored under key [42] is not of required type [java.lang.Number]",
-				exception.getMessage());
+			Exception exception =
+					assertThrows(
+							ExtensionContextException.class, () -> store.get(namespace, key, Number.class));
+			assertEquals(
+					"Object stored under key [42] is not of required type [java.lang.Number]",
+					exception.getMessage());
 		}
 
 		@Test
@@ -208,10 +210,13 @@ public class ExtensionValuesStoreTests {
 			// But declare that our function creates a String...
 			Function<String, String> defaultCreator = k -> "enigma";
 
-			Exception exception = assertThrows(ExtensionContextException.class,
-				() -> store.getOrComputeIfAbsent(namespace, key, defaultCreator, String.class));
-			assertEquals("Object stored under key [pi] is not of required type [java.lang.String]",
-				exception.getMessage());
+			Exception exception =
+					assertThrows(
+							ExtensionContextException.class,
+							() -> store.getOrComputeIfAbsent(namespace, key, defaultCreator, String.class));
+			assertEquals(
+					"Object stored under key [pi] is not of required type [java.lang.String]",
+					exception.getMessage());
 		}
 
 		@Test
@@ -231,7 +236,8 @@ public class ExtensionValuesStoreTests {
 
 			// The fact that we can declare this as an int/Integer suffices for testing the required type.
 			int computedInt = store.getOrComputeIfAbsent(namespace, key, k -> value, int.class);
-			Integer computedInteger = store.getOrComputeIfAbsent(namespace, key, k -> value, Integer.class);
+			Integer computedInteger =
+					store.getOrComputeIfAbsent(namespace, key, k -> value, Integer.class);
 			assertEquals(value, computedInt);
 			assertEquals(value, computedInteger.intValue());
 		}
@@ -242,10 +248,12 @@ public class ExtensionValuesStoreTests {
 			String value = "enigma";
 			store.put(namespace, key, value);
 
-			Exception exception = assertThrows(ExtensionContextException.class,
-				() -> store.remove(namespace, key, Number.class));
-			assertEquals("Object stored under key [42] is not of required type [java.lang.Number]",
-				exception.getMessage());
+			Exception exception =
+					assertThrows(
+							ExtensionContextException.class, () -> store.remove(namespace, key, Number.class));
+			assertEquals(
+					"Object stored under key [42] is not of required type [java.lang.Number]",
+					exception.getMessage());
 		}
 
 		@Test
@@ -286,7 +294,6 @@ public class ExtensionValuesStoreTests {
 			assertNull(removedValue);
 			assertNull(store.get(namespace, key));
 		}
-
 	}
 
 	@Nested
@@ -345,7 +352,6 @@ public class ExtensionValuesStoreTests {
 			assertEquals(value, store.get(ns3, key));
 			assertEquals(value2, store.get(ns2, key));
 		}
-
 	}
 
 	private Object createObject(final String display) {
@@ -357,5 +363,4 @@ public class ExtensionValuesStoreTests {
 			}
 		};
 	}
-
 }

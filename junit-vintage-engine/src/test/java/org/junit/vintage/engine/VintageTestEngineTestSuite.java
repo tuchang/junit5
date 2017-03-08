@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine;
 
 import org.junit.platform.runner.IncludeClassNamePatterns;
@@ -17,23 +16,21 @@ import org.junit.platform.runner.SelectPackages;
 import org.junit.runner.RunWith;
 
 /**
- * Test suite for the {@link VintageTestEngine}.
- *
- * <h3>Logging Configuration</h3>
- *
- * <p>In order for our log4j2 configuration to be used in an IDE, you must
- * set the following system property before running any tests &mdash; for
- * example, in <em>Run Configurations</em> in Eclipse.
- *
- * <pre class="code">
- * -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
- * </pre>
- *
- * @since 4.12
- */
+* Test suite for the {@link VintageTestEngine}.
+*
+* <h3>Logging Configuration</h3>
+*
+* <p>In order for our log4j2 configuration to be used in an IDE, you must set the following system
+* property before running any tests &mdash; for example, in <em>Run Configurations</em> in Eclipse.
+*
+* <pre class="code">
+* -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
+* </pre>
+*
+* @since 4.12
+*/
 @RunWith(JUnitPlatform.class)
 @SelectPackages("org.junit.vintage.engine")
 @IncludeClassNamePatterns(".*Tests?")
 @IncludeEngines("junit-jupiter")
-public class VintageTestEngineTestSuite {
-}
+public class VintageTestEngineTestSuite {}

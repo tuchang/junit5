@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.runner;
 
 import org.junit.runner.Description;
@@ -16,11 +15,11 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
 /**
- * Logging {@link RunListener} which can be used for manual debugging purposes
- * within the test suite.
- *
- * @since 1.0
- */
+* Logging {@link RunListener} which can be used for manual debugging purposes within the test
+* suite.
+*
+* @since 1.0
+*/
 class LoggingRunListener extends RunListener {
 
 	@Override
@@ -57,5 +56,4 @@ class LoggingRunListener extends RunListener {
 	public void testIgnored(Description description) throws Exception {
 		System.err.println("testIgnored: " + description);
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static org.junit.platform.commons.util.ReflectionUtils.isAbstract;
@@ -15,19 +14,14 @@ import static org.junit.platform.commons.util.ReflectionUtils.isPublic;
 
 import java.util.function.Predicate;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class IsPotentialJUnit4TestClass implements Predicate<Class<?>> {
 
 	@Override
 	public boolean test(Class<?> candidate) {
 		// Do not collapse into single return.
-		if (isAbstract(candidate))
-			return false;
-		if (!isPublic(candidate))
-			return false;
+		if (isAbstract(candidate)) return false;
+		if (!isPublic(candidate)) return false;
 		return !candidate.isMemberClass();
 	}
-
 }

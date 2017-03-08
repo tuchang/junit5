@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -25,16 +24,17 @@ import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 /**
- * Integration tests that verify support for {@linkplain Nested nested contexts}
- * in the {@link JupiterTestEngine}.
- *
- * @since 5.0
- */
+* Integration tests that verify support for {@linkplain Nested nested contexts} in the {@link
+* JupiterTestEngine}.
+*
+* @since 5.0
+*/
 public class NestedTestClassesTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void nestedTestsAreCorrectlyDiscovered() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(TestCaseWithNesting.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(TestCaseWithNesting.class)).build();
 		TestDescriptor engineDescriptor = discoverTests(request);
 		assertEquals(5, engineDescriptor.getDescendants().size(), "# resolved test descriptors");
 	}
@@ -53,7 +53,8 @@ public class NestedTestClassesTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void doublyNestedTestsAreCorrectlyDiscovered() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(TestCaseWithDoubleNesting.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(TestCaseWithDoubleNesting.class)).build();
 		TestDescriptor engineDescriptor = discoverTests(request);
 		assertEquals(8, engineDescriptor.getDescendants().size(), "# resolved test descriptors");
 	}
@@ -69,16 +70,17 @@ public class NestedTestClassesTests extends AbstractJupiterTestEngineTests {
 		assertEquals(4, eventRecorder.getContainerStartedCount(), "# containers started");
 		assertEquals(4, eventRecorder.getContainerFinishedCount(), "# containers finished");
 
-		assertAll("before each counts", //
-			() -> assertEquals(5, TestCaseWithDoubleNesting.beforeTopCount),
-			() -> assertEquals(4, TestCaseWithDoubleNesting.beforeNestedCount),
-			() -> assertEquals(2, TestCaseWithDoubleNesting.beforeDoublyNestedCount));
+		assertAll(
+				"before each counts", //
+				() -> assertEquals(5, TestCaseWithDoubleNesting.beforeTopCount),
+				() -> assertEquals(4, TestCaseWithDoubleNesting.beforeNestedCount),
+				() -> assertEquals(2, TestCaseWithDoubleNesting.beforeDoublyNestedCount));
 
-		assertAll("after each counts", //
-			() -> assertEquals(5, TestCaseWithDoubleNesting.afterTopCount),
-			() -> assertEquals(4, TestCaseWithDoubleNesting.afterNestedCount),
-			() -> assertEquals(2, TestCaseWithDoubleNesting.afterDoublyNestedCount));
-
+		assertAll(
+				"after each counts", //
+				() -> assertEquals(5, TestCaseWithDoubleNesting.afterTopCount),
+				() -> assertEquals(4, TestCaseWithDoubleNesting.afterNestedCount),
+				() -> assertEquals(2, TestCaseWithDoubleNesting.afterDoublyNestedCount));
 	}
 
 	// -------------------------------------------------------------------
@@ -86,15 +88,13 @@ public class NestedTestClassesTests extends AbstractJupiterTestEngineTests {
 	private static class TestCaseWithNesting {
 
 		@Test
-		void someTest() {
-		}
+		void someTest() {}
 
 		@Nested
 		class NestedTestCase {
 
 			@Test
-			void successful() {
-			}
+			void successful() {}
 
 			@Test
 			void failing() {
@@ -103,7 +103,7 @@ public class NestedTestClassesTests extends AbstractJupiterTestEngineTests {
 		}
 	}
 
-	static private class TestCaseWithDoubleNesting {
+	private static class TestCaseWithDoubleNesting {
 
 		static int beforeTopCount = 0;
 		static int beforeNestedCount = 0;
@@ -124,8 +124,7 @@ public class NestedTestClassesTests extends AbstractJupiterTestEngineTests {
 		}
 
 		@Test
-		void someTest() {
-		}
+		void someTest() {}
 
 		@Nested
 		class NestedTestCase {
@@ -141,8 +140,7 @@ public class NestedTestClassesTests extends AbstractJupiterTestEngineTests {
 			}
 
 			@Test
-			void successful() {
-			}
+			void successful() {}
 
 			@Test
 			void failing() {
@@ -163,8 +161,7 @@ public class NestedTestClassesTests extends AbstractJupiterTestEngineTests {
 				}
 
 				@Test
-				void successful() {
-				}
+				void successful() {}
 
 				@Test
 				void failing() {
@@ -173,5 +170,4 @@ public class NestedTestClassesTests extends AbstractJupiterTestEngineTests {
 			}
 		}
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery;
 
 import org.junit.jupiter.engine.JupiterTestEngine;
@@ -15,12 +14,12 @@ import org.junit.platform.commons.util.ReflectionUtils;
 import org.junit.platform.engine.UniqueId;
 
 /**
- * Test data builder for unique IDs for JupiterTestEngine.
- *
- * Used to decouple tests from concrete unique ID strings.
- *
- * @since 5.0
- */
+* Test data builder for unique IDs for JupiterTestEngine.
+*
+* <p>Used to decouple tests from concrete unique ID strings.
+*
+* @since 5.0
+*/
 public class JupiterUniqueIdBuilder {
 
 	public static UniqueId uniqueIdForClass(Class<?> clazz) {
@@ -51,5 +50,4 @@ public class JupiterUniqueIdBuilder {
 	public static UniqueId engineId() {
 		return UniqueId.forEngine(JupiterTestEngine.ENGINE_ID);
 	}
-
 }

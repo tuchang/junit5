@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
@@ -68,5 +67,4 @@ class ClassFileVisitor extends SimpleFileVisitor<Path> {
 	private static boolean isClassFile(Path file) {
 		return file.getFileName().toString().endsWith(CLASS_FILE_SUFFIX);
 	}
-
 }

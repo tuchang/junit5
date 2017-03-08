@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static org.junit.Assert.assertEquals;
@@ -24,9 +23,7 @@ import org.junit.vintage.engine.samples.junit4.Categories.Plain;
 import org.junit.vintage.engine.samples.junit4.Categories.Skipped;
 import org.junit.vintage.engine.samples.junit4.Categories.SkippedWithReason;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @FixMethodOrder(NAME_ASCENDING)
 @Category(Plain.class)
 public class PlainJUnit4TestCaseWithFiveTestMethods {
@@ -60,5 +57,4 @@ public class PlainJUnit4TestCaseWithFiveTestMethods {
 	public void successfulTest() {
 		assertEquals(3, 1 + 2);
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,10 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link StringUtils}.
- *
- * @since 1.0
- */
+* Unit tests for {@link StringUtils}.
+*
+* @since 1.0
+*/
 class StringUtilsTests {
 
 	@Test
@@ -35,9 +34,11 @@ class StringUtilsTests {
 		assertEquals("", StringUtils.nullSafeToString((Class<?>[]) null));
 		assertEquals("", StringUtils.nullSafeToString());
 		assertEquals("java.lang.String", StringUtils.nullSafeToString(String.class));
-		assertEquals("java.lang.String, java.lang.Integer", StringUtils.nullSafeToString(String.class, Integer.class));
-		assertEquals("java.lang.String, null, java.lang.Integer",
-			StringUtils.nullSafeToString(String.class, null, Integer.class));
+		assertEquals(
+				"java.lang.String, java.lang.Integer",
+				StringUtils.nullSafeToString(String.class, Integer.class));
+		assertEquals(
+				"java.lang.String, null, java.lang.Integer",
+				StringUtils.nullSafeToString(String.class, null, Integer.class));
 	}
-
 }

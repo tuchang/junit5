@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine;
 
 import static java.lang.String.format;
@@ -17,33 +16,33 @@ import static org.junit.platform.engine.FilterResult.included;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Predicate;
-
 import org.junit.platform.commons.util.Preconditions;
 
 /**
- * Combines a collection of {@link Filter Filters} into a new filter that will
- * include elements if and only if all of the filters in the specified collection
- * include it.
- *
- * @since 1.0
- */
+* Combines a collection of {@link Filter Filters} into a new filter that will include elements if
+* and only if all of the filters in the specified collection include it.
+*
+* @since 1.0
+*/
 class CompositeFilter<T> implements Filter<T> {
 
 	@SuppressWarnings("rawtypes")
-	private static final Filter ALWAYS_INCLUDED_FILTER = new Filter() {
-		@Override
-		public FilterResult apply(Object obj) {
-			return ALWAYS_INCLUDED_RESULT;
-		}
+	private static final Filter ALWAYS_INCLUDED_FILTER =
+			new Filter() {
+				@Override
+				public FilterResult apply(Object obj) {
+					return ALWAYS_INCLUDED_RESULT;
+				}
 
-		@Override
-		public Predicate toPredicate() {
-			return obj -> true;
-		}
-	};
+				@Override
+				public Predicate toPredicate() {
+					return obj -> true;
+				}
+			};
 
 	private static final FilterResult ALWAYS_INCLUDED_RESULT = included("Always included");
-	private static final FilterResult INCLUDED_BY_ALL_FILTERS = included("Element was included by all filters.");
+	private static final FilterResult INCLUDED_BY_ALL_FILTERS =
+			included("Element was included by all filters.");
 
 	@SuppressWarnings("unchecked")
 	static <T> Filter<T> alwaysIncluded() {
@@ -59,7 +58,8 @@ class CompositeFilter<T> implements Filter<T> {
 	@Override
 	public FilterResult apply(T element) {
 		// @formatter:off
-		return filters.stream()
+		return filters
+				.stream()
 				.map(filter -> filter.apply(element))
 				.filter(FilterResult::excluded)
 				.findFirst()
@@ -70,7 +70,8 @@ class CompositeFilter<T> implements Filter<T> {
 	@Override
 	public Predicate<T> toPredicate() {
 		// @formatter:off
-		return filters.stream()
+		return filters
+				.stream()
 				.map(Filter::toPredicate)
 				.reduce(Predicate::and)
 				.get(); // it's safe to call get() here because the constructor ensures filters is not empty
@@ -80,11 +81,11 @@ class CompositeFilter<T> implements Filter<T> {
 	@Override
 	public String toString() {
 		// @formatter:off
-		return filters.stream()
+		return filters
+				.stream()
 				.map(Object::toString)
 				.map(value -> format("(%s)", value))
 				.collect(joining(" and "));
 		// @formatter:on
 	}
-
 }

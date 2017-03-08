@@ -7,25 +7,18 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.support;
 
 import static org.junit.platform.commons.meta.API.Usage.Maintained;
 
 import org.junit.platform.commons.meta.API;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 @API(Maintained)
 public enum MethodSortOrder {
-	/**
-	 * Sort methods from top to bottom.
-	 */
+	/** Sort methods from top to bottom. */
 	HierarchyDown,
 
-	/**
-	 * Sort methods from bottom to top.
-	 */
+	/** Sort methods from bottom to top. */
 	HierarchyUp
 }

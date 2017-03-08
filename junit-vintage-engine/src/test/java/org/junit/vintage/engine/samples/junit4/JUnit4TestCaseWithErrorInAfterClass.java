@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static org.junit.Assert.fail;
@@ -17,9 +16,7 @@ import org.junit.AfterClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @FixMethodOrder(NAME_ASCENDING)
 public class JUnit4TestCaseWithErrorInAfterClass {
 
@@ -37,5 +34,4 @@ public class JUnit4TestCaseWithErrorInAfterClass {
 	public void succeedingTest() {
 		// no-op
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.hierarchical;
 
 import static org.junit.platform.engine.support.hierarchical.Node.SkipResult.doNotSkip;
@@ -17,10 +16,9 @@ import org.junit.platform.engine.TestSource;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 
-/**
- * @since 1.0
- */
-public class DemoHierarchicalTestDescriptor extends AbstractTestDescriptor implements Node<DemoEngineExecutionContext> {
+/** @since 1.0 */
+public class DemoHierarchicalTestDescriptor extends AbstractTestDescriptor
+		implements Node<DemoEngineExecutionContext> {
 
 	private final Runnable executeBlock;
 	private String skippedReason;
@@ -30,8 +28,8 @@ public class DemoHierarchicalTestDescriptor extends AbstractTestDescriptor imple
 		this(uniqueId, displayName, null, executeBlock);
 	}
 
-	public DemoHierarchicalTestDescriptor(UniqueId uniqueId, String displayName, TestSource source,
-			Runnable executeBlock) {
+	public DemoHierarchicalTestDescriptor(
+			UniqueId uniqueId, String displayName, TestSource source, Runnable executeBlock) {
 		super(uniqueId, displayName);
 		if (source != null) {
 			setSource(source);
@@ -65,12 +63,11 @@ public class DemoHierarchicalTestDescriptor extends AbstractTestDescriptor imple
 	}
 
 	@Override
-	public DemoEngineExecutionContext execute(DemoEngineExecutionContext context,
-			DynamicTestExecutor dynamicTestExecutor) {
+	public DemoEngineExecutionContext execute(
+			DemoEngineExecutionContext context, DynamicTestExecutor dynamicTestExecutor) {
 		if (this.executeBlock != null) {
 			this.executeBlock.run();
 		}
 		return context;
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.hierarchical;
 
 import static org.junit.platform.engine.support.hierarchical.Node.SkipResult.doNotSkip;
@@ -16,15 +15,13 @@ import static org.junit.platform.engine.support.hierarchical.Node.SkipResult.ski
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.EngineDescriptor;
 
-/**
- * @since 1.0
- */
-public class DemoHierarchicalEngineDescriptor extends EngineDescriptor implements Node<DemoEngineExecutionContext> {
+/** @since 1.0 */
+public class DemoHierarchicalEngineDescriptor extends EngineDescriptor
+		implements Node<DemoEngineExecutionContext> {
 
 	private String skippedReason;
 	private boolean skipped;
-	private Runnable beforeAllBehavior = () -> {
-	};
+	private Runnable beforeAllBehavior = () -> {};
 
 	public DemoHierarchicalEngineDescriptor(UniqueId uniqueId) {
 		super(uniqueId, uniqueId.getEngineId().get());
@@ -54,5 +51,4 @@ public class DemoHierarchicalEngineDescriptor extends EngineDescriptor implement
 	public boolean isLeaf() {
 		return false;
 	}
-
 }

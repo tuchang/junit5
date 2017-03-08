@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -23,14 +22,11 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.console.options.CommandLineOptionsParser;
 import org.junit.platform.console.options.JOptSimpleCommandLineOptionsParser;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 @API(Internal)
 public class ConsoleLauncherWrapper {
 
@@ -53,8 +49,7 @@ public class ConsoleLauncherWrapper {
 			PrintStream streamOut = new PrintStream(out, false, charset.name());
 			PrintStream streamErr = new PrintStream(err, false, charset.name());
 			this.consoleLauncher = new ConsoleLauncher(parser, streamOut, streamErr);
-		}
-		catch (UnsupportedEncodingException exception) {
+		} catch (UnsupportedEncodingException exception) {
 			throw new AssertionError("Charset instance created but unsupported?!", exception);
 		}
 	}
@@ -75,11 +70,10 @@ public class ConsoleLauncherWrapper {
 		if (expectedCode.isPresent()) {
 			int expectedValue = expectedCode.get();
 			assertAll( //
-				() -> assertEquals(expectedValue, code, "ConsoleLauncher execute code mismatch!"), //
-				() -> assertTrue(expectedValue == 0 ? isBlank(errText) : isNotBlank(errText)) //
-			);
+					() -> assertEquals(expectedValue, code, "ConsoleLauncher execute code mismatch!"), //
+					() -> assertTrue(expectedValue == 0 ? isBlank(errText) : isNotBlank(errText)) //
+					);
 		}
 		return new ConsoleLauncherWrapperResult(args, charset, outText, errText, result);
 	}
-
 }

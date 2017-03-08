@@ -7,19 +7,15 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public abstract class TestDescriptorBuilder<T extends TestDescriptor> {
 
 	final List<TestDescriptorBuilder<?>> children = new ArrayList<>();
@@ -28,11 +24,13 @@ public abstract class TestDescriptorBuilder<T extends TestDescriptor> {
 		return new JupiterEngineDescriptorBuilder();
 	}
 
-	public static ClassTestDescriptorBuilder classTestDescriptor(String uniqueId, Class<?> testClass) {
+	public static ClassTestDescriptorBuilder classTestDescriptor(
+			String uniqueId, Class<?> testClass) {
 		return new ClassTestDescriptorBuilder(uniqueId, testClass);
 	}
 
-	public static NestedClassTestDescriptorBuilder nestedClassTestDescriptor(String uniqueId, Class<?> testClass) {
+	public static NestedClassTestDescriptorBuilder nestedClassTestDescriptor(
+			String uniqueId, Class<?> testClass) {
 		return new NestedClassTestDescriptorBuilder(uniqueId, testClass);
 	}
 
@@ -49,7 +47,8 @@ public abstract class TestDescriptorBuilder<T extends TestDescriptor> {
 
 	abstract T buildDescriptor();
 
-	public static class JupiterEngineDescriptorBuilder extends TestDescriptorBuilder<JupiterEngineDescriptor> {
+	public static class JupiterEngineDescriptorBuilder
+			extends TestDescriptorBuilder<JupiterEngineDescriptor> {
 
 		@Override
 		JupiterEngineDescriptor buildDescriptor() {
@@ -57,7 +56,8 @@ public abstract class TestDescriptorBuilder<T extends TestDescriptor> {
 		}
 	}
 
-	public static class ClassTestDescriptorBuilder extends TestDescriptorBuilder<ClassTestDescriptor> {
+	public static class ClassTestDescriptorBuilder
+			extends TestDescriptorBuilder<ClassTestDescriptor> {
 
 		protected final String uniqueId;
 		protected final Class<?> testClass;
@@ -84,5 +84,4 @@ public abstract class TestDescriptorBuilder<T extends TestDescriptor> {
 			return new NestedClassTestDescriptor(UniqueId.root("nested-class", uniqueId), testClass);
 		}
 	}
-
 }

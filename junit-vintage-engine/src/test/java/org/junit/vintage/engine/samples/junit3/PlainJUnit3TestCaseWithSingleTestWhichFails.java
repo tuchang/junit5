@@ -7,20 +7,15 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit3;
 
 import junit.framework.TestCase;
-
 import org.junit.Assert;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 public class PlainJUnit3TestCaseWithSingleTestWhichFails extends TestCase {
 
 	public void test() {
 		Assert.fail("this test should fail");
 	}
-
 }

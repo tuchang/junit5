@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.subpackage;
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,5 @@ import org.junit.jupiter.api.Test;
 public class OneTest {
 
 	@Test
-	public void m1() {
-	}
-
+	public void m1() {}
 }

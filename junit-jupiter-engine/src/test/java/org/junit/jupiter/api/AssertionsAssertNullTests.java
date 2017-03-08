@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionTestUtils.assertExpectedAndActualValues;
@@ -19,10 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Unit tests for JUnit Jupiter {@link Assertions}.
- *
- * @since 5.0
- */
+* Unit tests for JUnit Jupiter {@link Assertions}.
+*
+* @since 5.0
+*/
 public class AssertionsAssertNullTests {
 
 	@Test
@@ -35,8 +34,7 @@ public class AssertionsAssertNullTests {
 		try {
 			assertNull("foo");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEndsWith(ex, "expected: <null> but was: <foo>");
 			assertExpectedAndActualValues(ex, null, "foo");
 		}
@@ -47,8 +45,7 @@ public class AssertionsAssertNullTests {
 		try {
 			assertNull("foo", "a message");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "a message");
 			assertMessageEndsWith(ex, "expected: <null> but was: <foo>");
 			assertExpectedAndActualValues(ex, null, "foo");
@@ -60,12 +57,10 @@ public class AssertionsAssertNullTests {
 		try {
 			assertNull("foo", () -> "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "test");
 			assertMessageEndsWith(ex, "expected: <null> but was: <foo>");
 			assertExpectedAndActualValues(ex, null, "foo");
 		}
 	}
-
 }

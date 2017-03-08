@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static org.junit.Assert.fail;
@@ -16,9 +15,7 @@ import org.junit.AssumptionViolatedException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 public class JUnit4TestCaseWithAssumptionFailureInBeforeClass {
 
 	@BeforeClass
@@ -30,5 +27,4 @@ public class JUnit4TestCaseWithAssumptionFailureInBeforeClass {
 	public void test() {
 		fail("this should never be called");
 	}
-
 }

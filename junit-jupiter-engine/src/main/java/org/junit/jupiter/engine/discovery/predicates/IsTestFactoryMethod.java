@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery.predicates;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -16,15 +15,14 @@ import org.junit.jupiter.api.TestFactory;
 import org.junit.platform.commons.meta.API;
 
 /**
- * Test if a method is a JUnit Jupiter test factory method.
- *
- * @since 5.0
- */
+* Test if a method is a JUnit Jupiter test factory method.
+*
+* @since 5.0
+*/
 @API(Internal)
 public class IsTestFactoryMethod extends IsTestableMethod {
 
 	public IsTestFactoryMethod() {
 		super(TestFactory.class);
 	}
-
 }

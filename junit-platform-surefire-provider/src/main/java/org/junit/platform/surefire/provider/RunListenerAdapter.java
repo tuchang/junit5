@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.junit.platform.surefire.provider;
 
 import static org.apache.maven.surefire.report.SimpleReportEntry.ignored;
@@ -21,7 +20,6 @@ import static org.junit.platform.engine.TestExecutionResult.Status.ABORTED;
 import static org.junit.platform.engine.TestExecutionResult.Status.FAILED;
 
 import java.util.Optional;
-
 import org.apache.maven.surefire.report.PojoStackTraceWriter;
 import org.apache.maven.surefire.report.RunListener;
 import org.apache.maven.surefire.report.SimpleReportEntry;
@@ -34,9 +32,7 @@ import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 final class RunListenerAdapter implements TestExecutionListener {
 
 	private final RunListener runListener;
@@ -70,32 +66,40 @@ final class RunListenerAdapter implements TestExecutionListener {
 	}
 
 	@Override
-	public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
+	public void executionFinished(
+			TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
 		if (testExecutionResult.getStatus() == ABORTED) {
-			runListener.testAssumptionFailure(createReportEntry(testIdentifier, testExecutionResult.getThrowable()));
-		}
-		else if (testExecutionResult.getStatus() == FAILED) {
+			runListener.testAssumptionFailure(
+					createReportEntry(testIdentifier, testExecutionResult.getThrowable()));
+		} else if (testExecutionResult.getStatus() == FAILED) {
 			runListener.testFailed(createReportEntry(testIdentifier, testExecutionResult.getThrowable()));
-		}
-		else if (testIdentifier.isTest()) {
+		} else if (testIdentifier.isTest()) {
 			runListener.testSucceeded(createReportEntry(testIdentifier, Optional.empty()));
 		}
 	}
 
-	private SimpleReportEntry createReportEntry(TestIdentifier testIdentifier, Optional<Throwable> throwable) {
+	private SimpleReportEntry createReportEntry(
+			TestIdentifier testIdentifier, Optional<Throwable> throwable) {
 		Optional<String> className = getClassName(testIdentifier);
 
-		Optional<StackTraceWriter> stackTraceWriter = throwable.flatMap(
-			t -> className.map(name -> new PojoStackTraceWriter(name, getMethodName(testIdentifier).orElse(""), t)));
+		Optional<StackTraceWriter> stackTraceWriter =
+				throwable.flatMap(
+						t ->
+								className.map(
+										name ->
+												new PojoStackTraceWriter(
+														name, getMethodName(testIdentifier).orElse(""), t)));
 
 		String source = sourceLegacyReportingName(testIdentifier);
-		return new SimpleReportEntry(source, testIdentifier.getLegacyReportingName(), stackTraceWriter.orElse(null),
-			null);
+		return new SimpleReportEntry(
+				source, testIdentifier.getLegacyReportingName(), stackTraceWriter.orElse(null), null);
 	}
 
 	private String sourceLegacyReportingName(TestIdentifier testIdentifier) {
-		return testPlan.flatMap(plan -> plan.getParent(testIdentifier)).map(
-			TestIdentifier::getLegacyReportingName).orElse("<unrooted>");
+		return testPlan
+				.flatMap(plan -> plan.getParent(testIdentifier))
+				.map(TestIdentifier::getLegacyReportingName)
+				.orElse("<unrooted>");
 	}
 
 	private Optional<String> getClassName(TestIdentifier testIdentifier) {
@@ -120,9 +124,9 @@ final class RunListenerAdapter implements TestExecutionListener {
 	private String parentDisplayName(TestIdentifier testIdentifier) {
 		// @formatter:off
 		return testPlan
-			.flatMap(plan -> plan.getParent(testIdentifier))
-			.map(TestIdentifier::getLegacyReportingName)
-			.orElseGet(testIdentifier::getUniqueId);
+				.flatMap(plan -> plan.getParent(testIdentifier))
+				.map(TestIdentifier::getLegacyReportingName)
+				.orElseGet(testIdentifier::getUniqueId);
 		// @formatter:on
 	}
 }

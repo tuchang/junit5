@@ -7,26 +7,23 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
-
 import org.junit.platform.engine.FilterResult;
 import org.junit.platform.engine.TestDescriptor;
 
-/**
- * @since 1.0
- */
-public class PostDiscoveryFilterStub extends FilterStub<TestDescriptor> implements PostDiscoveryFilter {
+/** @since 1.0 */
+public class PostDiscoveryFilterStub extends FilterStub<TestDescriptor>
+		implements PostDiscoveryFilter {
 
 	public PostDiscoveryFilterStub(String toString) {
 		super(toString);
 	}
 
-	public PostDiscoveryFilterStub(Function<TestDescriptor, FilterResult> function, Supplier<String> toString) {
+	public PostDiscoveryFilterStub(
+			Function<TestDescriptor, FilterResult> function, Supplier<String> toString) {
 		super(function, toString);
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.descriptor;
 
 import static java.util.Arrays.stream;
@@ -23,7 +22,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import org.junit.experimental.categories.Category;
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.ReflectionUtils;
@@ -35,9 +33,7 @@ import org.junit.platform.engine.support.descriptor.ClassSource;
 import org.junit.platform.engine.support.descriptor.MethodSource;
 import org.junit.runner.Description;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @API(Internal)
 public class VintageTestDescriptor extends AbstractTestDescriptor {
 
@@ -47,20 +43,29 @@ public class VintageTestDescriptor extends AbstractTestDescriptor {
 
 	private final Description description;
 
-	public VintageTestDescriptor(TestDescriptor parent, String segmentType, String segmentValue,
-			Description description) {
+	public VintageTestDescriptor(
+			TestDescriptor parent, String segmentType, String segmentValue, Description description) {
 
 		this(parent, segmentType, segmentValue, description, toTestSource(description));
 	}
 
-	VintageTestDescriptor(TestDescriptor parent, String segmentType, String segmentValue, Description description,
+	VintageTestDescriptor(
+			TestDescriptor parent,
+			String segmentType,
+			String segmentValue,
+			Description description,
 			Optional<? extends TestSource> source) {
 
 		this(parent, segmentType, segmentValue, description, generateDisplayName(description), source);
 	}
 
-	VintageTestDescriptor(TestDescriptor parent, String segmentType, String segmentValue, Description description,
-			String displayName, Optional<? extends TestSource> source) {
+	VintageTestDescriptor(
+			TestDescriptor parent,
+			String segmentType,
+			String segmentValue,
+			Description description,
+			String displayName,
+			Optional<? extends TestSource> source) {
 
 		super(parent.getUniqueId().append(segmentType, segmentValue), displayName);
 
@@ -69,7 +74,9 @@ public class VintageTestDescriptor extends AbstractTestDescriptor {
 	}
 
 	private static String generateDisplayName(Description description) {
-		return description.getMethodName() != null ? description.getMethodName() : description.getDisplayName();
+		return description.getMethodName() != null
+				? description.getMethodName()
+				: description.getDisplayName();
 	}
 
 	public Description getDescription() {
@@ -91,15 +98,16 @@ public class VintageTestDescriptor extends AbstractTestDescriptor {
 		Set<TestTag> result = new LinkedHashSet<>();
 		getParent().ifPresent(parent -> result.addAll(parent.getTags()));
 		// @formatter:off
-		getDeclaredCategories().ifPresent(categoryClasses ->
-			stream(categoryClasses)
-				.map(ReflectionUtils::getAllAssignmentCompatibleClasses)
-				.flatMap(Collection::stream)
-				.distinct()
-				.map(Class::getName)
-				.map(TestTag::create)
-				.forEachOrdered(result::add)
-		);
+		getDeclaredCategories()
+				.ifPresent(
+						categoryClasses ->
+								stream(categoryClasses)
+										.map(ReflectionUtils::getAllAssignmentCompatibleClasses)
+										.flatMap(Collection::stream)
+										.distinct()
+										.map(Class::getName)
+										.map(TestTag::create)
+										.forEachOrdered(result::add));
 		// @formatter:on
 		return result;
 	}
@@ -128,11 +136,9 @@ public class VintageTestDescriptor extends AbstractTestDescriptor {
 		if (methodName.contains("[") && methodName.endsWith("]")) {
 			// special case for parameterized tests
 			return toMethodSource(testClass, methodName.substring(0, methodName.indexOf("[")));
-		}
-		else {
+		} else {
 			List<Method> methods = findMethods(testClass, where(Method::getName, isEqual(methodName)));
 			return (methods.size() == 1) ? new MethodSource(getOnlyElement(methods)) : null;
 		}
 	}
-
 }

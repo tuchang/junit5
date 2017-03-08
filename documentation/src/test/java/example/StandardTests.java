@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // tag::user_guide[]
@@ -23,16 +22,13 @@ import org.junit.jupiter.api.Test;
 class StandardTests {
 
 	@BeforeAll
-	static void initAll() {
-	}
+	static void initAll() {}
 
 	@BeforeEach
-	void init() {
-	}
+	void init() {}
 
 	@Test
-	void succeedingTest() {
-	}
+	void succeedingTest() {}
 
 	// end::user_guide[]
 	@extensions.ExpectToFail
@@ -49,12 +45,9 @@ class StandardTests {
 	}
 
 	@AfterEach
-	void tearDown() {
-	}
+	void tearDown() {}
 
 	@AfterAll
-	static void tearDownAll() {
-	}
-
+	static void tearDownAll() {}
 }
 // end::user_guide[]

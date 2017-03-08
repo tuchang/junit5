@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // tag::user_guide[]
@@ -37,8 +36,6 @@ class TestInfoDemo {
 	}
 
 	@Test
-	void test2() {
-	}
-
+	void test2() {}
 }
 // end::user_guide[]

@@ -7,11 +7,8 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
-/**
- * @since 4.12
- */
-public class PlainJUnit4TestCaseWithSingleInheritedTestWhichFails extends PlainJUnit4TestCaseWithSingleTestWhichFails {
-}
+/** @since 4.12 */
+public class PlainJUnit4TestCaseWithSingleInheritedTestWhichFails
+		extends PlainJUnit4TestCaseWithSingleTestWhichFails {}

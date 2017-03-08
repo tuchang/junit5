@@ -7,17 +7,14 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example.testinterface;
 
 import example.timing.TimingExtension;
-
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 //tag::user_guide[]
 @Tag("timed")
 @ExtendWith(TimingExtension.class)
-public interface TimeExecutionLogger {
-}
+public interface TimeExecutionLogger {}
 //end::user_guide[]

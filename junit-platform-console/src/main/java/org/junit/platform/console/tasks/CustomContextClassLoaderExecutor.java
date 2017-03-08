@@ -7,15 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class CustomContextClassLoaderExecutor {
 
 	private final Optional<ClassLoader> customClassLoader;
@@ -33,16 +30,14 @@ class CustomContextClassLoaderExecutor {
 		return callable.call();
 	}
 
-	private <T> T replaceThreadContextClassLoaderAndInvoke(ClassLoader customClassLoader, Callable<T> callable)
-			throws Exception {
+	private <T> T replaceThreadContextClassLoaderAndInvoke(
+			ClassLoader customClassLoader, Callable<T> callable) throws Exception {
 		ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
 		try {
 			Thread.currentThread().setContextClassLoader(customClassLoader);
 			return callable.call();
-		}
-		finally {
+		} finally {
 			Thread.currentThread().setContextClassLoader(originalClassLoader);
 		}
 	}
-
 }

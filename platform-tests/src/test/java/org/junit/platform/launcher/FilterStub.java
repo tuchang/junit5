@@ -7,18 +7,14 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
-
 import org.junit.platform.engine.Filter;
 import org.junit.platform.engine.FilterResult;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 public class FilterStub<T> implements Filter<T> {
 
 	private final Function<T, FilterResult> function;
@@ -42,5 +38,4 @@ public class FilterStub<T> implements Filter<T> {
 	public String toString() {
 		return toString.get();
 	}
-
 }

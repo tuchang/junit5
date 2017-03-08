@@ -7,16 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 public class MalformedJUnit4TestCase {
 
 	@Test
@@ -24,5 +21,4 @@ public class MalformedJUnit4TestCase {
 	void nonPublicTest() {
 		fail("this should never be called");
 	}
-
 }

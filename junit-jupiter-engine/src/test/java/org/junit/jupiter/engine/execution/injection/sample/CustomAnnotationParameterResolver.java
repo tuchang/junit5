@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution.injection.sample;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -15,9 +14,7 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.util.ReflectionUtils;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class CustomAnnotationParameterResolver implements ParameterResolver {
 
 	@Override
@@ -29,5 +26,4 @@ public class CustomAnnotationParameterResolver implements ParameterResolver {
 	public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
 		return ReflectionUtils.newInstance(parameterContext.getParameter().getType());
 	}
-
 }

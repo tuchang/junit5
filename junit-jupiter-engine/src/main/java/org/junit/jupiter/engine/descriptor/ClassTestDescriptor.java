@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static org.junit.jupiter.engine.descriptor.LifecycleMethodUtils.findAfterAllMethods;
@@ -23,7 +22,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
-
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ContainerExtensionContext;
@@ -48,16 +46,15 @@ import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.ClassSource;
 
 /**
- * {@link TestDescriptor} for tests based on Java classes.
- *
- * <h3>Default Display Names</h3>
- *
- * <p>The default display name for a top-level or nested static test class is
- * the fully qualified name of the class with the package name and leading dot
- * (".") removed.
- *
- * @since 5.0
- */
+* {@link TestDescriptor} for tests based on Java classes.
+*
+* <h3>Default Display Names</h3>
+*
+* <p>The default display name for a top-level or nested static test class is the fully qualified
+* name of the class with the package name and leading dot (".") removed.
+*
+* @since 5.0
+*/
 @API(Internal)
 public class ClassTestDescriptor extends JupiterTestDescriptor {
 
@@ -74,11 +71,16 @@ public class ClassTestDescriptor extends JupiterTestDescriptor {
 		this(uniqueId, ClassTestDescriptor::generateDefaultDisplayName, testClass);
 	}
 
-	protected ClassTestDescriptor(UniqueId uniqueId, Function<Class<?>, String> defaultDisplayNameGenerator,
+	protected ClassTestDescriptor(
+			UniqueId uniqueId,
+			Function<Class<?>, String> defaultDisplayNameGenerator,
 			Class<?> testClass) {
 
-		super(uniqueId, determineDisplayName(Preconditions.notNull(testClass, "Class must not be null"),
-			defaultDisplayNameGenerator));
+		super(
+				uniqueId,
+				determineDisplayName(
+						Preconditions.notNull(testClass, "Class must not be null"),
+						defaultDisplayNameGenerator));
 
 		this.testClass = testClass;
 
@@ -126,18 +128,21 @@ public class ClassTestDescriptor extends JupiterTestDescriptor {
 
 	@Override
 	public JupiterEngineExecutionContext prepare(JupiterEngineExecutionContext context) {
-		ExtensionRegistry registry = populateNewExtensionRegistryFromExtendWith(this.testClass,
-			context.getExtensionRegistry());
+		ExtensionRegistry registry =
+				populateNewExtensionRegistryFromExtendWith(this.testClass, context.getExtensionRegistry());
 
 		registerBeforeEachMethodAdapters(registry);
 		registerAfterEachMethodAdapters(registry);
 
-		ContainerExtensionContext containerExtensionContext = new ClassBasedContainerExtensionContext(
-			context.getExtensionContext(), context.getExecutionListener(), this);
+		ContainerExtensionContext containerExtensionContext =
+				new ClassBasedContainerExtensionContext(
+						context.getExtensionContext(), context.getExecutionListener(), this);
 
 		// @formatter:off
-		return context.extend()
-				.withTestInstanceProvider(testInstanceProvider(context, registry, containerExtensionContext))
+		return context
+				.extend()
+				.withTestInstanceProvider(
+						testInstanceProvider(context, registry, containerExtensionContext))
 				.withExtensionRegistry(registry)
 				.withExtensionContext(containerExtensionContext)
 				.withThrowableCollector(new ThrowableCollector())
@@ -151,7 +156,8 @@ public class ClassTestDescriptor extends JupiterTestDescriptor {
 	}
 
 	@Override
-	public JupiterEngineExecutionContext before(JupiterEngineExecutionContext context) throws Exception {
+	public JupiterEngineExecutionContext before(JupiterEngineExecutionContext context)
+			throws Exception {
 		ThrowableCollector throwableCollector = context.getThrowableCollector();
 
 		invokeBeforeAllCallbacks(context);
@@ -175,27 +181,36 @@ public class ClassTestDescriptor extends JupiterTestDescriptor {
 		context.getThrowableCollector().assertEmpty();
 	}
 
-	protected TestInstanceProvider testInstanceProvider(JupiterEngineExecutionContext parentExecutionContext,
-			ExtensionRegistry registry, ExtensionContext extensionContext) {
+	protected TestInstanceProvider testInstanceProvider(
+			JupiterEngineExecutionContext parentExecutionContext,
+			ExtensionRegistry registry,
+			ExtensionContext extensionContext) {
 		return childExtensionRegistry -> {
 			Constructor<?> constructor = ReflectionUtils.getDeclaredConstructor(this.testClass);
-			Object instance = executableInvoker.invoke(constructor, extensionContext,
-				childExtensionRegistry.orElse(registry));
-			invokeTestInstancePostProcessors(instance, childExtensionRegistry.orElse(registry), extensionContext);
+			Object instance =
+					executableInvoker.invoke(
+							constructor, extensionContext, childExtensionRegistry.orElse(registry));
+			invokeTestInstancePostProcessors(
+					instance, childExtensionRegistry.orElse(registry), extensionContext);
 			return instance;
 		};
 	}
 
-	protected void invokeTestInstancePostProcessors(Object instance, ExtensionRegistry registry,
-			ExtensionContext context) {
+	protected void invokeTestInstancePostProcessors(
+			Object instance, ExtensionRegistry registry, ExtensionContext context) {
 
-		registry.stream(TestInstancePostProcessor.class).forEach(
-			extension -> executeAndMaskThrowable(() -> extension.postProcessTestInstance(instance, context)));
+		registry
+				.stream(TestInstancePostProcessor.class)
+				.forEach(
+						extension ->
+								executeAndMaskThrowable(
+										() -> extension.postProcessTestInstance(instance, context)));
 	}
 
 	private void invokeBeforeAllCallbacks(JupiterEngineExecutionContext context) {
 		ExtensionRegistry registry = context.getExtensionRegistry();
-		ContainerExtensionContext extensionContext = (ContainerExtensionContext) context.getExtensionContext();
+		ContainerExtensionContext extensionContext =
+				(ContainerExtensionContext) context.getExtensionContext();
 		ThrowableCollector throwableCollector = context.getThrowableCollector();
 
 		for (BeforeAllCallback callback : registry.getExtensions(BeforeAllCallback.class)) {
@@ -208,11 +223,13 @@ public class ClassTestDescriptor extends JupiterTestDescriptor {
 
 	private void invokeBeforeAllMethods(JupiterEngineExecutionContext context) {
 		ExtensionRegistry registry = context.getExtensionRegistry();
-		ContainerExtensionContext extensionContext = (ContainerExtensionContext) context.getExtensionContext();
+		ContainerExtensionContext extensionContext =
+				(ContainerExtensionContext) context.getExtensionContext();
 		ThrowableCollector throwableCollector = context.getThrowableCollector();
 
 		for (Method method : this.beforeAllMethods) {
-			throwableCollector.execute(() -> executableInvoker.invoke(method, extensionContext, registry));
+			throwableCollector.execute(
+					() -> executableInvoker.invoke(method, extensionContext, registry));
 			if (throwableCollector.isNotEmpty()) {
 				break;
 			}
@@ -221,24 +238,31 @@ public class ClassTestDescriptor extends JupiterTestDescriptor {
 
 	private void invokeAfterAllMethods(JupiterEngineExecutionContext context) {
 		ExtensionRegistry registry = context.getExtensionRegistry();
-		ContainerExtensionContext extensionContext = (ContainerExtensionContext) context.getExtensionContext();
+		ContainerExtensionContext extensionContext =
+				(ContainerExtensionContext) context.getExtensionContext();
 		ThrowableCollector throwableCollector = context.getThrowableCollector();
 
 		this.afterAllMethods.forEach(
-			method -> throwableCollector.execute(() -> executableInvoker.invoke(method, extensionContext, registry)));
+				method ->
+						throwableCollector.execute(
+								() -> executableInvoker.invoke(method, extensionContext, registry)));
 	}
 
 	private void invokeAfterAllCallbacks(JupiterEngineExecutionContext context) {
 		ExtensionRegistry registry = context.getExtensionRegistry();
-		ContainerExtensionContext extensionContext = (ContainerExtensionContext) context.getExtensionContext();
+		ContainerExtensionContext extensionContext =
+				(ContainerExtensionContext) context.getExtensionContext();
 		ThrowableCollector throwableCollector = context.getThrowableCollector();
 
-		registry.getReversedExtensions(AfterAllCallback.class)//
-				.forEach(extension -> throwableCollector.execute(() -> extension.afterAll(extensionContext)));
+		registry
+				.getReversedExtensions(AfterAllCallback.class) //
+				.forEach(
+						extension -> throwableCollector.execute(() -> extension.afterAll(extensionContext)));
 	}
 
 	private void registerBeforeEachMethodAdapters(ExtensionRegistry registry) {
-		registerMethodsAsExtensions(this.beforeEachMethods, registry, this::synthesizeBeforeEachMethodAdapter);
+		registerMethodsAsExtensions(
+				this.beforeEachMethods, registry, this::synthesizeBeforeEachMethodAdapter);
 	}
 
 	private void registerAfterEachMethodAdapters(ExtensionRegistry registry) {
@@ -253,28 +277,35 @@ public class ClassTestDescriptor extends JupiterTestDescriptor {
 		registerMethodsAsExtensions(reversed, registry, this::synthesizeAfterEachMethodAdapter);
 	}
 
-	private void registerMethodsAsExtensions(List<Method> methods, ExtensionRegistry registry,
+	private void registerMethodsAsExtensions(
+			List<Method> methods,
+			ExtensionRegistry registry,
 			Function<Method, Extension> extensionSynthesizer) {
 
-		methods.forEach(method -> registry.registerExtension(extensionSynthesizer.apply(method), method));
+		methods.forEach(
+				method -> registry.registerExtension(extensionSynthesizer.apply(method), method));
 	}
 
 	private BeforeEachMethodAdapter synthesizeBeforeEachMethodAdapter(Method method) {
-		return (extensionContext, registry) -> invokeMethodInTestExtensionContext(method, extensionContext, registry);
+		return (extensionContext, registry) ->
+				invokeMethodInTestExtensionContext(method, extensionContext, registry);
 	}
 
 	private AfterEachMethodAdapter synthesizeAfterEachMethodAdapter(Method method) {
-		return (extensionContext, registry) -> invokeMethodInTestExtensionContext(method, extensionContext, registry);
+		return (extensionContext, registry) ->
+				invokeMethodInTestExtensionContext(method, extensionContext, registry);
 	}
 
-	private void invokeMethodInTestExtensionContext(Method method, TestExtensionContext context,
-			ExtensionRegistry registry) {
+	private void invokeMethodInTestExtensionContext(
+			Method method, TestExtensionContext context, ExtensionRegistry registry) {
 
-		Object instance = ReflectionUtils.getOuterInstance(context.getTestInstance(),
-			method.getDeclaringClass()).orElseThrow(
-				() -> new JUnitException("Failed to find instance for method: " + method.toGenericString()));
+		Object instance =
+				ReflectionUtils.getOuterInstance(context.getTestInstance(), method.getDeclaringClass())
+						.orElseThrow(
+								() ->
+										new JUnitException(
+												"Failed to find instance for method: " + method.toGenericString()));
 
 		executableInvoker.invoke(method, instance, context, registry);
 	}
-
 }

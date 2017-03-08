@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import org.junit.platform.engine.EngineExecutionListener;
@@ -19,11 +18,11 @@ import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
 /**
- * An {@code ExecutionListenerAdapter} adapts a {@link TestPlan} and a corresponding
- * {@link TestExecutionListener} to the {@link EngineExecutionListener} API.
- *
- * @since 1.0
- */
+* An {@code ExecutionListenerAdapter} adapts a {@link TestPlan} and a corresponding {@link
+* TestExecutionListener} to the {@link EngineExecutionListener} API.
+*
+* @since 1.0
+*/
 class ExecutionListenerAdapter implements EngineExecutionListener {
 
 	private final TestPlan testPlan;
@@ -52,8 +51,10 @@ class ExecutionListenerAdapter implements EngineExecutionListener {
 	}
 
 	@Override
-	public void executionFinished(TestDescriptor testDescriptor, TestExecutionResult testExecutionResult) {
-		this.testExecutionListener.executionFinished(getTestIdentifier(testDescriptor), testExecutionResult);
+	public void executionFinished(
+			TestDescriptor testDescriptor, TestExecutionResult testExecutionResult) {
+		this.testExecutionListener.executionFinished(
+				getTestIdentifier(testDescriptor), testExecutionResult);
 	}
 
 	@Override
@@ -64,5 +65,4 @@ class ExecutionListenerAdapter implements EngineExecutionListener {
 	private TestIdentifier getTestIdentifier(TestDescriptor testDescriptor) {
 		return this.testPlan.getTestIdentifier(testDescriptor.getUniqueId().toString());
 	}
-
 }

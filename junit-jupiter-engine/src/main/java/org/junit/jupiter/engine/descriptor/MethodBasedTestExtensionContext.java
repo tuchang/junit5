@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -15,26 +14,27 @@ import static org.junit.platform.commons.meta.API.Usage.Internal;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.Optional;
-
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestExtensionContext;
 import org.junit.jupiter.engine.execution.ThrowableCollector;
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.engine.EngineExecutionListener;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Internal)
-public final class MethodBasedTestExtensionContext extends AbstractExtensionContext<MethodTestDescriptor>
-		implements TestExtensionContext {
+public final class MethodBasedTestExtensionContext
+		extends AbstractExtensionContext<MethodTestDescriptor> implements TestExtensionContext {
 
 	private final Object testInstance;
 
 	private final ThrowableCollector throwableCollector;
 
-	public MethodBasedTestExtensionContext(ExtensionContext parent, EngineExecutionListener engineExecutionListener,
-			MethodTestDescriptor testDescriptor, Object testInstance, ThrowableCollector throwableCollector) {
+	public MethodBasedTestExtensionContext(
+			ExtensionContext parent,
+			EngineExecutionListener engineExecutionListener,
+			MethodTestDescriptor testDescriptor,
+			Object testInstance,
+			ThrowableCollector throwableCollector) {
 		super(parent, engineExecutionListener, testDescriptor);
 		this.testInstance = testInstance;
 		this.throwableCollector = throwableCollector;
@@ -64,5 +64,4 @@ public final class MethodBasedTestExtensionContext extends AbstractExtensionCont
 	public Optional<Throwable> getTestException() {
 		return Optional.ofNullable(this.throwableCollector.getThrowable());
 	}
-
 }

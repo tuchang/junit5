@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.assertj.core.api.Assertions.allOf;
@@ -23,7 +22,6 @@ import static org.junit.platform.engine.test.event.TestExecutionResultConditions
 import static org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder.request;
 
 import java.io.IOException;
-
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,21 +44,34 @@ class ExpectedExceptionSupportTests {
 		assertEquals(0, eventRecorder.getTestAbortedCount(), "# tests aborted");
 		assertEquals(3, eventRecorder.getTestFailedCount(), "# tests failed");
 
-		assertThat(eventRecorder.getSuccessfulTestFinishedEvents()).have(
-			event(test("correctExceptionExpectedThrown"), finishedSuccessfully()));
+		assertThat(eventRecorder.getSuccessfulTestFinishedEvents())
+				.have(event(test("correctExceptionExpectedThrown"), finishedSuccessfully()));
 
-		assertThat(eventRecorder.getFailedTestFinishedEvents())//
-				.haveExactly(1,
-					event(test("noExceptionExpectedButThrown"), //
-						finishedWithFailure(message("no exception expected")))) //
-				.haveExactly(1,
-					event(test("exceptionExpectedButNotThrown"), //
-						finishedWithFailure(allOf(isA(AssertionError.class), //
-							message("Expected test to throw an instance of java.lang.RuntimeException"))))) //
-				.haveExactly(1,
-					event(test("wrongExceptionExpected"), //
-						finishedWithFailure(allOf(isA(AssertionError.class), //
-							message(value -> value.contains("Expected: an instance of java.io.IOException"))))));
+		assertThat(eventRecorder.getFailedTestFinishedEvents()) //
+				.haveExactly(
+						1,
+						event(
+								test("noExceptionExpectedButThrown"), //
+								finishedWithFailure(message("no exception expected")))) //
+				.haveExactly(
+						1,
+						event(
+								test("exceptionExpectedButNotThrown"), //
+								finishedWithFailure(
+										allOf(
+												isA(AssertionError.class), //
+												message(
+														"Expected test to throw an instance of java.lang.RuntimeException"))))) //
+				.haveExactly(
+						1,
+						event(
+								test("wrongExceptionExpected"), //
+								finishedWithFailure(
+										allOf(
+												isA(AssertionError.class), //
+												message(
+														value ->
+																value.contains("Expected: an instance of java.io.IOException"))))));
 	}
 
 	private ExecutionEventRecorder executeTestsForClass(Class<?> testClass) {
@@ -68,15 +79,15 @@ class ExpectedExceptionSupportTests {
 		JupiterTestEngine engine = new JupiterTestEngine();
 		TestDescriptor testDescriptor = engine.discover(request, UniqueId.forEngine(engine.getId()));
 		ExecutionEventRecorder eventRecorder = new ExecutionEventRecorder();
-		engine.execute(new ExecutionRequest(testDescriptor, eventRecorder, request.getConfigurationParameters()));
+		engine.execute(
+				new ExecutionRequest(testDescriptor, eventRecorder, request.getConfigurationParameters()));
 		return eventRecorder;
 	}
 
 	@ExtendWith(ExpectedExceptionSupport.class)
 	private static class ExpectedExceptionTestCase {
 
-		@Rule
-		public ExpectedException thrown = ExpectedException.none();
+		@Rule public ExpectedException thrown = ExpectedException.none();
 
 		@Test
 		void noExceptionExpectedButThrown() {
@@ -99,7 +110,5 @@ class ExpectedExceptionSupportTests {
 			thrown.expect(RuntimeException.class);
 			throw new RuntimeException("wrong exception");
 		}
-
 	}
-
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.junit.platform.surefire.provider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +27,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.Optional;
-
 import org.apache.maven.surefire.report.ReportEntry;
 import org.apache.maven.surefire.report.RunListener;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,10 +43,10 @@ import org.junit.platform.launcher.TestPlan;
 import org.mockito.ArgumentCaptor;
 
 /**
- * Unit tests for {@link RunListenerAdapter}.
- *
- * @since 1.0
- */
+* Unit tests for {@link RunListenerAdapter}.
+*
+* @since 1.0
+*/
 class RunListenerAdapterTests {
 
 	private RunListener listener;
@@ -64,11 +62,12 @@ class RunListenerAdapterTests {
 	void notifiedWithCorrectNamesWhenMethodExecutionStarted() throws Exception {
 		ArgumentCaptor<ReportEntry> entryCaptor = ArgumentCaptor.forClass(ReportEntry.class);
 
-		TestPlan testPlan = TestPlan.from(Collections.singletonList(new EngineDescriptor(newId(), "Luke's Plan")));
+		TestPlan testPlan =
+				TestPlan.from(Collections.singletonList(new EngineDescriptor(newId(), "Luke's Plan")));
 		adapter.testPlanExecutionStarted(testPlan);
 
-		TestIdentifier methodIdentifier = identifiersAsParentOnTestPlan(testPlan, newClassDescriptor(),
-			newMethodDescriptor());
+		TestIdentifier methodIdentifier =
+				identifiersAsParentOnTestPlan(testPlan, newClassDescriptor(), newMethodDescriptor());
 
 		adapter.executionStarted(methodIdentifier);
 		verify(listener).testStarting(entryCaptor.capture());
@@ -100,11 +99,12 @@ class RunListenerAdapterTests {
 	@Test
 	void notifiedWithCorrectNamesWhenClassExecutionSkipped() throws Exception {
 		ArgumentCaptor<ReportEntry> entryCaptor = ArgumentCaptor.forClass(ReportEntry.class);
-		TestPlan testPlan = TestPlan.from(Collections.singletonList(new EngineDescriptor(newId(), "Luke's Plan")));
+		TestPlan testPlan =
+				TestPlan.from(Collections.singletonList(new EngineDescriptor(newId(), "Luke's Plan")));
 		adapter.testPlanExecutionStarted(testPlan);
 
-		TestIdentifier classIdentifier = identifiersAsParentOnTestPlan(testPlan, newEngineDescriptor(),
-			newClassDescriptor());
+		TestIdentifier classIdentifier =
+				identifiersAsParentOnTestPlan(testPlan, newEngineDescriptor(), newClassDescriptor());
 
 		adapter.executionSkipped(classIdentifier, "test");
 		verify(listener).testSkipped(entryCaptor.capture());
@@ -134,18 +134,21 @@ class RunListenerAdapterTests {
 
 	@Test
 	void notifiedWhenMethodExecutionFailed() throws Exception {
-		adapter.executionFinished(newMethodIdentifier(), TestExecutionResult.failed(new RuntimeException()));
+		adapter.executionFinished(
+				newMethodIdentifier(), TestExecutionResult.failed(new RuntimeException()));
 		verify(listener).testFailed(any());
 	}
 
 	@Test
 	void notifiedWithCorrectNamesWhenClassExecutionFailed() throws Exception {
 		ArgumentCaptor<ReportEntry> entryCaptor = ArgumentCaptor.forClass(ReportEntry.class);
-		TestPlan testPlan = TestPlan.from(Collections.singletonList(new EngineDescriptor(newId(), "Luke's Plan")));
+		TestPlan testPlan =
+				TestPlan.from(Collections.singletonList(new EngineDescriptor(newId(), "Luke's Plan")));
 		adapter.testPlanExecutionStarted(testPlan);
 
-		adapter.executionFinished(identifiersAsParentOnTestPlan(testPlan, newEngineDescriptor(), newClassDescriptor()),
-			TestExecutionResult.failed(new RuntimeException()));
+		adapter.executionFinished(
+				identifiersAsParentOnTestPlan(testPlan, newEngineDescriptor(), newClassDescriptor()),
+				TestExecutionResult.failed(new RuntimeException()));
 		verify(listener).testFailed(entryCaptor.capture());
 
 		ReportEntry entry = entryCaptor.getValue();
@@ -168,7 +171,8 @@ class RunListenerAdapterTests {
 	@Test
 	void notifiedWithParentDisplayNameWhenTestClassUnknown() throws Exception {
 		// Set up a test plan
-		TestPlan plan = TestPlan.from(Collections.singletonList(new EngineDescriptor(newId(), "Luke's Plan")));
+		TestPlan plan =
+				TestPlan.from(Collections.singletonList(new EngineDescriptor(newId(), "Luke's Plan")));
 		adapter.testPlanExecutionStarted(plan);
 
 		// Use the test plan to set up child with parent.
@@ -185,8 +189,9 @@ class RunListenerAdapterTests {
 
 	@Test
 	void displayNamesIgnoredInReport() throws NoSuchMethodException {
-		MethodTestDescriptor descriptor = new MethodTestDescriptor(newId(), MyTestClass.class,
-			MyTestClass.class.getDeclaredMethod("myNamedTestMethod"));
+		MethodTestDescriptor descriptor =
+				new MethodTestDescriptor(
+						newId(), MyTestClass.class, MyTestClass.class.getDeclaredMethod("myNamedTestMethod"));
 
 		TestIdentifier factoryIdentifier = TestIdentifier.from(descriptor);
 		ArgumentCaptor<ReportEntry> entryCaptor = ArgumentCaptor.forClass(ReportEntry.class);
@@ -204,8 +209,10 @@ class RunListenerAdapterTests {
 	}
 
 	private static TestDescriptor newMethodDescriptor() throws Exception {
-		return new MethodTestDescriptor(UniqueId.forEngine("method"), MyTestClass.class,
-			MyTestClass.class.getDeclaredMethod(MY_TEST_METHOD_NAME));
+		return new MethodTestDescriptor(
+				UniqueId.forEngine("method"),
+				MyTestClass.class,
+				MyTestClass.class.getDeclaredMethod(MY_TEST_METHOD_NAME));
 	}
 
 	private static TestIdentifier newClassIdentifier() {
@@ -216,7 +223,8 @@ class RunListenerAdapterTests {
 		return new ClassTestDescriptor(UniqueId.forEngine("class"), MyTestClass.class);
 	}
 
-	private static TestIdentifier newSourcelessIdentifierWithParent(TestPlan testPlan, String parentDisplay) {
+	private static TestIdentifier newSourcelessIdentifierWithParent(
+			TestPlan testPlan, String parentDisplay) {
 		// A parent test identifier with a name.
 		TestDescriptor parent = mock(TestDescriptor.class);
 		when(parent.getUniqueId()).thenReturn(newId());
@@ -249,8 +257,8 @@ class RunListenerAdapterTests {
 		return new EngineDescriptor(UniqueId.forEngine("engine"), "engine");
 	}
 
-	private static TestIdentifier identifiersAsParentOnTestPlan(TestPlan plan, TestDescriptor parent,
-			TestDescriptor child) {
+	private static TestIdentifier identifiersAsParentOnTestPlan(
+			TestPlan plan, TestDescriptor parent, TestDescriptor child) {
 		child.setParent(parent);
 
 		TestIdentifier parentIdentifier = TestIdentifier.from(parent);
@@ -267,14 +275,13 @@ class RunListenerAdapterTests {
 	}
 
 	private static final String MY_TEST_METHOD_NAME = "myTestMethod";
+
 	private static class MyTestClass {
 		@Test
-		void myTestMethod() {
-		}
+		void myTestMethod() {}
 
 		@DisplayName("name")
 		@Test
-		void myNamedTestMethod() {
-		}
+		void myNamedTestMethod() {}
 	}
 }

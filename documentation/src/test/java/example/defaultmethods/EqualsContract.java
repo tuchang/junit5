@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example.defaultmethods;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,6 +39,5 @@ public interface EqualsContract<T> extends Testable<T> {
 		assertNotEquals(value, differentValue);
 		assertNotEquals(differentValue, value);
 	}
-
 }
 // end::user_guide[]

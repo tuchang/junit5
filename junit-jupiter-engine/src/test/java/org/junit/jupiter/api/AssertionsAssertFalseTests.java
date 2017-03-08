@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionTestUtils.assertMessageEquals;
@@ -17,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Unit tests for JUnit Jupiter {@link Assertions}.
- *
- * @since 5.0
- */
+* Unit tests for JUnit Jupiter {@link Assertions}.
+*
+* @since 5.0
+*/
 public class AssertionsAssertFalseTests {
 
 	@Test
@@ -38,8 +37,7 @@ public class AssertionsAssertFalseTests {
 		try {
 			assertFalse(true, "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "test");
 		}
 	}
@@ -49,8 +47,7 @@ public class AssertionsAssertFalseTests {
 		try {
 			assertFalse(true, () -> "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "test");
 		}
 	}
@@ -60,8 +57,7 @@ public class AssertionsAssertFalseTests {
 		try {
 			assertFalse(() -> true, "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "test");
 		}
 	}
@@ -71,10 +67,8 @@ public class AssertionsAssertFalseTests {
 		try {
 			assertFalse(() -> true, () -> "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageEquals(ex, "test");
 		}
 	}
-
 }

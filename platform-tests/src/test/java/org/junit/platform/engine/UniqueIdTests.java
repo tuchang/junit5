@@ -7,23 +7,21 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.UniqueId.Segment;
 
 /**
- * Microtests for class {@link UniqueId}
- *
- * @since 1.0
- */
+* Microtests for class {@link UniqueId}
+*
+* @since 1.0
+*/
 class UniqueIdTests {
 
 	static final String ENGINE_ID = "junit-jupiter";
@@ -93,13 +91,13 @@ class UniqueIdTests {
 			assertSegment(uniqueId.getSegments().get(2), "t2", "v2");
 			assertSegment(uniqueId.getSegments().get(3), "t3", "v3");
 		}
-
 	}
 
 	@Nested
 	class ParsingAndFormatting {
 
-		private final String uniqueIdString = "[engine:junit-jupiter]/[class:MyClass]/[method:myMethod]";
+		private final String uniqueIdString =
+				"[engine:junit-jupiter]/[class:MyClass]/[method:myMethod]";
 
 		@Test
 		void ensureDefaultUniqueIdFormatIsUsedForParsing() {
@@ -110,8 +108,10 @@ class UniqueIdTests {
 
 		@Test
 		void ensureDefaultUniqueIdFormatIsUsedForFormatting() {
-			UniqueId parsedDirectly = UniqueId.parse("[engine:junit-jupiter]/[class:MyClass]/[method:myMethod]");
-			assertEquals("[engine:junit-jupiter]/[class:MyClass]/[method:myMethod]", parsedDirectly.toString());
+			UniqueId parsedDirectly =
+					UniqueId.parse("[engine:junit-jupiter]/[class:MyClass]/[method:myMethod]");
+			assertEquals(
+					"[engine:junit-jupiter]/[class:MyClass]/[method:myMethod]", parsedDirectly.toString());
 		}
 	}
 
@@ -170,5 +170,4 @@ class UniqueIdTests {
 		assertEquals(expectedType, segment.getType(), "segment type");
 		assertEquals(expectedValue, segment.getValue(), "segment value");
 	}
-
 }

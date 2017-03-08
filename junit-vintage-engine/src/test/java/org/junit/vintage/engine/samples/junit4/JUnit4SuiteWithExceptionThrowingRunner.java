@@ -7,16 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import org.junit.runner.RunWith;
 import org.junit.vintage.engine.samples.junit4.ExceptionThrowingRunner.ChildCount;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @RunWith(ExceptionThrowingRunner.class)
 @ChildCount(1)
-public class JUnit4SuiteWithExceptionThrowingRunner {
-}
+public class JUnit4SuiteWithExceptionThrowingRunner {}

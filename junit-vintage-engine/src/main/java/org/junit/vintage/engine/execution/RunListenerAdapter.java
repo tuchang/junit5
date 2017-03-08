@@ -7,12 +7,10 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.execution;
 
 import java.util.Optional;
 import java.util.function.Function;
-
 import org.junit.Ignore;
 import org.junit.platform.engine.EngineExecutionListener;
 import org.junit.platform.engine.TestDescriptor;
@@ -23,9 +21,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.junit.vintage.engine.descriptor.RunnerTestDescriptor;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class RunListenerAdapter extends RunListener {
 
 	private final TestRun testRun;
@@ -46,8 +42,11 @@ class RunListenerAdapter extends RunListener {
 
 	@Override
 	public void testIgnored(Description description) {
-		testRun.lookupTestDescriptor(description).ifPresent(
-			testDescriptor -> testIgnored(testDescriptor, determineReasonForIgnoredTest(description)));
+		testRun
+				.lookupTestDescriptor(description)
+				.ifPresent(
+						testDescriptor ->
+								testIgnored(testDescriptor, determineReasonForIgnoredTest(description)));
 	}
 
 	@Override
@@ -81,16 +80,21 @@ class RunListenerAdapter extends RunListener {
 		}
 	}
 
-	private void handleFailure(Failure failure, Function<Throwable, TestExecutionResult> resultCreator) {
-		testRun.lookupTestDescriptor(failure.getDescription()).ifPresent(
-			testDescriptor -> handleFailure(failure, resultCreator, testDescriptor));
+	private void handleFailure(
+			Failure failure, Function<Throwable, TestExecutionResult> resultCreator) {
+		testRun
+				.lookupTestDescriptor(failure.getDescription())
+				.ifPresent(testDescriptor -> handleFailure(failure, resultCreator, testDescriptor));
 	}
 
-	private void handleFailure(Failure failure, Function<Throwable, TestExecutionResult> resultCreator,
+	private void handleFailure(
+			Failure failure,
+			Function<Throwable, TestExecutionResult> resultCreator,
 			TestDescriptor testDescriptor) {
 		TestExecutionResult result = resultCreator.apply(failure.getException());
 		testRun.storeResult(testDescriptor, result);
-		if (testDescriptor.isContainer() && testRun.isDescendantOfRunnerTestDescriptor(testDescriptor)) {
+		if (testDescriptor.isContainer()
+				&& testRun.isDescendantOfRunnerTestDescriptor(testDescriptor)) {
 			fireMissingContainerEvents(testDescriptor);
 		}
 	}
@@ -132,7 +136,8 @@ class RunListenerAdapter extends RunListener {
 		}
 	}
 
-	private void fireExecutionFinishedIncludingAncestorsWithoutPendingChildren(Optional<TestDescriptor> parent) {
+	private void fireExecutionFinishedIncludingAncestorsWithoutPendingChildren(
+			Optional<TestDescriptor> parent) {
 		if (parent.isPresent() && canFinish(parent.get())) {
 			fireExecutionFinished(parent.get());
 			fireExecutionFinishedIncludingAncestorsWithoutPendingChildren(parent.get().getParent());
@@ -164,5 +169,4 @@ class RunListenerAdapter extends RunListener {
 		testRun.markFinished(testDescriptor);
 		listener.executionFinished(testDescriptor, testRun.getStoredResultOrSuccessful(testDescriptor));
 	}
-
 }

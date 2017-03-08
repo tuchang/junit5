@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.discovery;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -18,12 +17,12 @@ import org.junit.platform.engine.DiscoverySelector;
 import org.junit.platform.engine.UniqueId;
 
 /**
- * A {@link DiscoverySelector} that selects a {@link UniqueId} so that
- * {@link org.junit.platform.engine.TestEngine TestEngines} can discover
- * tests or containers based on unique IDs.
- *
- * @since 1.0
- */
+* A {@link DiscoverySelector} that selects a {@link UniqueId} so that {@link
+* org.junit.platform.engine.TestEngine TestEngines} can discover tests or containers based on
+* unique IDs.
+*
+* @since 1.0
+*/
 @API(Experimental)
 public class UniqueIdSelector implements DiscoverySelector {
 
@@ -33,9 +32,7 @@ public class UniqueIdSelector implements DiscoverySelector {
 		this.uniqueId = uniqueId;
 	}
 
-	/**
-	 * Get the selected {@link UniqueId}.
-	 */
+	/** Get the selected {@link UniqueId}. */
 	public UniqueId getUniqueId() {
 		return this.uniqueId;
 	}
@@ -44,5 +41,4 @@ public class UniqueIdSelector implements DiscoverySelector {
 	public String toString() {
 		return new ToStringBuilder(this).append("uniqueId", this.uniqueId).toString();
 	}
-
 }

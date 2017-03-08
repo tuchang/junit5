@@ -7,17 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
-
 import org.junit.Test;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class IsPotentialJUnit4TestMethod implements Predicate<Method> {
 
 	@Override
@@ -26,5 +22,4 @@ class IsPotentialJUnit4TestMethod implements Predicate<Method> {
 		// meta-annotations
 		return method.isAnnotationPresent(Test.class);
 	}
-
 }

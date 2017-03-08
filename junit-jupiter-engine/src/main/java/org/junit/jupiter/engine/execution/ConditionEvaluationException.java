@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import org.junit.jupiter.api.extension.ContainerExecutionCondition;
@@ -15,12 +14,12 @@ import org.junit.jupiter.api.extension.TestExecutionCondition;
 import org.junit.platform.commons.JUnitException;
 
 /**
- * Thrown if an error is encountered while evaluating a {@link ContainerExecutionCondition}
- * or {@link TestExecutionCondition}.
- *
- * @since 5.0
- * @see ConditionEvaluator
- */
+* Thrown if an error is encountered while evaluating a {@link ContainerExecutionCondition} or
+* {@link TestExecutionCondition}.
+*
+* @since 5.0
+* @see ConditionEvaluator
+*/
 class ConditionEvaluationException extends JUnitException {
 
 	private static final long serialVersionUID = 1L;
@@ -28,5 +27,4 @@ class ConditionEvaluationException extends JUnitException {
 	public ConditionEvaluationException(String message, Throwable cause) {
 		super(message, cause);
 	}
-
 }

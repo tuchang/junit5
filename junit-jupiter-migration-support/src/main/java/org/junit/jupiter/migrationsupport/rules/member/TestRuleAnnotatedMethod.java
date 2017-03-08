@@ -7,21 +7,16 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules.member;
 
 import java.lang.reflect.Method;
-
 import org.junit.platform.commons.util.ReflectionUtils;
 import org.junit.rules.TestRule;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 class TestRuleAnnotatedMethod extends AbstractTestRuleAnnotatedMember {
 
 	TestRuleAnnotatedMethod(Object testInstance, Method method) {
 		super((TestRule) ReflectionUtils.invokeMethod(method, testInstance));
 	}
-
 }

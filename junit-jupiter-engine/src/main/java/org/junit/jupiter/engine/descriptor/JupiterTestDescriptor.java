@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static java.util.stream.Collectors.toCollection;
@@ -22,7 +21,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ConditionEvaluationResult;
@@ -42,9 +40,7 @@ import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
 import org.junit.platform.engine.support.hierarchical.Node;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Internal)
 public abstract class JupiterTestDescriptor extends AbstractTestDescriptor
 		implements Node<JupiterEngineExecutionContext> {
@@ -59,7 +55,8 @@ public abstract class JupiterTestDescriptor extends AbstractTestDescriptor
 
 	protected static Set<TestTag> getTags(AnnotatedElement element) {
 		// @formatter:off
-		return findRepeatableAnnotations(element, Tag.class).stream()
+		return findRepeatableAnnotations(element, Tag.class)
+				.stream()
 				.map(Tag::value)
 				.filter(StringUtils::isNotBlank)
 				.map(TestTag::create)
@@ -67,8 +64,8 @@ public abstract class JupiterTestDescriptor extends AbstractTestDescriptor
 		// @formatter:on
 	}
 
-	protected static <E extends AnnotatedElement> String determineDisplayName(E element,
-			Function<E, String> defaultDisplayNameGenerator) {
+	protected static <E extends AnnotatedElement> String determineDisplayName(
+			E element, Function<E, String> defaultDisplayNameGenerator) {
 		// @formatter:off
 		return findAnnotation(element, DisplayName.class)
 				.map(DisplayName::value)
@@ -85,15 +82,20 @@ public abstract class JupiterTestDescriptor extends AbstractTestDescriptor
 	}
 
 	protected SkipResult shouldContainerBeSkipped(JupiterEngineExecutionContext context) {
-		ConditionEvaluationResult evaluationResult = conditionEvaluator.evaluateForContainer(
-			context.getExtensionRegistry(), context.getConfigurationParameters(),
-			(ContainerExtensionContext) context.getExtensionContext());
+		ConditionEvaluationResult evaluationResult =
+				conditionEvaluator.evaluateForContainer(
+						context.getExtensionRegistry(),
+						context.getConfigurationParameters(),
+						(ContainerExtensionContext) context.getExtensionContext());
 		return toSkipResult(evaluationResult);
 	}
 
 	protected SkipResult shouldTestBeSkipped(JupiterEngineExecutionContext context) {
-		ConditionEvaluationResult evaluationResult = conditionEvaluator.evaluateForTest(context.getExtensionRegistry(),
-			context.getConfigurationParameters(), (TestExtensionContext) context.getExtensionContext());
+		ConditionEvaluationResult evaluationResult =
+				conditionEvaluator.evaluateForTest(
+						context.getExtensionRegistry(),
+						context.getConfigurationParameters(),
+						(TestExtensionContext) context.getExtensionContext());
 		return toSkipResult(evaluationResult);
 	}
 
@@ -104,32 +106,31 @@ public abstract class JupiterTestDescriptor extends AbstractTestDescriptor
 		return SkipResult.doNotSkip();
 	}
 
-	protected ExtensionRegistry populateNewExtensionRegistryFromExtendWith(AnnotatedElement annotatedElement,
-			ExtensionRegistry existingExtensionRegistry) {
+	protected ExtensionRegistry populateNewExtensionRegistryFromExtendWith(
+			AnnotatedElement annotatedElement, ExtensionRegistry existingExtensionRegistry) {
 		// @formatter:off
-		List<Class<? extends Extension>> extensionTypes = findRepeatableAnnotations(annotatedElement, ExtendWith.class).stream()
-				.map(ExtendWith::value)
-				.flatMap(Arrays::stream)
-				.collect(toList());
+		List<Class<? extends Extension>> extensionTypes =
+				findRepeatableAnnotations(annotatedElement, ExtendWith.class)
+						.stream()
+						.map(ExtendWith::value)
+						.flatMap(Arrays::stream)
+						.collect(toList());
 		// @formatter:on
 		return ExtensionRegistry.createRegistryFrom(existingExtensionRegistry, extensionTypes);
 	}
 
 	/**
-	 * Execute the supplied {@link Executable} and
-	 * {@linkplain ExceptionUtils#throwAsUncheckedException mask} any
-	 * exception thrown as an unchecked exception.
-	 *
-	 * @param executable the {@code Executable} to execute
-	 * @see ExceptionUtils#throwAsUncheckedException(Throwable)
-	 */
+	* Execute the supplied {@link Executable} and {@linkplain
+	* ExceptionUtils#throwAsUncheckedException mask} any exception thrown as an unchecked exception.
+	*
+	* @param executable the {@code Executable} to execute
+	* @see ExceptionUtils#throwAsUncheckedException(Throwable)
+	*/
 	protected void executeAndMaskThrowable(Executable executable) {
 		try {
 			executable.execute();
-		}
-		catch (Throwable throwable) {
+		} catch (Throwable throwable) {
 			ExceptionUtils.throwAsUncheckedException(throwable);
 		}
 	}
-
 }

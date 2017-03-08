@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -20,9 +19,7 @@ import org.junit.platform.engine.ConfigurationParameters;
 import org.junit.platform.engine.EngineExecutionListener;
 import org.junit.platform.engine.support.hierarchical.EngineExecutionContext;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Internal)
 public class JupiterEngineExecutionContext implements EngineExecutionContext {
 
@@ -31,8 +28,8 @@ public class JupiterEngineExecutionContext implements EngineExecutionContext {
 	// The following is not "cloneable" State.
 	private boolean beforeAllMethodsExecuted = false;
 
-	public JupiterEngineExecutionContext(EngineExecutionListener executionListener,
-			ConfigurationParameters configurationParameters) {
+	public JupiterEngineExecutionContext(
+			EngineExecutionListener executionListener, ConfigurationParameters configurationParameters) {
 		this(new State(executionListener, configurationParameters));
 	}
 
@@ -85,7 +82,9 @@ public class JupiterEngineExecutionContext implements EngineExecutionContext {
 		ExtensionContext extensionContext;
 		ThrowableCollector throwableCollector;
 
-		State(EngineExecutionListener executionListener, ConfigurationParameters configurationParameters) {
+		State(
+				EngineExecutionListener executionListener,
+				ConfigurationParameters configurationParameters) {
 			this.executionListener = executionListener;
 			this.configurationParameters = configurationParameters;
 		}
@@ -94,12 +93,10 @@ public class JupiterEngineExecutionContext implements EngineExecutionContext {
 		public State clone() {
 			try {
 				return (State) super.clone();
-			}
-			catch (CloneNotSupportedException e) {
+			} catch (CloneNotSupportedException e) {
 				throw new JUnitException("State could not be cloned", e);
 			}
 		}
-
 	}
 
 	public static class Builder {
@@ -145,7 +142,5 @@ public class JupiterEngineExecutionContext implements EngineExecutionContext {
 			}
 			return newState;
 		}
-
 	}
-
 }

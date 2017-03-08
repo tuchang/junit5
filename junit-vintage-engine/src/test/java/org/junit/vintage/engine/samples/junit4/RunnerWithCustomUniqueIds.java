@@ -7,22 +7,18 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static org.junit.runner.Description.createTestDescription;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import org.junit.runner.Description;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 public class RunnerWithCustomUniqueIds extends BlockJUnit4ClassRunner {
 
 	public RunnerWithCustomUniqueIds(Class<?> klass) throws InitializationError {
@@ -32,7 +28,8 @@ public class RunnerWithCustomUniqueIds extends BlockJUnit4ClassRunner {
 	@Override
 	protected Description describeChild(FrameworkMethod method) {
 		String testName = testName(method);
-		return createTestDescription(getTestClass().getJavaClass().getName(), testName, new CustomUniqueId(testName));
+		return createTestDescription(
+				getTestClass().getJavaClass().getName(), testName, new CustomUniqueId(testName));
 	}
 
 	private static class CustomUniqueId implements Serializable {

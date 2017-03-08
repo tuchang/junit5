@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,10 +24,10 @@ import org.junit.platform.launcher.LauncherDiscoveryRequest;
 import org.opentest4j.TestAbortedException;
 
 /**
- * Testing execution in standard test cases {@link JupiterTestEngine}.
- *
- * @since 5.0
- */
+* Testing execution in standard test cases {@link JupiterTestEngine}.
+*
+* @since 5.0
+*/
 public class StandardTestClassTests extends AbstractJupiterTestEngineTests {
 
 	@BeforeEach
@@ -40,22 +39,27 @@ public class StandardTestClassTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void standardTestClassIsCorrectlyDiscovered() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(MyStandardTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(MyStandardTestCase.class)).build();
 		TestDescriptor engineDescriptor = discoverTests(request);
 		assertEquals(5, engineDescriptor.getDescendants().size(), "# resolved test descriptors");
 	}
 
 	@Test
 	public void moreThanOneTestClassIsCorrectlyDiscovered() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(SecondOfTwoTestCases.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(SecondOfTwoTestCases.class)).build();
 		TestDescriptor engineDescriptor = discoverTests(request);
 		assertEquals(2 + 2, engineDescriptor.getDescendants().size(), "# resolved test descriptors");
 	}
 
 	@Test
 	public void moreThanOneTestClassIsExecuted() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(FirstOfTwoTestCases.class),
-			selectClass(SecondOfTwoTestCases.class)).build();
+		LauncherDiscoveryRequest request =
+				request()
+						.selectors(
+								selectClass(FirstOfTwoTestCases.class), selectClass(SecondOfTwoTestCases.class))
+						.build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -162,7 +166,6 @@ public class StandardTestClassTests extends AbstractJupiterTestEngineTests {
 		void abortedTest() {
 			throw new TestAbortedException("aborted!");
 		}
-
 	}
 
 	private static class FirstOfTwoTestCases {
@@ -181,7 +184,6 @@ public class StandardTestClassTests extends AbstractJupiterTestEngineTests {
 		void failingTest() {
 			fail("always fails");
 		}
-
 	}
 
 	private static class SecondOfTwoTestCases {
@@ -200,7 +202,6 @@ public class StandardTestClassTests extends AbstractJupiterTestEngineTests {
 		void succeedingTest3() {
 			assertTrue(true);
 		}
-
 	}
 
 	private static class TestCaseWithFailingBefore {
@@ -214,13 +215,10 @@ public class StandardTestClassTests extends AbstractJupiterTestEngineTests {
 		}
 
 		@Test
-		void test1() {
-		}
+		void test1() {}
 
 		@Test
-		void test2() {
-		}
-
+		void test2() {}
 	}
 
 	private static class TestCaseWithFailingAfter {
@@ -236,7 +234,5 @@ public class StandardTestClassTests extends AbstractJupiterTestEngineTests {
 		void test1() {
 			testExecuted = true;
 		}
-
 	}
-
 }

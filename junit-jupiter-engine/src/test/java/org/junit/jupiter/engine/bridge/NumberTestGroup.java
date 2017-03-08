@@ -7,14 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.bridge;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 interface NumberTestGroup {
 
 	class ByteTestCase extends AbstractNumberTests<Byte> {
@@ -38,5 +35,4 @@ interface NumberTestGroup {
 			BridgeMethodTests.sequence.add("test(Short) END.");
 		}
 	}
-
 }

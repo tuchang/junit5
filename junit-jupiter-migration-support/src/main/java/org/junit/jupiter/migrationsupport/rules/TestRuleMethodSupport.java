@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.junit.platform.commons.util.AnnotationUtils.isAnnotated;
@@ -17,18 +16,16 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import org.junit.Rule;
 import org.junit.jupiter.migrationsupport.rules.adapter.AbstractTestRuleAdapter;
 import org.junit.jupiter.migrationsupport.rules.member.TestRuleAnnotatedMember;
 import org.junit.rules.TestRule;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 class TestRuleMethodSupport extends AbstractTestRuleSupport<Method> {
 
-	TestRuleMethodSupport(Function<TestRuleAnnotatedMember, AbstractTestRuleAdapter> adapterGenerator,
+	TestRuleMethodSupport(
+			Function<TestRuleAnnotatedMember, AbstractTestRuleAdapter> adapterGenerator,
 			Class<? extends TestRule> ruleType) {
 		super(adapterGenerator, ruleType);
 	}
@@ -36,9 +33,9 @@ class TestRuleMethodSupport extends AbstractTestRuleSupport<Method> {
 	@Override
 	protected List<Method> findRuleAnnotatedMembers(Object testInstance) {
 		Predicate<Method> isRuleMethod = method -> isAnnotated(method, Rule.class);
-		Predicate<Method> hasCorrectReturnType = method -> method.getReturnType().isAssignableFrom(getRuleType());
+		Predicate<Method> hasCorrectReturnType =
+				method -> method.getReturnType().isAssignableFrom(getRuleType());
 
 		return findMethods(testInstance.getClass(), isRuleMethod.and(hasCorrectReturnType));
 	}
-
 }

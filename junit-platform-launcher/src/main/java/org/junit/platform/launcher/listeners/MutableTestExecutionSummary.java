@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.listeners;
 
 import java.io.PrintWriter;
@@ -16,15 +15,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
 /**
- * Mutable, internal implementation of the {@link TestExecutionSummary} API.
- *
- * @since 1.0
- */
+* Mutable, internal implementation of the {@link TestExecutionSummary} API.
+*
+* @since 1.0
+*/
 class MutableTestExecutionSummary implements TestExecutionSummary {
 
 	private static final String TAB = "  ";
@@ -138,39 +136,34 @@ class MutableTestExecutionSummary implements TestExecutionSummary {
 	@Override
 	public void printTo(PrintWriter writer) {
 		// @formatter:off
-		writer.println(String.format(
-			"%nTest run finished after %d ms%n"
-
-			+ "[%10d containers found      ]%n"
-			+ "[%10d containers skipped    ]%n"
-			+ "[%10d containers started    ]%n"
-			+ "[%10d containers aborted    ]%n"
-			+ "[%10d containers successful ]%n"
-			+ "[%10d containers failed     ]%n"
-
-			+ "[%10d tests found           ]%n"
-			+ "[%10d tests skipped         ]%n"
-			+ "[%10d tests started         ]%n"
-			+ "[%10d tests aborted         ]%n"
-			+ "[%10d tests successful      ]%n"
-			+ "[%10d tests failed          ]%n",
-
-			(this.timeFinished - this.timeStarted),
-
-			getContainersFoundCount(),
-			getContainersSkippedCount(),
-			getContainersStartedCount(),
-			getContainersAbortedCount(),
-			getContainersSucceededCount(),
-			getContainersFailedCount(),
-
-			getTestsFoundCount(),
-			getTestsSkippedCount(),
-			getTestsStartedCount(),
-			getTestsAbortedCount(),
-			getTestsSucceededCount(),
-			getTestsFailedCount()
-		));
+		writer.println(
+				String.format(
+						"%nTest run finished after %d ms%n"
+								+ "[%10d containers found      ]%n"
+								+ "[%10d containers skipped    ]%n"
+								+ "[%10d containers started    ]%n"
+								+ "[%10d containers aborted    ]%n"
+								+ "[%10d containers successful ]%n"
+								+ "[%10d containers failed     ]%n"
+								+ "[%10d tests found           ]%n"
+								+ "[%10d tests skipped         ]%n"
+								+ "[%10d tests started         ]%n"
+								+ "[%10d tests aborted         ]%n"
+								+ "[%10d tests successful      ]%n"
+								+ "[%10d tests failed          ]%n",
+						(this.timeFinished - this.timeStarted),
+						getContainersFoundCount(),
+						getContainersSkippedCount(),
+						getContainersStartedCount(),
+						getContainersAbortedCount(),
+						getContainersSucceededCount(),
+						getContainersFailedCount(),
+						getTestsFoundCount(),
+						getTestsSkippedCount(),
+						getTestsStartedCount(),
+						getTestsAbortedCount(),
+						getTestsSucceededCount(),
+						getTestsFailedCount()));
 		// @formatter:on
 
 		writer.flush();
@@ -181,11 +174,15 @@ class MutableTestExecutionSummary implements TestExecutionSummary {
 		if (getTotalFailureCount() > 0) {
 			writer.println();
 			writer.println(String.format("Failures (%d):", getTotalFailureCount()));
-			this.failures.forEach(failure -> {
-				writer.println(TAB + describeTest(failure.getTestIdentifier()));
-				failure.getTestIdentifier().getSource().ifPresent(source -> writer.println(DOUBLE_TAB + source));
-				writer.println(String.format("%s=> %s", DOUBLE_TAB, failure.getException()));
-			});
+			this.failures.forEach(
+					failure -> {
+						writer.println(TAB + describeTest(failure.getTestIdentifier()));
+						failure
+								.getTestIdentifier()
+								.getSource()
+								.ifPresent(source -> writer.println(DOUBLE_TAB + source));
+						writer.println(String.format("%s=> %s", DOUBLE_TAB, failure.getException()));
+					});
 			writer.flush();
 		}
 	}
@@ -201,11 +198,13 @@ class MutableTestExecutionSummary implements TestExecutionSummary {
 		return descriptionParts.stream().collect(Collectors.joining(":"));
 	}
 
-	private void collectTestDescription(Optional<TestIdentifier> optionalIdentifier, List<String> descriptionParts) {
-		optionalIdentifier.ifPresent(testIdentifier -> {
-			descriptionParts.add(0, testIdentifier.getDisplayName());
-			collectTestDescription(this.testPlan.getParent(testIdentifier), descriptionParts);
-		});
+	private void collectTestDescription(
+			Optional<TestIdentifier> optionalIdentifier, List<String> descriptionParts) {
+		optionalIdentifier.ifPresent(
+				testIdentifier -> {
+					descriptionParts.add(0, testIdentifier.getDisplayName());
+					collectTestDescription(this.testPlan.getParent(testIdentifier), descriptionParts);
+				});
 	}
 
 	private static class DefaultFailure implements Failure {
@@ -228,5 +227,4 @@ class MutableTestExecutionSummary implements TestExecutionSummary {
 			return exception;
 		}
 	}
-
 }

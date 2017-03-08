@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.execution;
 
 import static java.lang.String.format;
@@ -27,7 +26,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
-
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.runner.Description;
@@ -35,16 +33,15 @@ import org.junit.vintage.engine.descriptor.RunnerTestDescriptor;
 import org.junit.vintage.engine.descriptor.VintageTestDescriptor;
 import org.opentest4j.MultipleFailuresError;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class TestRun {
 
 	private final RunnerTestDescriptor runnerTestDescriptor;
 	private final Logger logger;
 	private final Set<? extends TestDescriptor> runnerDescendants;
 	private final Map<Description, List<VintageTestDescriptor>> descriptionToDescriptors;
-	private final Map<TestDescriptor, List<TestExecutionResult>> executionResults = new LinkedHashMap<>();
+	private final Map<TestDescriptor, List<TestExecutionResult>> executionResults =
+			new LinkedHashMap<>();
 	private final Set<TestDescriptor> skippedDescriptors = new LinkedHashSet<>();
 	private final Set<TestDescriptor> startedDescriptors = new LinkedHashSet<>();
 	private final Set<TestDescriptor> finishedDescriptors = new LinkedHashSet<>();
@@ -54,9 +51,10 @@ class TestRun {
 		this.logger = logger;
 		runnerDescendants = runnerTestDescriptor.getDescendants();
 		// @formatter:off
-		descriptionToDescriptors = concat(Stream.of(runnerTestDescriptor), runnerDescendants.stream())
-			.map(VintageTestDescriptor.class::cast)
-			.collect(groupingBy(VintageTestDescriptor::getDescription));
+		descriptionToDescriptors =
+				concat(Stream.of(runnerTestDescriptor), runnerDescendants.stream())
+						.map(VintageTestDescriptor.class::cast)
+						.collect(groupingBy(VintageTestDescriptor::getDescription));
 		// @formatter:on
 	}
 
@@ -69,25 +67,26 @@ class TestRun {
 	}
 
 	/**
-	 * Returns the {@link TestDescriptor} that represents the specified
-	 * {@link Description}.
-	 *
-	 * <p>There are edge cases where multiple {@link Description Descriptions}
-	 * with the same {@code uniqueId} exist, e.g. when using overloaded methods
-	 * to define {@linkplain org.junit.experimental.theories.Theory theories}.
-	 * In this case, we try to find the correct {@link TestDescriptor} by
-	 * checking for object identity on the {@link Description} it represents.
-	 *
-	 * @param description the {@code Description} to look up
-	 */
+	* Returns the {@link TestDescriptor} that represents the specified {@link Description}.
+	*
+	* <p>There are edge cases where multiple {@link Description Descriptions} with the same {@code
+	* uniqueId} exist, e.g. when using overloaded methods to define {@linkplain
+	* org.junit.experimental.theories.Theory theories}. In this case, we try to find the correct
+	* {@link TestDescriptor} by checking for object identity on the {@link Description} it
+	* represents.
+	*
+	* @param description the {@code Description} to look up
+	*/
 	Optional<? extends TestDescriptor> lookupTestDescriptor(Description description) {
 		Optional<? extends TestDescriptor> testDescriptor = lookupInternal(description);
 		if (!testDescriptor.isPresent()) {
 			logger.warning(
-				() -> format("Runner %s on class %s reported event for unknown Description: %s. It will be ignored.",
-					runnerTestDescriptor.getRunner().getClass().getName(), //
-					runnerTestDescriptor.getTestClass().getName(), //
-					description));
+					() ->
+							format(
+									"Runner %s on class %s reported event for unknown Description: %s. It will be ignored.",
+									runnerTestDescriptor.getRunner().getClass().getName(), //
+									runnerTestDescriptor.getTestClass().getName(), //
+									description));
 		}
 		return testDescriptor;
 	}
@@ -101,7 +100,8 @@ class TestRun {
 			return Optional.of(getOnlyElement(descriptors));
 		}
 		// @formatter:off
-		return descriptors.stream()
+		return descriptors
+				.stream()
 				.filter(testDescriptor -> description == testDescriptor.getDescription())
 				.findFirst();
 		// @formatter:on
@@ -148,8 +148,8 @@ class TestRun {
 	}
 
 	void storeResult(TestDescriptor testDescriptor, TestExecutionResult result) {
-		List<TestExecutionResult> testExecutionResults = executionResults.computeIfAbsent(testDescriptor,
-			key -> new ArrayList<>());
+		List<TestExecutionResult> testExecutionResults =
+				executionResults.computeIfAbsent(testDescriptor, key -> new ArrayList<>());
 		testExecutionResults.add(result);
 	}
 
@@ -163,11 +163,12 @@ class TestRun {
 			return testExecutionResults.get(0);
 		}
 		// @formatter:off
-		List<Throwable> failures = testExecutionResults
-				.stream()
-				.map(TestExecutionResult::getThrowable)
-				.map(Optional::get)
-				.collect(toList());
+		List<Throwable> failures =
+				testExecutionResults
+						.stream()
+						.map(TestExecutionResult::getThrowable)
+						.map(Optional::get)
+						.collect(toList());
 		// @formatter:on
 		return failed(new MultipleFailuresError("", failures));
 	}

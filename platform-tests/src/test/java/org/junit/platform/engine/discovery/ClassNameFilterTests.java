@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.discovery;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,9 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.PreconditionViolationException;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class ClassNameFilterTests {
 
 	@Test
@@ -31,7 +28,7 @@ class ClassNameFilterTests {
 		assertThatThrownBy(() -> ClassNameFilter.includeClassNamePatterns(new String[0])) //
 				.isInstanceOf(PreconditionViolationException.class) //
 				.hasMessage("patterns must not be null or empty");
-		assertThatThrownBy(() -> ClassNameFilter.includeClassNamePatterns(new String[] { null })) //
+		assertThatThrownBy(() -> ClassNameFilter.includeClassNamePatterns(new String[] {null})) //
 				.isInstanceOf(PreconditionViolationException.class) //
 				.hasMessage("patterns must not contain null elements");
 	}
@@ -42,17 +39,19 @@ class ClassNameFilterTests {
 
 		ClassNameFilter filter = ClassNameFilter.includeClassNamePatterns(regex);
 
-		assertThat(filter).hasToString("Includes class names that match regular expression '" + regex + "'");
+		assertThat(filter)
+				.hasToString("Includes class names that match regular expression '" + regex + "'");
 
 		assertTrue(filter.apply("java.lang.String").included());
 		assertTrue(filter.toPredicate().test("java.lang.String"));
-		assertThat(filter.apply("java.lang.String").getReason()).contains(
-			"Class name [java.lang.String] matches included pattern: '" + regex + "'");
+		assertThat(filter.apply("java.lang.String").getReason())
+				.contains("Class name [java.lang.String] matches included pattern: '" + regex + "'");
 
 		assertFalse(filter.apply("java.time.Instant").included());
 		assertFalse(filter.toPredicate().test("java.time.Instant"));
-		assertThat(filter.apply("java.time.Instant").getReason()).contains(
-			"Class name [java.time.Instant] does not match any included pattern: '" + regex + "'");
+		assertThat(filter.apply("java.time.Instant").getReason())
+				.contains(
+						"Class name [java.time.Instant] does not match any included pattern: '" + regex + "'");
 	}
 
 	@Test
@@ -62,24 +61,34 @@ class ClassNameFilterTests {
 
 		ClassNameFilter filter = ClassNameFilter.includeClassNamePatterns(firstRegex, secondRegex);
 
-		assertThat(filter).hasToString(
-			"Includes class names that match regular expression '" + firstRegex + "' OR '" + secondRegex + "'");
+		assertThat(filter)
+				.hasToString(
+						"Includes class names that match regular expression '"
+								+ firstRegex
+								+ "' OR '"
+								+ secondRegex
+								+ "'");
 
 		assertTrue(filter.apply("java.lang.String").included());
 		assertTrue(filter.toPredicate().test("java.lang.String"));
-		assertThat(filter.apply("java.lang.String").getReason()).contains(
-			"Class name [java.lang.String] matches included pattern: '" + firstRegex + "'");
+		assertThat(filter.apply("java.lang.String").getReason())
+				.contains("Class name [java.lang.String] matches included pattern: '" + firstRegex + "'");
 
 		assertTrue(filter.apply("java.util.Collection").included());
 		assertTrue(filter.toPredicate().test("java.util.Collection"));
-		assertThat(filter.apply("java.util.Collection").getReason()).contains(
-			"Class name [java.util.Collection] matches included pattern: '" + secondRegex + "'");
+		assertThat(filter.apply("java.util.Collection").getReason())
+				.contains(
+						"Class name [java.util.Collection] matches included pattern: '" + secondRegex + "'");
 
 		assertFalse(filter.apply("java.time.Instant").included());
 		assertFalse(filter.toPredicate().test("java.time.Instant"));
-		assertThat(filter.apply("java.time.Instant").getReason()).contains(
-			"Class name [java.time.Instant] does not match any included pattern: '" + firstRegex + "' OR '"
-					+ secondRegex + "'");
+		assertThat(filter.apply("java.time.Instant").getReason())
+				.contains(
+						"Class name [java.time.Instant] does not match any included pattern: '"
+								+ firstRegex
+								+ "' OR '"
+								+ secondRegex
+								+ "'");
 	}
 
 	@Test
@@ -90,7 +99,7 @@ class ClassNameFilterTests {
 		assertThatThrownBy(() -> ClassNameFilter.excludeClassNamePatterns(new String[0])) //
 				.isInstanceOf(PreconditionViolationException.class) //
 				.hasMessage("patterns must not be null or empty");
-		assertThatThrownBy(() -> ClassNameFilter.excludeClassNamePatterns(new String[] { null })) //
+		assertThatThrownBy(() -> ClassNameFilter.excludeClassNamePatterns(new String[] {null})) //
 				.isInstanceOf(PreconditionViolationException.class) //
 				.hasMessage("patterns must not contain null elements");
 	}
@@ -101,18 +110,20 @@ class ClassNameFilterTests {
 
 		ClassNameFilter filter = ClassNameFilter.excludeClassNamePatterns(regex);
 
-		assertThat(filter).hasToString("Excludes class names that match regular expression '" + regex + "'");
+		assertThat(filter)
+				.hasToString("Excludes class names that match regular expression '" + regex + "'");
 
 		assertTrue(filter.apply("java.lang.String").excluded());
 		assertFalse(filter.toPredicate().test("java.lang.String"));
 
-		assertThat(filter.apply("java.lang.String").getReason()).contains(
-			"Class name [java.lang.String] matches excluded pattern: '" + regex + "'");
+		assertThat(filter.apply("java.lang.String").getReason())
+				.contains("Class name [java.lang.String] matches excluded pattern: '" + regex + "'");
 
 		assertTrue(filter.apply("java.time.Instant").included());
 		assertTrue(filter.toPredicate().test("java.time.Instant"));
-		assertThat(filter.apply("java.time.Instant").getReason()).contains(
-			"Class name [java.time.Instant] does not match any excluded pattern: '" + regex + "'");
+		assertThat(filter.apply("java.time.Instant").getReason())
+				.contains(
+						"Class name [java.time.Instant] does not match any excluded pattern: '" + regex + "'");
 	}
 
 	@Test
@@ -122,24 +133,33 @@ class ClassNameFilterTests {
 
 		ClassNameFilter filter = ClassNameFilter.excludeClassNamePatterns(firstRegex, secondRegex);
 
-		assertThat(filter).hasToString(
-			"Excludes class names that match regular expression '" + firstRegex + "' OR '" + secondRegex + "'");
+		assertThat(filter)
+				.hasToString(
+						"Excludes class names that match regular expression '"
+								+ firstRegex
+								+ "' OR '"
+								+ secondRegex
+								+ "'");
 
 		assertTrue(filter.apply("java.lang.String").excluded());
 		assertFalse(filter.toPredicate().test("java.lang.String"));
-		assertThat(filter.apply("java.lang.String").getReason()).contains(
-			"Class name [java.lang.String] matches excluded pattern: '" + firstRegex + "'");
+		assertThat(filter.apply("java.lang.String").getReason())
+				.contains("Class name [java.lang.String] matches excluded pattern: '" + firstRegex + "'");
 
 		assertTrue(filter.apply("java.util.Collection").excluded());
 		assertFalse(filter.toPredicate().test("java.util.Collection"));
-		assertThat(filter.apply("java.util.Collection").getReason()).contains(
-			"Class name [java.util.Collection] matches excluded pattern: '" + secondRegex + "'");
+		assertThat(filter.apply("java.util.Collection").getReason())
+				.contains(
+						"Class name [java.util.Collection] matches excluded pattern: '" + secondRegex + "'");
 
 		assertFalse(filter.apply("java.time.Instant").excluded());
 		assertTrue(filter.toPredicate().test("java.time.Instant"));
-		assertThat(filter.apply("java.time.Instant").getReason()).contains(
-			"Class name [java.time.Instant] does not match any excluded pattern: '" + firstRegex + "' OR '"
-					+ secondRegex + "'");
+		assertThat(filter.apply("java.time.Instant").getReason())
+				.contains(
+						"Class name [java.time.Instant] does not match any excluded pattern: '"
+								+ firstRegex
+								+ "' OR '"
+								+ secondRegex
+								+ "'");
 	}
-
 }

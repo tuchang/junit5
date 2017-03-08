@@ -7,17 +7,16 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @RunWith(Suite.class)
-@SuiteClasses({ PlainJUnit4TestCaseWithTwoTestMethods.class, PlainJUnit4TestCaseWithSingleTestWhichFails.class })
-public class JUnit4SuiteWithTwoTestCases {
-}
+@SuiteClasses({
+	PlainJUnit4TestCaseWithTwoTestMethods.class,
+	PlainJUnit4TestCaseWithSingleTestWhichFails.class
+})
+public class JUnit4SuiteWithTwoTestCases {}

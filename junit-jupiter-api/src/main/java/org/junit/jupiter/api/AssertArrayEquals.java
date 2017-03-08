@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionUtils.buildPrefix;
@@ -23,11 +22,11 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
- * {@code AssertArrayEquals} is a collection of utility methods that support asserting
- * array equality in tests.
- *
- * @since 5.0
- */
+* {@code AssertArrayEquals} is a collection of utility methods that support asserting array
+* equality in tests.
+*
+* @since 5.0
+*/
 class AssertArrayEquals {
 
 	static void assertArrayEquals(boolean[] expected, boolean[] actual) {
@@ -38,7 +37,8 @@ class AssertArrayEquals {
 		assertArrayEquals(expected, actual, () -> message);
 	}
 
-	static void assertArrayEquals(boolean[] expected, boolean[] actual, Supplier<String> messageSupplier) {
+	static void assertArrayEquals(
+			boolean[] expected, boolean[] actual, Supplier<String> messageSupplier) {
 		assertArrayEquals(expected, actual, null, messageSupplier);
 	}
 
@@ -74,7 +74,8 @@ class AssertArrayEquals {
 		assertArrayEquals(expected, actual, () -> message);
 	}
 
-	static void assertArrayEquals(short[] expected, short[] actual, Supplier<String> messageSupplier) {
+	static void assertArrayEquals(
+			short[] expected, short[] actual, Supplier<String> messageSupplier) {
 		assertArrayEquals(expected, actual, null, messageSupplier);
 	}
 
@@ -110,7 +111,8 @@ class AssertArrayEquals {
 		assertArrayEquals(expected, actual, () -> message);
 	}
 
-	static void assertArrayEquals(float[] expected, float[] actual, Supplier<String> messageSupplier) {
+	static void assertArrayEquals(
+			float[] expected, float[] actual, Supplier<String> messageSupplier) {
 		assertArrayEquals(expected, actual, null, messageSupplier);
 	}
 
@@ -122,7 +124,8 @@ class AssertArrayEquals {
 		assertArrayEquals(expected, actual, delta, () -> message);
 	}
 
-	static void assertArrayEquals(float[] expected, float[] actual, float delta, Supplier<String> messageSupplier) {
+	static void assertArrayEquals(
+			float[] expected, float[] actual, float delta, Supplier<String> messageSupplier) {
 		assertArrayEquals(expected, actual, delta, null, messageSupplier);
 	}
 
@@ -134,7 +137,8 @@ class AssertArrayEquals {
 		assertArrayEquals(expected, actual, () -> message);
 	}
 
-	static void assertArrayEquals(double[] expected, double[] actual, Supplier<String> messageSupplier) {
+	static void assertArrayEquals(
+			double[] expected, double[] actual, Supplier<String> messageSupplier) {
 		assertArrayEquals(expected, actual, null, messageSupplier);
 	}
 
@@ -146,7 +150,8 @@ class AssertArrayEquals {
 		assertArrayEquals(expected, actual, delta, () -> message);
 	}
 
-	static void assertArrayEquals(double[] expected, double[] actual, double delta, Supplier<String> messageSupplier) {
+	static void assertArrayEquals(
+			double[] expected, double[] actual, double delta, Supplier<String> messageSupplier) {
 		assertArrayEquals(expected, actual, delta, null, messageSupplier);
 	}
 
@@ -158,11 +163,15 @@ class AssertArrayEquals {
 		assertArrayEquals(expected, actual, () -> message);
 	}
 
-	static void assertArrayEquals(Object[] expected, Object[] actual, Supplier<String> messageSupplier) {
+	static void assertArrayEquals(
+			Object[] expected, Object[] actual, Supplier<String> messageSupplier) {
 		assertArrayEquals(expected, actual, new ArrayDeque<>(), messageSupplier);
 	}
 
-	private static void assertArrayEquals(boolean[] expected, boolean[] actual, Deque<Integer> indexes,
+	private static void assertArrayEquals(
+			boolean[] expected,
+			boolean[] actual,
+			Deque<Integer> indexes,
 			Supplier<String> messageSupplier) {
 
 		if (expected == actual) {
@@ -178,8 +187,8 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayEquals(char[] expected, char[] actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertArrayEquals(
+			char[] expected, char[] actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		if (expected == actual) {
 			return;
@@ -194,8 +203,8 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayEquals(byte[] expected, byte[] actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertArrayEquals(
+			byte[] expected, byte[] actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		if (expected == actual) {
 			return;
@@ -210,8 +219,8 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayEquals(short[] expected, short[] actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertArrayEquals(
+			short[] expected, short[] actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		if (expected == actual) {
 			return;
@@ -226,8 +235,8 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayEquals(int[] expected, int[] actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertArrayEquals(
+			int[] expected, int[] actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		if (expected == actual) {
 			return;
@@ -242,8 +251,8 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayEquals(long[] expected, long[] actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertArrayEquals(
+			long[] expected, long[] actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		if (expected == actual) {
 			return;
@@ -258,8 +267,8 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayEquals(float[] expected, float[] actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertArrayEquals(
+			float[] expected, float[] actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		if (expected == actual) {
 			return;
@@ -274,7 +283,11 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayEquals(float[] expected, float[] actual, float delta, Deque<Integer> indexes,
+	private static void assertArrayEquals(
+			float[] expected,
+			float[] actual,
+			float delta,
+			Deque<Integer> indexes,
 			Supplier<String> messageSupplier) {
 
 		AssertionUtils.assertValidDelta(delta);
@@ -291,7 +304,10 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayEquals(double[] expected, double[] actual, Deque<Integer> indexes,
+	private static void assertArrayEquals(
+			double[] expected,
+			double[] actual,
+			Deque<Integer> indexes,
 			Supplier<String> messageSupplier) {
 
 		if (expected == actual) {
@@ -307,7 +323,11 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayEquals(double[] expected, double[] actual, double delta, Deque<Integer> indexes,
+	private static void assertArrayEquals(
+			double[] expected,
+			double[] actual,
+			double delta,
+			Deque<Integer> indexes,
 			Supplier<String> messageSupplier) {
 
 		AssertionUtils.assertValidDelta(delta);
@@ -324,7 +344,10 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayEquals(Object[] expected, Object[] actual, Deque<Integer> indexes,
+	private static void assertArrayEquals(
+			Object[] expected,
+			Object[] actual,
+			Deque<Integer> indexes,
 			Supplier<String> messageSupplier) {
 
 		if (expected == actual) {
@@ -347,51 +370,40 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void assertArrayElementsEqual(Object expected, Object actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertArrayElementsEqual(
+			Object expected, Object actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		if (expected instanceof Object[] && actual instanceof Object[]) {
 			assertArrayEquals((Object[]) expected, (Object[]) actual, indexes, messageSupplier);
-		}
-		else if (expected instanceof byte[] && actual instanceof byte[]) {
+		} else if (expected instanceof byte[] && actual instanceof byte[]) {
 			assertArrayEquals((byte[]) expected, (byte[]) actual, indexes, messageSupplier);
-		}
-		else if (expected instanceof short[] && actual instanceof short[]) {
+		} else if (expected instanceof short[] && actual instanceof short[]) {
 			assertArrayEquals((short[]) expected, (short[]) actual, indexes, messageSupplier);
-		}
-		else if (expected instanceof int[] && actual instanceof int[]) {
+		} else if (expected instanceof int[] && actual instanceof int[]) {
 			assertArrayEquals((int[]) expected, (int[]) actual, indexes, messageSupplier);
-		}
-		else if (expected instanceof long[] && actual instanceof long[]) {
+		} else if (expected instanceof long[] && actual instanceof long[]) {
 			assertArrayEquals((long[]) expected, (long[]) actual, indexes, messageSupplier);
-		}
-		else if (expected instanceof char[] && actual instanceof char[]) {
+		} else if (expected instanceof char[] && actual instanceof char[]) {
 			assertArrayEquals((char[]) expected, (char[]) actual, indexes, messageSupplier);
-		}
-		else if (expected instanceof float[] && actual instanceof float[]) {
+		} else if (expected instanceof float[] && actual instanceof float[]) {
 			assertArrayEquals((float[]) expected, (float[]) actual, indexes, messageSupplier);
-		}
-		else if (expected instanceof double[] && actual instanceof double[]) {
+		} else if (expected instanceof double[] && actual instanceof double[]) {
 			assertArrayEquals((double[]) expected, (double[]) actual, indexes, messageSupplier);
-		}
-		else if (expected instanceof boolean[] && actual instanceof boolean[]) {
+		} else if (expected instanceof boolean[] && actual instanceof boolean[]) {
 			assertArrayEquals((boolean[]) expected, (boolean[]) actual, indexes, messageSupplier);
-		}
-		else if (!Objects.equals(expected, actual)) {
+		} else if (!Objects.equals(expected, actual)) {
 			if (expected == null && isArray(actual)) {
 				failExpectedArrayIsNull(indexes, messageSupplier);
-			}
-			else if (isArray(expected) && actual == null) {
+			} else if (isArray(expected) && actual == null) {
 				failActualArrayIsNull(indexes, messageSupplier);
-			}
-			else {
+			} else {
 				failArraysNotEqual(expected, actual, indexes, messageSupplier);
 			}
 		}
 	}
 
-	private static void assertArraysNotNull(Object expected, Object actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertArraysNotNull(
+			Object expected, Object actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		if (expected == null) {
 			failExpectedArrayIsNull(indexes, messageSupplier);
@@ -401,30 +413,45 @@ class AssertArrayEquals {
 		}
 	}
 
-	private static void failExpectedArrayIsNull(Deque<Integer> indexes, Supplier<String> messageSupplier) {
-		fail(buildPrefix(nullSafeGet(messageSupplier)) + "expected array was <null>" + formatIndexes(indexes));
+	private static void failExpectedArrayIsNull(
+			Deque<Integer> indexes, Supplier<String> messageSupplier) {
+		fail(
+				buildPrefix(nullSafeGet(messageSupplier))
+						+ "expected array was <null>"
+						+ formatIndexes(indexes));
 	}
 
-	private static void failActualArrayIsNull(Deque<Integer> indexes, Supplier<String> messageSupplier) {
-		fail(buildPrefix(nullSafeGet(messageSupplier)) + "actual array was <null>" + formatIndexes(indexes));
+	private static void failActualArrayIsNull(
+			Deque<Integer> indexes, Supplier<String> messageSupplier) {
+		fail(
+				buildPrefix(nullSafeGet(messageSupplier))
+						+ "actual array was <null>"
+						+ formatIndexes(indexes));
 	}
 
-	private static void assertArraysHaveSameLength(int expected, int actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void assertArraysHaveSameLength(
+			int expected, int actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		if (expected != actual) {
 			String prefix = buildPrefix(nullSafeGet(messageSupplier));
-			String message = "array lengths differ" + formatIndexes(indexes) + ", expected: <" + expected
-					+ "> but was: <" + actual + ">";
+			String message =
+					"array lengths differ"
+							+ formatIndexes(indexes)
+							+ ", expected: <"
+							+ expected
+							+ "> but was: <"
+							+ actual
+							+ ">";
 			fail(prefix + message);
 		}
 	}
 
-	private static void failArraysNotEqual(Object expected, Object actual, Deque<Integer> indexes,
-			Supplier<String> messageSupplier) {
+	private static void failArraysNotEqual(
+			Object expected, Object actual, Deque<Integer> indexes, Supplier<String> messageSupplier) {
 
 		String prefix = buildPrefix(nullSafeGet(messageSupplier));
-		String message = "array contents differ" + formatIndexes(indexes) + ", " + formatValues(expected, actual);
+		String message =
+				"array contents differ" + formatIndexes(indexes) + ", " + formatValues(expected, actual);
 		fail(prefix + message);
 	}
 
@@ -433,5 +460,4 @@ class AssertArrayEquals {
 		result.addLast(newIndex);
 		return result;
 	}
-
 }

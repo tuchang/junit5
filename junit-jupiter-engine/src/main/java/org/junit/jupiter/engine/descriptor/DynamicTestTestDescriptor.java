@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import org.junit.jupiter.api.DynamicTest;
@@ -17,10 +16,10 @@ import org.junit.platform.engine.TestSource;
 import org.junit.platform.engine.UniqueId;
 
 /**
- * {@link TestDescriptor} for a {@link DynamicTest}.
- *
- * @since 5.0
- */
+* {@link TestDescriptor} for a {@link DynamicTest}.
+*
+* @since 5.0
+*/
 class DynamicTestTestDescriptor extends JupiterTestDescriptor {
 
 	private final DynamicTest dynamicTest;
@@ -42,8 +41,9 @@ class DynamicTestTestDescriptor extends JupiterTestDescriptor {
 	}
 
 	@Override
-	public JupiterEngineExecutionContext execute(JupiterEngineExecutionContext context,
-			DynamicTestExecutor dynamicTestExecutor) throws Exception {
+	public JupiterEngineExecutionContext execute(
+			JupiterEngineExecutionContext context, DynamicTestExecutor dynamicTestExecutor)
+			throws Exception {
 		executeAndMaskThrowable(dynamicTest.getExecutable());
 		return context;
 	}

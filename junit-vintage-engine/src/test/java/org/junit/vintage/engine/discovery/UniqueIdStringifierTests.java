@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,12 +18,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.Base64;
-
 import org.junit.jupiter.api.Test;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class UniqueIdStringifierTests {
 
 	@Test
@@ -81,7 +77,6 @@ class UniqueIdStringifierTests {
 		int getValue() {
 			return value;
 		}
-
 	}
 
 	private static class ClassWithErroneousSerialization implements Serializable {
@@ -97,5 +92,4 @@ class UniqueIdStringifierTests {
 			return "value from toString()";
 		}
 	}
-
 }

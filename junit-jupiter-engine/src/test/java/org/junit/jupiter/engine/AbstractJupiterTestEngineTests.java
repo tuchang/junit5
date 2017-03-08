@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine;
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
@@ -20,10 +19,10 @@ import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 /**
- * Abstract base class for tests involving the {@link JupiterTestEngine}.
- *
- * @since 5.0
- */
+* Abstract base class for tests involving the {@link JupiterTestEngine}.
+*
+* @since 5.0
+*/
 public abstract class AbstractJupiterTestEngineTests {
 
 	private final JupiterTestEngine engine = new JupiterTestEngine();
@@ -35,12 +34,12 @@ public abstract class AbstractJupiterTestEngineTests {
 	protected ExecutionEventRecorder executeTests(LauncherDiscoveryRequest request) {
 		TestDescriptor testDescriptor = discoverTests(request);
 		ExecutionEventRecorder eventRecorder = new ExecutionEventRecorder();
-		engine.execute(new ExecutionRequest(testDescriptor, eventRecorder, request.getConfigurationParameters()));
+		engine.execute(
+				new ExecutionRequest(testDescriptor, eventRecorder, request.getConfigurationParameters()));
 		return eventRecorder;
 	}
 
 	protected TestDescriptor discoverTests(LauncherDiscoveryRequest request) {
 		return engine.discover(request, UniqueId.forEngine(engine.getId()));
 	}
-
 }

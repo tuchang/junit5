@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,25 +27,27 @@ public class EnableRuleMigrationSupportWithBothRuleTypesTests {
 	private static boolean afterOfRule2WasExecuted = false;
 
 	@Rule
-	public Verifier verifier1 = new Verifier() {
+	public Verifier verifier1 =
+			new Verifier() {
 
-		@Override
-		protected void verify() throws Throwable {
-			afterOfRule1WasExecuted = true;
-		}
-	};
+				@Override
+				protected void verify() throws Throwable {
+					afterOfRule1WasExecuted = true;
+				}
+			};
 
-	private ExternalResource resource2 = new ExternalResource() {
-		@Override
-		protected void before() throws Throwable {
-			beforeOfRule2WasExecuted = true;
-		}
+	private ExternalResource resource2 =
+			new ExternalResource() {
+				@Override
+				protected void before() throws Throwable {
+					beforeOfRule2WasExecuted = true;
+				}
 
-		@Override
-		protected void after() {
-			afterOfRule2WasExecuted = true;
-		}
-	};
+				@Override
+				protected void after() {
+					afterOfRule2WasExecuted = true;
+				}
+			};
 
 	@Rule
 	public ExternalResource getResource2() {
@@ -60,10 +61,7 @@ public class EnableRuleMigrationSupportWithBothRuleTypesTests {
 
 	@AfterAll
 	static void afterMethodsOfBothRulesWereExecuted() {
-		if (!afterOfRule1WasExecuted)
-			fail();
-		if (!afterOfRule2WasExecuted)
-			fail();
+		if (!afterOfRule1WasExecuted) fail();
+		if (!afterOfRule2WasExecuted) fail();
 	}
-
 }

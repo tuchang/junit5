@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -15,13 +14,11 @@ import static org.junit.platform.commons.meta.API.Usage.Experimental;
 import org.junit.platform.commons.meta.API;
 
 /**
- * A selector defines what a {@link TestEngine} can use to discover tests
- * &mdash; for example, the name of a Java class, the path to a file or
- * directory, etc.
- *
- * @since 1.0
- * @see EngineDiscoveryRequest
- */
+* A selector defines what a {@link TestEngine} can use to discover tests &mdash; for example, the
+* name of a Java class, the path to a file or directory, etc.
+*
+* @since 1.0
+* @see EngineDiscoveryRequest
+*/
 @API(Experimental)
-public interface DiscoverySelector {
-}
+public interface DiscoverySelector {}

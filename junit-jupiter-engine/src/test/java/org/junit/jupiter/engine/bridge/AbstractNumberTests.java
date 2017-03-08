@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.bridge;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,9 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @ExtendWith(NumberResolver.class)
 abstract class AbstractNumberTests<N extends Number> {
 
@@ -28,5 +25,4 @@ abstract class AbstractNumberTests<N extends Number> {
 		assertNotNull(number);
 		assertEquals(123, number.intValue());
 	}
-
 }

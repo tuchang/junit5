@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,15 +20,17 @@ import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 /**
- * Integration tests that verify support for {@link Disabled @Disabled} in the {@link JupiterTestEngine}.
- *
- * @since 5.0
- */
+* Integration tests that verify support for {@link Disabled @Disabled} in the {@link
+* JupiterTestEngine}.
+*
+* @since 5.0
+*/
 public class DisabledTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void executeTestsWithDisabledTestClass() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(DisabledTestClassTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(DisabledTestClassTestCase.class)).build();
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
 		assertEquals(1, eventRecorder.getContainerSkippedCount(), "# container skipped");
@@ -38,7 +39,8 @@ public class DisabledTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void executeTestsWithDisabledTestMethods() throws Exception {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(DisabledTestMethodsTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(DisabledTestMethodsTestCase.class)).build();
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
 		assertEquals(1, eventRecorder.getTestStartedCount(), "# tests started");
@@ -64,15 +66,12 @@ public class DisabledTests extends AbstractJupiterTestEngineTests {
 	private static class DisabledTestMethodsTestCase {
 
 		@Test
-		void enabledTest() {
-		}
+		void enabledTest() {}
 
 		@Test
 		@Disabled
 		void disabledTest() {
 			fail("this should be @Disabled");
 		}
-
 	}
-
 }

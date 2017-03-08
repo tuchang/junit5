@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine;
 
 import static java.util.Arrays.asList;
@@ -17,19 +16,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 
 /**
- * Integration tests that verify support for {@link BeforeEach} and {@link AfterEach}
- * when used as meta-annotations in the {@link JupiterTestEngine}.
- *
- * @since 5.0
- * @see BeforeAllAndAfterAllComposedAnnotationTests
- */
+* Integration tests that verify support for {@link BeforeEach} and {@link AfterEach} when used as
+* meta-annotations in the {@link JupiterTestEngine}.
+*
+* @since 5.0
+* @see BeforeAllAndAfterAllComposedAnnotationTests
+*/
 class BeforeEachAndAfterEachComposedAnnotationTests extends AbstractJupiterTestEngineTests {
 
 	private static final List<String> methodsInvoked = new ArrayList<>();
@@ -59,17 +57,13 @@ class BeforeEachAndAfterEachComposedAnnotationTests extends AbstractJupiterTestE
 		void afterEach() {
 			methodsInvoked.add("afterEach");
 		}
-
 	}
 
 	@BeforeEach
 	@Retention(RetentionPolicy.RUNTIME)
-	private @interface CustomBeforeEach {
-	}
+	private @interface CustomBeforeEach {}
 
 	@AfterEach
 	@Retention(RetentionPolicy.RUNTIME)
-	private @interface CustomAfterEach {
-	}
-
+	private @interface CustomAfterEach {}
 }

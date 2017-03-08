@@ -7,18 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor.subpackage;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class Class1WithTestCases {
 
 	@Test
-	void test1() {
-
-	}
+	void test1() {}
 }

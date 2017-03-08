@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -17,7 +16,6 @@ import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestReporter;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -25,28 +23,29 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.Mockito;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 class TestReporterParameterResolverTests {
 
 	TestReporterParameterResolver resolver = new TestReporterParameterResolver();
 
 	@Test
 	void supports() {
-		Parameter parameter1 = findParameterOfMethod("methodWithTestReporterParameter", TestReporter.class);
+		Parameter parameter1 =
+				findParameterOfMethod("methodWithTestReporterParameter", TestReporter.class);
 		assertTrue(this.resolver.supports(parameterContext(parameter1), null));
 
-		Parameter parameter2 = findParameterOfMethod("methodWithoutTestReporterParameter", String.class);
+		Parameter parameter2 =
+				findParameterOfMethod("methodWithoutTestReporterParameter", String.class);
 		assertFalse(this.resolver.supports(parameterContext(parameter2), null));
 	}
 
 	@Test
 	void resolve() {
-		Parameter parameter = findParameterOfMethod("methodWithTestReporterParameter", TestReporter.class);
+		Parameter parameter =
+				findParameterOfMethod("methodWithTestReporterParameter", TestReporter.class);
 
-		TestReporter testReporter = this.resolver.resolve(parameterContext(parameter),
-			Mockito.mock(ExtensionContext.class));
+		TestReporter testReporter =
+				this.resolver.resolve(parameterContext(parameter), Mockito.mock(ExtensionContext.class));
 		assertNotNull(testReporter);
 	}
 
@@ -63,12 +62,8 @@ class TestReporterParameterResolverTests {
 
 	static class Sample {
 
-		void methodWithTestReporterParameter(TestReporter reporter) {
-		}
+		void methodWithTestReporterParameter(TestReporter reporter) {}
 
-		void methodWithoutTestReporterParameter(String nothing) {
-		}
-
+		void methodWithoutTestReporterParameter(String nothing) {}
 	}
-
 }

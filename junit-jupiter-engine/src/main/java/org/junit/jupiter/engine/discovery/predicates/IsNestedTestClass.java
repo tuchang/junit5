@@ -7,22 +7,20 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery.predicates;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 import static org.junit.platform.commons.util.AnnotationUtils.isAnnotated;
 
 import java.util.function.Predicate;
-
 import org.junit.jupiter.api.Nested;
 import org.junit.platform.commons.meta.API;
 
 /**
- * Test if a class is a JUnit Jupiter {@link Nested @Nested} test class.
- *
- * @since 5.0
- */
+* Test if a class is a JUnit Jupiter {@link Nested @Nested} test class.
+*
+* @since 5.0
+*/
 @API(Internal)
 public class IsNestedTestClass implements Predicate<Class<?>> {
 
@@ -31,9 +29,7 @@ public class IsNestedTestClass implements Predicate<Class<?>> {
 	@Override
 	public boolean test(Class<?> candidate) {
 		//please do not collapse into single return
-		if (!isInnerClass.test(candidate))
-			return false;
+		if (!isInnerClass.test(candidate)) return false;
 		return isAnnotated(candidate, Nested.class);
 	}
-
 }

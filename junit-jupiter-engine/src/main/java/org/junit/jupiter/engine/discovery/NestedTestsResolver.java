@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -19,9 +18,7 @@ import org.junit.platform.commons.meta.API;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Experimental)
 class NestedTestsResolver extends TestContainerResolver {
 
@@ -58,5 +55,4 @@ class NestedTestsResolver extends TestContainerResolver {
 	protected TestDescriptor resolveClass(Class<?> testClass, UniqueId uniqueId) {
 		return new NestedClassTestDescriptor(uniqueId, testClass);
 	}
-
 }

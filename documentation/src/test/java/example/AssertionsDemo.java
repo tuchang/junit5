@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // @formatter:off
@@ -33,42 +32,53 @@ class AssertionsDemo {
 	void standardAssertions() {
 		assertEquals(2, 2);
 		assertEquals(4, 4, "The optional assertion message is now the last parameter.");
-		assertTrue(2 == 2, () -> "Assertion messages can be lazily evaluated -- "
-				+ "to avoid constructing complex messages unnecessarily.");
+		assertTrue(
+				2 == 2,
+				() ->
+						"Assertion messages can be lazily evaluated -- "
+								+ "to avoid constructing complex messages unnecessarily.");
 	}
 
 	@Test
 	void groupedAssertions() {
 		// In a grouped assertion all assertions are executed, and any
 		// failures will be reported together.
-		assertAll("address",
-			() -> assertEquals("John", address.getFirstName()),
-			() -> assertEquals("User", address.getLastName())
-		);
+		assertAll(
+				"address",
+				() -> assertEquals("John", address.getFirstName()),
+				() -> assertEquals("User", address.getLastName()));
 	}
 
 	@Test
 	void exceptionTesting() {
-		Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
-			throw new IllegalArgumentException("a message");
-		});
+		Throwable exception =
+				assertThrows(
+						IllegalArgumentException.class,
+						() -> {
+							throw new IllegalArgumentException("a message");
+						});
 		assertEquals("a message", exception.getMessage());
 	}
 
 	@Test
 	void timeoutNotExceeded() {
 		// The following assertion succeeds.
-		assertTimeout(ofMinutes(2), () -> {
-			// Perform task that takes less than 2 minutes.
-		});
+		assertTimeout(
+				ofMinutes(2),
+				() -> {
+					// Perform task that takes less than 2 minutes.
+				});
 	}
 
 	@Test
 	void timeoutNotExceededWithResult() {
 		// The following assertion succeeds, and returns the supplied object.
-		String actualResult = assertTimeout(ofMinutes(2), () -> {
-			return "a result";
-		});
+		String actualResult =
+				assertTimeout(
+						ofMinutes(2),
+						() -> {
+							return "a result";
+						});
 		assertEquals("a result", actualResult);
 	}
 
@@ -86,10 +96,12 @@ class AssertionsDemo {
 	void timeoutExceeded() {
 		// The following assertion fails with an error message similar to:
 		// execution exceeded timeout of 10 ms by 91 ms
-		assertTimeout(ofMillis(10), () -> {
-			// Simulate task that takes more than 10 ms.
-			Thread.sleep(100);
-		});
+		assertTimeout(
+				ofMillis(10),
+				() -> {
+					// Simulate task that takes more than 10 ms.
+					Thread.sleep(100);
+				});
 	}
 
 	// end::user_guide[]
@@ -99,16 +111,17 @@ class AssertionsDemo {
 	void timeoutExceededWithPreemptiveTermination() {
 		// The following assertion fails with an error message similar to:
 		// execution timed out after 10 ms
-		assertTimeoutPreemptively(ofMillis(10), () -> {
-			// Simulate task that takes more than 10 ms.
-			Thread.sleep(100);
-		});
+		assertTimeoutPreemptively(
+				ofMillis(10),
+				() -> {
+					// Simulate task that takes more than 10 ms.
+					Thread.sleep(100);
+				});
 	}
 
 	private static String greeting() {
 		return "hello world!";
 	}
-
 }
 // end::user_guide[]
 // @formatter:on
@@ -132,5 +145,4 @@ class Address {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-
 }

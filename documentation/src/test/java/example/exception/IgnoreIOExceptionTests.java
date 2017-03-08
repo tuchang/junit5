@@ -7,13 +7,10 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example.exception;
 
-import java.io.IOException;
-
 import extensions.ExpectToFail;
-
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 

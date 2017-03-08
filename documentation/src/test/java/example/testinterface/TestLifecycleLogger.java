@@ -7,11 +7,9 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example.testinterface;
 
 import java.util.logging.Logger;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -38,8 +36,7 @@ public interface TestLifecycleLogger {
 		// end::user_guide[]
 		// @formatter:off
 		// tag::user_guide[]
-		LOG.info(() -> String.format("About to execute [%s]",
-			testInfo.getDisplayName()));
+		LOG.info(() -> String.format("About to execute [%s]", testInfo.getDisplayName()));
 		// end::user_guide[]
 		// @formatter:on
 		// tag::user_guide[]
@@ -50,12 +47,10 @@ public interface TestLifecycleLogger {
 		// end::user_guide[]
 		// @formatter:off
 		// tag::user_guide[]
-		LOG.info(() -> String.format("Finished executing [%s]",
-			testInfo.getDisplayName()));
+		LOG.info(() -> String.format("Finished executing [%s]", testInfo.getDisplayName()));
 		// end::user_guide[]
 		// @formatter:on
 		// tag::user_guide[]
 	}
-
 }
 // end::user_guide[]

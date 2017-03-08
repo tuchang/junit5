@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import static org.assertj.core.api.Assertions.allOf;
@@ -24,7 +23,6 @@ import static org.junit.platform.engine.test.event.TestExecutionResultConditions
 import static org.junit.platform.engine.test.event.TestExecutionResultConditions.message;
 
 import java.util.function.Predicate;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -49,11 +47,11 @@ import org.junit.jupiter.engine.execution.injection.sample.PrimitiveIntegerParam
 import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 
 /**
- * Integration tests that verify support for {@link ParameterResolver}
- * extensions in the {@link JupiterTestEngine}.
- *
- * @since 5.0
- */
+* Integration tests that verify support for {@link ParameterResolver} extensions in the {@link
+* JupiterTestEngine}.
+*
+* @since 5.0
+*/
 class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 
 	@Test
@@ -87,22 +85,25 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 		assertEquals(1, eventRecorder.getTestFailedCount(), "# tests failed");
 
 		// @formatter:off
-		Predicate<String> expectations = s ->
-				s.contains("NullIntegerParameterResolver") &&
-				s.contains("resolved a null value for parameter") &&
-				s.contains("but a primitive of type [int] is required");
+		Predicate<String> expectations =
+				s ->
+						s.contains("NullIntegerParameterResolver")
+								&& s.contains("resolved a null value for parameter")
+								&& s.contains("but a primitive of type [int] is required");
 
-		assertRecordedExecutionEventsContainsExactly(eventRecorder.getFailedTestFinishedEvents(),
-			event(
-				test("injectPrimitive"),
-				finishedWithFailure(allOf(isA(ParameterResolutionException.class), message(expectations)))
-			));
+		assertRecordedExecutionEventsContainsExactly(
+				eventRecorder.getFailedTestFinishedEvents(),
+				event(
+						test("injectPrimitive"),
+						finishedWithFailure(
+								allOf(isA(ParameterResolutionException.class), message(expectations)))));
 		// @formatter:on
 	}
 
 	@Test
 	void executeTestsForPrimitiveIntegerMethodInjectionCases() {
-		ExecutionEventRecorder eventRecorder = executeTestsForClass(PrimitiveIntegerMethodInjectionTestCase.class);
+		ExecutionEventRecorder eventRecorder =
+				executeTestsForClass(PrimitiveIntegerMethodInjectionTestCase.class);
 
 		assertEquals(1, eventRecorder.getTestStartedCount(), "# tests started");
 		assertEquals(1, eventRecorder.getTestSuccessfulCount(), "# tests succeeded");
@@ -111,7 +112,8 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	void executeTestsForPrimitiveArrayMethodInjectionCases() {
-		ExecutionEventRecorder eventRecorder = executeTestsForClass(PrimitiveArrayMethodInjectionTestCase.class);
+		ExecutionEventRecorder eventRecorder =
+				executeTestsForClass(PrimitiveArrayMethodInjectionTestCase.class);
 
 		assertEquals(1, eventRecorder.getTestStartedCount(), "# tests started");
 		assertEquals(1, eventRecorder.getTestSuccessfulCount(), "# tests succeeded");
@@ -120,30 +122,34 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	void executeTestsForPotentiallyIncompatibleTypeMethodInjectionCases() {
-		ExecutionEventRecorder eventRecorder = executeTestsForClass(
-			PotentiallyIncompatibleTypeMethodInjectionTestCase.class);
+		ExecutionEventRecorder eventRecorder =
+				executeTestsForClass(PotentiallyIncompatibleTypeMethodInjectionTestCase.class);
 
 		assertEquals(3, eventRecorder.getTestStartedCount(), "# tests started");
 		assertEquals(2, eventRecorder.getTestSuccessfulCount(), "# tests succeeded");
 		assertEquals(1, eventRecorder.getTestFailedCount(), "# tests failed");
 
 		// @formatter:off
-		Predicate<String> expectations = s ->
-				s.contains("NumberParameterResolver") &&
-				s.contains("resolved a value of type [java.lang.Integer]") &&
-				s.contains("but a value assignment compatible with [java.lang.Double] is required");
+		Predicate<String> expectations =
+				s ->
+						s.contains("NumberParameterResolver")
+								&& s.contains("resolved a value of type [java.lang.Integer]")
+								&& s.contains(
+										"but a value assignment compatible with [java.lang.Double] is required");
 
-		assertRecordedExecutionEventsContainsExactly(eventRecorder.getFailedTestFinishedEvents(),
-			event(
-				test("doubleParameterInjection"),
-				finishedWithFailure(allOf(isA(ParameterResolutionException.class), message(expectations)
-			))));
+		assertRecordedExecutionEventsContainsExactly(
+				eventRecorder.getFailedTestFinishedEvents(),
+				event(
+						test("doubleParameterInjection"),
+						finishedWithFailure(
+								allOf(isA(ParameterResolutionException.class), message(expectations)))));
 		// @formatter:on
 	}
 
 	@Test
 	void executeTestsForMethodInjectionInBeforeAndAfterEachMethods() {
-		ExecutionEventRecorder eventRecorder = executeTestsForClass(BeforeAndAfterMethodInjectionTestCase.class);
+		ExecutionEventRecorder eventRecorder =
+				executeTestsForClass(BeforeAndAfterMethodInjectionTestCase.class);
 
 		assertEquals(1, eventRecorder.getTestStartedCount(), "# tests started");
 		assertEquals(1, eventRecorder.getTestSuccessfulCount(), "# tests succeeded");
@@ -154,7 +160,8 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	void executeTestsForMethodInjectionInBeforeAndAfterAllMethods() {
-		ExecutionEventRecorder eventRecorder = executeTestsForClass(BeforeAndAfterAllMethodInjectionTestCase.class);
+		ExecutionEventRecorder eventRecorder =
+				executeTestsForClass(BeforeAndAfterAllMethodInjectionTestCase.class);
 
 		assertEquals(1, eventRecorder.getTestStartedCount(), "# tests started");
 		assertEquals(1, eventRecorder.getTestSuccessfulCount(), "# tests succeeded");
@@ -216,7 +223,7 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 		}
 	}
 
-	@ExtendWith({ CustomTypeParameterResolver.class, CustomAnnotationParameterResolver.class })
+	@ExtendWith({CustomTypeParameterResolver.class, CustomAnnotationParameterResolver.class})
 	private static class MethodInjectionTestCase {
 
 		@Test
@@ -286,7 +293,7 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 
 		@Test
 		void primitiveArray(int... ints) {
-			assertArrayEquals(new int[] { 1, 2, 3 }, ints);
+			assertArrayEquals(new int[] {1, 2, 3}, ints);
 		}
 	}
 
@@ -304,9 +311,10 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 		}
 
 		/**
-		 * This test must fail, since {@link Double} is a {@link Number} but not an {@link Integer}.
-		 * @see NumberParameterResolver
-		 */
+		* This test must fail, since {@link Double} is a {@link Number} but not an {@link Integer}.
+		*
+		* @see NumberParameterResolver
+		*/
 		@Test
 		void doubleParameterInjection(Double number) {
 			/* no-op */
@@ -322,8 +330,7 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 
 		@Test
 		@DisplayName("custom name")
-		void customNamedTest() {
-		}
+		void customNamedTest() {}
 
 		@AfterEach
 		void after(TestInfo testInfo) {
@@ -340,8 +347,7 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 		}
 
 		@Test
-		void aTest() {
-		}
+		void aTest() {}
 
 		@AfterAll
 		static void afterAll(TestInfo testInfo) {
@@ -352,13 +358,12 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 	private static class ExtendWithOnMethodTestCase {
 
 		/**
-		 * This set-up / tear-down method is here to verify that {@code @BeforeEach}
-		 * and {@code @AfterEach} methods are properly invoked using the same
-		 * {@code ExtensionRegistry} as the one used for the corresponding
-		 * {@code @Test} method.
-		 *
-		 * @see <a href="https://github.com/junit-team/junit5/issues/523">#523</a>
-		 */
+		* This set-up / tear-down method is here to verify that {@code @BeforeEach} and
+		* {@code @AfterEach} methods are properly invoked using the same {@code ExtensionRegistry} as
+		* the one used for the corresponding {@code @Test} method.
+		*
+		* @see <a href="https://github.com/junit-team/junit5/issues/523">#523</a>
+		*/
 		@BeforeEach
 		@AfterEach
 		void setUpAndTearDown(CustomType customType, @CustomAnnotation String value) {
@@ -374,5 +379,4 @@ class ParameterResolverTests extends AbstractJupiterTestEngineTests {
 			assertNotNull(value);
 		}
 	}
-
 }

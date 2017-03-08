@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import static java.util.stream.Collectors.toList;
@@ -25,7 +24,6 @@ import static org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder.r
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
-
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.PreconditionViolationException;
@@ -44,9 +42,7 @@ import org.junit.platform.launcher.LauncherDiscoveryRequest;
 import org.junit.platform.launcher.PostDiscoveryFilter;
 import org.junit.platform.launcher.PostDiscoveryFilterStub;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class LauncherDiscoveryRequestBuilderTests {
 
 	@Nested
@@ -55,46 +51,54 @@ class LauncherDiscoveryRequestBuilderTests {
 		@Test
 		public void packagesAreStoredInDiscoveryRequest() throws Exception {
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.selectors(
-							selectPackage("org.junit.platform.engine")
-					).build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request().selectors(selectPackage("org.junit.platform.engine")).build();
 			// @formatter:on
 
-			List<String> packageSelectors = discoveryRequest.getSelectorsByType(PackageSelector.class).stream().map(
-				PackageSelector::getPackageName).collect(toList());
+			List<String> packageSelectors =
+					discoveryRequest
+							.getSelectorsByType(PackageSelector.class)
+							.stream()
+							.map(PackageSelector::getPackageName)
+							.collect(toList());
 			assertThat(packageSelectors).contains("org.junit.platform.engine");
 		}
 
 		@Test
 		public void classesAreStoredInDiscoveryRequest() throws Exception {
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.selectors(
-							selectClass(LauncherDiscoveryRequestBuilderTests.class.getName()),
-							selectClass(SampleTestClass.class)
-					)
-				.build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request()
+							.selectors(
+									selectClass(LauncherDiscoveryRequestBuilderTests.class.getName()),
+									selectClass(SampleTestClass.class))
+							.build();
 			// @formatter:on
 
-			List<Class<?>> classes = discoveryRequest.getSelectorsByType(ClassSelector.class).stream().map(
-				ClassSelector::getJavaClass).collect(toList());
-			assertThat(classes).contains(SampleTestClass.class, LauncherDiscoveryRequestBuilderTests.class);
+			List<Class<?>> classes =
+					discoveryRequest
+							.getSelectorsByType(ClassSelector.class)
+							.stream()
+							.map(ClassSelector::getJavaClass)
+							.collect(toList());
+			assertThat(classes)
+					.contains(SampleTestClass.class, LauncherDiscoveryRequestBuilderTests.class);
 		}
 
 		@Test
 		public void methodsByFullyQualifiedNameAreStoredInDiscoveryRequest() throws Exception {
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.selectors(selectMethod(fullyQualifiedMethodName()))
-					.build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request().selectors(selectMethod(fullyQualifiedMethodName())).build();
 			// @formatter:on
 
-			List<MethodSelector> methodSelectors = discoveryRequest.getSelectorsByType(MethodSelector.class);
+			List<MethodSelector> methodSelectors =
+					discoveryRequest.getSelectorsByType(MethodSelector.class);
 			assertThat(methodSelectors).hasSize(1);
 
 			MethodSelector methodSelector = methodSelectors.get(0);
-			assertThat(methodSelector.getJavaClass()).isEqualTo(LauncherDiscoveryRequestBuilderTests.class);
+			assertThat(methodSelector.getJavaClass())
+					.isEqualTo(LauncherDiscoveryRequestBuilderTests.class);
 			assertThat(methodSelector.getJavaMethod()).isEqualTo(fullyQualifiedMethod());
 		}
 
@@ -104,12 +108,12 @@ class LauncherDiscoveryRequestBuilderTests {
 			Method testMethod = testClass.getMethod("test");
 
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.selectors(selectMethod(SampleTestClass.class.getName(), "test"))
-					.build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request().selectors(selectMethod(SampleTestClass.class.getName(), "test")).build();
 			// @formatter:on
 
-			List<MethodSelector> methodSelectors = discoveryRequest.getSelectorsByType(MethodSelector.class);
+			List<MethodSelector> methodSelectors =
+					discoveryRequest.getSelectorsByType(MethodSelector.class);
 			assertThat(methodSelectors).hasSize(1);
 
 			MethodSelector methodSelector = methodSelectors.get(0);
@@ -123,13 +127,13 @@ class LauncherDiscoveryRequestBuilderTests {
 			Method testMethod = testClass.getMethod("test");
 
 			// @formatter:off
-			DefaultDiscoveryRequest discoveryRequest = (DefaultDiscoveryRequest) request()
-					.selectors(
-							selectMethod(SampleTestClass.class, "test")
-					).build();
+			DefaultDiscoveryRequest discoveryRequest =
+					(DefaultDiscoveryRequest)
+							request().selectors(selectMethod(SampleTestClass.class, "test")).build();
 			// @formatter:on
 
-			List<MethodSelector> methodSelectors = discoveryRequest.getSelectorsByType(MethodSelector.class);
+			List<MethodSelector> methodSelectors =
+					discoveryRequest.getSelectorsByType(MethodSelector.class);
 			assertThat(methodSelectors).hasSize(1);
 
 			MethodSelector methodSelector = methodSelectors.get(0);
@@ -143,15 +147,17 @@ class LauncherDiscoveryRequestBuilderTests {
 			UniqueId id2 = UniqueId.forEngine("engine").append("foo", "id2");
 
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.selectors(
-							selectUniqueId(id1),
-							selectUniqueId(id2)
-					).build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request().selectors(selectUniqueId(id1), selectUniqueId(id2)).build();
 			// @formatter:on
 
-			List<String> uniqueIds = discoveryRequest.getSelectorsByType(UniqueIdSelector.class).stream().map(
-				UniqueIdSelector::getUniqueId).map(Object::toString).collect(toList());
+			List<String> uniqueIds =
+					discoveryRequest
+							.getSelectorsByType(UniqueIdSelector.class)
+							.stream()
+							.map(UniqueIdSelector::getUniqueId)
+							.map(Object::toString)
+							.collect(toList());
 
 			assertThat(uniqueIds).contains(id1.toString(), id2.toString());
 		}
@@ -168,9 +174,8 @@ class LauncherDiscoveryRequestBuilderTests {
 			TestEngine engine3 = new TestEngineStub("engine3");
 
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.filters(includeEngines(engine1.getId(), engine2.getId()))
-					.build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request().filters(includeEngines(engine1.getId(), engine2.getId())).build();
 			// @formatter:on
 
 			List<EngineFilter> filters = discoveryRequest.getEngineFilters();
@@ -186,15 +191,18 @@ class LauncherDiscoveryRequestBuilderTests {
 		public void discoveryFiltersAreStoredInDiscoveryRequest() throws Exception {
 
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.filters(
-							new DiscoveryFilterStub("filter1"),
-							new DiscoveryFilterStub("filter2")
-					).build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request()
+							.filters(new DiscoveryFilterStub("filter1"), new DiscoveryFilterStub("filter2"))
+							.build();
 			// @formatter:on
 
-			List<String> filterStrings = discoveryRequest.getDiscoveryFiltersByType(DiscoveryFilter.class).stream().map(
-				DiscoveryFilter::toString).collect(toList());
+			List<String> filterStrings =
+					discoveryRequest
+							.getDiscoveryFiltersByType(DiscoveryFilter.class)
+							.stream()
+							.map(DiscoveryFilter::toString)
+							.collect(toList());
 			assertThat(filterStrings).hasSize(2);
 			assertThat(filterStrings).contains("filter1", "filter2");
 		}
@@ -203,27 +211,35 @@ class LauncherDiscoveryRequestBuilderTests {
 		public void postDiscoveryFiltersAreStoredInDiscoveryRequest() throws Exception {
 
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.filters(
-							new PostDiscoveryFilterStub("postFilter1"),
-							new PostDiscoveryFilterStub("postFilter2")
-					).build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request()
+							.filters(
+									new PostDiscoveryFilterStub("postFilter1"),
+									new PostDiscoveryFilterStub("postFilter2"))
+							.build();
 			// @formatter:on
 
-			List<String> filterStrings = discoveryRequest.getPostDiscoveryFilters().stream().map(
-				PostDiscoveryFilter::toString).collect(toList());
+			List<String> filterStrings =
+					discoveryRequest
+							.getPostDiscoveryFilters()
+							.stream()
+							.map(PostDiscoveryFilter::toString)
+							.collect(toList());
 			assertThat(filterStrings).hasSize(2);
 			assertThat(filterStrings).contains("postFilter1", "postFilter2");
 		}
 
 		@Test
 		public void exceptionForIllegalFilterClass() throws Exception {
-			Exception exception = assertThrows(PreconditionViolationException.class,
-				() -> request().filters(o -> excluded("reason")));
+			Exception exception =
+					assertThrows(
+							PreconditionViolationException.class,
+							() -> request().filters(o -> excluded("reason")));
 
 			assertThat(exception).hasMessageStartingWith("Filter");
-			assertThat(exception).hasMessageEndingWith(
-				"must implement EngineFilter, PostDiscoveryFilter, or DiscoveryFilter.");
+			assertThat(exception)
+					.hasMessageEndingWith(
+							"must implement EngineFilter, PostDiscoveryFilter, or DiscoveryFilter.");
 		}
 	}
 
@@ -231,36 +247,41 @@ class LauncherDiscoveryRequestBuilderTests {
 	class DiscoveryConfigurationParameterTests {
 
 		@Test
-		void withoutConfigurationParametersSet_NoConfigurationParametersAreStoredInDiscoveryRequest() throws Exception {
+		void withoutConfigurationParametersSet_NoConfigurationParametersAreStoredInDiscoveryRequest()
+				throws Exception {
 			LauncherDiscoveryRequest discoveryRequest = request().build();
 
-			ConfigurationParameters configurationParameters = discoveryRequest.getConfigurationParameters();
+			ConfigurationParameters configurationParameters =
+					discoveryRequest.getConfigurationParameters();
 			assertThat(configurationParameters.get("key").isPresent()).isFalse();
 		}
 
 		@Test
 		void configurationParameterAddedDirectly_isStoredInDiscoveryRequest() throws Exception {
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.configurationParameter("key", "value")
-					.build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request().configurationParameter("key", "value").build();
 			// @formatter:on
 
-			ConfigurationParameters configurationParameters = discoveryRequest.getConfigurationParameters();
+			ConfigurationParameters configurationParameters =
+					discoveryRequest.getConfigurationParameters();
 			assertThat(configurationParameters.get("key").isPresent()).isTrue();
 			assertThat(configurationParameters.get("key").get()).isEqualTo("value");
 		}
 
 		@Test
-		void configurationParameterAddedDirectlyTwice_overridesPreviousValueInDiscoveryRequest() throws Exception {
+		void configurationParameterAddedDirectlyTwice_overridesPreviousValueInDiscoveryRequest()
+				throws Exception {
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.configurationParameter("key", "value")
-					.configurationParameter("key", "value-new")
-					.build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request()
+							.configurationParameter("key", "value")
+							.configurationParameter("key", "value-new")
+							.build();
 			// @formatter:on
 
-			ConfigurationParameters configurationParameters = discoveryRequest.getConfigurationParameters();
+			ConfigurationParameters configurationParameters =
+					discoveryRequest.getConfigurationParameters();
 			assertThat(configurationParameters.get("key").isPresent()).isTrue();
 			assertThat(configurationParameters.get("key").get()).isEqualTo("value-new");
 		}
@@ -268,13 +289,15 @@ class LauncherDiscoveryRequestBuilderTests {
 		@Test
 		void multipleConfigurationParameterAddedDirectly_isStoredInDiscoveryRequest() throws Exception {
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.configurationParameter("key1", "value1")
-					.configurationParameter("key2", "value2")
-					.build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request()
+							.configurationParameter("key1", "value1")
+							.configurationParameter("key2", "value2")
+							.build();
 			// @formatter:on
 
-			ConfigurationParameters configurationParameters = discoveryRequest.getConfigurationParameters();
+			ConfigurationParameters configurationParameters =
+					discoveryRequest.getConfigurationParameters();
 			assertThat(configurationParameters.get("key1").isPresent()).isTrue();
 			assertThat(configurationParameters.get("key1").get()).isEqualTo("value1");
 			assertThat(configurationParameters.get("key2").isPresent()).isTrue();
@@ -287,12 +310,12 @@ class LauncherDiscoveryRequestBuilderTests {
 			configurationParams.put("key", "value");
 
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.configurationParameters(configurationParams)
-					.build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request().configurationParameters(configurationParams).build();
 			// @formatter:on
 
-			ConfigurationParameters configurationParameters = discoveryRequest.getConfigurationParameters();
+			ConfigurationParameters configurationParameters =
+					discoveryRequest.getConfigurationParameters();
 			assertThat(configurationParameters.get("key").isPresent()).isTrue();
 			assertThat(configurationParameters.get("key").get()).isEqualTo("value");
 		}
@@ -304,12 +327,12 @@ class LauncherDiscoveryRequestBuilderTests {
 			configurationParams.put("key2", "value2");
 
 			// @formatter:off
-			LauncherDiscoveryRequest discoveryRequest = request()
-					.configurationParameters(configurationParams)
-					.build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request().configurationParameters(configurationParams).build();
 			// @formatter:on
 
-			ConfigurationParameters configurationParameters = discoveryRequest.getConfigurationParameters();
+			ConfigurationParameters configurationParameters =
+					discoveryRequest.getConfigurationParameters();
 			assertThat(configurationParameters.get("key1").isPresent()).isTrue();
 			assertThat(configurationParameters.get("key1").get()).isEqualTo("value1");
 			assertThat(configurationParameters.get("key2").isPresent()).isTrue();
@@ -320,24 +343,22 @@ class LauncherDiscoveryRequestBuilderTests {
 	private static class SampleTestClass {
 
 		@Test
-		public void test() {
-		}
+		public void test() {}
 	}
 
 	private static String fullyQualifiedMethodName() {
-		return LauncherDiscoveryRequestBuilderTests.class.getName() + "#" + fullyQualifiedMethod().getName();
+		return LauncherDiscoveryRequestBuilderTests.class.getName()
+				+ "#"
+				+ fullyQualifiedMethod().getName();
 	}
 
 	private static Method fullyQualifiedMethod() {
 		try {
 			return LauncherDiscoveryRequestBuilderTests.class.getDeclaredMethod("myTest");
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			throw new IllegalStateException(ex);
 		}
 	}
 
-	void myTest() {
-	}
-
+	void myTest() {}
 }

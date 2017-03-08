@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.junit.jupiter.migrationsupport.rules.FailAfterAllHelper.fail;
@@ -23,13 +22,14 @@ public class WrongExtendWithForVerifierMethodTests {
 
 	private static boolean afterOfRule1WasExecuted = false;
 
-	private Verifier verifier1 = new Verifier() {
+	private Verifier verifier1 =
+			new Verifier() {
 
-		@Override
-		protected void verify() throws Throwable {
-			afterOfRule1WasExecuted = true;
-		}
-	};
+				@Override
+				protected void verify() throws Throwable {
+					afterOfRule1WasExecuted = true;
+				}
+			};
 
 	@Rule
 	public Verifier getVerifier1() {
@@ -43,8 +43,6 @@ public class WrongExtendWithForVerifierMethodTests {
 
 	@AfterAll
 	static void afterMethodsOfBothRulesWereExecuted() {
-		if (afterOfRule1WasExecuted)
-			fail();
+		if (afterOfRule1WasExecuted) fail();
 	}
-
 }

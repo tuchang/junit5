@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.hierarchical;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -15,12 +14,11 @@ import static org.junit.platform.commons.meta.API.Usage.Experimental;
 import org.junit.platform.commons.meta.API;
 
 /**
- * Marker interface for an execution context used by a concrete implementation
- * of {@link HierarchicalTestEngine} and its collaborators.
- *
- * @since 1.0
- * @see HierarchicalTestEngine
- */
+* Marker interface for an execution context used by a concrete implementation of {@link
+* HierarchicalTestEngine} and its collaborators.
+*
+* @since 1.0
+* @see HierarchicalTestEngine
+*/
 @API(Experimental)
-public interface EngineExecutionContext {
-}
+public interface EngineExecutionContext {}

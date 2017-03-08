@@ -7,14 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution.injection.sample;
 
 import java.util.Date;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class CustomType {
 
 	private final Date date = new Date();
@@ -23,5 +20,4 @@ public class CustomType {
 	public String toString() {
 		return "CustomType: " + this.date;
 	}
-
 }

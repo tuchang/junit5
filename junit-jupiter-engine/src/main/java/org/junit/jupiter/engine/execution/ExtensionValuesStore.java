@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -18,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
-
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContextException;
@@ -26,11 +24,11 @@ import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
 
 /**
- * {@code ExtensionValuesStore} is used inside implementations of
- * {@link ExtensionContext} to store and retrieve attributes.
- *
- * @since 5.0
- */
+* {@code ExtensionValuesStore} is used inside implementations of {@link ExtensionContext} to store
+* and retrieve attributes.
+*
+* @since 5.0
+*/
 @API(Internal)
 public class ExtensionValuesStore {
 
@@ -51,11 +49,9 @@ public class ExtensionValuesStore {
 			StoredValue storedValue = getStoredValue(namespace, key);
 			if (storedValue != null) {
 				return storedValue.value;
-			}
-			else if (this.parentStore != null) {
+			} else if (this.parentStore != null) {
 				return this.parentStore.get(namespace, key);
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
@@ -82,7 +78,8 @@ public class ExtensionValuesStore {
 		}
 	}
 
-	<K, V> V getOrComputeIfAbsent(Namespace namespace, K key, Function<K, V> defaultCreator, Class<V> requiredType) {
+	<K, V> V getOrComputeIfAbsent(
+			Namespace namespace, K key, Function<K, V> defaultCreator, Class<V> requiredType) {
 		Object value = getOrComputeIfAbsent(namespace, key, defaultCreator);
 		return castToRequiredType(key, value, requiredType);
 	}
@@ -131,7 +128,9 @@ public class ExtensionValuesStore {
 		}
 		// else
 		throw new ExtensionContextException(
-			String.format("Object stored under key [%s] is not of required type [%s]", key, requiredType.getName()));
+				String.format(
+						"Object stored under key [%s] is not of required type [%s]",
+						key, requiredType.getName()));
 	}
 
 	private static class CompositeKey {
@@ -146,10 +145,8 @@ public class ExtensionValuesStore {
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o)
-				return true;
-			if (o == null || getClass() != o.getClass())
-				return false;
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
 			CompositeKey that = (CompositeKey) o;
 			return this.namespace.equals(that.namespace) && this.key.equals(that.key);
 		}
@@ -168,5 +165,4 @@ public class ExtensionValuesStore {
 			this.value = value;
 		}
 	}
-
 }

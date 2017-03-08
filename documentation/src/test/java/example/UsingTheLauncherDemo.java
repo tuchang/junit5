@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // tag::imports[]
@@ -25,9 +24,7 @@ import org.junit.platform.launcher.core.LauncherFactory;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 // end::imports[]
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 class UsingTheLauncherDemo {
 
 	@Test
@@ -35,13 +32,11 @@ class UsingTheLauncherDemo {
 	void discovery() {
 		// @formatter:off
 		// tag::discovery[]
-		LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder.request()
-			.selectors(
-				selectPackage("com.example.mytests"),
-				selectClass(MyTestClass.class)
-			)
-			.filters(includeClassNamePatterns(".*Test"))
-			.build();
+		LauncherDiscoveryRequest request =
+				LauncherDiscoveryRequestBuilder.request()
+						.selectors(selectPackage("com.example.mytests"), selectClass(MyTestClass.class))
+						.filters(includeClassNamePatterns(".*Test"))
+						.build();
 
 		TestPlan plan = LauncherFactory.create().discover(request);
 		// end::discovery[]
@@ -52,13 +47,11 @@ class UsingTheLauncherDemo {
 	void execution() {
 		// @formatter:off
 		// tag::execution[]
-		LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder.request()
-			.selectors(
-				selectPackage("com.example.mytests"),
-				selectClass(MyTestClass.class)
-			)
-			.filters(includeClassNamePatterns(".*Test"))
-			.build();
+		LauncherDiscoveryRequest request =
+				LauncherDiscoveryRequestBuilder.request()
+						.selectors(selectPackage("com.example.mytests"), selectClass(MyTestClass.class))
+						.filters(includeClassNamePatterns(".*Test"))
+						.build();
 
 		Launcher launcher = LauncherFactory.create();
 
@@ -72,6 +65,4 @@ class UsingTheLauncherDemo {
 	}
 }
 
-class MyTestClass {
-
-}
+class MyTestClass {}

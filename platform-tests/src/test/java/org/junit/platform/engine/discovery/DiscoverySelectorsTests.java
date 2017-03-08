@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.discovery;
 
 import static java.util.Collections.singleton;
@@ -30,7 +29,6 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.extensions.TempDirectory;
@@ -38,18 +36,20 @@ import org.junit.jupiter.extensions.TempDirectory.Root;
 import org.junit.platform.commons.util.PreconditionViolationException;
 
 /**
- * Unit tests for {@link DiscoverySelectors}.
- *
- * @since 1.0
- */
+* Unit tests for {@link DiscoverySelectors}.
+*
+* @since 1.0
+*/
 public class DiscoverySelectorsTests {
 
 	private static final Method fullyQualifiedMethod = fullyQualifiedMethod();
-	private static final Method fullyQualifiedMethodWithParameters = fullyQualifiedMethodWithParameters();
+	private static final Method fullyQualifiedMethodWithParameters =
+			fullyQualifiedMethodWithParameters();
 	private static final Method fullyQualifiedDefaultMethod = fullyQualifiedDefaultMethod();
 
 	private static final String fullyQualifiedMethodName = fullyQualifiedMethodName();
-	private static final String fullyQualifiedMethodNameWithParameters = fullyQualifiedMethodNameWithParameters();
+	private static final String fullyQualifiedMethodNameWithParameters =
+			fullyQualifiedMethodNameWithParameters();
 	private static final String fullyQualifiedDefaultMethodName = fullyQualifiedDefaultMethodName();
 
 	@Test
@@ -91,7 +91,8 @@ public class DiscoverySelectorsTests {
 	@Test
 	void selectFileByFileReference() throws Exception {
 		assertThrows(PreconditionViolationException.class, () -> selectFile((File) null));
-		assertThrows(PreconditionViolationException.class, () -> selectFile(new File("bogus/nonexistent.txt")));
+		assertThrows(
+				PreconditionViolationException.class, () -> selectFile(new File("bogus/nonexistent.txt")));
 
 		File currentDir = new File(".").getCanonicalFile();
 		File relativeDir = new File("..", currentDir.getName());
@@ -120,7 +121,8 @@ public class DiscoverySelectorsTests {
 	@Test
 	void selectDirectoryByFileReference() throws Exception {
 		assertThrows(PreconditionViolationException.class, () -> selectDirectory((File) null));
-		assertThrows(PreconditionViolationException.class, () -> selectDirectory(new File("bogus/nonexistent")));
+		assertThrows(
+				PreconditionViolationException.class, () -> selectDirectory(new File("bogus/nonexistent")));
 
 		File currentDir = new File(".").getCanonicalFile();
 		File relativeDir = new File("..", currentDir.getName());
@@ -259,8 +261,8 @@ public class DiscoverySelectorsTests {
 		String spockClassName = "org.example.CalculatorSpec";
 		String spockMethodName = "#a plus #b equals #c";
 		String spockMethodParameters = "int, int, int";
-		String spockFullyQualifiedMethodName = spockClassName + "#" + spockMethodName + "(" + spockMethodParameters
-				+ ")";
+		String spockFullyQualifiedMethodName =
+				spockClassName + "#" + spockMethodName + "(" + spockMethodParameters + ")";
 
 		MethodSelector selector = selectMethod(spockFullyQualifiedMethodName);
 		assertEquals(spockClassName, selector.getClassName());
@@ -270,7 +272,8 @@ public class DiscoverySelectorsTests {
 
 	@Test
 	public void selectClasspathRootsWithNonExistingDirectory() throws Exception {
-		List<ClasspathRootSelector> selectors = selectClasspathRoots(singleton(Paths.get("some", "local", "path")));
+		List<ClasspathRootSelector> selectors =
+				selectClasspathRoots(singleton(Paths.get("some", "local", "path")));
 
 		assertThat(selectors).isEmpty();
 	}
@@ -287,7 +290,9 @@ public class DiscoverySelectorsTests {
 	public void selectClasspathRootsWithExistingDirectory(@Root Path tempDir) throws Exception {
 		List<ClasspathRootSelector> selectors = selectClasspathRoots(singleton(tempDir));
 
-		assertThat(selectors).extracting(ClasspathRootSelector::getClasspathRoot).containsExactly(tempDir.toUri());
+		assertThat(selectors)
+				.extracting(ClasspathRootSelector::getClasspathRoot)
+				.containsExactly(tempDir.toUri());
 	}
 
 	@Test
@@ -297,27 +302,33 @@ public class DiscoverySelectorsTests {
 
 		List<ClasspathRootSelector> selectors = selectClasspathRoots(singleton(jarFile));
 
-		assertThat(selectors).extracting(ClasspathRootSelector::getClasspathRoot).containsExactly(jarUri);
+		assertThat(selectors)
+				.extracting(ClasspathRootSelector::getClasspathRoot)
+				.containsExactly(jarUri);
 	}
 
 	private static String fullyQualifiedMethodName() {
-		return String.format("%s#%s()", DiscoverySelectorsTests.class.getName(), fullyQualifiedMethod().getName());
+		return String.format(
+				"%s#%s()", DiscoverySelectorsTests.class.getName(), fullyQualifiedMethod().getName());
 	}
 
 	private static String fullyQualifiedMethodNameWithParameters() {
-		return String.format("%s#%s(%s)", DiscoverySelectorsTests.class.getName(), fullyQualifiedMethod().getName(),
-			String.class.getName());
+		return String.format(
+				"%s#%s(%s)",
+				DiscoverySelectorsTests.class.getName(),
+				fullyQualifiedMethod().getName(),
+				String.class.getName());
 	}
 
 	private static String fullyQualifiedDefaultMethodName() {
-		return String.format("%s#%s()", TestCaseWithDefaultMethod.class.getName(), fullyQualifiedMethod().getName());
+		return String.format(
+				"%s#%s()", TestCaseWithDefaultMethod.class.getName(), fullyQualifiedMethod().getName());
 	}
 
 	private static Method fullyQualifiedMethod() {
 		try {
 			return DiscoverySelectorsTests.class.getDeclaredMethod("myTest");
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			throw new IllegalStateException(ex);
 		}
 	}
@@ -325,8 +336,7 @@ public class DiscoverySelectorsTests {
 	private static Method fullyQualifiedMethodWithParameters() {
 		try {
 			return DiscoverySelectorsTests.class.getDeclaredMethod("myTest", String.class);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			throw new IllegalStateException(ex);
 		}
 	}
@@ -334,8 +344,7 @@ public class DiscoverySelectorsTests {
 	private static Method fullyQualifiedDefaultMethod() {
 		try {
 			return TestCaseWithDefaultMethod.class.getMethod("myTest");
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			throw new IllegalStateException(ex);
 		}
 	}
@@ -343,17 +352,12 @@ public class DiscoverySelectorsTests {
 	interface TestInterface {
 
 		@Test
-		default void myTest() {
-		}
+		default void myTest() {}
 	}
 
-	static class TestCaseWithDefaultMethod implements TestInterface {
-	}
+	static class TestCaseWithDefaultMethod implements TestInterface {}
 
-	void myTest() {
-	}
+	void myTest() {}
 
-	void myTest(String info) {
-	}
-
+	void myTest(String info) {}
 }

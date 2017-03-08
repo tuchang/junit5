@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package extensions;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -16,7 +15,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
@@ -32,7 +30,8 @@ public @interface ExpectToFail {
 	static class Extension implements TestExecutionExceptionHandler, AfterEachCallback {
 
 		@Override
-		public void handleTestExecutionException(TestExtensionContext context, Throwable throwable) throws Throwable {
+		public void handleTestExecutionException(TestExtensionContext context, Throwable throwable)
+				throws Throwable {
 			getExceptionStore(context).put("exception", throwable);
 		}
 
@@ -45,5 +44,4 @@ public @interface ExpectToFail {
 			return context.getStore(Namespace.create(context));
 		}
 	}
-
 }

@@ -7,46 +7,31 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.options;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 
 import org.junit.platform.commons.meta.API;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 @API(Internal)
 public enum Details {
 
-	/**
-	 * No test plan execution details are printed.
-	 */
+	/** No test plan execution details are printed. */
 	NONE,
 
-	/**
-	 * Test plan execution details are rendered in a flat, line-by-line mode.
-	 */
+	/** Test plan execution details are rendered in a flat, line-by-line mode. */
 	FLAT,
 
-	/**
-	 * Test plan execution details are rendered as a simple tree.
-	 */
+	/** Test plan execution details are rendered as a simple tree. */
 	TREE,
 
-	/**
-	 * Combines {@link #TREE} and {@link #FLAT} modes.
-	 */
+	/** Combines {@link #TREE} and {@link #FLAT} modes. */
 	VERBOSE;
 
-	/**
-	 * Return lower case {@link #name} for easier usage in help text for
-	 * available options.
-	 */
+	/** Return lower case {@link #name} for easier usage in help text for available options. */
 	@Override
 	public String toString() {
 		return name().toLowerCase();
 	}
-
 }

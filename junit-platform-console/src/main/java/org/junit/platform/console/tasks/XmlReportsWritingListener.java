@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import java.io.IOException;
@@ -17,9 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Clock;
-
 import javax.xml.stream.XMLStreamException;
-
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.reporting.ReportEntry;
@@ -27,9 +24,7 @@ import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class XmlReportsWritingListener implements TestExecutionListener {
 
 	private final Path reportsDir;
@@ -58,8 +53,7 @@ class XmlReportsWritingListener implements TestExecutionListener {
 		this.reportData = new XmlReportData(testPlan, clock);
 		try {
 			Files.createDirectories(reportsDir);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			printException("Could not create reports directory: " + reportsDir, e);
 		}
 	}
@@ -93,7 +87,8 @@ class XmlReportsWritingListener implements TestExecutionListener {
 
 	private void writeXmlReportInCaseOfRoot(TestIdentifier testIdentifier) {
 		if (isARoot(testIdentifier)) {
-			String rootName = UniqueId.parse(testIdentifier.getUniqueId()).getSegments().get(0).getValue();
+			String rootName =
+					UniqueId.parse(testIdentifier.getUniqueId()).getSegments().get(0).getValue();
 			writeXmlReportSafely(testIdentifier, rootName);
 		}
 	}
@@ -102,8 +97,7 @@ class XmlReportsWritingListener implements TestExecutionListener {
 		Path xmlFile = reportsDir.resolve("TEST-" + rootName + ".xml");
 		try (Writer fileWriter = Files.newBufferedWriter(xmlFile)) {
 			new XmlReportWriter(reportData).writeXmlReport(testIdentifier, fileWriter);
-		}
-		catch (XMLStreamException | IOException e) {
+		} catch (XMLStreamException | IOException e) {
 			printException("Could not write XML report: " + xmlFile, e);
 		}
 	}
@@ -116,5 +110,4 @@ class XmlReportsWritingListener implements TestExecutionListener {
 		out.println(message);
 		exception.printStackTrace(out);
 	}
-
 }

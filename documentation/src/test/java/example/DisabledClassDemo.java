@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // tag::user_guide[]
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 @Disabled
 class DisabledClassDemo {
 	@Test
-	void testWillBeSkipped() {
-	}
+	void testWillBeSkipped() {}
 }
 // end::user_guide[]

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules.adapter;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -16,9 +15,7 @@ import org.junit.jupiter.migrationsupport.rules.member.TestRuleAnnotatedMember;
 import org.junit.platform.commons.meta.API;
 import org.junit.rules.ExternalResource;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Internal)
 public class ExternalResourceAdapter extends AbstractTestRuleAdapter {
 
@@ -35,5 +32,4 @@ public class ExternalResourceAdapter extends AbstractTestRuleAdapter {
 	public void after() {
 		executeMethod("after");
 	}
-
 }

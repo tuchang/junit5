@@ -7,14 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import java.lang.reflect.Member;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
@@ -26,16 +24,15 @@ import org.junit.jupiter.migrationsupport.rules.member.TestRuleAnnotatedMemberFa
 import org.junit.platform.commons.util.ExceptionUtils;
 import org.junit.rules.TestRule;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 abstract class AbstractTestRuleSupport<T extends Member>
 		implements BeforeEachCallback, TestExecutionExceptionHandler, AfterEachCallback {
 
 	private final Class<? extends TestRule> ruleType;
 	private final Function<TestRuleAnnotatedMember, AbstractTestRuleAdapter> adapterGenerator;
 
-	AbstractTestRuleSupport(Function<TestRuleAnnotatedMember, AbstractTestRuleAdapter> adapterGenerator,
+	AbstractTestRuleSupport(
+			Function<TestRuleAnnotatedMember, AbstractTestRuleAdapter> adapterGenerator,
 			Class<? extends TestRule> ruleType) {
 		this.adapterGenerator = adapterGenerator;
 		this.ruleType = ruleType;
@@ -53,15 +50,17 @@ abstract class AbstractTestRuleSupport<T extends Member>
 	}
 
 	@Override
-	public void handleTestExecutionException(TestExtensionContext context, Throwable throwable) throws Throwable {
-		invokeAppropriateMethodOnRuleAnnotatedMembers(context, advice -> {
-			try {
-				advice.handleTestExecutionException(throwable);
-			}
-			catch (Throwable t) {
-				throw ExceptionUtils.throwAsUncheckedException(t);
-			}
-		});
+	public void handleTestExecutionException(TestExtensionContext context, Throwable throwable)
+			throws Throwable {
+		invokeAppropriateMethodOnRuleAnnotatedMembers(
+				context,
+				advice -> {
+					try {
+						advice.handleTestExecutionException(throwable);
+					} catch (Throwable t) {
+						throw ExceptionUtils.throwAsUncheckedException(t);
+					}
+				});
 	}
 
 	@Override
@@ -69,17 +68,17 @@ abstract class AbstractTestRuleSupport<T extends Member>
 		invokeAppropriateMethodOnRuleAnnotatedMembers(context, GenericBeforeAndAfterAdvice::after);
 	}
 
-	private void invokeAppropriateMethodOnRuleAnnotatedMembers(TestExtensionContext context,
-			Consumer<GenericBeforeAndAfterAdvice> methodCaller) {
+	private void invokeAppropriateMethodOnRuleAnnotatedMembers(
+			TestExtensionContext context, Consumer<GenericBeforeAndAfterAdvice> methodCaller) {
 
 		List<T> members = findRuleAnnotatedMembers(context.getTestInstance());
 
 		// @formatter:off
-		members.stream()
+		members
+				.stream()
 				.map(member -> TestRuleAnnotatedMemberFactory.from(context.getTestInstance(), member))
 				.map(this.adapterGenerator)
 				.forEach(methodCaller::accept);
 		// @formatter:on
 	}
-
 }

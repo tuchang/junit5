@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 import org.junit.platform.runner.ExcludeTags;
@@ -17,21 +16,21 @@ import org.junit.platform.runner.SelectPackages;
 import org.junit.runner.RunWith;
 
 /**
- * <h3>Logging Configuration</h3>
- *
- * <p>In order for our log4j2 configuration to be used in an IDE, you must
- * set the following system property before running any tests &mdash; for
- * example, in <em>Run Configurations</em> in Eclipse.
- *
- * <pre class="code">
- * -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
- * </pre>
- *
- * @since 5.0
- */
+*
+*
+* <h3>Logging Configuration</h3>
+*
+* <p>In order for our log4j2 configuration to be used in an IDE, you must set the following system
+* property before running any tests &mdash; for example, in <em>Run Configurations</em> in Eclipse.
+*
+* <pre class="code">
+* -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
+* </pre>
+*
+* @since 5.0
+*/
 @RunWith(JUnitPlatform.class)
 @SelectPackages("example")
 @IncludeClassNamePatterns(".+(Tests|Demo)$")
 @ExcludeTags("exclude")
-public class DocumentationTestSuite {
-}
+public class DocumentationTestSuite {}

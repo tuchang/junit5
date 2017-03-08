@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 //tag::user_guide[]
@@ -20,6 +19,5 @@ import org.junit.runner.RunWith;
 //end::user_guide[]
 @org.junit.platform.runner.ExcludeTags("exclude")
 //tag::user_guide[]
-public class JUnit4SuiteDemo {
-}
+public class JUnit4SuiteDemo {}
 //end::user_guide[]

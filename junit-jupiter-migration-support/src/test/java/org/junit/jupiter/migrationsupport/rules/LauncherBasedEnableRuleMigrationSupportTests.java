@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,32 +31,42 @@ public class LauncherBasedEnableRuleMigrationSupportTests {
 
 	@Test
 	public void enableRuleMigrationSupportAnnotationWorksForBothRuleTypes() {
-		ExecutionEventRecorder eventRecorder = executeTestsForClass(
-			EnableRuleMigrationSupportWithBothRuleTypesTestCase.class);
+		ExecutionEventRecorder eventRecorder =
+				executeTestsForClass(EnableRuleMigrationSupportWithBothRuleTypesTestCase.class);
 
 		assertEquals(1, eventRecorder.getTestStartedCount(), "# tests started");
 		assertEquals(1, eventRecorder.getTestSuccessfulCount(), "# tests succeeded");
 		assertEquals(0, eventRecorder.getTestAbortedCount(), "# tests aborted");
 		assertEquals(0, eventRecorder.getTestFailedCount(), "# tests failed");
 
-		assertEquals(true, EnableRuleMigrationSupportWithBothRuleTypesTestCase.afterOfRule1WasExecuted,
-			"after of rule 1 executed?");
-		assertEquals(true, EnableRuleMigrationSupportWithBothRuleTypesTestCase.beforeOfRule2WasExecuted,
-			"before of rule 2 executed?");
-		assertEquals(true, EnableRuleMigrationSupportWithBothRuleTypesTestCase.afterOfRule2WasExecuted,
-			"before of rule 2 executed?");
+		assertEquals(
+				true,
+				EnableRuleMigrationSupportWithBothRuleTypesTestCase.afterOfRule1WasExecuted,
+				"after of rule 1 executed?");
+		assertEquals(
+				true,
+				EnableRuleMigrationSupportWithBothRuleTypesTestCase.beforeOfRule2WasExecuted,
+				"before of rule 2 executed?");
+		assertEquals(
+				true,
+				EnableRuleMigrationSupportWithBothRuleTypesTestCase.afterOfRule2WasExecuted,
+				"before of rule 2 executed?");
 	}
 
 	@Test
 	public void verifierSupportForErrorCollectorFieldFailsTheTest() {
-		ExecutionEventRecorder eventRecorder = executeTestsForClass(VerifierSupportForErrorCollectorTestCase.class);
+		ExecutionEventRecorder eventRecorder =
+				executeTestsForClass(VerifierSupportForErrorCollectorTestCase.class);
 
 		assertEquals(1, eventRecorder.getTestStartedCount(), "# tests started");
 		assertEquals(0, eventRecorder.getTestSuccessfulCount(), "# tests succeeded");
 		assertEquals(0, eventRecorder.getTestAbortedCount(), "# tests aborted");
 		assertEquals(1, eventRecorder.getTestFailedCount(), "# tests failed");
 
-		assertEquals(true, VerifierSupportForErrorCollectorTestCase.survivedBothErrors, "after of rule 1 executed?");
+		assertEquals(
+				true,
+				VerifierSupportForErrorCollectorTestCase.survivedBothErrors,
+				"after of rule 1 executed?");
 	}
 
 	private final JupiterTestEngine engine = new JupiterTestEngine();
@@ -69,7 +78,8 @@ public class LauncherBasedEnableRuleMigrationSupportTests {
 	private ExecutionEventRecorder executeTests(LauncherDiscoveryRequest request) {
 		TestDescriptor testDescriptor = discoverTests(request);
 		ExecutionEventRecorder eventRecorder = new ExecutionEventRecorder();
-		engine.execute(new ExecutionRequest(testDescriptor, eventRecorder, request.getConfigurationParameters()));
+		engine.execute(
+				new ExecutionRequest(testDescriptor, eventRecorder, request.getConfigurationParameters()));
 		return eventRecorder;
 	}
 
@@ -86,25 +96,27 @@ public class LauncherBasedEnableRuleMigrationSupportTests {
 		static boolean afterOfRule2WasExecuted = false;
 
 		@Rule
-		public Verifier verifier1 = new Verifier() {
+		public Verifier verifier1 =
+				new Verifier() {
 
-			@Override
-			protected void verify() throws Throwable {
-				afterOfRule1WasExecuted = true;
-			}
-		};
+					@Override
+					protected void verify() throws Throwable {
+						afterOfRule1WasExecuted = true;
+					}
+				};
 
-		private ExternalResource resource2 = new ExternalResource() {
-			@Override
-			protected void before() throws Throwable {
-				beforeOfRule2WasExecuted = true;
-			}
+		private ExternalResource resource2 =
+				new ExternalResource() {
+					@Override
+					protected void before() throws Throwable {
+						beforeOfRule2WasExecuted = true;
+					}
 
-			@Override
-			protected void after() {
-				afterOfRule2WasExecuted = true;
-			}
-		};
+					@Override
+					protected void after() {
+						afterOfRule2WasExecuted = true;
+					}
+				};
 
 		@Rule
 		public ExternalResource getResource2() {
@@ -115,7 +127,6 @@ public class LauncherBasedEnableRuleMigrationSupportTests {
 		void beforeMethodOfBothRule2WasExecuted() {
 			assertTrue(beforeOfRule2WasExecuted);
 		}
-
 	}
 
 	@ExtendWith(VerifierSupport.class)
@@ -123,8 +134,7 @@ public class LauncherBasedEnableRuleMigrationSupportTests {
 
 		static boolean survivedBothErrors = false;
 
-		@Rule
-		public ErrorCollector collector = new ErrorCollector();
+		@Rule public ErrorCollector collector = new ErrorCollector();
 
 		@Test
 		void addingTwoThrowablesToErrorCollectorFailsLate() {
@@ -133,7 +143,5 @@ public class LauncherBasedEnableRuleMigrationSupportTests {
 
 			survivedBothErrors = true;
 		}
-
 	}
-
 }

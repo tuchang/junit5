@@ -7,18 +7,14 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static org.junit.platform.commons.util.ReflectionUtils.findAllClassesInClasspathRoot;
 
 import java.util.function.Predicate;
-
 import org.junit.platform.engine.discovery.ClasspathRootSelector;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class ClasspathRootSelectorResolver extends DiscoverySelectorResolver<ClasspathRootSelector> {
 
 	private final Predicate<String> classNamePredicate;
@@ -30,8 +26,7 @@ class ClasspathRootSelectorResolver extends DiscoverySelectorResolver<ClasspathR
 
 	@Override
 	void resolve(ClasspathRootSelector selector, TestClassCollector collector) {
-		findAllClassesInClasspathRoot(selector.getClasspathRoot(), classTester, classNamePredicate).forEach(
-			collector::addCompletely);
+		findAllClassesInClasspathRoot(selector.getClasspathRoot(), classTester, classNamePredicate)
+				.forEach(collector::addCompletely);
 	}
-
 }

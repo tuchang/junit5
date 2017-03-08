@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +21,6 @@ import static org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder.r
 import static org.junit.platform.launcher.core.LauncherFactoryForTestingPurposesOnly.createLauncher;
 
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.JUnitException;
 import org.junit.platform.commons.util.PreconditionViolationException;
@@ -41,29 +39,32 @@ import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class DefaultLauncherTests {
 
 	private static final String FOO = DefaultLauncherTests.class.getSimpleName() + ".foo";
 	private static final String BAR = DefaultLauncherTests.class.getSimpleName() + ".bar";
 
-	private static final Runnable noOp = () -> {
-	};
+	private static final Runnable noOp = () -> {};
 
 	@Test
 	void constructLauncherWithoutAnyEngines() {
-		Throwable exception = assertThrows(PreconditionViolationException.class, () -> createLauncher());
+		Throwable exception =
+				assertThrows(PreconditionViolationException.class, () -> createLauncher());
 
-		assertThat(exception).hasMessageContaining("Cannot create Launcher without at least one TestEngine");
+		assertThat(exception)
+				.hasMessageContaining("Cannot create Launcher without at least one TestEngine");
 	}
 
 	@Test
 	void constructLauncherWithMultipleTestEnginesWithDuplicateIds() {
-		JUnitException exception = assertThrows(JUnitException.class,
-			() -> createLauncher(new DemoHierarchicalTestEngine("dummy id"),
-				new DemoHierarchicalTestEngine("dummy id")));
+		JUnitException exception =
+				assertThrows(
+						JUnitException.class,
+						() ->
+								createLauncher(
+										new DemoHierarchicalTestEngine("dummy id"),
+										new DemoHierarchicalTestEngine("dummy id")));
 
 		assertThat(exception).hasMessageContaining("multiple engines with the same ID");
 	}
@@ -72,8 +73,10 @@ class DefaultLauncherTests {
 	void registerTestExecutionListenersWithNullArray() {
 		DefaultLauncher launcher = createLauncher(new DemoHierarchicalTestEngine("dummy id"));
 
-		PreconditionViolationException exception = assertThrows(PreconditionViolationException.class,
-			() -> launcher.registerTestExecutionListeners((TestExecutionListener[]) null));
+		PreconditionViolationException exception =
+				assertThrows(
+						PreconditionViolationException.class,
+						() -> launcher.registerTestExecutionListeners((TestExecutionListener[]) null));
 
 		assertThat(exception).hasMessageContaining("listeners array must not be null or empty");
 	}
@@ -82,8 +85,10 @@ class DefaultLauncherTests {
 	void registerTestExecutionListenersWithEmptyArray() {
 		DefaultLauncher launcher = createLauncher(new DemoHierarchicalTestEngine("dummy id"));
 
-		PreconditionViolationException exception = assertThrows(PreconditionViolationException.class,
-			() -> launcher.registerTestExecutionListeners(new TestExecutionListener[0]));
+		PreconditionViolationException exception =
+				assertThrows(
+						PreconditionViolationException.class,
+						() -> launcher.registerTestExecutionListeners(new TestExecutionListener[0]));
 
 		assertThat(exception).hasMessageContaining("listeners array must not be null or empty");
 	}
@@ -92,8 +97,10 @@ class DefaultLauncherTests {
 	void registerTestExecutionListenersWithArrayContainingNullElements() {
 		DefaultLauncher launcher = createLauncher(new DemoHierarchicalTestEngine("dummy id"));
 
-		PreconditionViolationException exception = assertThrows(PreconditionViolationException.class,
-			() -> launcher.registerTestExecutionListeners(new TestExecutionListener[] { null }));
+		PreconditionViolationException exception =
+				assertThrows(
+						PreconditionViolationException.class,
+						() -> launcher.registerTestExecutionListeners(new TestExecutionListener[] {null}));
 
 		assertThat(exception).hasMessageContaining("individual listeners must not be null");
 	}
@@ -109,21 +116,26 @@ class DefaultLauncherTests {
 
 	@Test
 	void discoverTestPlanForEngineThatReturnsNullForItsRootDescriptor() {
-		TestEngine engine = new TestEngineStub() {
+		TestEngine engine =
+				new TestEngineStub() {
 
-			@Override
-			public TestDescriptor discover(org.junit.platform.engine.EngineDiscoveryRequest discoveryRequest,
-					UniqueId uniqueId) {
-				return null;
-			}
-		};
+					@Override
+					public TestDescriptor discover(
+							org.junit.platform.engine.EngineDiscoveryRequest discoveryRequest,
+							UniqueId uniqueId) {
+						return null;
+					}
+				};
 
-		Throwable exception = assertThrows(PreconditionViolationException.class,
-			() -> createLauncher(engine).discover(request().build()));
+		Throwable exception =
+				assertThrows(
+						PreconditionViolationException.class,
+						() -> createLauncher(engine).discover(request().build()));
 
-		assertThat(exception).hasMessage(
-			"The discover() method for TestEngine with ID '%s' must return a non-null root TestDescriptor.",
-			engine.getId());
+		assertThat(exception)
+				.hasMessage(
+						"The discover() method for TestEngine with ID '%s' must return a non-null root TestDescriptor.",
+						engine.getId());
 	}
 
 	@Test
@@ -151,8 +163,11 @@ class DefaultLauncherTests {
 
 		DefaultLauncher launcher = createLauncher(firstEngine, secondEngine);
 
-		TestPlan testPlan = launcher.discover(
-			request().selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId())).build());
+		TestPlan testPlan =
+				launcher.discover(
+						request()
+								.selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId()))
+								.build());
 
 		assertThat(testPlan.getRoots()).hasSize(2);
 		assertThat(testPlan.getChildren(UniqueId.forEngine("engine1").toString())).hasSize(1);
@@ -169,11 +184,12 @@ class DefaultLauncherTests {
 		DefaultLauncher launcher = createLauncher(firstEngine, secondEngine);
 
 		// @formatter:off
-		TestPlan testPlan = launcher.discover(
-			request()
-				.selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId()))
-				.filters(includeEngines("first"))
-				.build());
+		TestPlan testPlan =
+				launcher.discover(
+						request()
+								.selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId()))
+								.filters(includeEngines("first"))
+								.build());
 		// @formatter:on
 
 		assertThat(testPlan.getRoots()).hasSize(1);
@@ -192,11 +208,12 @@ class DefaultLauncherTests {
 		DefaultLauncher launcher = createLauncher(firstEngine, secondEngine);
 
 		// @formatter:off
-		TestPlan testPlan = launcher.discover(
-			request()
-				.selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId()))
-				.filters(includeEngines("first", "second"))
-				.build());
+		TestPlan testPlan =
+				launcher.discover(
+						request()
+								.selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId()))
+								.filters(includeEngines("first", "second"))
+								.build());
 		// @formatter:on
 
 		assertThat(testPlan.getRoots()).hasSize(2);
@@ -212,11 +229,12 @@ class DefaultLauncherTests {
 		DefaultLauncher launcher = createLauncher(firstEngine, secondEngine);
 
 		// @formatter:off
-		TestPlan testPlan = launcher.discover(
-			request()
-				.selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId()))
-				.filters(includeEngines("first"), includeEngines("second"))
-				.build());
+		TestPlan testPlan =
+				launcher.discover(
+						request()
+								.selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId()))
+								.filters(includeEngines("first"), includeEngines("second"))
+								.build());
 		// @formatter:on
 
 		assertThat(testPlan.getRoots()).isEmpty();
@@ -232,11 +250,12 @@ class DefaultLauncherTests {
 		DefaultLauncher launcher = createLauncher(firstEngine, secondEngine);
 
 		// @formatter:off
-		TestPlan testPlan = launcher.discover(
-			request()
-				.selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId()))
-				.filters(excludeEngines("second"))
-				.build());
+		TestPlan testPlan =
+				launcher.discover(
+						request()
+								.selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId()))
+								.filters(excludeEngines("second"))
+								.build());
 		// @formatter:on
 
 		assertThat(testPlan.getRoots()).hasSize(1);
@@ -257,11 +276,15 @@ class DefaultLauncherTests {
 		DefaultLauncher launcher = createLauncher(firstEngine, secondEngine, thirdEngine);
 
 		// @formatter:off
-		TestPlan testPlan = launcher.discover(
-			request()
-				.selectors(selectUniqueId(test1.getUniqueId()), selectUniqueId(test2.getUniqueId()), selectUniqueId(test3.getUniqueId()))
-				.filters(includeEngines("first", "second"), excludeEngines("second"))
-				.build());
+		TestPlan testPlan =
+				launcher.discover(
+						request()
+								.selectors(
+										selectUniqueId(test1.getUniqueId()),
+										selectUniqueId(test2.getUniqueId()),
+										selectUniqueId(test3.getUniqueId()))
+								.filters(includeEngines("first", "second"), excludeEngines("second"))
+								.build());
 		// @formatter:on
 
 		assertThat(testPlan.getRoots()).hasSize(1);
@@ -278,42 +301,52 @@ class DefaultLauncherTests {
 
 		DefaultLauncher launcher = createLauncher(engine);
 
-		PostDiscoveryFilter includeWithUniqueIdContainsTest = new PostDiscoveryFilterStub(
-			descriptor -> FilterResult.includedIf(descriptor.getUniqueId().toString().contains("test")),
-			() -> "filter1");
-		PostDiscoveryFilter includeWithUniqueIdContains1 = new PostDiscoveryFilterStub(
-			descriptor -> FilterResult.includedIf(descriptor.getUniqueId().toString().contains("1")), () -> "filter2");
+		PostDiscoveryFilter includeWithUniqueIdContainsTest =
+				new PostDiscoveryFilterStub(
+						descriptor ->
+								FilterResult.includedIf(descriptor.getUniqueId().toString().contains("test")),
+						() -> "filter1");
+		PostDiscoveryFilter includeWithUniqueIdContains1 =
+				new PostDiscoveryFilterStub(
+						descriptor ->
+								FilterResult.includedIf(descriptor.getUniqueId().toString().contains("1")),
+						() -> "filter2");
 
-		TestPlan testPlan = launcher.discover( //
-			request() //
-					.selectors(selectPackage("any")) //
-					.filters(includeWithUniqueIdContainsTest, includeWithUniqueIdContains1) //
-					.build());
+		TestPlan testPlan =
+				launcher.discover( //
+						request() //
+								.selectors(selectPackage("any")) //
+								.filters(includeWithUniqueIdContainsTest, includeWithUniqueIdContains1) //
+								.build());
 
 		assertThat(testPlan.getChildren(UniqueId.forEngine("myEngine").toString())).hasSize(1);
 		assertThat(testPlan.getTestIdentifier(test1.getUniqueId().toString())).isNotNull();
 	}
 
 	@Test
-	void withoutConfigurationParameters_launcherPassesEmptyConfigurationParametersIntoTheExecutionRequest() {
+	void
+			withoutConfigurationParameters_launcherPassesEmptyConfigurationParametersIntoTheExecutionRequest() {
 		TestEngineSpy engine = new TestEngineSpy();
 
 		DefaultLauncher launcher = createLauncher(engine);
 		launcher.execute(request().build());
 
-		ConfigurationParameters configurationParameters = engine.requestForExecution.getConfigurationParameters();
+		ConfigurationParameters configurationParameters =
+				engine.requestForExecution.getConfigurationParameters();
 		assertThat(configurationParameters.get("key").isPresent()).isFalse();
 		assertThat(configurationParameters.size()).isEqualTo(0);
 	}
 
 	@Test
-	void withConfigurationParameters_launcherPassesPopulatedConfigurationParametersIntoTheExecutionRequest() {
+	void
+			withConfigurationParameters_launcherPassesPopulatedConfigurationParametersIntoTheExecutionRequest() {
 		TestEngineSpy engine = new TestEngineSpy();
 
 		DefaultLauncher launcher = createLauncher(engine);
 		launcher.execute(request().configurationParameter("key", "value").build());
 
-		ConfigurationParameters configurationParameters = engine.requestForExecution.getConfigurationParameters();
+		ConfigurationParameters configurationParameters =
+				engine.requestForExecution.getConfigurationParameters();
 		assertThat(configurationParameters.size()).isEqualTo(1);
 		assertThat(configurationParameters.get("key").isPresent()).isTrue();
 		assertThat(configurationParameters.get("key").get()).isEqualTo("value");
@@ -329,15 +362,14 @@ class DefaultLauncherTests {
 			DefaultLauncher launcher = createLauncher(engine);
 			launcher.execute(request().build());
 
-			ConfigurationParameters configurationParameters = engine.requestForExecution.getConfigurationParameters();
+			ConfigurationParameters configurationParameters =
+					engine.requestForExecution.getConfigurationParameters();
 			assertThat(configurationParameters.size()).isEqualTo(0);
 			Optional<String> optionalFoo = configurationParameters.get(FOO);
 			assertTrue(optionalFoo.isPresent(), "foo should have been picked up via system property");
 			assertEquals(BAR, optionalFoo.get(), "foo property");
-		}
-		finally {
+		} finally {
 			System.clearProperty(FOO);
 		}
 	}
-
 }

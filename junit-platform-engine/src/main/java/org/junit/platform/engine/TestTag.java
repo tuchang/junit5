@@ -7,23 +7,20 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.Preconditions;
 
 /**
- * Immutable value object for a <em>tag</em> that is assigned to a test or
- * container.
- *
- * @since 1.0
- */
+* Immutable value object for a <em>tag</em> that is assigned to a test or container.
+*
+* @since 1.0
+*/
 @API(Experimental)
 public final class TestTag implements Serializable {
 
@@ -32,10 +29,10 @@ public final class TestTag implements Serializable {
 	private final String name;
 
 	/**
-	 * Create a {@code TestTag} from the supplied {@code name}.
-	 *
-	 * @param name the name of the tag; must not be null or blank
-	 */
+	* Create a {@code TestTag} from the supplied {@code name}.
+	*
+	* @param name the name of the tag; must not be null or blank
+	*/
 	public static TestTag create(String name) {
 		return new TestTag(name);
 	}
@@ -45,9 +42,7 @@ public final class TestTag implements Serializable {
 		this.name = name;
 	}
 
-	/**
-	 * Get the name of this tag.
-	 */
+	/** Get the name of this tag. */
 	public String getName() {
 		return name;
 	}
@@ -70,5 +65,4 @@ public final class TestTag implements Serializable {
 	public String toString() {
 		return name;
 	}
-
 }

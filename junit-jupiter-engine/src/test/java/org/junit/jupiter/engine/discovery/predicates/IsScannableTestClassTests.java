@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery.predicates;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -16,15 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Predicate;
-
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class IsScannableTestClassTests {
 
 	private final Predicate<Class<?>> isScannableTestClass = new IsScannableTestClass();
@@ -65,19 +61,15 @@ public class IsScannableTestClassTests {
 		Collection<DynamicTest> factory() {
 			return new ArrayList<>();
 		}
-
 	}
 
 	private class PrivateClassWithTestCases {
 
 		@Test
-		void first() {
-		}
+		void first() {}
 
 		@Test
-		void second() {
-		}
-
+		void second() {}
 	}
 
 	private class PrivateClassWithNestedTestCases {
@@ -86,14 +78,10 @@ public class IsScannableTestClassTests {
 		class InnerClass {
 
 			@Test
-			void first() {
-			}
+			void first() {}
 
 			@Test
-			void second() {
-			}
-
+			void second() {}
 		}
 	}
-
 }

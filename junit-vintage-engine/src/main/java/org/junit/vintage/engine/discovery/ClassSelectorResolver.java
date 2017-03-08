@@ -7,14 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import org.junit.platform.engine.discovery.ClassSelector;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class ClassSelectorResolver extends DiscoverySelectorResolver<ClassSelector> {
 
 	ClassSelectorResolver() {
@@ -25,5 +22,4 @@ class ClassSelectorResolver extends DiscoverySelectorResolver<ClassSelector> {
 	void resolve(ClassSelector selector, TestClassCollector collector) {
 		collector.addCompletely(selector.getJavaClass());
 	}
-
 }

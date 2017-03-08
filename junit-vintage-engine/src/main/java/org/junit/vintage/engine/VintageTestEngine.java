@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -16,7 +15,6 @@ import static org.junit.vintage.engine.descriptor.VintageTestDescriptor.ENGINE_I
 
 import java.util.Optional;
 import java.util.logging.Logger;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.engine.EngineDiscoveryRequest;
 import org.junit.platform.engine.EngineExecutionListener;
@@ -29,9 +27,7 @@ import org.junit.vintage.engine.descriptor.RunnerTestDescriptor;
 import org.junit.vintage.engine.discovery.JUnit4DiscoveryRequestResolver;
 import org.junit.vintage.engine.execution.RunnerExecutor;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @API(Experimental)
 public class VintageTestEngine implements TestEngine {
 
@@ -42,17 +38,13 @@ public class VintageTestEngine implements TestEngine {
 		return ENGINE_ID;
 	}
 
-	/**
-	 * Returns {@code org.junit.vintage} as the group ID.
-	 */
+	/** Returns {@code org.junit.vintage} as the group ID. */
 	@Override
 	public Optional<String> getGroupId() {
 		return Optional.of("org.junit.vintage");
 	}
 
-	/**
-	 * Returns {@code junit-vintage-engine} as the artifact ID.
-	 */
+	/** Returns {@code junit-vintage-engine} as the artifact ID. */
 	@Override
 	public Optional<String> getArtifactId() {
 		return Optional.of("junit-vintage-engine");
@@ -75,12 +67,14 @@ public class VintageTestEngine implements TestEngine {
 		engineExecutionListener.executionFinished(engineTestDescriptor, successful());
 	}
 
-	private void executeAllChildren(RunnerExecutor runnerExecutor, TestDescriptor engineTestDescriptor) {
+	private void executeAllChildren(
+			RunnerExecutor runnerExecutor, TestDescriptor engineTestDescriptor) {
 		// @formatter:off
-		engineTestDescriptor.getChildren()
-			.stream()
-			.map(RunnerTestDescriptor.class::cast)
-			.forEach(runnerExecutor::execute);
+		engineTestDescriptor
+				.getChildren()
+				.stream()
+				.map(RunnerTestDescriptor.class::cast)
+				.forEach(runnerExecutor::execute);
 		// @formatter:on
 	}
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import static org.junit.platform.engine.Filter.composeFilters;
@@ -15,31 +14,29 @@ import static org.junit.platform.engine.Filter.composeFilters;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.junit.platform.engine.Filter;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.TestEngine;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 /**
- * Represents the root of all discovered {@link TestEngine TestEngines} and
- * their {@link TestDescriptor TestDescriptors}.
- *
- * @since 1.0
- */
+* Represents the root of all discovered {@link TestEngine TestEngines} and their {@link
+* TestDescriptor TestDescriptors}.
+*
+* @since 1.0
+*/
 class Root {
 
-	private static final TestDescriptor.Visitor REMOVE_DESCRIPTORS_WITHOUT_TESTS = descriptor -> {
-		if (!descriptor.isRoot() && !descriptor.hasTests()) {
-			descriptor.removeFromHierarchy();
-		}
-	};
+	private static final TestDescriptor.Visitor REMOVE_DESCRIPTORS_WITHOUT_TESTS =
+			descriptor -> {
+				if (!descriptor.isRoot() && !descriptor.hasTests()) {
+					descriptor.removeFromHierarchy();
+				}
+			};
 
 	private final Map<TestEngine, TestDescriptor> testEngineDescriptors = new LinkedHashMap<>(4);
 
-	/**
-	 * Add an {@code engine}'s root {@link TestDescriptor}.
-	 */
+	/** Add an {@code engine}'s root {@link TestDescriptor}. */
 	void add(TestEngine engine, TestDescriptor testDescriptor) {
 		this.testEngineDescriptors.put(engine, testDescriptor);
 	}
@@ -57,32 +54,34 @@ class Root {
 	}
 
 	void applyPostDiscoveryFilters(LauncherDiscoveryRequest discoveryRequest) {
-		Filter<TestDescriptor> postDiscoveryFilter = composeFilters(discoveryRequest.getPostDiscoveryFilters());
-		TestDescriptor.Visitor removeExcludedTestDescriptors = descriptor -> {
-			if (!descriptor.isRoot() && isExcluded(descriptor, postDiscoveryFilter)) {
-				descriptor.removeFromHierarchy();
-			}
-		};
+		Filter<TestDescriptor> postDiscoveryFilter =
+				composeFilters(discoveryRequest.getPostDiscoveryFilters());
+		TestDescriptor.Visitor removeExcludedTestDescriptors =
+				descriptor -> {
+					if (!descriptor.isRoot() && isExcluded(descriptor, postDiscoveryFilter)) {
+						descriptor.removeFromHierarchy();
+					}
+				};
 		acceptInAllTestEngines(removeExcludedTestDescriptors);
 	}
 
 	/**
-	 * Prune all branches in the tree of {@link TestDescriptor TestDescriptors}
-	 * that do not have executable tests.
-	 *
-	 * <p>If a {@link TestEngine} ends up with no {@code TestDescriptors} after
-	 * pruning, it will <strong>not</strong> be removed.
-	 */
+	* Prune all branches in the tree of {@link TestDescriptor TestDescriptors} that do not have
+	* executable tests.
+	*
+	* <p>If a {@link TestEngine} ends up with no {@code TestDescriptors} after pruning, it will
+	* <strong>not</strong> be removed.
+	*/
 	void prune() {
 		acceptInAllTestEngines(REMOVE_DESCRIPTORS_WITHOUT_TESTS);
 	}
 
-	private boolean isExcluded(TestDescriptor descriptor, Filter<TestDescriptor> postDiscoveryFilter) {
+	private boolean isExcluded(
+			TestDescriptor descriptor, Filter<TestDescriptor> postDiscoveryFilter) {
 		return descriptor.getChildren().isEmpty() && postDiscoveryFilter.apply(descriptor).excluded();
 	}
 
 	private void acceptInAllTestEngines(TestDescriptor.Visitor visitor) {
 		this.testEngineDescriptors.values().forEach(descriptor -> descriptor.accept(visitor));
 	}
-
 }

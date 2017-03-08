@@ -7,22 +7,20 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.descriptor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.PreconditionViolationException;
 
 /**
- * Unit tests for {@link FileSource} and {@link DirectorySource}.
- *
- * @since 1.0
- */
+* Unit tests for {@link FileSource} and {@link DirectorySource}.
+*
+* @since 1.0
+*/
 class FileSystemSourceTests extends AbstractTestSourceTests {
 
 	@Test
@@ -73,15 +71,17 @@ class FileSystemSourceTests extends AbstractTestSourceTests {
 		assertEqualsAndHashCode(new FileSource(file1), new FileSource(file1), new FileSource(file2));
 
 		FilePosition position = new FilePosition(42, 23);
-		assertEqualsAndHashCode(new FileSource(file1, position), new FileSource(file1, position),
-			new FileSource(file2, position));
+		assertEqualsAndHashCode(
+				new FileSource(file1, position),
+				new FileSource(file1, position),
+				new FileSource(file2, position));
 	}
 
 	@Test
 	void equalsAndHashCodeForDirectorySource() {
 		File dir1 = new File(".");
 		File dir2 = new File("..");
-		assertEqualsAndHashCode(new DirectorySource(dir1), new DirectorySource(dir1), new DirectorySource(dir2));
+		assertEqualsAndHashCode(
+				new DirectorySource(dir1), new DirectorySource(dir1), new DirectorySource(dir2));
 	}
-
 }

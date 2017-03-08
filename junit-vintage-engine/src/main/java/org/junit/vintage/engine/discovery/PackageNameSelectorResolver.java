@@ -7,18 +7,14 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static org.junit.platform.commons.util.ReflectionUtils.findAllClassesInPackage;
 
 import java.util.function.Predicate;
-
 import org.junit.platform.engine.discovery.PackageSelector;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class PackageNameSelectorResolver extends DiscoverySelectorResolver<PackageSelector> {
 
 	private final Predicate<String> classNamePredicate;
@@ -30,8 +26,7 @@ class PackageNameSelectorResolver extends DiscoverySelectorResolver<PackageSelec
 
 	@Override
 	void resolve(PackageSelector selector, TestClassCollector collector) {
-		findAllClassesInPackage(selector.getPackageName(), classTester, classNamePredicate).forEach(
-			collector::addCompletely);
+		findAllClassesInPackage(selector.getPackageName(), classTester, classNamePredicate)
+				.forEach(collector::addCompletely);
 	}
-
 }

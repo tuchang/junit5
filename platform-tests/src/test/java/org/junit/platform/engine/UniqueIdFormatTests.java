@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,9 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.JUnitException;
 import org.junit.platform.engine.UniqueId.Segment;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class UniqueIdFormatTests {
 
 	@Nested
@@ -50,7 +47,6 @@ class UniqueIdFormatTests {
 			assertEquals("[engine:junit-jupiter]/[t1:v1]/[t2:v2]/[t3:v3]", uniqueId.toString());
 			assertEquals(format.format(uniqueId), uniqueId.toString());
 		}
-
 	}
 
 	@Nested
@@ -72,7 +68,6 @@ class UniqueIdFormatTests {
 		public String getMethodUid() {
 			return "[engine:junit-jupiter]/[class:MyClass]/[method:myMethod]";
 		}
-
 	}
 
 	@Nested
@@ -94,7 +89,6 @@ class UniqueIdFormatTests {
 		public String getMethodUid() {
 			return "{engine=junit-jupiter},{class=MyClass},{method=myMethod}";
 		}
-
 	}
 
 	// -------------------------------------------------------------------------
@@ -114,7 +108,8 @@ class UniqueIdFormatTests {
 
 		@Test
 		default void parseMalformedUid() {
-			Throwable throwable = assertThrows(JUnitException.class, () -> getFormat().parse("malformed UID"));
+			Throwable throwable =
+					assertThrows(JUnitException.class, () -> getFormat().parse("malformed UID"));
 			assertTrue(throwable.getMessage().contains("malformed UID"));
 		}
 
@@ -135,7 +130,5 @@ class UniqueIdFormatTests {
 			assertEquals(getMethodUid(), getFormat().format(parsedId));
 			assertEquals(getMethodUid(), parsedId.toString());
 		}
-
 	}
-
 }

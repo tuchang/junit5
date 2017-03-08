@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine;
 
 import static java.text.MessageFormat.format;
@@ -38,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Set;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
@@ -70,9 +68,7 @@ import org.junit.vintage.engine.samples.junit4.PlainJUnit4TestCaseWithTwoTestMet
 import org.junit.vintage.engine.samples.junit4.SingleFailingTheoryTestCase;
 import org.junit.vintage.engine.samples.junit4.TestCaseRunWithJUnitPlatformRunner;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class VintageTestEngineDiscoveryTests {
 
 	VintageTestEngine engine = new VintageTestEngine();
@@ -88,8 +84,11 @@ class VintageTestEngineDiscoveryTests {
 		assertRunnerTestDescriptor(runnerDescriptor, testClass);
 
 		TestDescriptor childDescriptor = getOnlyElement(runnerDescriptor.getChildren());
-		assertTestMethodDescriptor(childDescriptor, testClass, "failingTest",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				childDescriptor,
+				testClass,
+				"failingTest",
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass));
 	}
 
 	@Test
@@ -103,7 +102,8 @@ class VintageTestEngineDiscoveryTests {
 		assertFalse(runnerDescriptor.isContainer());
 		assertTrue(runnerDescriptor.isTest());
 		assertEquals(testClass.getName(), runnerDescriptor.getDisplayName());
-		Assertions.assertEquals(VintageUniqueIdBuilder.uniqueIdForClass(testClass), runnerDescriptor.getUniqueId());
+		Assertions.assertEquals(
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass), runnerDescriptor.getUniqueId());
 		assertThat(runnerDescriptor.getChildren()).isEmpty();
 	}
 
@@ -118,8 +118,8 @@ class VintageTestEngineDiscoveryTests {
 		assertRunnerTestDescriptor(runnerDescriptor, testClass);
 
 		TestDescriptor childDescriptor = getOnlyElement(runnerDescriptor.getChildren());
-		assertTestMethodDescriptor(childDescriptor, testClass, "theory",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				childDescriptor, testClass, "theory", VintageUniqueIdBuilder.uniqueIdForClass(testClass));
 	}
 
 	@Test
@@ -133,8 +133,8 @@ class VintageTestEngineDiscoveryTests {
 		assertRunnerTestDescriptor(runnerDescriptor, testClass);
 
 		TestDescriptor childDescriptor = getOnlyElement(runnerDescriptor.getChildren());
-		assertTestMethodDescriptor(childDescriptor, testClass, "test",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				childDescriptor, testClass, "test", VintageUniqueIdBuilder.uniqueIdForClass(testClass));
 	}
 
 	@Test
@@ -152,8 +152,11 @@ class VintageTestEngineDiscoveryTests {
 		assertContainerTestDescriptor(testClassDescriptor, suiteClass, testClass);
 
 		TestDescriptor testMethodDescriptor = getOnlyElement(testClassDescriptor.getChildren());
-		assertTestMethodDescriptor(testMethodDescriptor, testClass, "test",
-			VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass));
+		assertTestMethodDescriptor(
+				testMethodDescriptor,
+				testClass,
+				"test",
+				VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass));
 	}
 
 	@Test
@@ -171,8 +174,11 @@ class VintageTestEngineDiscoveryTests {
 		assertContainerTestDescriptor(testClassDescriptor, suiteClass, testClass);
 
 		TestDescriptor testMethodDescriptor = getOnlyElement(testClassDescriptor.getChildren());
-		assertTestMethodDescriptor(testMethodDescriptor, testClass, "ignoredTest",
-			VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass));
+		assertTestMethodDescriptor(
+				testMethodDescriptor,
+				testClass,
+				"ignoredTest",
+				VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass));
 	}
 
 	@Test
@@ -190,14 +196,16 @@ class VintageTestEngineDiscoveryTests {
 
 		TestDescriptor testMethodDescriptor = testMethodDescriptors.get(0);
 		assertEquals("theory", testMethodDescriptor.getDisplayName());
-		Assertions.assertEquals(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "theory", "0"),
-			testMethodDescriptor.getUniqueId());
+		Assertions.assertEquals(
+				VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "theory", "0"),
+				testMethodDescriptor.getUniqueId());
 		assertClassSource(testClass, testMethodDescriptor);
 
 		testMethodDescriptor = testMethodDescriptors.get(1);
 		assertEquals("theory", testMethodDescriptor.getDisplayName());
-		Assertions.assertEquals(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "theory", "1"),
-			testMethodDescriptor.getUniqueId());
+		Assertions.assertEquals(
+				VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "theory", "1"),
+				testMethodDescriptor.getUniqueId());
 		assertClassSource(testClass, testMethodDescriptor);
 	}
 
@@ -214,15 +222,16 @@ class VintageTestEngineDiscoveryTests {
 	@Test
 	void resolvesClasspathSelector() throws Exception {
 		Path root = getClasspathRoot(PlainJUnit4TestCaseWithSingleTestWhichFails.class);
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(selectClasspathRoots(singleton(root))).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request().selectors(selectClasspathRoots(singleton(root))).build();
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
 		// @formatter:off
 		assertThat(engineDescriptor.getChildren())
-			.extracting(TestDescriptor::getDisplayName)
-			.contains(PlainJUnit4TestCaseWithSingleTestWhichFails.class.getName())
-			.contains(PlainJUnit3TestCaseWithSingleTestWhichFails.class.getName())
-			.doesNotContain(PlainOldJavaClassWithoutAnyTest.class.getName());
+				.extracting(TestDescriptor::getDisplayName)
+				.contains(PlainJUnit4TestCaseWithSingleTestWhichFails.class.getName())
+				.contains(PlainJUnit3TestCaseWithSingleTestWhichFails.class.getName())
+				.doesNotContain(PlainOldJavaClassWithoutAnyTest.class.getName());
 		// @formatter:on
 	}
 
@@ -232,11 +241,11 @@ class VintageTestEngineDiscoveryTests {
 		Path jarFile = Paths.get(jarUrl.toURI());
 
 		ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
-		try (URLClassLoader classLoader = new URLClassLoader(new URL[] { jarUrl })) {
+		try (URLClassLoader classLoader = new URLClassLoader(new URL[] {jarUrl})) {
 			Thread.currentThread().setContextClassLoader(classLoader);
 
-			LauncherDiscoveryRequest discoveryRequest = request().selectors(
-				selectClasspathRoots(singleton(jarFile))).build();
+			LauncherDiscoveryRequest discoveryRequest =
+					request().selectors(selectClasspathRoots(singleton(jarFile))).build();
 			TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
 			// @formatter:off
@@ -244,8 +253,7 @@ class VintageTestEngineDiscoveryTests {
 					.extracting(TestDescriptor::getDisplayName)
 					.containsExactly("com.example.project.JUnit4Test");
 			// @formatter:on
-		}
-		finally {
+		} finally {
 			Thread.currentThread().setContextClassLoader(originalClassLoader);
 		}
 	}
@@ -254,17 +262,20 @@ class VintageTestEngineDiscoveryTests {
 	void resolvesApplyingClassNameFilters() throws Exception {
 		Path root = getClasspathRoot(PlainJUnit4TestCaseWithSingleTestWhichFails.class);
 
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(selectClasspathRoots(singleton(root))).filters(
-			includeClassNamePatterns(".*JUnit4.*"), includeClassNamePatterns(".*Plain.*")).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors(selectClasspathRoots(singleton(root)))
+						.filters(includeClassNamePatterns(".*JUnit4.*"), includeClassNamePatterns(".*Plain.*"))
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
 		// @formatter:off
 		assertThat(engineDescriptor.getChildren())
-			.extracting(TestDescriptor::getDisplayName)
-			.contains(PlainJUnit4TestCaseWithSingleTestWhichFails.class.getName())
-			.doesNotContain(JUnit4TestCaseWithOverloadedMethod.class.getName())
-			.doesNotContain(PlainJUnit3TestCaseWithSingleTestWhichFails.class.getName());
+				.extracting(TestDescriptor::getDisplayName)
+				.contains(PlainJUnit4TestCaseWithSingleTestWhichFails.class.getName())
+				.doesNotContain(JUnit4TestCaseWithOverloadedMethod.class.getName())
+				.doesNotContain(PlainJUnit3TestCaseWithSingleTestWhichFails.class.getName());
 		// @formatter:on
 	}
 
@@ -272,16 +283,16 @@ class VintageTestEngineDiscoveryTests {
 	void resolvesPackageSelectorForJUnit4SamplesPackage() {
 		Class<?> testClass = PlainJUnit4TestCaseWithSingleTestWhichFails.class;
 
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(
-			selectPackage(testClass.getPackage().getName())).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request().selectors(selectPackage(testClass.getPackage().getName())).build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
 		// @formatter:off
 		assertThat(engineDescriptor.getChildren())
-			.extracting(TestDescriptor::getDisplayName)
-			.contains(testClass.getName())
-			.doesNotContain(PlainJUnit3TestCaseWithSingleTestWhichFails.class.getName());
+				.extracting(TestDescriptor::getDisplayName)
+				.contains(testClass.getName())
+				.doesNotContain(PlainJUnit3TestCaseWithSingleTestWhichFails.class.getName());
 		// @formatter:on
 	}
 
@@ -289,16 +300,16 @@ class VintageTestEngineDiscoveryTests {
 	void resolvesPackageSelectorForJUnit3SamplesPackage() {
 		Class<?> testClass = PlainJUnit3TestCaseWithSingleTestWhichFails.class;
 
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(
-			selectPackage(testClass.getPackage().getName())).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request().selectors(selectPackage(testClass.getPackage().getName())).build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
 		// @formatter:off
 		assertThat(engineDescriptor.getChildren())
-			.extracting(TestDescriptor::getDisplayName)
-			.contains(testClass.getName())
-			.doesNotContain(PlainJUnit4TestCaseWithSingleTestWhichFails.class.getName());
+				.extracting(TestDescriptor::getDisplayName)
+				.contains(testClass.getName())
+				.doesNotContain(PlainJUnit4TestCaseWithSingleTestWhichFails.class.getName());
 		// @formatter:on
 	}
 
@@ -330,27 +341,32 @@ class VintageTestEngineDiscoveryTests {
 		assertThat(runnerDescriptor.getTags()).containsOnly(TestTag.create(Plain.class.getName()));
 
 		TestDescriptor failingTest = findChildByDisplayName(runnerDescriptor, "failingTest");
-		assertThat(failingTest.getTags()).containsOnly(//
-			TestTag.create(Plain.class.getName()), //
-			TestTag.create(Failing.class.getName()));
+		assertThat(failingTest.getTags())
+				.containsOnly( //
+						TestTag.create(Plain.class.getName()), //
+						TestTag.create(Failing.class.getName()));
 
-		TestDescriptor ignoredWithoutReason = findChildByDisplayName(runnerDescriptor, "ignoredTest1_withoutReason");
-		assertThat(ignoredWithoutReason.getTags()).containsOnly(//
-			TestTag.create(Plain.class.getName()), //
-			TestTag.create(Skipped.class.getName()));
+		TestDescriptor ignoredWithoutReason =
+				findChildByDisplayName(runnerDescriptor, "ignoredTest1_withoutReason");
+		assertThat(ignoredWithoutReason.getTags())
+				.containsOnly( //
+						TestTag.create(Plain.class.getName()), //
+						TestTag.create(Skipped.class.getName()));
 
-		TestDescriptor ignoredWithReason = findChildByDisplayName(runnerDescriptor, "ignoredTest2_withReason");
-		assertThat(ignoredWithReason.getTags()).containsOnly(//
-			TestTag.create(Plain.class.getName()), //
-			TestTag.create(Skipped.class.getName()), //
-			TestTag.create(SkippedWithReason.class.getName()));
+		TestDescriptor ignoredWithReason =
+				findChildByDisplayName(runnerDescriptor, "ignoredTest2_withReason");
+		assertThat(ignoredWithReason.getTags())
+				.containsOnly( //
+						TestTag.create(Plain.class.getName()), //
+						TestTag.create(Skipped.class.getName()), //
+						TestTag.create(SkippedWithReason.class.getName()));
 	}
 
 	@Test
 	void resolvesMethodSelectorForSingleMethod() throws Exception {
 		Class<?> testClass = PlainJUnit4TestCaseWithFiveTestMethods.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(
-			selectMethod(testClass, testClass.getMethod("failingTest"))).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request().selectors(selectMethod(testClass, testClass.getMethod("failingTest"))).build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -358,16 +374,22 @@ class VintageTestEngineDiscoveryTests {
 		assertRunnerTestDescriptor(runnerDescriptor, testClass);
 
 		TestDescriptor childDescriptor = getOnlyElement(runnerDescriptor.getChildren());
-		assertTestMethodDescriptor(childDescriptor, testClass, "failingTest",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				childDescriptor,
+				testClass,
+				"failingTest",
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass));
 	}
 
 	@Test
 	void resolvesMethodSelectorForTwoMethodsOfSameClass() throws Exception {
 		Class<?> testClass = PlainJUnit4TestCaseWithFiveTestMethods.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(
-			selectMethod(testClass, testClass.getMethod("failingTest")),
-			selectMethod(testClass, testClass.getMethod("successfulTest"))).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors(
+								selectMethod(testClass, testClass.getMethod("failingTest")),
+								selectMethod(testClass, testClass.getMethod("successfulTest")))
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -378,19 +400,25 @@ class VintageTestEngineDiscoveryTests {
 		assertThat(testMethodDescriptors).hasSize(2);
 
 		TestDescriptor failingTest = testMethodDescriptors.get(0);
-		assertTestMethodDescriptor(failingTest, testClass, "failingTest",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				failingTest, testClass, "failingTest", VintageUniqueIdBuilder.uniqueIdForClass(testClass));
 
 		TestDescriptor successfulTest = testMethodDescriptors.get(1);
-		assertTestMethodDescriptor(successfulTest, testClass, "successfulTest",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				successfulTest,
+				testClass,
+				"successfulTest",
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass));
 	}
 
 	@Test
 	void resolvesUniqueIdSelectorForSingleMethod() throws Exception {
 		Class<?> testClass = PlainJUnit4TestCaseWithFiveTestMethods.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(
-			selectUniqueId(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "failingTest"))).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors(
+								selectUniqueId(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "failingTest")))
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -398,15 +426,20 @@ class VintageTestEngineDiscoveryTests {
 		assertRunnerTestDescriptor(runnerDescriptor, testClass);
 
 		TestDescriptor childDescriptor = getOnlyElement(runnerDescriptor.getChildren());
-		assertTestMethodDescriptor(childDescriptor, testClass, "failingTest",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				childDescriptor,
+				testClass,
+				"failingTest",
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass));
 	}
 
 	@Test
 	void resolvesUniqueIdSelectorForSingleClass() throws Exception {
 		Class<?> testClass = PlainJUnit4TestCaseWithFiveTestMethods.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(
-			selectUniqueId(VintageUniqueIdBuilder.uniqueIdForClass(testClass))).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors(selectUniqueId(VintageUniqueIdBuilder.uniqueIdForClass(testClass)))
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -420,8 +453,11 @@ class VintageTestEngineDiscoveryTests {
 	void resolvesUniqueIdSelectorOfSingleClassWithinSuite() throws Exception {
 		Class<?> suiteClass = JUnit4SuiteWithTwoTestCases.class;
 		Class<?> testClass = PlainJUnit4TestCaseWithSingleTestWhichFails.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(
-			selectUniqueId(VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass))).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors(
+								selectUniqueId(VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass)))
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -432,17 +468,26 @@ class VintageTestEngineDiscoveryTests {
 		assertContainerTestDescriptor(testClassDescriptor, suiteClass, testClass);
 
 		TestDescriptor testMethodDescriptor = getOnlyElement(testClassDescriptor.getChildren());
-		assertTestMethodDescriptor(testMethodDescriptor, testClass, "failingTest",
-			VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass));
+		assertTestMethodDescriptor(
+				testMethodDescriptor,
+				testClass,
+				"failingTest",
+				VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass));
 	}
 
 	@Test
 	void resolvesUniqueIdSelectorOfSingleMethodWithinSuite() throws Exception {
 		Class<?> suiteClass = JUnit4SuiteWithTwoTestCases.class;
 		Class<?> testClass = PlainJUnit4TestCaseWithTwoTestMethods.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(selectUniqueId(
-			VintageUniqueIdBuilder.uniqueIdForMethod(VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass),
-				testClass, "successfulTest"))).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors(
+								selectUniqueId(
+										VintageUniqueIdBuilder.uniqueIdForMethod(
+												VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass),
+												testClass,
+												"successfulTest")))
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -453,16 +498,23 @@ class VintageTestEngineDiscoveryTests {
 		assertContainerTestDescriptor(testClassDescriptor, suiteClass, testClass);
 
 		TestDescriptor testMethodDescriptor = getOnlyElement(testClassDescriptor.getChildren());
-		assertTestMethodDescriptor(testMethodDescriptor, testClass, "successfulTest",
-			VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass));
+		assertTestMethodDescriptor(
+				testMethodDescriptor,
+				testClass,
+				"successfulTest",
+				VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass));
 	}
 
 	@Test
 	void resolvesMultipleUniqueIdSelectorsForMethodsOfSameClass() throws Exception {
 		Class<?> testClass = PlainJUnit4TestCaseWithTwoTestMethods.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(
-			selectUniqueId(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "successfulTest")),
-			selectUniqueId(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "failingTest"))).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors(
+								selectUniqueId(
+										VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "successfulTest")),
+								selectUniqueId(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "failingTest")))
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -471,17 +523,27 @@ class VintageTestEngineDiscoveryTests {
 
 		List<TestDescriptor> testMethodDescriptors = new ArrayList<>(runnerDescriptor.getChildren());
 		assertThat(testMethodDescriptors).hasSize(2);
-		assertTestMethodDescriptor(testMethodDescriptors.get(0), testClass, "failingTest",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
-		assertTestMethodDescriptor(testMethodDescriptors.get(1), testClass, "successfulTest",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				testMethodDescriptors.get(0),
+				testClass,
+				"failingTest",
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				testMethodDescriptors.get(1),
+				testClass,
+				"successfulTest",
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass));
 	}
 
 	@Test
 	void doesNotResolveMissingUniqueIdSelectorForSingleClass() throws Exception {
 		Class<?> testClass = PlainJUnit4TestCaseWithFiveTestMethods.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors(
-			selectUniqueId(VintageUniqueIdBuilder.uniqueIdForClass(testClass) + "/[test:doesNotExist]")).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors(
+								selectUniqueId(
+										VintageUniqueIdBuilder.uniqueIdForClass(testClass) + "/[test:doesNotExist]"))
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -495,10 +557,14 @@ class VintageTestEngineDiscoveryTests {
 	@Test
 	void ignoresMoreFineGrainedSelectorsWhenClassIsSelectedAsWell() throws Exception {
 		Class<?> testClass = PlainJUnit4TestCaseWithFiveTestMethods.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors( //
-			selectMethod(testClass, testClass.getMethod("failingTest")), //
-			selectUniqueId(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "abortedTest")), selectClass(testClass) //
-		).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors( //
+								selectMethod(testClass, testClass.getMethod("failingTest")), //
+								selectUniqueId(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "abortedTest")),
+								selectClass(testClass) //
+								)
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -511,10 +577,14 @@ class VintageTestEngineDiscoveryTests {
 	@Test
 	void resolvesCombinationOfMethodAndUniqueIdSelector() throws Exception {
 		Class<?> testClass = PlainJUnit4TestCaseWithFiveTestMethods.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors( //
-			selectMethod(testClass, testClass.getMethod("failingTest")), //
-			selectUniqueId(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "abortedTest") //
-			)).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors( //
+								selectMethod(testClass, testClass.getMethod("failingTest")), //
+								selectUniqueId(
+										VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "abortedTest") //
+										))
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -523,19 +593,29 @@ class VintageTestEngineDiscoveryTests {
 
 		List<TestDescriptor> testMethodDescriptors = new ArrayList<>(runnerDescriptor.getChildren());
 		assertThat(testMethodDescriptors).hasSize(2);
-		assertTestMethodDescriptor(testMethodDescriptors.get(0), testClass, "abortedTest",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
-		assertTestMethodDescriptor(testMethodDescriptors.get(1), testClass, "failingTest",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				testMethodDescriptors.get(0),
+				testClass,
+				"abortedTest",
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				testMethodDescriptors.get(1),
+				testClass,
+				"failingTest",
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass));
 	}
 
 	@Test
 	void ignoresRedundantSelector() throws Exception {
 		Class<?> testClass = PlainJUnit4TestCaseWithFiveTestMethods.class;
-		LauncherDiscoveryRequest discoveryRequest = request().selectors( //
-			selectMethod(testClass, testClass.getMethod("failingTest")), //
-			selectUniqueId(VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "failingTest") //
-			)).build();
+		LauncherDiscoveryRequest discoveryRequest =
+				request()
+						.selectors( //
+								selectMethod(testClass, testClass.getMethod("failingTest")), //
+								selectUniqueId(
+										VintageUniqueIdBuilder.uniqueIdForMethod(testClass, "failingTest") //
+										))
+						.build();
 
 		TestDescriptor engineDescriptor = discoverTests(discoveryRequest);
 
@@ -543,18 +623,22 @@ class VintageTestEngineDiscoveryTests {
 		assertRunnerTestDescriptor(runnerDescriptor, testClass);
 
 		TestDescriptor testMethodDescriptor = getOnlyElement(runnerDescriptor.getChildren());
-		assertTestMethodDescriptor(testMethodDescriptor, testClass, "failingTest",
-			VintageUniqueIdBuilder.uniqueIdForClass(testClass));
+		assertTestMethodDescriptor(
+				testMethodDescriptor,
+				testClass,
+				"failingTest",
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass));
 	}
 
 	@Test
 	void doesNotResolveMethodOfClassNotAcceptedByClassNameFilter() throws Exception {
 		Class<?> testClass = PlainJUnit4TestCaseWithFiveTestMethods.class;
 		// @formatter:off
-		LauncherDiscoveryRequest request = request()
-				.selectors(selectMethod(testClass, testClass.getMethod("failingTest")))
-				.filters(includeClassNamePatterns("Foo"))
-				.build();
+		LauncherDiscoveryRequest request =
+				request()
+						.selectors(selectMethod(testClass, testClass.getMethod("failingTest")))
+						.filters(includeClassNamePatterns("Foo"))
+						.build();
 		// @formatter:on
 
 		assertYieldsNoDescriptors(request);
@@ -564,16 +648,16 @@ class VintageTestEngineDiscoveryTests {
 	void resolvesClassForMethodSelectorForClassWithNonFilterableRunner() throws Exception {
 		Class<?> testClass = IgnoredJUnit4TestCase.class;
 		// @formatter:off
-		LauncherDiscoveryRequest request = request()
-				.selectors(selectMethod(testClass, testClass.getMethod("test")))
-				.build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectMethod(testClass, testClass.getMethod("test"))).build();
 		// @formatter:on
 
 		TestDescriptor engineDescriptor = discoverTests(request);
 
 		TestDescriptor runnerDescriptor = getOnlyElement(engineDescriptor.getChildren());
 		assertEquals(testClass.getName(), runnerDescriptor.getDisplayName());
-		Assertions.assertEquals(VintageUniqueIdBuilder.uniqueIdForClass(testClass), runnerDescriptor.getUniqueId());
+		Assertions.assertEquals(
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass), runnerDescriptor.getUniqueId());
 		assertThat(runnerDescriptor.getChildren()).isEmpty();
 	}
 
@@ -593,8 +677,9 @@ class VintageTestEngineDiscoveryTests {
 		assertThat(childDescriptor.getUniqueId().toString()).startsWith(prefix.toString());
 
 		String customUniqueIdValue = childDescriptor.getUniqueId().getSegments().get(2).getType();
-		assertNotNull(Base64.getDecoder().decode(customUniqueIdValue.getBytes(StandardCharsets.UTF_8)),
-			"is a valid Base64 encoding scheme");
+		assertNotNull(
+				Base64.getDecoder().decode(customUniqueIdValue.getBytes(StandardCharsets.UTF_8)),
+				"is a valid Base64 encoding scheme");
 	}
 
 	@Test
@@ -619,15 +704,18 @@ class VintageTestEngineDiscoveryTests {
 		assertMethodSource(testClass.getMethod("test"), testMethodDescriptor);
 	}
 
-	private TestDescriptor findChildByDisplayName(TestDescriptor runnerDescriptor, String displayName) {
+	private TestDescriptor findChildByDisplayName(
+			TestDescriptor runnerDescriptor, String displayName) {
 		// @formatter:off
 		Set<? extends TestDescriptor> children = runnerDescriptor.getChildren();
 		return children
 				.stream()
 				.filter(where(TestDescriptor::getDisplayName, isEqual(displayName)))
 				.findAny()
-				.orElseThrow(() ->
-					new AssertionError(format("No child with display name \"{0}\" in {1}", displayName, children)));
+				.orElseThrow(
+						() ->
+								new AssertionError(
+										format("No child with display name \"{0}\" in {1}", displayName, children)));
 		// @formatter:on
 	}
 
@@ -652,42 +740,51 @@ class VintageTestEngineDiscoveryTests {
 		assertThat(engineDescriptor.getChildren()).isEmpty();
 	}
 
-	private static void assertRunnerTestDescriptor(TestDescriptor runnerDescriptor, Class<?> testClass) {
+	private static void assertRunnerTestDescriptor(
+			TestDescriptor runnerDescriptor, Class<?> testClass) {
 		assertTrue(runnerDescriptor.isContainer());
 		assertFalse(runnerDescriptor.isTest());
 		assertEquals(testClass.getName(), runnerDescriptor.getDisplayName());
-		Assertions.assertEquals(VintageUniqueIdBuilder.uniqueIdForClass(testClass), runnerDescriptor.getUniqueId());
+		Assertions.assertEquals(
+				VintageUniqueIdBuilder.uniqueIdForClass(testClass), runnerDescriptor.getUniqueId());
 		assertClassSource(testClass, runnerDescriptor);
 	}
 
-	private static void assertTestMethodDescriptor(TestDescriptor testMethodDescriptor, Class<?> testClass,
-			String methodName, UniqueId uniqueContainerId) throws Exception {
+	private static void assertTestMethodDescriptor(
+			TestDescriptor testMethodDescriptor,
+			Class<?> testClass,
+			String methodName,
+			UniqueId uniqueContainerId)
+			throws Exception {
 		assertTrue(testMethodDescriptor.isTest());
 		assertFalse(testMethodDescriptor.isContainer());
 		assertEquals(methodName, testMethodDescriptor.getDisplayName());
-		Assertions.assertEquals(VintageUniqueIdBuilder.uniqueIdForMethod(uniqueContainerId, testClass, methodName),
-			testMethodDescriptor.getUniqueId());
+		Assertions.assertEquals(
+				VintageUniqueIdBuilder.uniqueIdForMethod(uniqueContainerId, testClass, methodName),
+				testMethodDescriptor.getUniqueId());
 		assertThat(testMethodDescriptor.getChildren()).isEmpty();
 		assertMethodSource(testClass.getMethod(methodName), testMethodDescriptor);
 	}
 
-	private static void assertContainerTestDescriptor(TestDescriptor containerDescriptor, Class<?> suiteClass,
-			Class<?> testClass) {
+	private static void assertContainerTestDescriptor(
+			TestDescriptor containerDescriptor, Class<?> suiteClass, Class<?> testClass) {
 		assertTrue(containerDescriptor.isContainer());
 		assertFalse(containerDescriptor.isTest());
 		assertEquals(testClass.getName(), containerDescriptor.getDisplayName());
-		Assertions.assertEquals(VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass),
-			containerDescriptor.getUniqueId());
+		Assertions.assertEquals(
+				VintageUniqueIdBuilder.uniqueIdForClasses(suiteClass, testClass),
+				containerDescriptor.getUniqueId());
 		assertClassSource(testClass, containerDescriptor);
 	}
 
-	private static void assertInitializationError(TestDescriptor testDescriptor, Class<?> failingClass,
-			Class<?> testClass) {
+	private static void assertInitializationError(
+			TestDescriptor testDescriptor, Class<?> failingClass, Class<?> testClass) {
 		assertTrue(testDescriptor.isTest());
 		assertFalse(testDescriptor.isContainer());
 		assertEquals("initializationError", testDescriptor.getDisplayName());
-		Assertions.assertEquals(VintageUniqueIdBuilder.uniqueIdForErrorInClass(testClass, failingClass),
-			testDescriptor.getUniqueId());
+		Assertions.assertEquals(
+				VintageUniqueIdBuilder.uniqueIdForErrorInClass(testClass, failingClass),
+				testDescriptor.getUniqueId());
 		assertThat(testDescriptor.getChildren()).isEmpty();
 		assertClassSource(failingClass, testDescriptor);
 	}
@@ -703,8 +800,8 @@ class VintageTestEngineDiscoveryTests {
 		MethodSource methodSource = (MethodSource) testDescriptor.getSource().get();
 		assertThat(methodSource.getClassName()).isEqualTo(expectedMethod.getDeclaringClass().getName());
 		assertThat(methodSource.getMethodName()).isEqualTo(expectedMethod.getName());
-		assertThat(methodSource.getMethodParameterTypes()).isEqualTo(
-			StringUtils.nullSafeToString(expectedMethod.getParameterTypes()));
+		assertThat(methodSource.getMethodParameterTypes())
+				.isEqualTo(StringUtils.nullSafeToString(expectedMethod.getParameterTypes()));
 	}
 
 	private static LauncherDiscoveryRequest discoveryRequestForClass(Class<?> testClass) {

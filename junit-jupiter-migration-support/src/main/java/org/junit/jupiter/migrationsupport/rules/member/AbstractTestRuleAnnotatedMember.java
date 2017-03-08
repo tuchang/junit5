@@ -7,14 +7,11 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules.member;
 
 import org.junit.rules.TestRule;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 abstract class AbstractTestRuleAnnotatedMember implements TestRuleAnnotatedMember {
 
 	private final TestRule testRule;
@@ -27,5 +24,4 @@ abstract class AbstractTestRuleAnnotatedMember implements TestRuleAnnotatedMembe
 	public TestRule getTestRule() {
 		return this.testRule;
 	}
-
 }

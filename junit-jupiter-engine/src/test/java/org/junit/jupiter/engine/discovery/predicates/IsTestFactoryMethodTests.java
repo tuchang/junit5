@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery.predicates;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +15,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Predicate;
-
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
@@ -35,7 +33,6 @@ public class IsTestFactoryMethodTests {
 	private Method findMethod(String name) {
 		return ReflectionUtils.findMethod(AnotherClassWithTestFactory.class, name).get();
 	}
-
 }
 
 //class name must not end with 'Tests', otherwise it would be picked up by the suite
@@ -45,5 +42,4 @@ class AnotherClassWithTestFactory {
 	Collection<DynamicTest> factory() {
 		return new ArrayList<>();
 	}
-
 }

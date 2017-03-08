@@ -7,16 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 /**
- * This is a top-level type in order to avoid issues with
- * {@link Class#getCanonicalName()} when using different class
- * loaders in tests.
- *
- * @since 5.0
- */
+* This is a top-level type in order to avoid issues with {@link Class#getCanonicalName()} when
+* using different class loaders in tests.
+*
+* @since 5.0
+*/
 @SuppressWarnings("serial")
-class EnigmaThrowable extends Throwable {
-}
+class EnigmaThrowable extends Throwable {}

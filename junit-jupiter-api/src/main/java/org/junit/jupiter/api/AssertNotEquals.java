@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionUtils.buildPrefix;
@@ -18,11 +17,11 @@ import static org.junit.jupiter.api.AssertionUtils.objectsAreEqual;
 import java.util.function.Supplier;
 
 /**
- * {@code AssertNotEquals} is a collection of utility methods that support asserting
- * inequality on objects in tests.
- *
- * @since 5.0
- */
+* {@code AssertNotEquals} is a collection of utility methods that support asserting inequality on
+* objects in tests.
+*
+* @since 5.0
+*/
 class AssertNotEquals {
 
 	static void assertNotEquals(Object unexpected, Object actual) {

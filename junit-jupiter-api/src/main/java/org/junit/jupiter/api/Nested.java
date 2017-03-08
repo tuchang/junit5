@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -17,18 +16,15 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.junit.platform.commons.meta.API;
 
 /**
- * {@code @Nested} is used to signal that the annotated class is a nested,
- * non-static test class.
- *
- * @since 5.0
- */
+* {@code @Nested} is used to signal that the annotated class is a nested, non-static test class.
+*
+* @since 5.0
+*/
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @API(Experimental)
-public @interface Nested {
-}
+public @interface Nested {}

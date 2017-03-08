@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules.member;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -15,12 +14,9 @@ import static org.junit.platform.commons.meta.API.Usage.Internal;
 import org.junit.platform.commons.meta.API;
 import org.junit.rules.TestRule;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Internal)
 public interface TestRuleAnnotatedMember {
 
 	TestRule getTestRule();
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import static java.util.Arrays.asList;
@@ -17,7 +16,6 @@ import static org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder.r
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,11 +29,11 @@ import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 /**
- * Integration tests that verify support for {@link BeforeAll}, {@link AfterAll},
- * {@link BeforeAllCallback}, and {@link AfterAllCallback} in the {@link JupiterTestEngine}.
- *
- * @since 5.0
- */
+* Integration tests that verify support for {@link BeforeAll}, {@link AfterAll}, {@link
+* BeforeAllCallback}, and {@link AfterAllCallback} in the {@link JupiterTestEngine}.
+*
+* @since 5.0
+*/
 public class BeforeAndAfterAllTests extends AbstractJupiterTestEngineTests {
 
 	private static final List<String> callSequence = new ArrayList<>();
@@ -43,84 +41,88 @@ public class BeforeAndAfterAllTests extends AbstractJupiterTestEngineTests {
 	@Test
 	void beforeAllAndAfterAllCallbacks() {
 		// @formatter:off
-		assertBeforeAllAndAfterAllCallbacks(TopLevelTestCase.class,
-			"fooBeforeAllCallback",
-			"barBeforeAllCallback",
+		assertBeforeAllAndAfterAllCallbacks(
+				TopLevelTestCase.class,
+				"fooBeforeAllCallback",
+				"barBeforeAllCallback",
 				"beforeAllMethod-1",
-					"test-1",
+				"test-1",
 				"afterAllMethod-1",
-			"barAfterAllCallback",
-			"fooAfterAllCallback"
-		);
+				"barAfterAllCallback",
+				"fooAfterAllCallback");
 		// @formatter:on
 	}
 
 	@Test
 	void beforeAllAndAfterAllCallbacksInSubclass() {
 		// @formatter:off
-		assertBeforeAllAndAfterAllCallbacks(SecondLevelTestCase.class,
-			"fooBeforeAllCallback",
-			"barBeforeAllCallback",
+		assertBeforeAllAndAfterAllCallbacks(
+				SecondLevelTestCase.class,
+				"fooBeforeAllCallback",
+				"barBeforeAllCallback",
 				"bazBeforeAllCallback",
-					"beforeAllMethod-1",
-						"beforeAllMethod-2",
-							"test-2",
-						"afterAllMethod-2",
-					"afterAllMethod-1",
+				"beforeAllMethod-1",
+				"beforeAllMethod-2",
+				"test-2",
+				"afterAllMethod-2",
+				"afterAllMethod-1",
 				"bazAfterAllCallback",
-			"barAfterAllCallback",
-			"fooAfterAllCallback"
-		);
+				"barAfterAllCallback",
+				"fooAfterAllCallback");
 		// @formatter:on
 	}
 
 	@Test
 	void beforeAllAndAfterAllCallbacksInSubSubclass() {
 		// @formatter:off
-		assertBeforeAllAndAfterAllCallbacks(ThirdLevelTestCase.class,
-			"fooBeforeAllCallback",
-			"barBeforeAllCallback",
+		assertBeforeAllAndAfterAllCallbacks(
+				ThirdLevelTestCase.class,
+				"fooBeforeAllCallback",
+				"barBeforeAllCallback",
 				"bazBeforeAllCallback",
-					"quuxBeforeAllCallback",
-						"beforeAllMethod-1",
-							"beforeAllMethod-2",
-								"beforeAllMethod-3",
-									"test-3",
-								"afterAllMethod-3",
-							"afterAllMethod-2",
-						"afterAllMethod-1",
-					"quuxAfterAllCallback",
+				"quuxBeforeAllCallback",
+				"beforeAllMethod-1",
+				"beforeAllMethod-2",
+				"beforeAllMethod-3",
+				"test-3",
+				"afterAllMethod-3",
+				"afterAllMethod-2",
+				"afterAllMethod-1",
+				"quuxAfterAllCallback",
 				"bazAfterAllCallback",
-			"barAfterAllCallback",
-			"fooAfterAllCallback"
-		);
+				"barAfterAllCallback",
+				"fooAfterAllCallback");
 		// @formatter:on
 	}
 
 	@Test
 	void beforeAllMethodThrowsAnException() {
 		// @formatter:off
-		assertBeforeAllAndAfterAllCallbacks(ExceptionInBeforeAllMethodTestCase.class, 0, 0,
-			"fooBeforeAllCallback",
+		assertBeforeAllAndAfterAllCallbacks(
+				ExceptionInBeforeAllMethodTestCase.class,
+				0,
+				0,
+				"fooBeforeAllCallback",
 				"beforeAllMethod", // throws an exception.
-					// test should not get invoked.
+				// test should not get invoked.
 				"afterAllMethod",
-			"fooAfterAllCallback"
-		);
+				"fooAfterAllCallback");
 		// @formatter:on
 	}
 
 	@Test
 	void beforeAllCallbackThrowsAnException() {
 		// @formatter:off
-		assertBeforeAllAndAfterAllCallbacks(ExceptionInBeforeAllCallbackTestCase.class, 0, 0,
-			"fooBeforeAllCallback",
-			"exceptionThrowingBeforeAllCallback", // throws an exception.
+		assertBeforeAllAndAfterAllCallbacks(
+				ExceptionInBeforeAllCallbackTestCase.class,
+				0,
+				0,
+				"fooBeforeAllCallback",
+				"exceptionThrowingBeforeAllCallback", // throws an exception.
 				// beforeAllMethod should not get invoked.
-					// test should not get invoked.
+				// test should not get invoked.
 				// afterAllMethod should not get invoked.
-			"fooAfterAllCallback"
-		);
+				"fooAfterAllCallback");
 		// @formatter:on
 	}
 
@@ -128,8 +130,8 @@ public class BeforeAndAfterAllTests extends AbstractJupiterTestEngineTests {
 		assertBeforeAllAndAfterAllCallbacks(testClass, 1, 1, expectedCalls);
 	}
 
-	private void assertBeforeAllAndAfterAllCallbacks(Class<?> testClass, int testsStarted, int testsSuccessful,
-			String... expectedCalls) {
+	private void assertBeforeAllAndAfterAllCallbacks(
+			Class<?> testClass, int testsStarted, int testsSuccessful, String... expectedCalls) {
 
 		callSequence.clear();
 		LauncherDiscoveryRequest request = request().selectors(selectClass(testClass)).build();
@@ -138,13 +140,16 @@ public class BeforeAndAfterAllTests extends AbstractJupiterTestEngineTests {
 		assertEquals(testsStarted, eventRecorder.getTestStartedCount(), "# tests started");
 		assertEquals(testsSuccessful, eventRecorder.getTestSuccessfulCount(), "# tests succeeded");
 
-		assertEquals(asList(expectedCalls), callSequence, () -> "wrong call sequence for " + testClass.getName());
+		assertEquals(
+				asList(expectedCalls),
+				callSequence,
+				() -> "wrong call sequence for " + testClass.getName());
 	}
 
 	// -------------------------------------------------------------------------
 
 	// Must NOT be private; otherwise, the @Test method gets discovered but never executed.
-	@ExtendWith({ FooClassLevelCallbacks.class, BarClassLevelCallbacks.class })
+	@ExtendWith({FooClassLevelCallbacks.class, BarClassLevelCallbacks.class})
 	static class TopLevelTestCase {
 
 		@BeforeAll
@@ -224,7 +229,7 @@ public class BeforeAndAfterAllTests extends AbstractJupiterTestEngineTests {
 		}
 	}
 
-	@ExtendWith({ FooClassLevelCallbacks.class, ExceptionThrowingBeforeAllCallback.class })
+	@ExtendWith({FooClassLevelCallbacks.class, ExceptionThrowingBeforeAllCallback.class})
 	private static class ExceptionInBeforeAllCallbackTestCase {
 
 		@BeforeAll
@@ -305,5 +310,4 @@ public class BeforeAndAfterAllTests extends AbstractJupiterTestEngineTests {
 			throw new RuntimeException("BeforeAllCallback");
 		}
 	}
-
 }

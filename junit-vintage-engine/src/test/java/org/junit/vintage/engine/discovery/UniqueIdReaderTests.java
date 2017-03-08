@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,14 +17,11 @@ import static org.junit.runner.Description.createTestDescription;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-
 import org.junit.jupiter.api.Test;
 import org.junit.runner.Description;
 import org.junit.vintage.engine.RecordCollectingLogger;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class UniqueIdReaderTests {
 
 	@Test
@@ -52,8 +48,8 @@ class UniqueIdReaderTests {
 		LogRecord logRecord = getOnlyElement(logger.getLogRecords());
 		assertEquals(Level.WARNING, logRecord.getLevel());
 		assertEquals(
-			"Could not read unique id for Description, using display name instead: " + description.getDisplayName(),
-			logRecord.getMessage());
+				"Could not read unique id for Description, using display name instead: "
+						+ description.getDisplayName(),
+				logRecord.getMessage());
 	}
-
 }

@@ -1,5 +1,2 @@
-/**
- * Support for launching the JUnit Platform from the console.
- */
-
+/** Support for launching the JUnit Platform from the console. */
 package org.junit.platform.console;

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery.predicates;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Predicate;
-
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -39,7 +37,6 @@ public class IsTestClassWithTestsTests {
 	void classWithNestedTestCasesEvaluatesToTrue() {
 		assertTrue(isTestClassWithTests.test(ClassWithNestedTestCases.class));
 	}
-
 }
 
 //class name must not end with 'Tests', otherwise it would be picked up by the suite
@@ -49,20 +46,16 @@ class ClassWithTestFactory {
 	Collection<DynamicTest> factory() {
 		return new ArrayList<>();
 	}
-
 }
 
 //class name must not end with 'Tests', otherwise it would be picked up by the suite
 class ClassWithTestCases {
 
 	@Test
-	void first() {
-	}
+	void first() {}
 
 	@Test
-	void second() {
-	}
-
+	void second() {}
 }
 
 //class name must not end with 'Tests', otherwise it would be picked up by the suite
@@ -72,12 +65,9 @@ class ClassWithNestedTestCases {
 	class InnerClass {
 
 		@Test
-		void first() {
-		}
+		void first() {}
 
 		@Test
-		void second() {
-		}
-
+		void second() {}
 	}
 }

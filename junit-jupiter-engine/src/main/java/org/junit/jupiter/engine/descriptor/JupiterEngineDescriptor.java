@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static org.junit.jupiter.engine.extension.ExtensionRegistry.createRegistryWithDefaultExtensions;
@@ -19,11 +18,10 @@ import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.EngineDescriptor;
 import org.junit.platform.engine.support.hierarchical.Node;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Internal)
-public class JupiterEngineDescriptor extends EngineDescriptor implements Node<JupiterEngineExecutionContext> {
+public class JupiterEngineDescriptor extends EngineDescriptor
+		implements Node<JupiterEngineExecutionContext> {
 
 	public JupiterEngineDescriptor(UniqueId uniqueId) {
 		super(uniqueId, "JUnit Jupiter");
@@ -33,5 +31,4 @@ public class JupiterEngineDescriptor extends EngineDescriptor implements Node<Ju
 	public JupiterEngineExecutionContext before(JupiterEngineExecutionContext context) {
 		return context.extend().withExtensionRegistry(createRegistryWithDefaultExtensions()).build();
 	}
-
 }

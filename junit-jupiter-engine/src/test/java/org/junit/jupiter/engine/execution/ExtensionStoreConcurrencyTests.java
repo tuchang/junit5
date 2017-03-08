@@ -7,14 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.execution;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
@@ -22,10 +20,10 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 /**
- * Concurrency tests for {@link NamespaceAwareStore} and {@link ExtensionValuesStore}.
- *
- * @since 5.0
- */
+* Concurrency tests for {@link NamespaceAwareStore} and {@link ExtensionValuesStore}.
+*
+* @since 5.0
+*/
 @RunWith(JUnitPlatform.class)
 public class ExtensionStoreConcurrencyTests {
 
@@ -34,12 +32,17 @@ public class ExtensionStoreConcurrencyTests {
 	@Test
 	void concurrentAccessToDefaultStoreWithoutParentStore() {
 		// Run the actual test 100 times "for good measure".
-		IntStream.range(1, 100).forEach(i -> {
-			Store store = reset();
-			// Simulate 100 extensions interacting concurrently with the Store.
-			IntStream.range(1, 100).parallel().forEach(j -> store.getOrComputeIfAbsent("key", this::newValue));
-			assertEquals(1, count.get(), () -> "number of times newValue() was invoked in run #" + i);
-		});
+		IntStream.range(1, 100)
+				.forEach(
+						i -> {
+							Store store = reset();
+							// Simulate 100 extensions interacting concurrently with the Store.
+							IntStream.range(1, 100)
+									.parallel()
+									.forEach(j -> store.getOrComputeIfAbsent("key", this::newValue));
+							assertEquals(
+									1, count.get(), () -> "number of times newValue() was invoked in run #" + i);
+						});
 	}
 
 	private String newValue(String key) {
@@ -51,5 +54,4 @@ public class ExtensionStoreConcurrencyTests {
 		count.set(0);
 		return new NamespaceAwareStore(new ExtensionValuesStore(), Namespace.DEFAULT);
 	}
-
 }

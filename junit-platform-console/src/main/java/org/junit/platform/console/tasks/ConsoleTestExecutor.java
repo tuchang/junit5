@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -20,7 +19,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
-
 import org.junit.platform.commons.JUnitException;
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.ReflectionUtils;
@@ -33,9 +31,7 @@ import org.junit.platform.launcher.core.LauncherFactory;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 import org.junit.platform.launcher.listeners.TestExecutionSummary;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 @API(Internal)
 public class ConsoleTestExecutor {
 
@@ -53,14 +49,16 @@ public class ConsoleTestExecutor {
 	}
 
 	public TestExecutionSummary execute(PrintWriter out) throws Exception {
-		return new CustomContextClassLoaderExecutor(createCustomClassLoader()).invoke(() -> executeTests(out));
+		return new CustomContextClassLoaderExecutor(createCustomClassLoader())
+				.invoke(() -> executeTests(out));
 	}
 
 	private TestExecutionSummary executeTests(PrintWriter out) {
 		Launcher launcher = launcherSupplier.get();
 		SummaryGeneratingListener summaryListener = registerListeners(out, launcher);
 
-		LauncherDiscoveryRequest discoveryRequest = new DiscoveryRequestCreator().toDiscoveryRequest(options);
+		LauncherDiscoveryRequest discoveryRequest =
+				new DiscoveryRequestCreator().toDiscoveryRequest(options);
 		launcher.execute(discoveryRequest);
 
 		TestExecutionSummary summary = summaryListener.getSummary();
@@ -83,8 +81,7 @@ public class ConsoleTestExecutor {
 	private URL toURL(Path path) {
 		try {
 			return path.toUri().toURL();
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			throw new JUnitException("Invalid classpath entry: " + path, ex);
 		}
 	}
@@ -128,5 +125,4 @@ public class ConsoleTestExecutor {
 		}
 		summary.printTo(out);
 	}
-
 }

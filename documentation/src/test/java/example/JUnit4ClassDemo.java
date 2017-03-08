@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // tag::user_guide[]
@@ -32,6 +31,5 @@ public class JUnit4ClassDemo {
 	void failingTest() {
 		fail("Failing for failing's sake.");
 	}
-
 }
 // end::user_guide[]

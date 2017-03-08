@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +15,6 @@ import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
 import static org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder.request;
 
 import java.util.HashMap;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,14 +23,13 @@ import org.junit.platform.commons.util.PreconditionViolationException;
 import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class ReportingTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	void threeReportEntriesArePublished() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(MyReportingTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(MyReportingTestCase.class)).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -65,7 +62,5 @@ public class ReportingTests extends AbstractJupiterTestEngineTests {
 		void testWithNullReportData(TestReporter reporter) {
 			assertThrows(PreconditionViolationException.class, () -> reporter.publishEntry(null));
 		}
-
 	}
-
 }

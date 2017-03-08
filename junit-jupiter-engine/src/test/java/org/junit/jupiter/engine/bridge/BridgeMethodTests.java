@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.bridge;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +17,6 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
@@ -27,9 +25,7 @@ import org.junit.jupiter.engine.bridge.NumberTestGroup.ByteTestCase;
 import org.junit.jupiter.engine.bridge.NumberTestGroup.ShortTestCase;
 import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 class BridgeMethodTests extends AbstractJupiterTestEngineTests {
 
 	static List<String> sequence = new ArrayList<>();
@@ -66,12 +62,18 @@ class BridgeMethodTests extends AbstractJupiterTestEngineTests {
 	@TestFactory
 	List<DynamicTest> ensureSingleTestMethodsExecute() {
 		return Arrays.asList(
-			dynamicTest("Byte", //
-				() -> assertEquals("[test(Byte) BEGIN, test(N), test(Byte) END.]", //
-					execute(ByteTestCase.class))),
-			dynamicTest("Short", //
-				() -> assertEquals("[test(Short) BEGIN, test(N), test(Short) END.]", //
-					execute(ShortTestCase.class))));
+				dynamicTest(
+						"Byte", //
+						() ->
+								assertEquals(
+										"[test(Byte) BEGIN, test(N), test(Byte) END.]", //
+										execute(ByteTestCase.class))),
+				dynamicTest(
+						"Short", //
+						() ->
+								assertEquals(
+										"[test(Short) BEGIN, test(N), test(Short) END.]", //
+										execute(ShortTestCase.class))));
 	}
 
 	private String execute(Class<?> testClass) {
@@ -80,5 +82,4 @@ class BridgeMethodTests extends AbstractJupiterTestEngineTests {
 		assertEquals(1, recorder.getTestFinishedCount());
 		return sequence.toString();
 	}
-
 }

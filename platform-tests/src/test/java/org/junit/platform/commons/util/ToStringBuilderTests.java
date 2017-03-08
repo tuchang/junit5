@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,28 +14,31 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for {@link ToStringBuilder}.
- *
- * @since 1.0
- */
+* Unit tests for {@link ToStringBuilder}.
+*
+* @since 1.0
+*/
 class ToStringBuilderTests {
 
 	@Test
 	void withNullObject() {
-		assertThrows(PreconditionViolationException.class, () -> {
-			new ToStringBuilder((Object) null);
-		});
+		assertThrows(
+				PreconditionViolationException.class,
+				() -> {
+					new ToStringBuilder((Object) null);
+				});
 	}
 
 	@Test
 	void withNullClass() {
-		assertThrows(PreconditionViolationException.class, () -> {
-			new ToStringBuilder((Class<?>) null);
-		});
+		assertThrows(
+				PreconditionViolationException.class,
+				() -> {
+					new ToStringBuilder((Class<?>) null);
+				});
 	}
 
 	@Test
@@ -56,86 +58,118 @@ class ToStringBuilderTests {
 
 	@Test
 	void withOneField() {
-		assertEquals("RoleModel [name = 'Dilbert']",
-			new ToStringBuilder(new RoleModel()).append("name", "Dilbert").toString());
+		assertEquals(
+				"RoleModel [name = 'Dilbert']",
+				new ToStringBuilder(new RoleModel()).append("name", "Dilbert").toString());
 	}
 
 	@Test
 	void withNullField() {
-		assertEquals("RoleModel [name = null]", new ToStringBuilder(new RoleModel()).append("name", null).toString());
+		assertEquals(
+				"RoleModel [name = null]",
+				new ToStringBuilder(new RoleModel()).append("name", null).toString());
 	}
 
 	@Test
 	void withTwoFields() {
-		assertEquals("RoleModel [name = 'Dilbert', age = 42]",
-			new ToStringBuilder(new RoleModel()).append("name", "Dilbert").append("age", 42).toString());
+		assertEquals(
+				"RoleModel [name = 'Dilbert', age = 42]",
+				new ToStringBuilder(new RoleModel())
+						.append("name", "Dilbert")
+						.append("age", 42)
+						.toString());
 	}
 
 	@Test
 	void withIntegerArrayField() {
-		assertEquals("RoleModel [magic numbers = [1, 42, 99]]",
-			new ToStringBuilder(new RoleModel()).append("magic numbers", new Integer[] { 1, 42, 99 }).toString());
+		assertEquals(
+				"RoleModel [magic numbers = [1, 42, 99]]",
+				new ToStringBuilder(new RoleModel())
+						.append("magic numbers", new Integer[] {1, 42, 99})
+						.toString());
 	}
 
 	@Test
 	void withIntArrayField() {
-		assertEquals("RoleModel [magic numbers = [1, 42, 23]]",
-			new ToStringBuilder(new RoleModel()).append("magic numbers", new int[] { 1, 42, 23 }).toString());
+		assertEquals(
+				"RoleModel [magic numbers = [1, 42, 23]]",
+				new ToStringBuilder(new RoleModel())
+						.append("magic numbers", new int[] {1, 42, 23})
+						.toString());
 	}
 
 	@Test
 	void withCharArrayField() {
-		assertEquals("RoleModel [magic characters = [a, b]]",
-			new ToStringBuilder(new RoleModel()).append("magic characters", new char[] { 'a', 'b' }).toString());
+		assertEquals(
+				"RoleModel [magic characters = [a, b]]",
+				new ToStringBuilder(new RoleModel())
+						.append("magic characters", new char[] {'a', 'b'})
+						.toString());
 	}
 
 	@Test
 	void withPrimitiveBooleanArrayField() {
-		assertEquals("RoleModel [booleans = [true, false, true]]",
-			new ToStringBuilder(new RoleModel()).append("booleans", new boolean[] { true, false, true }).toString());
+		assertEquals(
+				"RoleModel [booleans = [true, false, true]]",
+				new ToStringBuilder(new RoleModel())
+						.append("booleans", new boolean[] {true, false, true})
+						.toString());
 	}
 
 	@Test
 	void withShortArrayField() {
-		assertEquals("RoleModel [values = [23, 42]]",
-			new ToStringBuilder(new RoleModel()).append("values", new short[] { 23, 42 }).toString());
+		assertEquals(
+				"RoleModel [values = [23, 42]]",
+				new ToStringBuilder(new RoleModel()).append("values", new short[] {23, 42}).toString());
 	}
 
 	@Test
 	void withByteArrayField() {
-		assertEquals("RoleModel [values = [23, 42]]",
-			new ToStringBuilder(new RoleModel()).append("values", new byte[] { 23, 42 }).toString());
+		assertEquals(
+				"RoleModel [values = [23, 42]]",
+				new ToStringBuilder(new RoleModel()).append("values", new byte[] {23, 42}).toString());
 	}
 
 	@Test
 	void withPrimitiveLongArrayField() {
-		assertEquals("RoleModel [values = [23, 42]]",
-			new ToStringBuilder(new RoleModel()).append("values", new long[] { 23, 42 }).toString());
+		assertEquals(
+				"RoleModel [values = [23, 42]]",
+				new ToStringBuilder(new RoleModel()).append("values", new long[] {23, 42}).toString());
 	}
 
 	@Test
 	void withPrimitiveFloatArrayField() {
-		assertEquals("RoleModel [values = [23.45, 17.13]]",
-			new ToStringBuilder(new RoleModel()).append("values", new float[] { 23.45f, 17.13f }).toString());
+		assertEquals(
+				"RoleModel [values = [23.45, 17.13]]",
+				new ToStringBuilder(new RoleModel())
+						.append("values", new float[] {23.45f, 17.13f})
+						.toString());
 	}
 
 	@Test
 	void withPrimitiveDoubleArrayField() {
-		assertEquals("RoleModel [values = [23.45, 17.13]]",
-			new ToStringBuilder(new RoleModel()).append("values", new double[] { 23.45d, 17.13d }).toString());
+		assertEquals(
+				"RoleModel [values = [23.45, 17.13]]",
+				new ToStringBuilder(new RoleModel())
+						.append("values", new double[] {23.45d, 17.13d})
+						.toString());
 	}
 
 	@Test
 	@SuppressWarnings("serial")
 	void withMapField() {
 		// @formatter:off
-		Map<String,Object> map = new LinkedHashMap<String,Object>() {{
-			put("foo", 42);
-			put("bar", "enigma");
-		}};
+		Map<String, Object> map =
+				new LinkedHashMap<String, Object>() {
+					{
+						put("foo", 42);
+						put("bar", "enigma");
+					}
+				};
 		// @formatter:on
-		assertEquals("RoleModel [mystery map = {foo=42, bar=enigma}]",
-			new ToStringBuilder(new RoleModel()).append("mystery map", map).toString());
+		assertEquals(
+				"RoleModel [mystery map = {foo=42, bar=enigma}]",
+				new ToStringBuilder(new RoleModel()).append("mystery map", map).toString());
 	}
 
 	@Test
@@ -149,8 +183,7 @@ class ToStringBuilderTests {
 		String name;
 		int age;
 
-		RoleModel() {
-		}
+		RoleModel() {}
 
 		RoleModel(String name, int age) {
 			super();
@@ -161,12 +194,8 @@ class ToStringBuilderTests {
 		@Override
 		public String toString() {
 			// @formatter:off
-			return new ToStringBuilder(this)
-				.append("name", this.name)
-				.append("age", this.age)
-				.toString();
+			return new ToStringBuilder(this).append("name", this.name).append("age", this.age).toString();
 			// @formatter:on
 		}
 	}
-
 }

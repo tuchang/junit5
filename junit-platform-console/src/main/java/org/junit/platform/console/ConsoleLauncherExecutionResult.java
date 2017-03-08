@@ -7,35 +7,25 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 
 import java.util.Optional;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.launcher.listeners.TestExecutionSummary;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 @API(Internal)
 public class ConsoleLauncherExecutionResult {
 
-	/**
-	 * Exit code indicating successful execution
-	 */
+	/** Exit code indicating successful execution */
 	private static final int SUCCESS = 0;
 
-	/**
-	 * Exit code indicating test failure(s)
-	 */
+	/** Exit code indicating test failure(s) */
 	private static final int TEST_FAILED = 1;
 
-	/**
-	 * Exit code indicating any failure(s)
-	 */
+	/** Exit code indicating any failure(s) */
 	private static final int FAILED = -1;
 
 	public static int computeExitCode(TestExecutionSummary summary) {

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,44 +22,52 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
 import org.junit.rules.Verifier;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 public class AbstractTestRuleAdapterTests {
 
 	@Test
 	void constructionWithAssignableArgumentsIsSuccessful() {
-		new TestableTestRuleAdapter(new SimpleRuleAnnotatedMember(new ErrorCollector()), Verifier.class);
+		new TestableTestRuleAdapter(
+				new SimpleRuleAnnotatedMember(new ErrorCollector()), Verifier.class);
 	}
 
 	@Test
 	void constructionWithUnassignableArgumentsFails() {
-		PreconditionViolationException exception = assertThrows(PreconditionViolationException.class,
-			() -> new TestableTestRuleAdapter(new SimpleRuleAnnotatedMember(new TemporaryFolder()), Verifier.class));
+		PreconditionViolationException exception =
+				assertThrows(
+						PreconditionViolationException.class,
+						() ->
+								new TestableTestRuleAdapter(
+										new SimpleRuleAnnotatedMember(new TemporaryFolder()), Verifier.class));
 
-		assertEquals(exception.getMessage(),
-			"class org.junit.rules.Verifier is not assignable from class org.junit.rules.TemporaryFolder");
+		assertEquals(
+				exception.getMessage(),
+				"class org.junit.rules.Verifier is not assignable from class org.junit.rules.TemporaryFolder");
 	}
 
 	@Test
 	void exceptionsDuringMethodLookupAreWrappedAndThrown() {
-		AbstractTestRuleAdapter adapter = new AbstractTestRuleAdapter(
-			new SimpleRuleAnnotatedMember(new ErrorCollector()), Verifier.class) {
+		AbstractTestRuleAdapter adapter =
+				new AbstractTestRuleAdapter(
+						new SimpleRuleAnnotatedMember(new ErrorCollector()), Verifier.class) {
 
-			@Override
-			public void before() {
-				super.executeMethod("foo");
-			}
-		};
+					@Override
+					public void before() {
+						super.executeMethod("foo");
+					}
+				};
 
 		JUnitException exception = assertThrows(JUnitException.class, adapter::before);
 
-		assertEquals(exception.getMessage(), "Failed to find method foo() in class org.junit.rules.ErrorCollector");
+		assertEquals(
+				exception.getMessage(),
+				"Failed to find method foo() in class org.junit.rules.ErrorCollector");
 	}
 
 	private static class TestableTestRuleAdapter extends AbstractTestRuleAdapter {
 
-		TestableTestRuleAdapter(TestRuleAnnotatedMember annotatedMember, Class<? extends TestRule> adapteeClass) {
+		TestableTestRuleAdapter(
+				TestRuleAnnotatedMember annotatedMember, Class<? extends TestRule> adapteeClass) {
 			super(annotatedMember, adapteeClass);
 		}
 	}
@@ -77,7 +84,5 @@ public class AbstractTestRuleAdapterTests {
 		public TestRule getTestRule() {
 			return this.testRule;
 		}
-
 	}
-
 }

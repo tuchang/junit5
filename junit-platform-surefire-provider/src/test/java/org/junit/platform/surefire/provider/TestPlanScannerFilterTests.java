@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.junit.platform.surefire.provider;
 
 import static java.util.Collections.emptyList;
@@ -21,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,21 +28,23 @@ import org.junit.platform.engine.Filter;
 import org.junit.platform.launcher.core.LauncherFactory;
 
 /**
- * Unit tests for {@link TestPlanScannerFilter}.
- *
- * @since 1.0
- */
+* Unit tests for {@link TestPlanScannerFilter}.
+*
+* @since 1.0
+*/
 public class TestPlanScannerFilterTests {
 
 	@Test
 	void emptyClassAccepted() {
-		assertTrue(newFilter().accept(EmptyClass.class), "accepts empty class because it is a container");
+		assertTrue(
+				newFilter().accept(EmptyClass.class), "accepts empty class because it is a container");
 	}
 
 	@Test
 	void classWithNoTestMethodsIsAccepted() {
-		assertTrue(newFilter().accept(ClassWithMethods.class),
-			"accepts class with no @Test methods because it is a container");
+		assertTrue(
+				newFilter().accept(ClassWithMethods.class),
+				"accepts class with no @Test methods because it is a container");
 	}
 
 	@Test
@@ -76,42 +76,35 @@ public class TestPlanScannerFilterTests {
 		return new TestPlanScannerFilter(LauncherFactory.create(), new Filter<?>[0]);
 	}
 
-	private static class EmptyClass {
-	}
+	private static class EmptyClass {}
 
 	@SuppressWarnings("unused")
 	private static class ClassWithMethods {
 
-		void method1() {
-		}
+		void method1() {}
 
-		void method2() {
-		}
+		void method2() {}
 	}
 
 	private static class ClassWithTestMethods {
 
 		@Test
-		void test1() {
-		}
+		void test1() {}
 
 		@Test
-		public void test2() {
-		}
+		public void test2() {}
 	}
 
 	private static class ClassWithNestedTestClass {
 
 		@SuppressWarnings("unused")
-		void method() {
-		}
+		void method() {}
 
 		@Nested
 		class TestClass {
 
 			@Test
-			void test1() {
-			}
+			void test1() {}
 		}
 	}
 
@@ -127,8 +120,7 @@ public class TestPlanScannerFilterTests {
 				class TestClass {
 
 					@Test
-					void test1() {
-					}
+					void test1() {}
 				}
 			}
 		}
@@ -153,5 +145,4 @@ public class TestPlanScannerFilterTests {
 			}
 		}
 	}
-
 }

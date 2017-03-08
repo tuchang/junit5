@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -18,16 +17,13 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
-
 import org.junit.jupiter.engine.descriptor.ClassTestDescriptor;
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.StringUtils;
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Experimental)
 abstract class AbstractMethodResolver implements ElementResolver {
 
@@ -43,34 +39,27 @@ abstract class AbstractMethodResolver implements ElementResolver {
 
 	@Override
 	public Set<TestDescriptor> resolveElement(AnnotatedElement element, TestDescriptor parent) {
-		if (!(element instanceof Method))
-			return Collections.emptySet();
+		if (!(element instanceof Method)) return Collections.emptySet();
 
-		if (!(parent instanceof ClassTestDescriptor))
-			return Collections.emptySet();
+		if (!(parent instanceof ClassTestDescriptor)) return Collections.emptySet();
 
 		Method method = (Method) element;
-		if (!isRelevantMethod(method))
-			return Collections.emptySet();
+		if (!isRelevantMethod(method)) return Collections.emptySet();
 
 		return Collections.singleton(createTestDescriptor(parent, method));
 	}
 
 	@Override
 	public Optional<TestDescriptor> resolveUniqueId(UniqueId.Segment segment, TestDescriptor parent) {
-		if (!segment.getType().equals(this.segmentType))
-			return Optional.empty();
+		if (!segment.getType().equals(this.segmentType)) return Optional.empty();
 
-		if (!(parent instanceof ClassTestDescriptor))
-			return Optional.empty();
+		if (!(parent instanceof ClassTestDescriptor)) return Optional.empty();
 
 		Optional<Method> optionalMethod = findMethod(segment, (ClassTestDescriptor) parent);
-		if (!optionalMethod.isPresent())
-			return Optional.empty();
+		if (!optionalMethod.isPresent()) return Optional.empty();
 
 		Method method = optionalMethod.get();
-		if (!isRelevantMethod(method))
-			return Optional.empty();
+		if (!isRelevantMethod(method)) return Optional.empty();
 
 		return Optional.of(createTestDescriptor(parent, method));
 	}
@@ -80,8 +69,9 @@ abstract class AbstractMethodResolver implements ElementResolver {
 	}
 
 	private UniqueId createUniqueId(Method method, TestDescriptor parent) {
-		String methodId = String.format("%s(%s)", method.getName(),
-			StringUtils.nullSafeToString(method.getParameterTypes()));
+		String methodId =
+				String.format(
+						"%s(%s)", method.getName(), StringUtils.nullSafeToString(method.getParameterTypes()));
 		return parent.getUniqueId().append(this.segmentType, methodId);
 	}
 
@@ -95,6 +85,6 @@ abstract class AbstractMethodResolver implements ElementResolver {
 		return createTestDescriptor(uniqueId, testClass, method);
 	}
 
-	protected abstract TestDescriptor createTestDescriptor(UniqueId uniqueId, Class<?> testClass, Method method);
-
+	protected abstract TestDescriptor createTestDescriptor(
+			UniqueId uniqueId, Class<?> testClass, Method method);
 }

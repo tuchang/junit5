@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package standalone;
 
 import org.junit.jupiter.api.Assertions;
@@ -18,13 +17,11 @@ import org.junit.jupiter.api.Test;
 class JupiterIntegration {
 
 	@Test
-	void successful() {
-	}
+	void successful() {}
 
 	@Test
 	@Disabled("integration-test-disabled")
-	void disabled() {
-	}
+	void disabled() {}
 
 	@Test
 	void abort() {

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.runner;
 
 import static java.util.stream.Collectors.toCollection;
@@ -21,7 +20,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import org.junit.platform.commons.util.StringUtils;
 import org.junit.platform.engine.TestSource;
 import org.junit.platform.engine.support.descriptor.ClassSource;
@@ -31,9 +29,7 @@ import org.junit.platform.launcher.TestPlan;
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class JUnitPlatformTestTree {
 
 	private final Map<TestIdentifier, Description> descriptions = new HashMap<>();
@@ -43,7 +39,8 @@ class JUnitPlatformTestTree {
 
 	JUnitPlatformTestTree(TestPlan plan, Class<?> testClass) {
 		this.plan = plan;
-		this.nameExtractor = useTechnicalNames(testClass) ? this::getTechnicalName : TestIdentifier::getDisplayName;
+		this.nameExtractor =
+				useTechnicalNames(testClass) ? this::getTechnicalName : TestIdentifier::getDisplayName;
 		this.suiteDescription = generateSuiteDescription(plan, testClass);
 	}
 
@@ -66,7 +63,9 @@ class JUnitPlatformTestTree {
 	}
 
 	private void buildDescriptionTree(Description suiteDescription, TestPlan testPlan) {
-		testPlan.getRoots().forEach(testIdentifier -> buildDescription(testIdentifier, suiteDescription, testPlan));
+		testPlan
+				.getRoots()
+				.forEach(testIdentifier -> buildDescription(testIdentifier, suiteDescription, testPlan));
 	}
 
 	void addDynamicDescription(TestIdentifier newIdentifier, String parentId) {
@@ -79,8 +78,9 @@ class JUnitPlatformTestTree {
 		Description newDescription = createJUnit4Description(identifier, testPlan);
 		parent.addChild(newDescription);
 		this.descriptions.put(identifier, newDescription);
-		testPlan.getChildren(identifier).forEach(
-			testIdentifier -> buildDescription(testIdentifier, newDescription, testPlan));
+		testPlan
+				.getChildren(identifier)
+				.forEach(testIdentifier -> buildDescription(testIdentifier, newDescription, testPlan));
 	}
 
 	private Description createJUnit4Description(TestIdentifier identifier, TestPlan testPlan) {
@@ -98,14 +98,12 @@ class JUnitPlatformTestTree {
 			TestSource source = optionalSource.get();
 			if (source instanceof ClassSource) {
 				return ((ClassSource) source).getJavaClass().getName();
-			}
-			else if (source instanceof MethodSource) {
+			} else if (source instanceof MethodSource) {
 				MethodSource methodSource = (MethodSource) source;
 				String methodParameterTypes = methodSource.getMethodParameterTypes();
 				if (StringUtils.isBlank(methodParameterTypes)) {
 					return methodSource.getMethodName();
-				}
-				else {
+				} else {
 					return String.format("%s(%s)", methodSource.getMethodName(), methodParameterTypes);
 				}
 			}
@@ -117,7 +115,8 @@ class JUnitPlatformTestTree {
 
 	Set<TestIdentifier> getTestsInSubtree(TestIdentifier ancestor) {
 		// @formatter:off
-		return plan.getDescendants(ancestor).stream()
+		return plan.getDescendants(ancestor)
+				.stream()
 				.filter(TestIdentifier::isTest)
 				.collect(toCollection(LinkedHashSet::new));
 		// @formatter:on
@@ -141,12 +140,12 @@ class JUnitPlatformTestTree {
 
 	private Set<TestIdentifier> applyFilterToDescriptions(Filter filter) {
 		// @formatter:off
-		return descriptions.entrySet()
+		return descriptions
+				.entrySet()
 				.stream()
 				.filter(entry -> filter.shouldRun(entry.getValue()))
 				.map(Entry::getKey)
 				.collect(toSet());
 		// @formatter:on
 	}
-
 }

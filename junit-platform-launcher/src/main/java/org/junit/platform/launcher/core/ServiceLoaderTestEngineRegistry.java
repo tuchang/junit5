@@ -7,27 +7,24 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
-
 import org.junit.platform.commons.util.ReflectionUtils;
 import org.junit.platform.engine.TestEngine;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class ServiceLoaderTestEngineRegistry {
 
-	private static final Logger LOG = Logger.getLogger(ServiceLoaderTestEngineRegistry.class.getName());
+	private static final Logger LOG =
+			Logger.getLogger(ServiceLoaderTestEngineRegistry.class.getName());
 
 	public Iterable<TestEngine> loadTestEngines() {
-		Iterable<TestEngine> testEngines = ServiceLoader.load(TestEngine.class,
-			ReflectionUtils.getDefaultClassLoader());
+		Iterable<TestEngine> testEngines =
+				ServiceLoader.load(TestEngine.class, ReflectionUtils.getDefaultClassLoader());
 		LOG.config(() -> createDiscoveredTestEnginesMessage(testEngines));
 		return testEngines;
 	}
@@ -35,7 +32,8 @@ class ServiceLoaderTestEngineRegistry {
 	private String createDiscoveredTestEnginesMessage(Iterable<TestEngine> testEngines) {
 		List<String> details = new ArrayList<>();
 		for (TestEngine engine : testEngines) {
-			details.add(String.format("%s (%s)", engine.getId(), String.join(", ", computeAttributes(engine))));
+			details.add(
+					String.format("%s (%s)", engine.getId(), String.join(", ", computeAttributes(engine))));
 		}
 		if (details.isEmpty()) {
 			return "No TestEngine implementation discovered.";
@@ -50,5 +48,4 @@ class ServiceLoaderTestEngineRegistry {
 		engine.getVersion().ifPresent(version -> attributes.add("version: " + version));
 		return attributes;
 	}
-
 }

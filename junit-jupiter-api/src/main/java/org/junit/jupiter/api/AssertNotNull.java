@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionUtils.buildPrefix;
@@ -16,11 +15,11 @@ import static org.junit.jupiter.api.AssertionUtils.nullSafeGet;
 import java.util.function.Supplier;
 
 /**
- * {@code AssertNotNull} is a collection of utility methods that support asserting
- * that there is an object.
- *
- * @since 5.0
- */
+* {@code AssertNotNull} is a collection of utility methods that support asserting that there is an
+* object.
+*
+* @since 5.0
+*/
 class AssertNotNull {
 
 	static void assertNotNull(Object actual) {

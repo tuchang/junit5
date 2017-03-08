@@ -7,14 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console;
 
 import static org.junit.platform.commons.meta.API.Usage.Maintained;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.console.options.CommandLineOptions;
 import org.junit.platform.console.options.CommandLineOptionsParser;
@@ -23,11 +21,11 @@ import org.junit.platform.console.tasks.ConsoleTestExecutor;
 import org.junit.platform.launcher.listeners.TestExecutionSummary;
 
 /**
- * The {@code ConsoleLauncher} is a stand-alone application for launching the
- * JUnit Platform from the console.
- *
- * @since 1.0
- */
+* The {@code ConsoleLauncher} is a stand-alone application for launching the JUnit Platform from
+* the console.
+*
+* @since 1.0
+*/
 @API(Maintained)
 public class ConsoleLauncher {
 
@@ -43,7 +41,8 @@ public class ConsoleLauncher {
 	private final PrintStream outStream;
 	private final PrintStream errStream;
 
-	ConsoleLauncher(CommandLineOptionsParser commandLineOptionsParser, PrintStream out, PrintStream err) {
+	ConsoleLauncher(
+			CommandLineOptionsParser commandLineOptionsParser, PrintStream out, PrintStream err) {
 		this.commandLineOptionsParser = commandLineOptionsParser;
 		this.outStream = out;
 		this.errStream = err;
@@ -57,8 +56,7 @@ public class ConsoleLauncher {
 				return ConsoleLauncherExecutionResult.success();
 			}
 			return executeTests(options, out);
-		}
-		finally {
+		} finally {
 			outStream.flush();
 			errStream.flush();
 		}
@@ -68,13 +66,11 @@ public class ConsoleLauncher {
 		try {
 			TestExecutionSummary testExecutionSummary = new ConsoleTestExecutor(options).execute(out);
 			return ConsoleLauncherExecutionResult.forSummary(testExecutionSummary);
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			exception.printStackTrace(errStream);
 			errStream.println();
 			commandLineOptionsParser.printHelp(out);
 		}
 		return ConsoleLauncherExecutionResult.failed();
 	}
-
 }

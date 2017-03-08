@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.descriptor;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
@@ -15,20 +14,19 @@ import static org.junit.platform.commons.meta.API.Usage.Internal;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.Optional;
-
 import org.junit.jupiter.api.extension.ContainerExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.engine.EngineExecutionListener;
 
-/**
- * @since 5.0
- */
+/** @since 5.0 */
 @API(Internal)
-public final class ClassBasedContainerExtensionContext extends AbstractExtensionContext<ClassTestDescriptor>
-		implements ContainerExtensionContext {
+public final class ClassBasedContainerExtensionContext
+		extends AbstractExtensionContext<ClassTestDescriptor> implements ContainerExtensionContext {
 
-	public ClassBasedContainerExtensionContext(ExtensionContext parent, EngineExecutionListener engineExecutionListener,
+	public ClassBasedContainerExtensionContext(
+			ExtensionContext parent,
+			EngineExecutionListener engineExecutionListener,
 			ClassTestDescriptor testDescriptor) {
 		super(parent, engineExecutionListener, testDescriptor);
 	}
@@ -47,5 +45,4 @@ public final class ClassBasedContainerExtensionContext extends AbstractExtension
 	public Optional<Method> getTestMethod() {
 		return Optional.empty();
 	}
-
 }

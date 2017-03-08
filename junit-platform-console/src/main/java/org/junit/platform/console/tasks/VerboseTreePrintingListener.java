@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import static org.junit.platform.commons.util.ExceptionUtils.readStackTrace;
@@ -15,22 +14,20 @@ import static org.junit.platform.console.tasks.Color.NONE;
 
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
-
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.reporting.ReportEntry;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class VerboseTreePrintingListener extends TreePrintingListener {
 
 	VerboseTreePrintingListener(PrintWriter out, boolean disableAnsiColors) {
 		this(out, disableAnsiColors, 16, Theme.valueOf(Charset.defaultCharset()));
 	}
 
-	VerboseTreePrintingListener(PrintWriter out, boolean disableAnsiColors, int maxContainerNestingLevel, Theme theme) {
+	VerboseTreePrintingListener(
+			PrintWriter out, boolean disableAnsiColors, int maxContainerNestingLevel, Theme theme) {
 		super(out, disableAnsiColors, maxContainerNestingLevel, theme);
 	}
 
@@ -63,17 +60,28 @@ class VerboseTreePrintingListener extends TreePrintingListener {
 	}
 
 	@Override
-	public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
+	public void executionFinished(
+			TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
 		if (testIdentifier.isContainer()) {
 			Frame frame = frames.pop();
 			printVerticals(theme.end());
 			printf(Color.CONTAINER, " %s", testIdentifier.getDisplayName());
-			printf(NONE, " finished after %d ms.%n", durationInMillis(System.nanoTime() - frame.creationNanos));
+			printf(
+					NONE,
+					" finished after %d ms.%n",
+					durationInMillis(System.nanoTime() - frame.creationNanos));
 			return;
 		}
-		testExecutionResult.getThrowable().ifPresent(t -> printDetail(Color.FAILED, "caught", readStackTrace(t)));
-		printDetail(NONE, "duration", "%d ms%n", durationInMillis(System.nanoTime() - this.executionStartedNanoTime));
-		String status = theme.computeStatusTile(testExecutionResult) + " " + testExecutionResult.getStatus();
+		testExecutionResult
+				.getThrowable()
+				.ifPresent(t -> printDetail(Color.FAILED, "caught", readStackTrace(t)));
+		printDetail(
+				NONE,
+				"duration",
+				"%d ms%n",
+				durationInMillis(System.nanoTime() - this.executionStartedNanoTime));
+		String status =
+				theme.computeStatusTile(testExecutionResult) + " " + testExecutionResult.getStatus();
 		printDetail(Color.valueOf(testExecutionResult), "status", "%s%n", status);
 	}
 
@@ -98,9 +106,7 @@ class VerboseTreePrintingListener extends TreePrintingListener {
 		printDetail(Color.REPORTED, "reports", entry.toString());
 	}
 
-	/**
-	 * Print static information about the test identifier.
-	 */
+	/** Print static information about the test identifier. */
 	private void printDetails(TestIdentifier testIdentifier) {
 		printDetail(NONE, "tags", "%s%n", testIdentifier.getTags());
 		printDetail(NONE, "uniqueId", "%s%n", testIdentifier.getUniqueId());
@@ -108,9 +114,7 @@ class VerboseTreePrintingListener extends TreePrintingListener {
 		testIdentifier.getSource().ifPresent(source -> printDetail(NONE, "source", "%s%n", source));
 	}
 
-	/**
-	 * Print single detail with a potential multi-line message.
-	 */
+	/** Print single detail with a potential multi-line message. */
 	private void printDetail(Color color, String detail, String format, Object... args) {
 		// print initial verticals - expecting to be at start of the line
 		String verticals = verticals(frames.size() + 1);
@@ -129,7 +133,8 @@ class VerboseTreePrintingListener extends TreePrintingListener {
 		String[] lines = format.split("\\R");
 		printf(color, lines[0]);
 		if (lines.length > 1) {
-			String delimiter = System.lineSeparator() + verticals + String.format(detailFormat + "    ", "");
+			String delimiter =
+					System.lineSeparator() + verticals + String.format(detailFormat + "    ", "");
 			for (int i = 1; i < lines.length; i++) {
 				printf(NONE, delimiter);
 				printf(color, lines[i]);
@@ -137,5 +142,4 @@ class VerboseTreePrintingListener extends TreePrintingListener {
 		}
 		printf(NONE, "%n");
 	}
-
 }

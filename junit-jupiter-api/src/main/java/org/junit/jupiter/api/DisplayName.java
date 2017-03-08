@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.platform.commons.meta.API.Usage.Experimental;
@@ -17,26 +16,24 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.junit.platform.commons.meta.API;
 
 /**
- * {@code @DisplayName} is used to declare a custom display name for the
- * annotated test class or test method.
- *
- * <p>Display names are typically used for test reporting in IDEs and build
- * tools and may contain spaces, special characters, and even emoji.
- *
- * @since 5.0
- * @see Test
- * @see TestInfo
- */
-@Target({ ElementType.TYPE, ElementType.METHOD })
+* {@code @DisplayName} is used to declare a custom display name for the annotated test class or
+* test method.
+*
+* <p>Display names are typically used for test reporting in IDEs and build tools and may contain
+* spaces, special characters, and even emoji.
+*
+* @since 5.0
+* @see Test
+* @see TestInfo
+*/
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @API(Experimental)
 public @interface DisplayName {
 
 	String value();
-
 }

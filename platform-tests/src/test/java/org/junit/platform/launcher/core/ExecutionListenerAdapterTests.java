@@ -7,14 +7,12 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Method;
 import java.util.Collections;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.ReflectionUtils;
 import org.junit.platform.engine.TestDescriptor;
@@ -25,9 +23,7 @@ import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 // TODO Test other adapter methods.
 class ExecutionListenerAdapterTests {
 
@@ -37,12 +33,13 @@ class ExecutionListenerAdapterTests {
 
 		//cannot mock final classes with mockito
 		TestPlan testPlan = TestPlan.from(Collections.singleton(testDescriptor));
-		TestIdentifier testIdentifier = testPlan.getTestIdentifier(testDescriptor.getUniqueId().toString());
+		TestIdentifier testIdentifier =
+				testPlan.getTestIdentifier(testDescriptor.getUniqueId().toString());
 
 		//not yet spyable with mockito? -> https://github.com/mockito/mockito/issues/146
 		MockTestExecutionListener testExecutionListener = new MockTestExecutionListener();
-		ExecutionListenerAdapter executionListenerAdapter = new ExecutionListenerAdapter(testPlan,
-			testExecutionListener);
+		ExecutionListenerAdapter executionListenerAdapter =
+				new ExecutionListenerAdapter(testPlan, testExecutionListener);
 
 		ReportEntry entry = ReportEntry.from("one", "two");
 		executionListenerAdapter.reportingEntryPublished(testDescriptor, entry);
@@ -52,14 +49,14 @@ class ExecutionListenerAdapterTests {
 	}
 
 	private TestDescriptor getSampleMethodTestDescriptor() {
-		Method localMethodNamedNothing = ReflectionUtils.findMethod(this.getClass(), "nothing", new Class<?>[0]).get();
-		return new DemoMethodTestDescriptor(UniqueId.root("method", "unique_id"), this.getClass(),
-			localMethodNamedNothing);
+		Method localMethodNamedNothing =
+				ReflectionUtils.findMethod(this.getClass(), "nothing", new Class<?>[0]).get();
+		return new DemoMethodTestDescriptor(
+				UniqueId.root("method", "unique_id"), this.getClass(), localMethodNamedNothing);
 	}
 
 	//for reflection purposes only
-	void nothing() {
-	}
+	void nothing() {}
 
 	static class MockTestExecutionListener implements TestExecutionListener {
 
@@ -71,7 +68,5 @@ class ExecutionListenerAdapterTests {
 			this.testIdentifier = testIdentifier;
 			this.entry = entry;
 		}
-
 	}
-
 }

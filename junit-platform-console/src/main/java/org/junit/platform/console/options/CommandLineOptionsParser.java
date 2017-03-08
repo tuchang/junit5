@@ -7,23 +7,18 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.options;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 
 import java.io.Writer;
-
 import org.junit.platform.commons.meta.API;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 @API(Internal)
 public interface CommandLineOptionsParser {
 
 	CommandLineOptions parse(String... arguments);
 
 	void printHelp(Writer writer);
-
 }

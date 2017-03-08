@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.launcher;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,10 +20,10 @@ import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.DemoClassTestDescriptor;
 
 /**
- * Unit tests for {@link TagFilter}.
- *
- * @since 1.0
- */
+* Unit tests for {@link TagFilter}.
+*
+* @since 1.0
+*/
 class TagFilterTests {
 
 	TestDescriptor testWithTag1 = classTestDescriptor("test1", ATestWithATag1.class);
@@ -77,24 +76,19 @@ class TagFilterTests {
 	}
 
 	@Tag("tag1")
-	private static class ATestWithATag1 {
-	}
+	private static class ATestWithATag1 {}
 
 	@Tag("tag2")
-	private static class ATestWithATag2 {
-	}
+	private static class ATestWithATag2 {}
 
 	@Tag("tag1")
 	@Tag("tag2")
-	private static class ATestWithBothTags {
-	}
+	private static class ATestWithBothTags {}
 
-	private static class ATestWithNoTags {
-	}
+	private static class ATestWithNoTags {}
 
 	private static TestDescriptor classTestDescriptor(String uniqueId, Class<?> testClass) {
 		UniqueId rootUniqueId = UniqueId.root("class", uniqueId);
 		return new DemoClassTestDescriptor(rootUniqueId, testClass);
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,7 +16,6 @@ import static org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder.r
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -29,10 +27,10 @@ import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 /**
- * Integration tests that verify support for {@link TestInstancePostProcessor}.
- *
- * @since 5.0
- */
+* Integration tests that verify support for {@link TestInstancePostProcessor}.
+*
+* @since 5.0
+*/
 public class TestInstancePostProcessorTests extends AbstractJupiterTestEngineTests {
 
 	private static final List<String> callSequence = new ArrayList<>();
@@ -44,7 +42,8 @@ public class TestInstancePostProcessorTests extends AbstractJupiterTestEngineTes
 
 	@Test
 	public void instancePostProcessorsInNestedClasses() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(OuterTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(OuterTestCase.class)).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -52,37 +51,42 @@ public class TestInstancePostProcessorTests extends AbstractJupiterTestEngineTes
 		assertEquals(2, eventRecorder.getTestSuccessfulCount(), "# tests succeeded");
 
 		// @formatter:off
-		assertThat(callSequence).containsExactly(
+		assertThat(callSequence)
+				.containsExactly(
 
-			// OuterTestCase
-			"fooPostProcessTestInstance:OuterTestCase",
-				"beforeOuterMethod",
-					"testOuter",
+						// OuterTestCase
+						"fooPostProcessTestInstance:OuterTestCase",
+						"beforeOuterMethod",
+						"testOuter",
 
-			// InnerTestCase
+						// InnerTestCase
 
-			"fooPostProcessTestInstance:OuterTestCase",
-			"fooPostProcessTestInstance:InnerTestCase",
-				"barPostProcessTestInstance:InnerTestCase",
-					"beforeOuterMethod",
+						"fooPostProcessTestInstance:OuterTestCase",
+						"fooPostProcessTestInstance:InnerTestCase",
+						"barPostProcessTestInstance:InnerTestCase",
+						"beforeOuterMethod",
 						"beforeInnerMethod",
-							"testInner"
-		);
+						"testInner");
 		// @formatter:on
 	}
 
 	@Test
 	public void testSpecificTestInstancePostProcessorIsCalled() {
-		LauncherDiscoveryRequest request = request().selectors(
-			selectClass(TestCaseWithTestSpecificTestInstancePostProcessor.class)).build();
+		LauncherDiscoveryRequest request =
+				request()
+						.selectors(selectClass(TestCaseWithTestSpecificTestInstancePostProcessor.class))
+						.build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
 		assertEquals(1, eventRecorder.getTestStartedCount(), "# tests started");
 		assertEquals(1, eventRecorder.getTestSuccessfulCount(), "# tests succeeded");
 
-		assertThat(callSequence).containsExactly(
-			"fooPostProcessTestInstance:TestCaseWithTestSpecificTestInstancePostProcessor", "beforeEachMethod", "test");
+		assertThat(callSequence)
+				.containsExactly(
+						"fooPostProcessTestInstance:TestCaseWithTestSpecificTestInstancePostProcessor",
+						"beforeEachMethod",
+						"test");
 	}
 
 	// -------------------------------------------------------------------
@@ -131,7 +135,6 @@ public class TestInstancePostProcessorTests extends AbstractJupiterTestEngineTes
 				callSequence.add("testInner");
 			}
 		}
-
 	}
 
 	private static class TestCaseWithTestSpecificTestInstancePostProcessor implements Named {
@@ -159,7 +162,8 @@ public class TestInstancePostProcessorTests extends AbstractJupiterTestEngineTes
 	private static class FooInstancePostProcessor implements TestInstancePostProcessor {
 
 		@Override
-		public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
+		public void postProcessTestInstance(Object testInstance, ExtensionContext context)
+				throws Exception {
 			if (testInstance instanceof Named) {
 				((Named) testInstance).setName("foo");
 			}
@@ -170,7 +174,8 @@ public class TestInstancePostProcessorTests extends AbstractJupiterTestEngineTes
 	private static class BarInstancePostProcessor implements TestInstancePostProcessor {
 
 		@Override
-		public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
+		public void postProcessTestInstance(Object testInstance, ExtensionContext context)
+				throws Exception {
 			if (testInstance instanceof Named) {
 				((Named) testInstance).setName("bar");
 			}
@@ -182,5 +187,4 @@ public class TestInstancePostProcessorTests extends AbstractJupiterTestEngineTes
 
 		void setName(String name);
 	}
-
 }

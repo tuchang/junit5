@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,15 +26,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 /**
- * Integration tests for {@link TestInfoParameterResolver}.
- *
- * @since 5.0
- */
+* Integration tests for {@link TestInfoParameterResolver}.
+*
+* @since 5.0
+*/
 @Tag("class-tag")
 class TestInfoParameterResolverTests {
 
-	private static List<String> allDisplayNames = Arrays.asList("defaultDisplayName(TestInfo)", "custom display name",
-		"getTags(TestInfo)");
+	private static List<String> allDisplayNames =
+			Arrays.asList("defaultDisplayName(TestInfo)", "custom display name", "getTags(TestInfo)");
 
 	@Test
 	void defaultDisplayName(TestInfo testInfo) {
@@ -75,5 +73,4 @@ class TestInfoParameterResolverTests {
 	static void beforeAndAfterAll(TestInfo testInfo) {
 		assertEquals(TestInfoParameterResolverTests.class.getSimpleName(), testInfo.getDisplayName());
 	}
-
 }

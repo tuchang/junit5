@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static java.util.Collections.emptySet;
@@ -17,16 +16,13 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Set;
-
 import org.junit.platform.engine.TestDescriptor;
 import org.junit.platform.engine.UniqueId;
 import org.junit.runner.Description;
 import org.junit.vintage.engine.descriptor.RunnerTestDescriptor;
 import org.junit.vintage.engine.descriptor.VintageTestDescriptor;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class UniqueIdFilter extends RunnerTestDescriptorAwareFilter {
 
 	private final UniqueId uniqueId;
@@ -40,12 +36,14 @@ class UniqueIdFilter extends RunnerTestDescriptorAwareFilter {
 
 	@Override
 	void initialize(RunnerTestDescriptor runnerTestDescriptor) {
-		Optional<? extends TestDescriptor> identifiedTestDescriptor = runnerTestDescriptor.findByUniqueId(uniqueId);
+		Optional<? extends TestDescriptor> identifiedTestDescriptor =
+				runnerTestDescriptor.findByUniqueId(uniqueId);
 		descendants = determineDescendants(identifiedTestDescriptor);
 		path = determinePath(runnerTestDescriptor, identifiedTestDescriptor);
 	}
 
-	private Deque<Description> determinePath(RunnerTestDescriptor runnerTestDescriptor,
+	private Deque<Description> determinePath(
+			RunnerTestDescriptor runnerTestDescriptor,
 			Optional<? extends TestDescriptor> identifiedTestDescriptor) {
 		Deque<Description> path = new LinkedList<>();
 		Optional<? extends TestDescriptor> current = identifiedTestDescriptor;
@@ -56,10 +54,12 @@ class UniqueIdFilter extends RunnerTestDescriptorAwareFilter {
 		return path;
 	}
 
-	private Set<Description> determineDescendants(Optional<? extends TestDescriptor> identifiedTestDescriptor) {
+	private Set<Description> determineDescendants(
+			Optional<? extends TestDescriptor> identifiedTestDescriptor) {
 		if (identifiedTestDescriptor.isPresent()) {
 			// @formatter:off
-			return identifiedTestDescriptor.get()
+			return identifiedTestDescriptor
+					.get()
 					.getDescendants()
 					.stream()
 					.map(VintageTestDescriptor.class::cast)
@@ -79,5 +79,4 @@ class UniqueIdFilter extends RunnerTestDescriptorAwareFilter {
 	public String describe() {
 		return "Unique ID " + uniqueId;
 	}
-
 }

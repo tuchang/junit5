@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,15 +18,14 @@ import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.function.Executable;
 import org.opentest4j.TestAbortedException;
 
 /**
- * Unit tests for JUnit Jupiter {@link Assumptions}.
- *
- * @since 5.0
- */
+* Unit tests for JUnit Jupiter {@link Assumptions}.
+*
+* @since 5.0
+*/
 public class AssumptionsTests {
 
 	// --- assumeTrue ----------------------------------------------------
@@ -38,8 +36,7 @@ public class AssumptionsTests {
 		try {
 			assumeTrue(true);
 			foo = "foo";
-		}
-		finally {
+		} finally {
 			assertNotNull(foo);
 		}
 	}
@@ -50,8 +47,7 @@ public class AssumptionsTests {
 		try {
 			assumeTrue(() -> true);
 			foo = "foo";
-		}
-		finally {
+		} finally {
 			assertNotNull(foo);
 		}
 	}
@@ -62,8 +58,7 @@ public class AssumptionsTests {
 		try {
 			assumeTrue(true, "true");
 			foo = "foo";
-		}
-		finally {
+		} finally {
 			assertNotNull(foo);
 		}
 	}
@@ -74,8 +69,7 @@ public class AssumptionsTests {
 		try {
 			assumeTrue(() -> true, () -> "true");
 			foo = "foo";
-		}
-		finally {
+		} finally {
 			assertNotNull(foo);
 		}
 	}
@@ -118,8 +112,7 @@ public class AssumptionsTests {
 		try {
 			assumeFalse(false);
 			foo = "foo";
-		}
-		finally {
+		} finally {
 			assertNotNull(foo);
 		}
 	}
@@ -130,8 +123,7 @@ public class AssumptionsTests {
 		try {
 			assumeFalse(() -> false);
 			foo = "foo";
-		}
-		finally {
+		} finally {
 			assertNotNull(foo);
 		}
 	}
@@ -142,8 +134,7 @@ public class AssumptionsTests {
 		try {
 			assumeFalse(false, "false");
 			foo = "foo";
-		}
-		finally {
+		} finally {
 			assertNotNull(foo);
 		}
 	}
@@ -154,8 +145,7 @@ public class AssumptionsTests {
 		try {
 			assumeFalse(() -> false, () -> "false");
 			foo = "foo";
-		}
-		finally {
+		} finally {
 			assertNotNull(foo);
 		}
 	}
@@ -228,8 +218,7 @@ public class AssumptionsTests {
 		try {
 			executable.execute();
 			expectTestAbortedException();
-		}
-		catch (Throwable ex) {
+		} catch (Throwable ex) {
 			assertTrue(ex instanceof TestAbortedException);
 			assertMessageEquals((TestAbortedException) ex, "Assumption failed: " + msg);
 		}
@@ -239,11 +228,15 @@ public class AssumptionsTests {
 		throw new AssertionError("Should have thrown a " + TestAbortedException.class.getName());
 	}
 
-	private static void assertMessageEquals(TestAbortedException ex, String msg) throws AssertionError {
+	private static void assertMessageEquals(TestAbortedException ex, String msg)
+			throws AssertionError {
 		if (!msg.equals(ex.getMessage())) {
 			throw new AssertionError(
-				"Message in TestAbortedException should be [" + msg + "], but was [" + ex.getMessage() + "].");
+					"Message in TestAbortedException should be ["
+							+ msg
+							+ "], but was ["
+							+ ex.getMessage()
+							+ "].");
 		}
 	}
-
 }

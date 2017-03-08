@@ -7,22 +7,20 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery.predicates;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 
 import java.util.function.Predicate;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 /**
- * Test if a class is a JUnit Jupiter test class which should be included in
- * package and classpath scanning.
- *
- * @since 5.0
- */
+* Test if a class is a JUnit Jupiter test class which should be included in package and classpath
+* scanning.
+*
+* @since 5.0
+*/
 @API(Internal)
 public class IsScannableTestClass implements Predicate<Class<?>> {
 
@@ -31,9 +29,7 @@ public class IsScannableTestClass implements Predicate<Class<?>> {
 	@Override
 	public boolean test(Class<?> candidate) {
 		//please do not collapse into single return
-		if (ReflectionUtils.isPrivate(candidate))
-			return false;
+		if (ReflectionUtils.isPrivate(candidate)) return false;
 		return isTestClassWithTests.test(candidate);
 	}
-
 }

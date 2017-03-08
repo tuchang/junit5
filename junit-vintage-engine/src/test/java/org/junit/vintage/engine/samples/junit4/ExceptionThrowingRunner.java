@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static java.util.stream.IntStream.range;
@@ -17,14 +16,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Optional;
-
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 public class ExceptionThrowingRunner extends Runner {
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -32,7 +28,6 @@ public class ExceptionThrowingRunner extends Runner {
 	public @interface ChildCount {
 
 		int value();
-
 	}
 
 	private final Class<?> testClass;
@@ -48,8 +43,8 @@ public class ExceptionThrowingRunner extends Runner {
 		int childCount = Optional.ofNullable(childCountAnnotation).map(ChildCount::value).orElse(0);
 		// @formatter:off
 		range(0, childCount)
-			.mapToObj(index -> Description.createTestDescription(testClass, "Test #" + index))
-			.forEach(suiteDescription::addChild);
+				.mapToObj(index -> Description.createTestDescription(testClass, "Test #" + index))
+				.forEach(suiteDescription::addChild);
 		// @formatter:on
 		return suiteDescription;
 	}
@@ -58,5 +53,4 @@ public class ExceptionThrowingRunner extends Runner {
 	public void run(RunNotifier notifier) {
 		throw new RuntimeException("Simulated exception in custom runner for " + testClass.getName());
 	}
-
 }

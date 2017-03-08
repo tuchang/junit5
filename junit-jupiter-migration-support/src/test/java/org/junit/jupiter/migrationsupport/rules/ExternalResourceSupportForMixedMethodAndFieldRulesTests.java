@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static java.util.Arrays.asList;
@@ -16,7 +15,6 @@ import static org.junit.jupiter.migrationsupport.rules.FailAfterAllHelper.fail;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Rule;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -37,17 +35,18 @@ public class ExternalResourceSupportForMixedMethodAndFieldRulesTests {
 	}
 
 	@Rule
-	public ExternalResource fieldRule = new ExternalResource() {
-		@Override
-		protected void before() throws Throwable {
-			beforeEvents.add("fieldRule");
-		}
+	public ExternalResource fieldRule =
+			new ExternalResource() {
+				@Override
+				protected void before() throws Throwable {
+					beforeEvents.add("fieldRule");
+				}
 
-		@Override
-		protected void after() {
-			afterEvents.add("fieldRule");
-		}
-	};
+				@Override
+				protected void after() {
+					afterEvents.add("fieldRule");
+				}
+			};
 
 	@Rule
 	public ExternalResource getResource2() {
@@ -71,8 +70,6 @@ public class ExternalResourceSupportForMixedMethodAndFieldRulesTests {
 
 	@AfterAll
 	static void afterMethodsOfBothRulesWereExecuted() {
-		if (!asList("methodRule", "fieldRule").equals(afterEvents))
-			fail();
+		if (!asList("methodRule", "fieldRule").equals(afterEvents)) fail();
 	}
-
 }

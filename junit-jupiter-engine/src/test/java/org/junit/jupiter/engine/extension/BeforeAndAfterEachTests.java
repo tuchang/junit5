@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import static java.util.Arrays.asList;
@@ -19,7 +18,6 @@ import static org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder.r
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -34,12 +32,12 @@ import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 /**
- * Integration tests that verify support for {@link BeforeEach}, {@link AfterEach},
- * {@link BeforeEachCallback}, and {@link AfterEachCallback} in the {@link JupiterTestEngine}.
- *
- * @since 5.0
- * @see BeforeAndAfterTestExecutionCallbackTests
- */
+* Integration tests that verify support for {@link BeforeEach}, {@link AfterEach}, {@link
+* BeforeEachCallback}, and {@link AfterEachCallback} in the {@link JupiterTestEngine}.
+*
+* @since 5.0
+* @see BeforeAndAfterTestExecutionCallbackTests
+*/
 public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 
 	private static final List<String> callSequence = new ArrayList<>();
@@ -56,7 +54,8 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void beforeEachAndAfterEachCallbacks() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(OuterTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(OuterTestCase.class)).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -67,37 +66,39 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		assertEquals(0, eventRecorder.getTestFailedCount(), "# tests failed");
 
 		// @formatter:off
-		assertEquals(asList(
+		assertEquals(
+				asList(
 
-			// OuterTestCase
-			"fooBeforeEachCallback",
-			"barBeforeEachCallback",
-				"beforeEachMethod",
-					"testOuter",
-				"afterEachMethod",
-			"barAfterEachCallback",
-			"fooAfterEachCallback",
+						// OuterTestCase
+						"fooBeforeEachCallback",
+						"barBeforeEachCallback",
+						"beforeEachMethod",
+						"testOuter",
+						"afterEachMethod",
+						"barAfterEachCallback",
+						"fooAfterEachCallback",
 
-			// InnerTestCase
-			"fooBeforeEachCallback",
-			"barBeforeEachCallback",
-			"fizzBeforeEachCallback",
-				"beforeEachMethod",
-					"beforeEachInnerMethod",
+						// InnerTestCase
+						"fooBeforeEachCallback",
+						"barBeforeEachCallback",
+						"fizzBeforeEachCallback",
+						"beforeEachMethod",
+						"beforeEachInnerMethod",
 						"testInner",
-					"afterEachInnerMethod",
-				"afterEachMethod",
-			"fizzAfterEachCallback",
-			"barAfterEachCallback",
-			"fooAfterEachCallback"
-
-			), callSequence, "wrong call sequence");
+						"afterEachInnerMethod",
+						"afterEachMethod",
+						"fizzAfterEachCallback",
+						"barAfterEachCallback",
+						"fooAfterEachCallback"),
+				callSequence,
+				"wrong call sequence");
 		// @formatter:on
 	}
 
 	@Test
 	public void beforeEachAndAfterEachCallbacksDeclaredOnSuperclassAndSubclass() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(ChildTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(ChildTestCase.class)).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -108,19 +109,22 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		assertEquals(0, eventRecorder.getTestFailedCount(), "# tests failed");
 
 		// @formatter:off
-		assertEquals(asList(
-			"fooBeforeEachCallback",
-			"barBeforeEachCallback",
-				"testChild",
-			"barAfterEachCallback",
-			"fooAfterEachCallback"
-		), callSequence, "wrong call sequence");
+		assertEquals(
+				asList(
+						"fooBeforeEachCallback",
+						"barBeforeEachCallback",
+						"testChild",
+						"barAfterEachCallback",
+						"fooAfterEachCallback"),
+				callSequence,
+				"wrong call sequence");
 		// @formatter:on
 	}
 
 	@Test
 	public void beforeEachAndAfterEachCallbacksDeclaredOnInterfaceAndClass() {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(TestInterfaceTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(TestInterfaceTestCase.class)).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -131,30 +135,31 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		assertEquals(0, eventRecorder.getTestFailedCount(), "# tests failed");
 
 		// @formatter:off
-		assertEquals(asList(
+		assertEquals(
+				asList(
 
-			// Test Interface
-			"fooBeforeEachCallback",
-			"barBeforeEachCallback",
-				"defaultTestMethod",
-			"barAfterEachCallback",
-			"fooAfterEachCallback",
+						// Test Interface
+						"fooBeforeEachCallback",
+						"barBeforeEachCallback",
+						"defaultTestMethod",
+						"barAfterEachCallback",
+						"fooAfterEachCallback",
 
-			// Test Class
-			"fooBeforeEachCallback",
-			"barBeforeEachCallback",
-				"localTestMethod",
-			"barAfterEachCallback",
-			"fooAfterEachCallback"
-
-		), callSequence, "wrong call sequence");
+						// Test Class
+						"fooBeforeEachCallback",
+						"barBeforeEachCallback",
+						"localTestMethod",
+						"barAfterEachCallback",
+						"fooAfterEachCallback"),
+				callSequence,
+				"wrong call sequence");
 		// @formatter:on
 	}
 
 	@Test
 	public void beforeEachCallbackThrowsAnException() {
-		LauncherDiscoveryRequest request = request().selectors(
-			selectClass(ExceptionInBeforeEachCallbackTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(ExceptionInBeforeEachCallbackTestCase.class)).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -165,16 +170,18 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		assertEquals(1, eventRecorder.getTestFailedCount(), "# tests failed");
 
 		// @formatter:off
-		assertEquals(asList(
-			"fooBeforeEachCallback",
-			"exceptionThrowingBeforeEachCallback", // throws an exception.
-			// barBeforeEachCallback should not get invoked.
-				// beforeEachMethod should not get invoked.
-					// test should not get invoked.
-				// afterEachMethod should not get invoked.
-			"barAfterEachCallback",
-			"fooAfterEachCallback"
-		), callSequence, "wrong call sequence");
+		assertEquals(
+				asList(
+						"fooBeforeEachCallback",
+						"exceptionThrowingBeforeEachCallback", // throws an exception.
+						// barBeforeEachCallback should not get invoked.
+						// beforeEachMethod should not get invoked.
+						// test should not get invoked.
+						// afterEachMethod should not get invoked.
+						"barAfterEachCallback",
+						"fooAfterEachCallback"),
+				callSequence,
+				"wrong call sequence");
 		// @formatter:on
 
 		assertTrue(actualExceptionInAfterEachCallback.isPresent(), "test exception should be present");
@@ -183,8 +190,8 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void afterEachCallbackThrowsAnException() {
-		LauncherDiscoveryRequest request = request().selectors(
-			selectClass(ExceptionInAfterEachCallbackTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(ExceptionInAfterEachCallbackTestCase.class)).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -195,16 +202,18 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		assertEquals(1, eventRecorder.getTestFailedCount(), "# tests failed");
 
 		// @formatter:off
-		assertEquals(asList(
-			"fooBeforeEachCallback",
-			"barBeforeEachCallback",
-				"beforeEachMethod",
-					"test",
-				"afterEachMethod",
-			"barAfterEachCallback",
-			"exceptionThrowingAfterEachCallback", // throws an exception.
-			"fooAfterEachCallback"
-		), callSequence, "wrong call sequence");
+		assertEquals(
+				asList(
+						"fooBeforeEachCallback",
+						"barBeforeEachCallback",
+						"beforeEachMethod",
+						"test",
+						"afterEachMethod",
+						"barAfterEachCallback",
+						"exceptionThrowingAfterEachCallback", // throws an exception.
+						"fooAfterEachCallback"),
+				callSequence,
+				"wrong call sequence");
 		// @formatter:on
 
 		assertTrue(actualExceptionInAfterEachCallback.isPresent(), "test exception should be present");
@@ -213,8 +222,8 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void beforeEachMethodThrowsAnException() {
-		LauncherDiscoveryRequest request = request().selectors(
-			selectClass(ExceptionInBeforeEachMethodTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(ExceptionInBeforeEachMethodTestCase.class)).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -231,25 +240,26 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		// the expected call sequence.
 
 		// @formatter:off
-		List<String> list1 = asList(
-			"fooBeforeEachCallback",
-				"beforeEachMethod1", // throws an exception.
-				// "beforeEachMethod2" should not get invoked
-					// test should not get invoked.
-				"afterEachMethod",
-			"fooAfterEachCallback"
-		);
-		List<String> list2 = asList(
-			"fooBeforeEachCallback",
-				"beforeEachMethod2",
-				"beforeEachMethod1", // throws an exception.
-					// test should not get invoked.
-				"afterEachMethod",
-			"fooAfterEachCallback"
-		);
+		List<String> list1 =
+				asList(
+						"fooBeforeEachCallback",
+						"beforeEachMethod1", // throws an exception.
+						// "beforeEachMethod2" should not get invoked
+						// test should not get invoked.
+						"afterEachMethod",
+						"fooAfterEachCallback");
+		List<String> list2 =
+				asList(
+						"fooBeforeEachCallback",
+						"beforeEachMethod2",
+						"beforeEachMethod1", // throws an exception.
+						// test should not get invoked.
+						"afterEachMethod",
+						"fooAfterEachCallback");
 		// @formatter:on
 
-		List<String> expected = beforeEachMethodCallSequence.get(0).equals("beforeEachMethod1") ? list1 : list2;
+		List<String> expected =
+				beforeEachMethodCallSequence.get(0).equals("beforeEachMethod1") ? list1 : list2;
 
 		assertEquals(expected, callSequence, "wrong call sequence");
 
@@ -259,8 +269,8 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void afterEachMethodThrowsAnException() {
-		LauncherDiscoveryRequest request = request().selectors(
-			selectClass(ExceptionInAfterEachMethodTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(ExceptionInAfterEachMethodTestCase.class)).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -271,13 +281,15 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		assertEquals(1, eventRecorder.getTestFailedCount(), "# tests failed");
 
 		// @formatter:off
-		assertEquals(asList(
-			"fooBeforeEachCallback",
-				"beforeEachMethod",
-					"test",
-				"afterEachMethod", // throws an exception.
-			"fooAfterEachCallback"
-		), callSequence, "wrong call sequence");
+		assertEquals(
+				asList(
+						"fooBeforeEachCallback",
+						"beforeEachMethod",
+						"test",
+						"afterEachMethod", // throws an exception.
+						"fooAfterEachCallback"),
+				callSequence,
+				"wrong call sequence");
 		// @formatter:on
 
 		assertTrue(actualExceptionInAfterEachCallback.isPresent(), "test exception should be present");
@@ -286,8 +298,8 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void testMethodThrowsAnException() {
-		LauncherDiscoveryRequest request = request().selectors(
-			selectClass(ExceptionInTestMethodTestCase.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(ExceptionInTestMethodTestCase.class)).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
@@ -298,13 +310,15 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		assertEquals(1, eventRecorder.getTestFailedCount(), "# tests failed");
 
 		// @formatter:off
-		assertEquals(asList(
-			"fooBeforeEachCallback",
-				"beforeEachMethod",
-					"test", // throws an exception.
-				"afterEachMethod",
-			"fooAfterEachCallback"
-		), callSequence, "wrong call sequence");
+		assertEquals(
+				asList(
+						"fooBeforeEachCallback",
+						"beforeEachMethod",
+						"test", // throws an exception.
+						"afterEachMethod",
+						"fooAfterEachCallback"),
+				callSequence,
+				"wrong call sequence");
 		// @formatter:on
 
 		assertTrue(actualExceptionInAfterEachCallback.isPresent(), "test exception should be present");
@@ -314,8 +328,7 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 	// -------------------------------------------------------------------------
 
 	@ExtendWith(FooMethodLevelCallbacks.class)
-	private static class ParentTestCase {
-	}
+	private static class ParentTestCase {}
 
 	@ExtendWith(BarMethodLevelCallbacks.class)
 	private static class ChildTestCase extends ParentTestCase {
@@ -344,7 +357,7 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		}
 	}
 
-	@ExtendWith({ FooMethodLevelCallbacks.class, BarMethodLevelCallbacks.class })
+	@ExtendWith({FooMethodLevelCallbacks.class, BarMethodLevelCallbacks.class})
 	private static class OuterTestCase {
 
 		@BeforeEach
@@ -383,8 +396,11 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		}
 	}
 
-	@ExtendWith({ FooMethodLevelCallbacks.class, ExceptionThrowingBeforeEachCallback.class,
-			BarMethodLevelCallbacks.class })
+	@ExtendWith({
+		FooMethodLevelCallbacks.class,
+		ExceptionThrowingBeforeEachCallback.class,
+		BarMethodLevelCallbacks.class
+	})
 	private static class ExceptionInBeforeEachCallbackTestCase {
 
 		@BeforeEach
@@ -403,8 +419,11 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 		}
 	}
 
-	@ExtendWith({ FooMethodLevelCallbacks.class, ExceptionThrowingAfterEachCallback.class,
-			BarMethodLevelCallbacks.class })
+	@ExtendWith({
+		FooMethodLevelCallbacks.class,
+		ExceptionThrowingAfterEachCallback.class,
+		BarMethodLevelCallbacks.class
+	})
 	private static class ExceptionInAfterEachCallbackTestCase {
 
 		@BeforeEach
@@ -557,5 +576,4 @@ public class BeforeAndAfterEachTests extends AbstractJupiterTestEngineTests {
 			super(message);
 		}
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.migrationsupport.rules;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,15 +18,13 @@ import org.junit.rules.TemporaryFolder;
 
 public class ExternalResourceWithoutAdapterTests {
 
-	@Rule
-	public TemporaryFolder folder = new TemporaryFolder();
+	@Rule public TemporaryFolder folder = new TemporaryFolder();
 
 	@BeforeEach
 	void setup() {
 		try {
 			folder.newFile("temp.txt");
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			assertTrue(exception.getMessage().equals("the temporary folder has not yet been created"));
 		}
 	}
@@ -36,5 +33,4 @@ public class ExternalResourceWithoutAdapterTests {
 	void checkTemporaryFolder() {
 		// only needed to invoke testing at all
 	}
-
 }

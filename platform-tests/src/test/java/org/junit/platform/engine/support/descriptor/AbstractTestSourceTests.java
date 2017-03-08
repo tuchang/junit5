@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.support.descriptor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,13 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.platform.engine.TestSource;
 
 /**
- * Abstract base class for unit tests involving {@link TestSource TestSources}.
- *
- * @since 1.0
- */
+* Abstract base class for unit tests involving {@link TestSource TestSources}.
+*
+* @since 1.0
+*/
 abstract class AbstractTestSourceTests {
 
-	protected void assertEqualsAndHashCode(TestSource equal1, TestSource equal2, TestSource different) {
+	protected void assertEqualsAndHashCode(
+			TestSource equal1, TestSource equal2, TestSource different) {
 		assertNotNull(equal1);
 		assertNotNull(equal2);
 		assertNotNull(different);
@@ -42,5 +42,4 @@ abstract class AbstractTestSourceTests {
 		assertTrue(equal2.equals(equal1));
 		assertEquals(equal1.hashCode(), equal2.hashCode());
 	}
-
 }

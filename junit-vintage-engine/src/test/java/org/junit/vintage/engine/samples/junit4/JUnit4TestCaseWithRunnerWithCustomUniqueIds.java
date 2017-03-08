@@ -7,16 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @RunWith(RunnerWithCustomUniqueIds.class)
 public class JUnit4TestCaseWithRunnerWithCustomUniqueIds {
 
@@ -24,5 +21,4 @@ public class JUnit4TestCaseWithRunnerWithCustomUniqueIds {
 	public void test() {
 		Assert.fail();
 	}
-
 }

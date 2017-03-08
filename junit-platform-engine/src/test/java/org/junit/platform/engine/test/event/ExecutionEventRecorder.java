@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.test.event;
 
 import static java.util.function.Predicate.isEqual;
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
 import org.junit.platform.engine.EngineDiscoveryRequest;
 import org.junit.platform.engine.EngineExecutionListener;
 import org.junit.platform.engine.ExecutionRequest;
@@ -39,19 +37,21 @@ import org.junit.platform.engine.reporting.ReportEntry;
 import org.junit.platform.engine.test.event.ExecutionEvent.Type;
 
 /**
- * {@link EngineExecutionListener} that records all events and makes them available to tests.
- *
- * @since 1.0
- * @see ExecutionEvent
- */
+* {@link EngineExecutionListener} that records all events and makes them available to tests.
+*
+* @since 1.0
+* @see ExecutionEvent
+*/
 public class ExecutionEventRecorder implements EngineExecutionListener {
 
-	public static List<ExecutionEvent> execute(TestEngine testEngine, EngineDiscoveryRequest discoveryRequest) {
-		TestDescriptor engineTestDescriptor = testEngine.discover(discoveryRequest,
-			UniqueId.forEngine(testEngine.getId()));
+	public static List<ExecutionEvent> execute(
+			TestEngine testEngine, EngineDiscoveryRequest discoveryRequest) {
+		TestDescriptor engineTestDescriptor =
+				testEngine.discover(discoveryRequest, UniqueId.forEngine(testEngine.getId()));
 		ExecutionEventRecorder listener = new ExecutionEventRecorder();
 		testEngine.execute(
-			new ExecutionRequest(engineTestDescriptor, listener, discoveryRequest.getConfigurationParameters()));
+				new ExecutionRequest(
+						engineTestDescriptor, listener, discoveryRequest.getConfigurationParameters()));
 		return listener.getExecutionEvents();
 	}
 
@@ -151,8 +151,10 @@ public class ExecutionEventRecorder implements EngineExecutionListener {
 	}
 
 	private Stream<ExecutionEvent> testFinishedEvents(Status status) {
-		return testEventsByType(FINISHED).filter(
-			byPayload(TestExecutionResult.class, where(TestExecutionResult::getStatus, isEqual(status))));
+		return testEventsByType(FINISHED)
+				.filter(
+						byPayload(
+								TestExecutionResult.class, where(TestExecutionResult::getStatus, isEqual(status))));
 	}
 
 	private Stream<ExecutionEvent> testEventsByType(Type type) {
@@ -163,13 +165,12 @@ public class ExecutionEventRecorder implements EngineExecutionListener {
 		return eventsByTypeAndTestDescriptor(type, TestDescriptor::isContainer);
 	}
 
-	private Stream<ExecutionEvent> eventsByTypeAndTestDescriptor(Type type,
-			Predicate<? super TestDescriptor> predicate) {
+	private Stream<ExecutionEvent> eventsByTypeAndTestDescriptor(
+			Type type, Predicate<? super TestDescriptor> predicate) {
 		return eventStream().filter(byType(type).and(byTestDescriptor(predicate)));
 	}
 
 	private void addEvent(ExecutionEvent event) {
 		executionEvents.add(event);
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import static org.hamcrest.core.IsNot.not;
@@ -18,8 +17,7 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 
 public class JUnit4TestCaseWithErrorCollectorStoringMultipleFailures {
-	@Rule
-	public ErrorCollector collector = new ErrorCollector();
+	@Rule public ErrorCollector collector = new ErrorCollector();
 
 	@Test
 	public void example() {

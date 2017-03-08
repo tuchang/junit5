@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.discovery;
 
 import static java.util.stream.Collectors.joining;
@@ -18,16 +17,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-
 import org.junit.platform.commons.util.Preconditions;
 
 /**
- * Abstract {@link ClassNameFilter} that servers as a superclass
- * for filters including or excluding fully qualified class names
- * based on pattern-matching.
- *
- * @since 1.0
- */
+* Abstract {@link ClassNameFilter} that servers as a superclass for filters including or excluding
+* fully qualified class names based on pattern-matching.
+*
+* @since 1.0
+*/
 abstract class AbstractClassNameFilter implements ClassNameFilter {
 
 	protected final List<Pattern> patterns;
@@ -46,5 +43,4 @@ abstract class AbstractClassNameFilter implements ClassNameFilter {
 	protected Optional<Pattern> findMatchingPattern(String className) {
 		return this.patterns.stream().filter(pattern -> pattern.matcher(className).matches()).findAny();
 	}
-
 }

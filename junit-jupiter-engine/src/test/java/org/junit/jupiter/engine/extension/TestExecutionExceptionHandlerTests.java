@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import static org.assertj.core.api.Assertions.allOf;
@@ -31,7 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,10 +40,10 @@ import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 /**
- * Integration tests that verify support for {@link TestExecutionExceptionHandler}.
- *
- * @since 5.0
- */
+* Integration tests that verify support for {@link TestExecutionExceptionHandler}.
+*
+* @since 5.0
+*/
 class TestExecutionExceptionHandlerTests extends AbstractJupiterTestEngineTests {
 
 	static List<String> handlerCalls = new ArrayList<>();
@@ -61,73 +59,92 @@ class TestExecutionExceptionHandlerTests extends AbstractJupiterTestEngineTests 
 
 	@Test
 	void exceptionHandlerRethrowsException() {
-		LauncherDiscoveryRequest request = request().selectors(selectMethod(ATestCase.class, "testRethrow")).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectMethod(ATestCase.class, "testRethrow")).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
-		assertTrue(RethrowException.handleExceptionCalled, "TestExecutionExceptionHandler should have been called");
+		assertTrue(
+				RethrowException.handleExceptionCalled,
+				"TestExecutionExceptionHandler should have been called");
 
-		assertRecordedExecutionEventsContainsExactly(eventRecorder.getExecutionEvents(), //
-			event(engine(), started()), //
-			event(container(ATestCase.class), started()), //
-			event(test("testRethrow"), started()), //
-			event(test("testRethrow"), finishedWithFailure(allOf(isA(IOException.class), message("checked")))), //
-			event(container(ATestCase.class), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				eventRecorder.getExecutionEvents(), //
+				event(engine(), started()), //
+				event(container(ATestCase.class), started()), //
+				event(test("testRethrow"), started()), //
+				event(
+						test("testRethrow"),
+						finishedWithFailure(allOf(isA(IOException.class), message("checked")))), //
+				event(container(ATestCase.class), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
 	void exceptionHandlerSwallowsException() {
-		LauncherDiscoveryRequest request = request().selectors(selectMethod(ATestCase.class, "testSwallow")).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectMethod(ATestCase.class, "testSwallow")).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
-		assertTrue(SwallowException.handleExceptionCalled, "TestExecutionExceptionHandler should have been called");
+		assertTrue(
+				SwallowException.handleExceptionCalled,
+				"TestExecutionExceptionHandler should have been called");
 
-		assertRecordedExecutionEventsContainsExactly(eventRecorder.getExecutionEvents(), //
-			event(engine(), started()), //
-			event(container(ATestCase.class), started()), //
-			event(test("testSwallow"), started()), //
-			event(test("testSwallow"), finishedSuccessfully()), //
-			event(container(ATestCase.class), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				eventRecorder.getExecutionEvents(), //
+				event(engine(), started()), //
+				event(container(ATestCase.class), started()), //
+				event(test("testSwallow"), started()), //
+				event(test("testSwallow"), finishedSuccessfully()), //
+				event(container(ATestCase.class), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
 	void exceptionHandlerConvertsException() {
-		LauncherDiscoveryRequest request = request().selectors(selectMethod(ATestCase.class, "testConvert")).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectMethod(ATestCase.class, "testConvert")).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
-		assertTrue(ConvertException.handleExceptionCalled, "TestExecutionExceptionHandler should have been called");
+		assertTrue(
+				ConvertException.handleExceptionCalled,
+				"TestExecutionExceptionHandler should have been called");
 
-		assertRecordedExecutionEventsContainsExactly(eventRecorder.getExecutionEvents(), //
-			event(engine(), started()), //
-			event(container(ATestCase.class), started()), //
-			event(test("testConvert"), started()), //
-			event(test("testConvert"), finishedWithFailure(allOf(isA(IOException.class), message("checked")))), //
-			event(container(ATestCase.class), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				eventRecorder.getExecutionEvents(), //
+				event(engine(), started()), //
+				event(container(ATestCase.class), started()), //
+				event(test("testConvert"), started()), //
+				event(
+						test("testConvert"),
+						finishedWithFailure(allOf(isA(IOException.class), message("checked")))), //
+				event(container(ATestCase.class), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 	}
 
 	@Test
 	void severalHandlersAreCalledInOrder() {
-		LauncherDiscoveryRequest request = request().selectors(selectMethod(ATestCase.class, "testSeveral")).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectMethod(ATestCase.class, "testSeveral")).build();
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
 		assertTrue(ConvertException.handleExceptionCalled, "ConvertException should have been called");
 		assertTrue(RethrowException.handleExceptionCalled, "RethrowException should have been called");
 		assertTrue(SwallowException.handleExceptionCalled, "SwallowException should have been called");
-		assertFalse(ShouldNotBeCalled.handleExceptionCalled, "ShouldNotBeCalled should not have been called");
+		assertFalse(
+				ShouldNotBeCalled.handleExceptionCalled, "ShouldNotBeCalled should not have been called");
 
-		assertRecordedExecutionEventsContainsExactly(eventRecorder.getExecutionEvents(), //
-			event(engine(), started()), //
-			event(container(ATestCase.class), started()), //
-			event(test("testSeveral"), started()), //
-			event(test("testSeveral"), finishedSuccessfully()), //
-			event(container(ATestCase.class), finishedSuccessfully()), //
-			event(engine(), finishedSuccessfully()));
+		assertRecordedExecutionEventsContainsExactly(
+				eventRecorder.getExecutionEvents(), //
+				event(engine(), started()), //
+				event(container(ATestCase.class), started()), //
+				event(test("testSeveral"), started()), //
+				event(test("testSeveral"), finishedSuccessfully()), //
+				event(container(ATestCase.class), finishedSuccessfully()), //
+				event(engine(), finishedSuccessfully()));
 
 		assertEquals(Arrays.asList("convert", "rethrow", "swallow"), handlerCalls);
 	}
@@ -169,7 +186,8 @@ class TestExecutionExceptionHandlerTests extends AbstractJupiterTestEngineTests 
 		static boolean handleExceptionCalled = false;
 
 		@Override
-		public void handleTestExecutionException(TestExtensionContext context, Throwable throwable) throws Throwable {
+		public void handleTestExecutionException(TestExtensionContext context, Throwable throwable)
+				throws Throwable {
 			assertTrue(throwable instanceof IOException);
 			handleExceptionCalled = true;
 			handlerCalls.add("rethrow");
@@ -183,7 +201,8 @@ class TestExecutionExceptionHandlerTests extends AbstractJupiterTestEngineTests 
 		static boolean handleExceptionCalled = false;
 
 		@Override
-		public void handleTestExecutionException(TestExtensionContext context, Throwable throwable) throws Throwable {
+		public void handleTestExecutionException(TestExtensionContext context, Throwable throwable)
+				throws Throwable {
 			assertTrue(throwable instanceof IOException);
 			handleExceptionCalled = true;
 			handlerCalls.add("swallow");
@@ -196,20 +215,22 @@ class TestExecutionExceptionHandlerTests extends AbstractJupiterTestEngineTests 
 		static boolean handleExceptionCalled = false;
 
 		@Override
-		public void handleTestExecutionException(TestExtensionContext context, Throwable throwable) throws Throwable {
+		public void handleTestExecutionException(TestExtensionContext context, Throwable throwable)
+				throws Throwable {
 			assertTrue(throwable instanceof RuntimeException);
 			handleExceptionCalled = true;
 			handlerCalls.add("convert");
 			throw new IOException("checked");
 		}
-
 	}
+
 	private static class ShouldNotBeCalled implements TestExecutionExceptionHandler {
 
 		static boolean handleExceptionCalled = false;
 
 		@Override
-		public void handleTestExecutionException(TestExtensionContext context, Throwable throwable) throws Throwable {
+		public void handleTestExecutionException(TestExtensionContext context, Throwable throwable)
+				throws Throwable {
 			handleExceptionCalled = true;
 		}
 	}

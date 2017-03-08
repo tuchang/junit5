@@ -7,23 +7,21 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.discovery.predicates;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 
 import java.lang.reflect.Method;
 import java.util.function.Predicate;
-
 import org.junit.platform.commons.meta.API;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 /**
- * Test if a class is a JUnit Jupiter test class containing executable tests,
- * test factories, or nested tests.
- *
- * @since 5.0
- */
+* Test if a class is a JUnit Jupiter test class containing executable tests, test factories, or
+* nested tests.
+*
+* @since 5.0
+*/
 @API(Internal)
 public class IsTestClassWithTests implements Predicate<Class<?>> {
 
@@ -31,9 +29,11 @@ public class IsTestClassWithTests implements Predicate<Class<?>> {
 
 	private static final IsTestFactoryMethod isTestFactoryMethod = new IsTestFactoryMethod();
 
-	private static final Predicate<Method> isTestOrTestFactoryMethod = isTestMethod.or(isTestFactoryMethod);
+	private static final Predicate<Method> isTestOrTestFactoryMethod =
+			isTestMethod.or(isTestFactoryMethod);
 
-	private static final IsPotentialTestContainer isPotentialTestContainer = new IsPotentialTestContainer();
+	private static final IsPotentialTestContainer isPotentialTestContainer =
+			new IsPotentialTestContainer();
 
 	private static final IsNestedTestClass isNestedTestClass = new IsNestedTestClass();
 
@@ -53,5 +53,4 @@ public class IsTestClassWithTests implements Predicate<Class<?>> {
 	private boolean hasNestedTests(Class<?> candidate) {
 		return !ReflectionUtils.findNestedClasses(candidate, isNestedTestClass).isEmpty();
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,12 +21,12 @@ import org.junit.platform.engine.discovery.ClassNameFilter;
 import org.junit.platform.launcher.FilterStub;
 
 /**
- * Unit tests for {@link Filter#composeFilters}.
- *
- * {@link Filter#composeFilters} will delegate to {@linkplain CompositeFilter} under the hood.
- *
- * @since 1.0
- */
+* Unit tests for {@link Filter#composeFilters}.
+*
+* <p>{@link Filter#composeFilters} will delegate to {@linkplain CompositeFilter} under the hood.
+*
+* @since 1.0
+*/
 class FilterCompositionTests {
 
 	@Test
@@ -70,5 +69,4 @@ class FilterCompositionTests {
 		assertFalse(composed.apply(String.class).included());
 		assertEquals("(1st) and (2nd)", composed.toString());
 	}
-
 }

@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import static java.util.Collections.emptyList;
@@ -22,21 +21,17 @@ import static org.junit.platform.launcher.core.LauncherFactoryForTestingPurposes
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Paths;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.console.ConsoleLauncherExecutionResult;
 import org.junit.platform.console.options.CommandLineOptions;
 import org.junit.platform.console.options.Details;
 import org.junit.platform.engine.support.hierarchical.DemoHierarchicalTestEngine;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class ConsoleTestExecutorTests {
 
 	private static final Runnable FAILING_BLOCK = () -> fail("should fail");
-	private static final Runnable SUCCEEDING_TEST = () -> {
-	};
+	private static final Runnable SUCCEEDING_TEST = () -> {};
 
 	private final StringWriter stringWriter = new StringWriter();
 	private final CommandLineOptions options = new CommandLineOptions();
@@ -51,11 +46,19 @@ class ConsoleTestExecutorTests {
 		dummyTestEngine.addTest("succeedingTest", SUCCEEDING_TEST);
 		dummyTestEngine.addTest("failingTest", FAILING_BLOCK);
 
-		ConsoleTestExecutor task = new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
+		ConsoleTestExecutor task =
+				new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
 		task.execute(new PrintWriter(stringWriter));
 
-		assertThat(stringWriter.toString()).contains("Test run finished after", "2 tests found", "0 tests skipped",
-			"2 tests started", "0 tests aborted", "1 tests successful", "1 tests failed");
+		assertThat(stringWriter.toString())
+				.contains(
+						"Test run finished after",
+						"2 tests found",
+						"0 tests skipped",
+						"2 tests started",
+						"0 tests aborted",
+						"1 tests successful",
+						"1 tests failed");
 	}
 
 	@Test
@@ -64,7 +67,8 @@ class ConsoleTestExecutorTests {
 
 		dummyTestEngine.addTest("failingTest", FAILING_BLOCK);
 
-		ConsoleTestExecutor task = new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
+		ConsoleTestExecutor task =
+				new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
 		task.execute(new PrintWriter(stringWriter));
 
 		assertThat(stringWriter.toString()).contains("Test execution started.");
@@ -76,7 +80,8 @@ class ConsoleTestExecutorTests {
 
 		dummyTestEngine.addTest("failingTest", FAILING_BLOCK);
 
-		ConsoleTestExecutor task = new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
+		ConsoleTestExecutor task =
+				new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
 		task.execute(new PrintWriter(stringWriter));
 
 		assertThat(stringWriter.toString()).doesNotContain("Test execution started.");
@@ -89,7 +94,8 @@ class ConsoleTestExecutorTests {
 		dummyTestEngine.addTest("failingTest", FAILING_BLOCK);
 		dummyTestEngine.addContainer("failingContainer", FAILING_BLOCK);
 
-		ConsoleTestExecutor task = new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
+		ConsoleTestExecutor task =
+				new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
 		task.execute(new PrintWriter(stringWriter));
 
 		assertThat(stringWriter.toString()).contains("Failures (2)", "failingTest", "failingContainer");
@@ -99,7 +105,8 @@ class ConsoleTestExecutorTests {
 	void hasStatusCode0ForSucceedingTest() throws Exception {
 		dummyTestEngine.addTest("succeedingTest", SUCCEEDING_TEST);
 
-		ConsoleTestExecutor task = new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
+		ConsoleTestExecutor task =
+				new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
 		int exitCode = ConsoleLauncherExecutionResult.computeExitCode(task.execute(dummyWriter()));
 
 		assertThat(exitCode).isEqualTo(0);
@@ -109,7 +116,8 @@ class ConsoleTestExecutorTests {
 	void hasStatusCode1ForFailingTest() throws Exception {
 		dummyTestEngine.addTest("failingTest", FAILING_BLOCK);
 
-		ConsoleTestExecutor task = new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
+		ConsoleTestExecutor task =
+				new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
 		int exitCode = ConsoleLauncherExecutionResult.computeExitCode(task.execute(dummyWriter()));
 
 		assertThat(exitCode).isEqualTo(1);
@@ -119,7 +127,8 @@ class ConsoleTestExecutorTests {
 	void hasStatusCode1ForFailingContainer() throws Exception {
 		dummyTestEngine.addContainer("failingContainer", FAILING_BLOCK);
 
-		ConsoleTestExecutor task = new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
+		ConsoleTestExecutor task =
+				new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
 		int exitCode = ConsoleLauncherExecutionResult.computeExitCode(task.execute(dummyWriter()));
 
 		assertThat(exitCode).isEqualTo(1);
@@ -130,10 +139,11 @@ class ConsoleTestExecutorTests {
 		options.setAdditionalClasspathEntries(singletonList(Paths.get(".")));
 
 		ClassLoader oldClassLoader = getDefaultClassLoader();
-		dummyTestEngine.addTest("failingTest",
-			() -> assertSame(oldClassLoader, getDefaultClassLoader(), "should fail"));
+		dummyTestEngine.addTest(
+				"failingTest", () -> assertSame(oldClassLoader, getDefaultClassLoader(), "should fail"));
 
-		ConsoleTestExecutor task = new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
+		ConsoleTestExecutor task =
+				new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
 		task.execute(new PrintWriter(stringWriter));
 
 		assertThat(stringWriter.toString()).contains("failingTest", "should fail", "1 tests failed");
@@ -144,10 +154,11 @@ class ConsoleTestExecutorTests {
 		options.setAdditionalClasspathEntries(emptyList());
 
 		ClassLoader oldClassLoader = getDefaultClassLoader();
-		dummyTestEngine.addTest("failingTest",
-			() -> assertNotSame(oldClassLoader, getDefaultClassLoader(), "should fail"));
+		dummyTestEngine.addTest(
+				"failingTest", () -> assertNotSame(oldClassLoader, getDefaultClassLoader(), "should fail"));
 
-		ConsoleTestExecutor task = new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
+		ConsoleTestExecutor task =
+				new ConsoleTestExecutor(options, () -> createLauncher(dummyTestEngine));
 		task.execute(new PrintWriter(stringWriter));
 
 		assertThat(stringWriter.toString()).contains("failingTest", "should fail", "1 tests failed");
@@ -156,5 +167,4 @@ class ConsoleTestExecutorTests {
 	private PrintWriter dummyWriter() {
 		return new PrintWriter(new StringWriter());
 	}
-
 }

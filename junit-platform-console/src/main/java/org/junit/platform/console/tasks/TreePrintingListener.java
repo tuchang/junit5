@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.console.tasks;
 
 import static org.junit.platform.console.tasks.Color.NONE;
@@ -21,7 +20,6 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-
 import org.junit.platform.commons.util.StringUtils;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.reporting.ReportEntry;
@@ -29,9 +27,7 @@ import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class TreePrintingListener implements TestExecutionListener {
 
 	private final PrintWriter out;
@@ -46,7 +42,8 @@ class TreePrintingListener implements TestExecutionListener {
 		this(out, disableAnsiColors, 16, Theme.valueOf(Charset.defaultCharset()));
 	}
 
-	TreePrintingListener(PrintWriter out, boolean disableAnsiColors, int maxContainerNestingLevel, Theme theme) {
+	TreePrintingListener(
+			PrintWriter out, boolean disableAnsiColors, int maxContainerNestingLevel, Theme theme) {
 		this.out = out;
 		this.disableAnsiColors = disableAnsiColors;
 		this.theme = theme;
@@ -89,7 +86,8 @@ class TreePrintingListener implements TestExecutionListener {
 	}
 
 	@Override
-	public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
+	public void executionFinished(
+			TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
 		if (testIdentifier.isContainer()) {
 			this.frames.pop();
 			return;
@@ -138,16 +136,13 @@ class TreePrintingListener implements TestExecutionListener {
 	void printf(Color color, String message, Object... args) {
 		if (this.disableAnsiColors || color == NONE) {
 			this.out.printf(message, args);
-		}
-		else {
+		} else {
 			this.out.printf(color + message + NONE, args);
 		}
 		this.out.flush();
 	}
 
-	/**
-	 * Prints potential multi-line message.
-	 */
+	/** Prints potential multi-line message. */
 	private void printMessage(Color color, String message) {
 		String[] lines = message.split("\\R");
 		printf(color, lines[0]);
@@ -163,9 +158,7 @@ class TreePrintingListener implements TestExecutionListener {
 		printf(NONE, "%n");
 	}
 
-	/**
-	 * Look up current verticals as a string.
-	 */
+	/** Look up current verticals as a string. */
 	private String verticals() {
 		return verticals(this.frames.size());
 	}
@@ -174,9 +167,7 @@ class TreePrintingListener implements TestExecutionListener {
 		return verticals[Math.min(index, verticals.length)];
 	}
 
-	/**
-	 * Print verticals and stay in the current line.
-	 */
+	/** Print verticals and stay in the current line. */
 	void printVerticals(String tile) {
 		printf(NONE, verticals());
 		printf(NONE, tile);
@@ -189,52 +180,52 @@ class TreePrintingListener implements TestExecutionListener {
 	enum Theme {
 
 		/**
-		 * ASCII 7-bit characters form the tree branch.
-		 *
-		 * <pre class="code">
-		 * +-- JUnit Vintage
-		 * | +-- example.JUnit4Tests
-		 * | | +-- standardJUnit4Test [OK]
-		 * +-- JUnit Jupiter
-		 * | +-- AssertionsDemo
-		 * | | +-- timeoutExceededWithPreemptiveTermination() [OK]
-		 * | | +-- groupedAssertions() [OK]
-		 * | | +-- standardAssertions() [OK]
-		 * | | +-- timeoutNotExceeded() [OK]
-		 * | | +-- exceptionTesting() [OK]
-		 * | | +-- timeoutExceeded() [OK]
-		 * </pre>
-		 */
+		* ASCII 7-bit characters form the tree branch.
+		*
+		* <pre class="code">
+		* +-- JUnit Vintage
+		* | +-- example.JUnit4Tests
+		* | | +-- standardJUnit4Test [OK]
+		* +-- JUnit Jupiter
+		* | +-- AssertionsDemo
+		* | | +-- timeoutExceededWithPreemptiveTermination() [OK]
+		* | | +-- groupedAssertions() [OK]
+		* | | +-- standardAssertions() [OK]
+		* | | +-- timeoutNotExceeded() [OK]
+		* | | +-- exceptionTesting() [OK]
+		* | | +-- timeoutExceeded() [OK]
+		* </pre>
+		*/
 		ASCII(".", "| ", "+--", "---", "[OK]", "[A]", "[X]", "[S]"),
 
 		/**
-		 * Extended ASCII characters are used to display the test execution tree.
-		 *
-		 * <pre class="code">
-		 * .
-		 * ├─ JUnit Vintage
-		 * │  ├─ example.JUnit4Tests
-		 * │  │  ├─ standardJUnit4Test ✔
-		 * ├─ JUnit Jupiter
-		 * │  ├─ AssertionsDemo
-		 * │  │  ├─ timeoutExceeded() ✔
-		 * │  │  ├─ groupedAssertions() ✔
-		 * │  │  ├─ timeoutNotExceeded() ✔
-		 * │  │  ├─ timeoutExceededWithPreemptiveTermination() ✔
-		 * │  │  ├─ standardAssertions() ✔
-		 * │  │  ├─ exceptionTesting() ✔
-		 * │  ├─ A stack
-		 * │  │  ├─ is instantiated with new Stack() ✔
-		 * │  │  ├─ when new
-		 * │  │  │  ├─ throws EmptyStackException when popped ✔
-		 * │  │  │  ├─ throws EmptyStackException when peeked ✔
-		 * │  │  │  ├─ is empty ✔
-		 * │  │  │  ├─ after pushing an element
-		 * │  │  │  │  ├─ it is no longer empty ✔
-		 * │  │  │  │  ├─ returns the element when popped and is empty ✔
-		 * │  │  │  │  ├─ returns the element when peeked but remains not empty ✔
-		 * </pre>
-		 */
+		* Extended ASCII characters are used to display the test execution tree.
+		*
+		* <pre class="code">
+		* .
+		* ├─ JUnit Vintage
+		* │  ├─ example.JUnit4Tests
+		* │  │  ├─ standardJUnit4Test ✔
+		* ├─ JUnit Jupiter
+		* │  ├─ AssertionsDemo
+		* │  │  ├─ timeoutExceeded() ✔
+		* │  │  ├─ groupedAssertions() ✔
+		* │  │  ├─ timeoutNotExceeded() ✔
+		* │  │  ├─ timeoutExceededWithPreemptiveTermination() ✔
+		* │  │  ├─ standardAssertions() ✔
+		* │  │  ├─ exceptionTesting() ✔
+		* │  ├─ A stack
+		* │  │  ├─ is instantiated with new Stack() ✔
+		* │  │  ├─ when new
+		* │  │  │  ├─ throws EmptyStackException when popped ✔
+		* │  │  │  ├─ throws EmptyStackException when peeked ✔
+		* │  │  │  ├─ is empty ✔
+		* │  │  │  ├─ after pushing an element
+		* │  │  │  │  ├─ it is no longer empty ✔
+		* │  │  │  │  ├─ returns the element when popped and is empty ✔
+		* │  │  │  │  ├─ returns the element when peeked but remains not empty ✔
+		* </pre>
+		*/
 		UTF_8(".", "│  ", "├─", "└─", "✔", "■", "✘", "↷");
 
 		static Theme valueOf(Charset charset) {
@@ -306,5 +297,4 @@ class TreePrintingListener implements TestExecutionListener {
 			this.creationNanos = System.nanoTime();
 		}
 	}
-
 }

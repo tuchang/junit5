@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package standalone;
 
 import static org.junit.Assert.assertEquals;

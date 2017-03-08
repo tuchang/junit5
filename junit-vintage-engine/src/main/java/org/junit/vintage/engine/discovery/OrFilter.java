@@ -7,20 +7,16 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.discovery;
 
 import static java.util.stream.Collectors.joining;
 
 import java.util.Collection;
-
 import org.junit.platform.commons.util.Preconditions;
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 class OrFilter extends Filter {
 
 	private final Collection<? extends Filter> filters;
@@ -38,5 +34,4 @@ class OrFilter extends Filter {
 	public String describe() {
 		return filters.stream().map(Filter::describe).collect(joining(" OR "));
 	}
-
 }

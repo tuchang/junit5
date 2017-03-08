@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.api;
 
 import static org.junit.jupiter.api.AssertionTestUtils.assertExpectedAndActualValues;
@@ -19,10 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Unit tests for JUnit Jupiter {@link Assertions}.
- *
- * @since 5.0
- */
+* Unit tests for JUnit Jupiter {@link Assertions}.
+*
+* @since 5.0
+*/
 public class AssertionsAssertSameTests {
 
 	@Test
@@ -42,8 +41,7 @@ public class AssertionsAssertSameTests {
 		try {
 			assertSame(expected, null);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageContains(ex, "expected: <java.lang.Object@");
 			assertMessageContains(ex, "but was: <null>");
 			assertExpectedAndActualValues(ex, expected, null);
@@ -56,8 +54,7 @@ public class AssertionsAssertSameTests {
 		try {
 			assertSame(null, actual);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageContains(ex, "expected: <null>");
 			assertMessageContains(ex, "but was: <java.lang.Object@");
 			assertExpectedAndActualValues(ex, null, actual);
@@ -71,8 +68,7 @@ public class AssertionsAssertSameTests {
 		try {
 			assertSame(expected, actual);
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageContains(ex, "expected: <java.lang.Object@");
 			assertMessageContains(ex, "but was: <java.lang.Object@");
 			assertExpectedAndActualValues(ex, expected, actual);
@@ -86,13 +82,11 @@ public class AssertionsAssertSameTests {
 		try {
 			assertSame(expected, actual, () -> "test");
 			expectAssertionFailedError();
-		}
-		catch (AssertionFailedError ex) {
+		} catch (AssertionFailedError ex) {
 			assertMessageStartsWith(ex, "test");
 			assertMessageContains(ex, "expected: java.lang.String@");
 			assertMessageContains(ex, "but was: java.lang.String@");
 			assertExpectedAndActualValues(ex, expected, actual);
 		}
 	}
-
 }

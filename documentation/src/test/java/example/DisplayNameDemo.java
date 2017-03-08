@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package example;
 
 // tag::user_guide[]
@@ -19,18 +18,14 @@ class DisplayNameDemo {
 
 	@Test
 	@DisplayName("Custom test name containing spaces")
-	void testWithDisplayNameContainingSpaces() {
-	}
+	void testWithDisplayNameContainingSpaces() {}
 
 	@Test
 	@DisplayName("╯°□°）╯")
-	void testWithDisplayNameContainingSpecialCharacters() {
-	}
+	void testWithDisplayNameContainingSpecialCharacters() {}
 
 	@Test
 	@DisplayName("😱")
-	void testWithDisplayNameContainingEmoji() {
-	}
-
+	void testWithDisplayNameContainingEmoji() {}
 }
 // end::user_guide[]

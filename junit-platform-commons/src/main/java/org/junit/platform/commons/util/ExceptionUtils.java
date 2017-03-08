@@ -7,27 +7,24 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.util;
 
 import static org.junit.platform.commons.meta.API.Usage.Internal;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import org.junit.platform.commons.meta.API;
 
 /**
- * Collection of utilities for working with exceptions.
- *
- * <h3>DISCLAIMER</h3>
- *
- * <p>These utilities are intended solely for usage within the JUnit framework
- * itself. <strong>Any usage by external parties is not supported.</strong>
- * Use at your own risk!
- *
- * @since 1.0
- */
+* Collection of utilities for working with exceptions.
+*
+* <h3>DISCLAIMER</h3>
+*
+* <p>These utilities are intended solely for usage within the JUnit framework itself. <strong>Any
+* usage by external parties is not supported.</strong> Use at your own risk!
+*
+* @since 1.0
+*/
 @API(Internal)
 public final class ExceptionUtils {
 
@@ -38,25 +35,22 @@ public final class ExceptionUtils {
 	///CLOVER:ON
 
 	/**
-	 * Throw the supplied {@link Throwable}, <em>masked</em> as an
-	 * unchecked exception.
-	 *
-	 * <p>The supplied {@code Throwable} will not be wrapped. Rather, it
-	 * will be thrown <em>as is</em> using an exploit of the Java language
-	 * that relies on a combination of generics and type erasure to trick
-	 * the Java compiler into believing that the thrown exception is an
-	 * unchecked exception even if it is a checked exception.
-	 *
-	 * <h3>Warning</h3>
-	 *
-	 * <p>This method should be used sparingly.
-	 *
-	 * @param t the {@code Throwable} to throw as an unchecked exception;
-	 * never {@code null}
-	 * @return this method always throws an exception and therefore never
-	 * returns anything; the return type is merely present to allow this
-	 * method to be supplied as the operand in a {@code throw} statement
-	 */
+	* Throw the supplied {@link Throwable}, <em>masked</em> as an unchecked exception.
+	*
+	* <p>The supplied {@code Throwable} will not be wrapped. Rather, it will be thrown <em>as is</em>
+	* using an exploit of the Java language that relies on a combination of generics and type erasure
+	* to trick the Java compiler into believing that the thrown exception is an unchecked exception
+	* even if it is a checked exception.
+	*
+	* <h3>Warning</h3>
+	*
+	* <p>This method should be used sparingly.
+	*
+	* @param t the {@code Throwable} to throw as an unchecked exception; never {@code null}
+	* @return this method always throws an exception and therefore never returns anything; the return
+	*     type is merely present to allow this method to be supplied as the operand in a {@code
+	*     throw} statement
+	*/
 	public static RuntimeException throwAsUncheckedException(Throwable t) {
 		Preconditions.notNull(t, "Throwable must not be null");
 		ExceptionUtils.throwAs(t);
@@ -70,9 +64,7 @@ public final class ExceptionUtils {
 		throw (T) t;
 	}
 
-	/**
-	 * Reads the stacktrace of the supplied {@link Throwable} into a String.
-	 */
+	/** Reads the stacktrace of the supplied {@link Throwable} into a String. */
 	public static String readStackTrace(Throwable throwable) {
 		Preconditions.notNull(throwable, "Throwable must not be null");
 		StringWriter stringWriter = new StringWriter();
@@ -81,5 +73,4 @@ public final class ExceptionUtils {
 		}
 		return stringWriter.toString();
 	}
-
 }

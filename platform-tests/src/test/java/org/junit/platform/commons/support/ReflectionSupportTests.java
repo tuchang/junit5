@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.commons.support;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,15 +19,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.platform.commons.util.ReflectionUtils;
 
-/**
- * @since 1.0
- */
+/** @since 1.0 */
 class ReflectionSupportTests {
 
 	private final Predicate<Class<?>> allTypes = type -> true;
@@ -47,32 +43,46 @@ class ReflectionSupportTests {
 			if (displayName.length() > 42) {
 				displayName = "..." + displayName.substring(displayName.length() - 42);
 			}
-			tests.add(DynamicTest.dynamicTest(displayName,
-				() -> assertEquals(ReflectionUtils.findAllClassesInClasspathRoot(root, allTypes, allNames),
-					ReflectionSupport.findAllClassesInClasspathRoot(root, allTypes, allNames))));
+			tests.add(
+					DynamicTest.dynamicTest(
+							displayName,
+							() ->
+									assertEquals(
+											ReflectionUtils.findAllClassesInClasspathRoot(root, allTypes, allNames),
+											ReflectionSupport.findAllClassesInClasspathRoot(root, allTypes, allNames))));
 		}
 		return tests;
 	}
 
 	@Test
 	void findAllClassesInPackageDelegates() {
-		assertEquals(0, ReflectionSupport.findAllClassesInPackage("illegal package name", allTypes, allNames).size());
-		assertEquals(ReflectionUtils.findAllClassesInPackage("illegal package name", allTypes, allNames),
-			ReflectionSupport.findAllClassesInPackage("illegal package name", allTypes, allNames));
-		assertNotEquals(0, ReflectionSupport.findAllClassesInPackage("org.junit", allTypes, allNames).size());
-		assertEquals(ReflectionUtils.findAllClassesInPackage("org.junit", allTypes, allNames),
-			ReflectionSupport.findAllClassesInPackage("org.junit", allTypes, allNames));
+		assertEquals(
+				0,
+				ReflectionSupport.findAllClassesInPackage("illegal package name", allTypes, allNames)
+						.size());
+		assertEquals(
+				ReflectionUtils.findAllClassesInPackage("illegal package name", allTypes, allNames),
+				ReflectionSupport.findAllClassesInPackage("illegal package name", allTypes, allNames));
+		assertNotEquals(
+				0, ReflectionSupport.findAllClassesInPackage("org.junit", allTypes, allNames).size());
+		assertEquals(
+				ReflectionUtils.findAllClassesInPackage("org.junit", allTypes, allNames),
+				ReflectionSupport.findAllClassesInPackage("org.junit", allTypes, allNames));
 	}
 
 	@Test
 	void findMethodsDelegates() {
 		assertEquals(
-			ReflectionUtils.findMethods(ReflectionSupportTests.class, allMethods,
-				ReflectionUtils.MethodSortOrder.HierarchyUp),
-			ReflectionSupport.findMethods(ReflectionSupportTests.class, allMethods, MethodSortOrder.HierarchyUp));
+				ReflectionUtils.findMethods(
+						ReflectionSupportTests.class, allMethods, ReflectionUtils.MethodSortOrder.HierarchyUp),
+				ReflectionSupport.findMethods(
+						ReflectionSupportTests.class, allMethods, MethodSortOrder.HierarchyUp));
 		assertEquals(
-			ReflectionUtils.findMethods(ReflectionSupportTests.class, allMethods,
-				ReflectionUtils.MethodSortOrder.HierarchyDown),
-			ReflectionSupport.findMethods(ReflectionSupportTests.class, allMethods, MethodSortOrder.HierarchyDown));
+				ReflectionUtils.findMethods(
+						ReflectionSupportTests.class,
+						allMethods,
+						ReflectionUtils.MethodSortOrder.HierarchyDown),
+				ReflectionSupport.findMethods(
+						ReflectionSupportTests.class, allMethods, MethodSortOrder.HierarchyDown));
 	}
 }

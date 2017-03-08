@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.platform.engine.discovery;
 
 import static org.junit.platform.engine.FilterResult.excluded;
@@ -15,18 +14,17 @@ import static org.junit.platform.engine.FilterResult.included;
 
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-
 import org.junit.platform.engine.FilterResult;
 
 /**
- * {@link ClassNameFilter} that matches fully qualified class names against
- * patterns in the form of regular expressions.
- *
- * <p>If the fully qualified name of a class matches against at least one
- * pattern, the class will be included.
- *
- * @since 1.0
- */
+* {@link ClassNameFilter} that matches fully qualified class names against patterns in the form of
+* regular expressions.
+*
+* <p>If the fully qualified name of a class matches against at least one pattern, the class will be
+* included.
+*
+* @since 1.0
+*/
 class IncludeClassNameFilter extends AbstractClassNameFilter {
 
 	IncludeClassNameFilter(String... patterns) {
@@ -41,7 +39,8 @@ class IncludeClassNameFilter extends AbstractClassNameFilter {
 	}
 
 	private String formatExclusionReason(String className) {
-		return String.format("Class name [%s] does not match any included pattern: %s", className, patternDescription);
+		return String.format(
+				"Class name [%s] does not match any included pattern: %s", className, patternDescription);
 	}
 
 	private String formatInclusionReason(String className, Pattern pattern) {
@@ -57,5 +56,4 @@ class IncludeClassNameFilter extends AbstractClassNameFilter {
 	public String toString() {
 		return "Includes class names that match regular expression " + patternDescription;
 	}
-
 }

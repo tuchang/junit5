@@ -7,7 +7,6 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.jupiter.engine.extension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,11 +29,11 @@ import org.junit.platform.engine.test.event.ExecutionEventRecorder;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 /**
- * Integration tests that verify support for {@link TestExecutionCondition} and
- * {@link ContainerExecutionCondition} extension points in the {@link JupiterTestEngine}.
- *
- * @since 5.0
- */
+* Integration tests that verify support for {@link TestExecutionCondition} and {@link
+* ContainerExecutionCondition} extension points in the {@link JupiterTestEngine}.
+*
+* @since 5.0
+*/
 public class ExecutionConditionTests extends AbstractJupiterTestEngineTests {
 
 	private static final String FOO = "DisabledTests.foo";
@@ -53,8 +52,8 @@ public class ExecutionConditionTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void conditionWorksOnContainer() {
-		LauncherDiscoveryRequest request = request().selectors(
-			selectClass(TestCaseWithContainerExecutionCondition.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(TestCaseWithContainerExecutionCondition.class)).build();
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
 		assertEquals(1, eventRecorder.getContainerSkippedCount(), "# container skipped");
@@ -63,8 +62,8 @@ public class ExecutionConditionTests extends AbstractJupiterTestEngineTests {
 
 	@Test
 	public void conditionWorksOnTest() {
-		LauncherDiscoveryRequest request = request().selectors(
-			selectClass(TestCaseWithTestExecutionCondition.class)).build();
+		LauncherDiscoveryRequest request =
+				request().selectors(selectClass(TestCaseWithTestExecutionCondition.class)).build();
 		ExecutionEventRecorder eventRecorder = executeTests(request);
 
 		assertEquals(2, eventRecorder.getTestStartedCount(), "# tests started");
@@ -111,13 +110,14 @@ public class ExecutionConditionTests extends AbstractJupiterTestEngineTests {
 		assertTestExecutionConditionOverride(deactivatePattern, 4, 2, 2);
 	}
 
-	private void assertContainerExecutionConditionOverride(String deactivatePattern, int testStartedCount,
-			int testFailedCount) {
+	private void assertContainerExecutionConditionOverride(
+			String deactivatePattern, int testStartedCount, int testFailedCount) {
 		// @formatter:off
-		LauncherDiscoveryRequest request = request()
-				.selectors(selectClass(TestCaseWithContainerExecutionCondition.class))
-				.configurationParameter(DEACTIVATE_CONDITIONS_PATTERN_PROPERTY_NAME, deactivatePattern)
-				.build();
+		LauncherDiscoveryRequest request =
+				request()
+						.selectors(selectClass(TestCaseWithContainerExecutionCondition.class))
+						.configurationParameter(DEACTIVATE_CONDITIONS_PATTERN_PROPERTY_NAME, deactivatePattern)
+						.build();
 		// @formatter:on
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
@@ -128,13 +128,14 @@ public class ExecutionConditionTests extends AbstractJupiterTestEngineTests {
 		assertEquals(testFailedCount, eventRecorder.getTestFailedCount(), "# tests failed");
 	}
 
-	private void assertTestExecutionConditionOverride(String deactivatePattern, int started, int succeeded,
-			int failed) {
+	private void assertTestExecutionConditionOverride(
+			String deactivatePattern, int started, int succeeded, int failed) {
 		// @formatter:off
-		LauncherDiscoveryRequest request = request()
-				.selectors(selectClass(TestCaseWithTestExecutionCondition.class))
-				.configurationParameter(DEACTIVATE_CONDITIONS_PATTERN_PROPERTY_NAME, deactivatePattern)
-				.build();
+		LauncherDiscoveryRequest request =
+				request()
+						.selectors(selectClass(TestCaseWithTestExecutionCondition.class))
+						.configurationParameter(DEACTIVATE_CONDITIONS_PATTERN_PROPERTY_NAME, deactivatePattern)
+						.build();
 		// @formatter:on
 
 		ExecutionEventRecorder eventRecorder = executeTests(request);
@@ -164,8 +165,7 @@ public class ExecutionConditionTests extends AbstractJupiterTestEngineTests {
 	private static class TestCaseWithTestExecutionCondition {
 
 		@Test
-		void enabledTest() {
-		}
+		void enabledTest() {}
 
 		@Test
 		@Disabled
@@ -175,8 +175,7 @@ public class ExecutionConditionTests extends AbstractJupiterTestEngineTests {
 
 		@Test
 		@SystemProperty(key = FOO, value = BAR)
-		void systemPropertyEnabledTest() {
-		}
+		void systemPropertyEnabledTest() {}
 
 		@Test
 		@SystemProperty(key = FOO, value = BOGUS)
@@ -189,7 +188,5 @@ public class ExecutionConditionTests extends AbstractJupiterTestEngineTests {
 		void systemPropertyNotSetTest() {
 			fail("this should be disabled");
 		}
-
 	}
-
 }

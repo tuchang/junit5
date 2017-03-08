@@ -7,17 +7,13 @@
  *
  * http://www.eclipse.org/legal/epl-v10.html
  */
-
 package org.junit.vintage.engine.samples.junit4;
 
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.runner.SelectClasses;
 import org.junit.runner.RunWith;
 
-/**
- * @since 4.12
- */
+/** @since 4.12 */
 @RunWith(JUnitPlatform.class)
 @SelectClasses(PlainJUnit4TestCaseWithSingleTestWhichFails.class)
-public class TestCaseRunWithJUnitPlatformRunner {
-}
+public class TestCaseRunWithJUnitPlatformRunner {}
