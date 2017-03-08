@@ -436,7 +436,6 @@ public class HierarchicalTestExecutorTests {
 		public boolean isLeaf() {
 			return isTest();
 		}
-
 	}
 
 	private static class MyExecutor extends HierarchicalTestExecutor<MyEngineExecutionContext> {

@@ -198,7 +198,6 @@ class SummaryGenerationTests {
 				public boolean isTest() {
 					return false;
 				}
-
 			});
 		testPlan.add(identifier);
 		return identifier;

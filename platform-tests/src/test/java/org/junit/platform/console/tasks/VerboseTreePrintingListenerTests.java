@@ -168,7 +168,6 @@ public class VerboseTreePrintingListenerTests {
 				public boolean isTest() {
 					return false;
 				}
-
 			});
 		testPlan.add(identifier);
 		return identifier;
