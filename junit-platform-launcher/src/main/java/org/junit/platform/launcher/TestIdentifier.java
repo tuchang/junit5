@@ -45,7 +45,6 @@ public final class TestIdentifier implements Serializable {
 	private final TestSource source;
 	private final Set<TestTag> tags;
 	private final boolean test;
-	private final boolean container;
 	private final String legacyReportingName;
 
 	/**
@@ -59,22 +58,20 @@ public final class TestIdentifier implements Serializable {
 		Optional<TestSource> source = testDescriptor.getSource();
 		Set<TestTag> tags = testDescriptor.getTags();
 		boolean test = testDescriptor.isTest();
-		boolean container = !test || !testDescriptor.getChildren().isEmpty();
 		Optional<String> parentId = testDescriptor.getParent().map(
 			parentDescriptor -> parentDescriptor.getUniqueId().toString());
 		String legacyReportingName = testDescriptor.getLegacyReportingName();
-		return new TestIdentifier(uniqueId, displayName, source, tags, test, container, parentId, legacyReportingName);
+		return new TestIdentifier(uniqueId, displayName, source, tags, test, parentId, legacyReportingName);
 	}
 
 	TestIdentifier(String uniqueId, String displayName, Optional<TestSource> source, Set<TestTag> tags, boolean test,
-			boolean container, Optional<String> parentId, String legacyReportingName) {
+			Optional<String> parentId, String legacyReportingName) {
 		this.uniqueId = uniqueId;
 		this.parentId = parentId.orElse(null);
 		this.displayName = displayName;
 		this.source = source.orElse(null);
 		this.tags = unmodifiableSet(new LinkedHashSet<>(tags));
 		this.test = test;
-		this.container = container;
 		this.legacyReportingName = legacyReportingName;
 	}
 
@@ -133,7 +130,7 @@ public final class TestIdentifier implements Serializable {
 	 * Determine if this identifier represents a container.
 	 */
 	public boolean isContainer() {
-		return this.container;
+		return !isTest();
 	}
 
 	/**
@@ -185,7 +182,7 @@ public final class TestIdentifier implements Serializable {
 				.append("source", this.source)
 				.append("tags", this.tags)
 				.append("test", this.test)
-				.append("container", this.container)
+				.append("container", this.isContainer())
 				.toString();
 		// @formatter:on
 	}
